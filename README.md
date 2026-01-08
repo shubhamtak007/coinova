@@ -1,10 +1,11 @@
 # Minance
 
-Live demo: https://minance-tan.vercel.app/
+## Live Demo
+https://minance-tan.vercel.app/
 
 Short description
 -----------------
-A cryptocurrency dashboard showing market stats, top movers, and a table of major coins with prices, 24-hour changes, volume, and market cap.
+Minance is a real-time cryptocurrency dashboard for tracking market trends and major coins.
 
 Screenshot
 ----------
