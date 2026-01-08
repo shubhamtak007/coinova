@@ -97,7 +97,7 @@ function CoinList() {
                             </tbody>
                         </table>
 
-                        <div className="space-x-2 mt-[12px] text-end">
+                        <div className="space-x-2 mt-[12px] text-center">
                             <Button
                                 variant="outline"
                                 size="sm"
