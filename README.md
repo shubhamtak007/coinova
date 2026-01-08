@@ -1,4 +1,4 @@
-# minance
+# Minance
 
 Live demo: https://minance-tan.vercel.app/
 
@@ -10,3 +10,8 @@ Screenshot
 ----------
 
 ![Screenshot](public/screen-one.png)
+
+Features
+--------
+- Market Overview (Top Gainers, Losers, Volume and Trending)
+- Coins
