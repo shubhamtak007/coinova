@@ -48,7 +48,7 @@ export async function GET(request: Request) {
 }
 
 function checkApiKeyExistOrNot() {
-    if (!process.env.COIN_MARKET_CAP_API_KEY) {
+    if (!process.env.COIN_GECKO_API_KEY) {
         return NextResponse.json(
             { error: 'API key is missing' },
             { status: 500 }
