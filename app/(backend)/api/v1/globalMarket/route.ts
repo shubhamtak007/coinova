@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { GlobalMarketDataCoinGecko } from '@/interfaces/GlobalMarketData';
-import { formatValueIntoCommaSeparated } from '@/services/utils.service';
+import { formatValueIntoCommaSeparated, roundOffNumber } from '@/services/utils.service';
 import type { FetchFuncOptions, ApiProperties } from '@/interfaces/Api';
 
 const apiProperties: ApiProperties = {
@@ -62,7 +62,7 @@ function createGlobalMarketStatistics(globalMarketData: GlobalMarketDataCoinGeck
         exchanges: formatValueIntoCommaSeparated(globalMarketData.markets),
         totalMarketCapital: {
             value: globalMarketData.total_market_cap.usd,
-            percent: sortCoinsMarketCapShare(globalMarketData.market_cap_percentage)
+            marketCapShareList: createMarketCapShareList(globalMarketData.market_cap_percentage)
         },
         totalMarketCapitalChange24hInUsd: globalMarketData.market_cap_change_percentage_24h_usd,
         totalVolume: globalMarketData.total_volume.usd,
@@ -72,8 +72,18 @@ function createGlobalMarketStatistics(globalMarketData: GlobalMarketDataCoinGeck
     return marketStats;
 }
 
-function sortCoinsMarketCapShare(coinsMarketCapShare: Record<string, number>) {
-    const coins = Object.entries(coinsMarketCapShare);
-    coins.sort((a, b) => b[1] - a[1]);
-    return Object.fromEntries(coins);
+function createMarketCapShareList(marketCapSharePercentProperties: Record<string, number>) {
+    const marketCapShareList = Object.entries(marketCapSharePercentProperties);
+    marketCapShareList.sort((a, b) => b[1] - a[1]);
+
+    let symbolAndPercentList = [];
+
+    for (const marketCapShareItem of marketCapShareList) {
+        symbolAndPercentList.push({
+            name: marketCapShareItem[0].toUpperCase(),
+            value: roundOffNumber(marketCapShareItem[1], 2) + '%'
+        })
+    }
+
+    return symbolAndPercentList;
 }

@@ -86,13 +86,13 @@ function GlobalMarketStats() {
 
                                 <div className="value">
                                     <span className="mr-[10px]">
-                                        {Object.keys(globalMarketStats.totalMarketCapital.percent)[0].toUpperCase()}&nbsp;
-                                        {roundOffNumber(Object.values(globalMarketStats.totalMarketCapital.percent)[0], 2) + '%'}
+                                        {globalMarketStats.totalMarketCapital.marketCapShareList[0].name}&nbsp;
+                                        {globalMarketStats.totalMarketCapital.marketCapShareList[0].value}
                                     </span>
 
                                     <span>
-                                        {Object.keys(globalMarketStats.totalMarketCapital.percent)[1].toUpperCase()}&nbsp;
-                                        {roundOffNumber(Object.values(globalMarketStats.totalMarketCapital.percent)[1], 2) + '%'}
+                                        {globalMarketStats.totalMarketCapital.marketCapShareList[1].name}&nbsp;
+                                        {globalMarketStats.totalMarketCapital.marketCapShareList[1].value}
                                     </span>
                                 </div>
                             </div>

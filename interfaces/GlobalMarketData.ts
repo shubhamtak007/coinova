@@ -19,9 +19,7 @@ interface GlobalMarketStats {
     exchanges: number,
     totalMarketCapital: {
         value: number,
-        percent: {
-            [key: string]: number
-        }
+        marketCapShareList: Record<string, string>[]
     },
     totalMarketCapitalChange24hInUsd: number,
     totalVolume: number,

@@ -3,7 +3,7 @@
 import useCoinList from '@/hooks/useCoinList';
 import Image from 'next/image';
 import { useState } from 'react';
-import { formatValueIntoCommaSeparated, roundOffNumber } from '@/services/utils.service';
+import { formatValueIntoCommaSeparated, roundOffNumber, formatValueInUsd } from '@/services/utils.service';
 import { FaCaretUp, FaCaretDown } from "react-icons/fa";
 import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
@@ -81,11 +81,11 @@ function CoinList() {
                                             </td>
 
                                             <td className="text-right">
-                                                {formatValueIntoCommaSeparated(coin.total_volume, null, true)}
+                                                {formatValueInUsd(coin.total_volume, 2)}
                                             </td>
 
                                             <td className="text-right">
-                                                {formatValueIntoCommaSeparated(coin.market_cap, null, true)}
+                                                {formatValueInUsd(coin.market_cap, 2)}
                                             </td>
                                         </tr>
                                     )
