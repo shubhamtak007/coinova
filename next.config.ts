@@ -13,12 +13,6 @@ const nextConfig: NextConfig = {
                 hostname: 'coin-images.coingecko.com',
                 port: '',
                 pathname: '/**'
-            },
-            {
-                protocol: 'https',
-                hostname: 'img.logo.dev',
-                port: '',
-                pathname: '/**'
             }
         ]
     }

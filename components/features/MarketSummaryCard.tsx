@@ -32,7 +32,7 @@ function MarketSummaryCard({ marketSummaryItem }: MarketSummaryItemProps) {
                                                 className="object-contain rounded-[10px]"
                                                 width={28}
                                                 height={28}
-                                                alt={`Picture of ${coin.name}`}
+                                                alt={`Image of ${coin.name}`}
                                                 src={coin.imageUrl}
                                             /> : ''}
                                         </td>

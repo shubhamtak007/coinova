@@ -52,7 +52,7 @@ function CoinList() {
                                                             className="object-contain rounded-[10px]"
                                                             width={24}
                                                             height={24}
-                                                            alt="Picture of coin"
+                                                            alt={`Image of ${coin.name}`}
                                                             src={coin.image}
                                                         />
                                                     </div>
