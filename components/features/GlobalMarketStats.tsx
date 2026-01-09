@@ -1,7 +1,7 @@
 'use client';
 
 import useGlobalMarketStats from '@/hooks/useGlobalMarketStats';
-import { formatValueInUsd, roundOffNumber } from '@/services/utils.service';
+import { formatValueInCompactUsd, roundOffNumber } from '@/services/utils.service';
 import { FaCaretUp, FaCaretDown } from "react-icons/fa";
 import { Skeleton } from "@/components/ui/skeleton";
 
@@ -48,7 +48,7 @@ function GlobalMarketStats() {
                                 </div>
 
                                 <div className="value flex items-center">
-                                    {formatValueInUsd(globalMarketStats.totalMarketCapital.value, 3)}
+                                    {formatValueInCompactUsd(globalMarketStats.totalMarketCapital.value, 3)}
 
                                     {
                                         globalMarketStats.totalMarketCapitalChange24hInUsd &&
@@ -71,7 +71,7 @@ function GlobalMarketStats() {
                                 </div>
 
                                 <div className="value">
-                                    {formatValueInUsd(globalMarketStats.totalVolume, 3)}
+                                    {formatValueInCompactUsd(globalMarketStats.totalVolume, 3)}
                                 </div>
                             </div>
                         }

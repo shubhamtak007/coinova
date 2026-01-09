@@ -1,7 +1,7 @@
 import { Item, ItemContent, ItemTitle } from '@/components/ui/item';
 import Image from 'next/image';
 import { type MarketSummaryItem } from '@/interfaces/CryptoCurrency';
-import { formatValueInUsd } from "@/services/utils.service";
+import { formatValueInCompactUsd } from "@/services/utils.service";
 import React from "react";
 
 interface MarketSummaryItemProps {
@@ -47,7 +47,7 @@ function MarketSummaryCard({ marketSummaryItem }: MarketSummaryItemProps) {
                                             {
                                                 coin.lastPrice &&
                                                 <span>
-                                                    {coin.lastPrice > 999 ? formatValueInUsd(coin.lastPrice, 2) : '$' + coin.lastPrice}
+                                                    {coin.lastPrice > 999 ? formatValueInCompactUsd(coin.lastPrice, 2) : '$' + coin.lastPrice}
                                                 </span>
                                             }
                                         </td>

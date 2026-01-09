@@ -3,7 +3,7 @@ function roundOffNumber(value: number, decimalPlaces: number) {
     return Math.round((value + Number.EPSILON) * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces);
 }
 
-function formatValueInUsd(value: number, decimalPlaces: number) {
+function formatValueInCompactUsd(value: number, decimalPlaces: number) {
     if (value === null || value === undefined) throw new Error('Value is undefined or null');
 
     return new Intl.NumberFormat('en-US', {
@@ -27,4 +27,4 @@ function formatValueIntoCommaSeparated(value: number, decimalPlaces?: number | n
     }).format(roundOffValue);
 }
 
-export { roundOffNumber, formatValueInUsd, formatValueIntoCommaSeparated }
+export { roundOffNumber, formatValueInCompactUsd, formatValueIntoCommaSeparated }
