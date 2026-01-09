@@ -28,13 +28,18 @@ function MarketSummaryCard({ marketSummaryItem }: MarketSummaryItemProps) {
                                 return (
                                     <tr key={coin.id}>
                                         <td className="w-[30px]">
-                                            {coin.imageUrl ? <Image
-                                                className="object-contain rounded-[10px]"
-                                                width={28}
-                                                height={28}
-                                                alt={`Image of ${coin.name}`}
-                                                src={coin.imageUrl}
-                                            /> : ''}
+                                            {
+                                                coin.imageUrl ? <Image
+                                                    className="object-contain rounded-[10px]"
+                                                    width={28}
+                                                    height={28}
+                                                    alt={`Image of ${coin.name}`}
+                                                    src={coin.imageUrl}
+                                                /> :
+                                                    <div className="coin-letter-mark">
+                                                        {coin.symbol[0]}
+                                                    </div>
+                                            }
                                         </td>
 
                                         <td className="">
