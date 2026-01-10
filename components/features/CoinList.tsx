@@ -21,6 +21,7 @@ function CoinList() {
                         <th className="w-[5%] text-center">#</th>
                         <th className="w-[35%] text-left">Coin</th>
                         <th className="text-right">Current Price</th>
+                        <th className="text-right">1h</th>
                         <th className="text-right">24h</th>
                         <th className="text-right">Total Volume</th>
                         <th className="text-right">Market Cap.</th>
@@ -72,11 +73,20 @@ function CoinList() {
                                             </td>
 
                                             <td className="text-right">
+                                                {<div className={`flex items-center justify-end ${(coin.price_change_percentage_1h_in_currency > 0 ? 'success-text' : 'danger-text')}`}>
+                                                    <span className="relative bottom-[1px]">
+                                                        {(coin.price_change_percentage_1h_in_currency > 0) ? <FaCaretUp /> : <FaCaretDown />}
+                                                    </span>
+                                                    {roundOffNumber(coin.price_change_percentage_1h_in_currency, 1) + '%'}
+                                                </div>}
+                                            </td>
+
+                                            <td className="text-right">
                                                 <div className={`flex items-center justify-end ${(coin.price_change_percentage_24h > 0 ? 'success-text' : 'danger-text')}`}>
                                                     <span className="relative bottom-[1px]">
                                                         {(coin.price_change_percentage_24h > 0) ? <FaCaretUp /> : <FaCaretDown />}
                                                     </span>
-                                                    {roundOffNumber(coin.price_change_percentage_24h, 2) + '%'}
+                                                    {roundOffNumber(coin.price_change_percentage_24h, 1) + '%'}
                                                 </div>
                                             </td>
 

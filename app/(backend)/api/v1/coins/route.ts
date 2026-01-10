@@ -23,7 +23,8 @@ export async function GET(request: Request) {
         vs_currency: 'usd',
         symbols: searchParams.get('symbols') ? searchParams.get('symbols') : null,
         page: searchParams.get('page') ? searchParams.get('page') : 1,
-        per_page: searchParams.get('perPage') ? searchParams.get('perPage') : '20'
+        per_page: searchParams.get('perPage') ? searchParams.get('perPage') : '20',
+        price_change_percentage: '1h'
     }
 
     try {
