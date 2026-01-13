@@ -28,7 +28,7 @@ function CoinList() {
                             <th className="text-right">24h</th>
                             <th className="text-right">Total Volume</th>
                             <th className="text-right">Market Cap.</th>
-                            <th className="text-right">
+                            <th className="text-right !pr-[12px]">
                                 <div className="flex justify-end">
                                     <div className="mr-[4px]">
                                         Circulating Supply
@@ -130,7 +130,7 @@ function CoinList() {
                                                     {coin.market_cap && formatValueInCompactUsd(coin.market_cap, 2)}
                                                 </td>
 
-                                                <td className="text-right">
+                                                <td className="text-right !pr-[12px]">
                                                     {coin.circulating_supply && formatValueInCompactUsd(coin.circulating_supply, 2)}
                                                 </td>
                                             </tr>
