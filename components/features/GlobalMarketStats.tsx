@@ -78,7 +78,7 @@ function GlobalMarketStats() {
 
                         {
                             globalMarketStats.totalMarketCapital &&
-                            <div className="pair-container !mr-[unset]">
+                            <div className="pair-container">
                                 <div className="name">
                                     Dominance
                                 </div>
