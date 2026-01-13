@@ -2,7 +2,6 @@
     margin: 30px 0px 0 0;
     width: 100%;
     overflow-x: scroll;
-    height: calc(100vh - 100px);
 }
 
 .coins-server-side-table {
@@ -23,7 +22,7 @@
 
     thead {
         position: sticky;
-        top: -2px;
+        top: 0px;
         z-index: 10;
         background: #fff;
 
