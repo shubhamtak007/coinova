@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Onest } from "next/font/google";
 import Header from "@/components/layout/Header";
 import "./globals.scss";
+import { Analytics } from '@vercel/analytics/next';
 
 const onest = Onest({
     weight: ['400', '500', '600', '700', '800', '900'],
@@ -26,6 +27,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
                 <main className="main-container">
                     <div className="max-w-6xl mx-auto">
                         {children}
+                        <Analytics />
                     </div>
                 </main>
             </body>
