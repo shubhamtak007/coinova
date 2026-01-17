@@ -2,6 +2,11 @@
     border-bottom: 1px solid var(--main-color);
     padding: 6px 12px;
     overflow-x: scroll;
+    position: fixed;
+    top: 0px;
+    background-color: white;
+    width: 100%;
+    z-index: 15;
 
     &::-webkit-scrollbar {
         display: none;
@@ -24,10 +29,8 @@
 }
 
 .main-container {
-    height: calc(100vh - 43px);
-    overflow-y: scroll;
     padding: 12px;
-    scroll-behavior: smooth;
+    margin-top: 43px;
 }
 
 .success-text {
