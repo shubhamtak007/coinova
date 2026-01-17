@@ -24,6 +24,7 @@ interface CoingeckoCrypto {
     market_cap_rank: number,
     total_volume: number,
     price_change_percentage_1h_in_currency: number,
+    price_change_percentage_7d_in_currency: number,
     circulating_supply: number
 }
 

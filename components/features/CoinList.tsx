@@ -26,6 +26,7 @@ function CoinList() {
                             <th className="text-right">Current Price</th>
                             <th className="text-right">1h</th>
                             <th className="text-right">24h</th>
+                            <th className="text-right">7d</th>
                             <th className="text-right">Total Volume</th>
                             <th className="text-right">Market Cap.</th>
                             <th className="text-right !pr-[12px]">
@@ -119,6 +120,15 @@ function CoinList() {
                                                             {(coin.price_change_percentage_24h > 0) ? <FaCaretUp /> : <FaCaretDown />}
                                                         </span>
                                                         {roundOffNumber(coin.price_change_percentage_24h, 1) + '%'}
+                                                    </div>}
+                                                </td>
+
+                                                <td className="text-right">
+                                                    {coin.price_change_percentage_7d_in_currency && <div className={`flex items-center justify-end ${(coin.price_change_percentage_7d_in_currency > 0 ? 'success-text' : 'danger-text')}`}>
+                                                        <span className="relative bottom-[1px]">
+                                                            {(coin.price_change_percentage_7d_in_currency > 0) ? <FaCaretUp /> : <FaCaretDown />}
+                                                        </span>
+                                                        {roundOffNumber(coin.price_change_percentage_7d_in_currency, 1) + '%'}
                                                     </div>}
                                                 </td>
 
