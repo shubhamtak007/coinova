@@ -12,7 +12,7 @@ import { BsFillInfoCircleFill } from "react-icons/bs";
 
 function CoinList() {
     let [currentPageNumber, setCurrentPageNumber] = useState(1);
-    const colspanValue = useRef<number>(8).current;
+    const colspanValue = useRef<number>(9).current;
     const { coinList, fetchingCoinList } = useCoinList({ currentPageNumber });
 
     return (
