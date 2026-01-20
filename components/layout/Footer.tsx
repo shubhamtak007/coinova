@@ -4,7 +4,7 @@ function Footer() {
     return (
         <footer className="sticky top-[100vh] text-center w-full p-[12px] border-t-[1px] border-[var(--main-color)] mt-[25px]">
             <div className="max-w-5xl mx-auto">
-                &copy; {new Date().getFullYear()} Minance. All Rights Reserved.
+                &copy; {new Date().getFullYear()} Coinova. All Rights Reserved.
             </div>
         </footer>
     )

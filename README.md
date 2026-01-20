@@ -1,6 +1,6 @@
-# Minance 🚀
+# Coinova 🚀
 
-Minance is a modern, real-time cryptocurrency dashboard that helps users track market trends and major coins through a clean and responsive interface.
+Coinova is a modern, real-time cryptocurrency dashboard that helps users track market trends and major coins through a clean and responsive interface.
 
 ## 🌐 Live Demo
 https://minance-tan.vercel.app/
@@ -71,4 +71,4 @@ npm run dev
 ```
 
 ## License
-Minance is [MIT licensed](./LICENSE).
+Coinova is [MIT licensed](./LICENSE).

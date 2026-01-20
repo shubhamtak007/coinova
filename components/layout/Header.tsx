@@ -14,7 +14,7 @@ function Header() {
                         />
 
                         <div className="tracking-[1px]">
-                            Minance
+                            Coinova
                         </div>
                     </div>
 

@@ -12,8 +12,8 @@ const onest = Onest({
 });
 
 export const metadata: Metadata = {
-    title: "Minance",
-    description: "A finance app",
+    title: "Coinova - The new force in crypto.",
+    description: "The new force in crypto.",
     icons: {
         icon: 'coins.svg'
     }
