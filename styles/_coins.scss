@@ -26,7 +26,7 @@
 
             th,
             td {
-                padding: 10px 4px;
+                padding: 10px 8px;
             }
 
             thead {
@@ -71,9 +71,10 @@
             color: #fff;
         }
 
-        &:focus {
+        &:focus-visible {
             outline: 1px solid var(--main-color-2);
-            background-color: #ffff;
+            border: 1px solid var(--main-color-2);
+            box-shadow: unset;
         }
     }
 }
