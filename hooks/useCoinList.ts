@@ -2,15 +2,15 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { retrieveCoinList } from '@/services/crypto-currency.service';
-import { getItemsPerPage } from '@/services/utils.service';
 import type { CoingeckoCrypto } from '@/interfaces/CryptoCurrency';
 
 interface CoinListHookProps {
     currentPageNumber: number,
-    searchValue: string
+    searchValue: string,
+    rowsPerPage: number
 }
 
-function useCoinList({ currentPageNumber, searchValue }: CoinListHookProps) {
+function useCoinList({ currentPageNumber, searchValue, rowsPerPage }: CoinListHookProps) {
     const [coinList, setCoinList] = useState<CoingeckoCrypto[]>([]);
     const [fetchingCoinList, setFetchingCoinList] = useState<boolean>(false);
     let coinName = useRef<string | null>(null).current;
@@ -23,20 +23,20 @@ function useCoinList({ currentPageNumber, searchValue }: CoinListHookProps) {
             debounceHandler = setTimeout(() => {
                 coinName = searchValue;
                 fetchCoins();
-            }, 1000)
+            }, 1500)
         } else {
             fetchCoins();
         }
 
         return () => { clearTimeout(debounceHandler) }
-    }, [searchValue, currentPageNumber])
+    }, [searchValue, currentPageNumber, rowsPerPage])
 
     const fetchCoins = async () => {
         setFetchingCoinList(true);
 
         const params = {
             page: currentPageNumber,
-            per_page: getItemsPerPage(),
+            per_page: rowsPerPage,
             names: coinName
         }
 
