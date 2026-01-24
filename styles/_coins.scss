@@ -57,6 +57,12 @@
             }
         }
     }
+
+    .bottom-bar {
+        display: flex;
+        margin: 16px;
+        justify-content: space-between;
+    }
 }
 
 .pagination-btn-group {

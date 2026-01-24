@@ -6,7 +6,7 @@ function roundOffNumber(value: number, decimalPlaces: number) {
     return Math.round((value + Number.EPSILON) * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces);
 }
 
-function formatValueInCompactUsd(value: number, decimalPlaces: number) {
+function formatValueInUsdCompact(value: number, decimalPlaces: number) {
     if (value === null || value === undefined) throw new Error('Value is undefined or null');
 
     return new Intl.NumberFormat('en-US', {
@@ -30,8 +30,8 @@ function formatValueIntoCommaSeparated(value: number, decimalPlaces?: number | n
     }).format(roundOffValue);
 }
 
-function getItemsPerPage() {
-    return 25;
+function getRowsPerPageDefaultValue() {
+    return 10;
 }
 
-export { roundOffNumber, formatValueInCompactUsd, formatValueIntoCommaSeparated, getItemsPerPage }
+export { roundOffNumber, formatValueInUsdCompact, formatValueIntoCommaSeparated, getRowsPerPageDefaultValue }

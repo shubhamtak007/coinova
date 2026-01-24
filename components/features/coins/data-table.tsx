@@ -6,16 +6,18 @@ interface DataTableProps<TData> {
     columns: ColumnDef<TData>[],
     listEmptyMessage?: string,
     fetchingList?: boolean,
-    currentPageNumber?: number
+    currentPageNumber?: number,
+    rowsPerPage?: number
 }
 
-function DataTable<TData,>({ list, columns, listEmptyMessage, fetchingList, currentPageNumber }: DataTableProps<TData>) {
+function DataTable<TData,>({ list, columns, listEmptyMessage, fetchingList, currentPageNumber, rowsPerPage }: DataTableProps<TData>) {
     const tableConfig = useReactTable<TData>({
         data: list,
         columns,
         getCoreRowModel: getCoreRowModel(),
         meta: {
-            currentPageNumber: currentPageNumber
+            currentPageNumber: currentPageNumber,
+            rowsPerPage: rowsPerPage
         }
     });
 

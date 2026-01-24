@@ -5,9 +5,8 @@ import { ColumnDef } from '@tanstack/react-table';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { BsFillInfoCircleFill } from "react-icons/bs";
 import { FaCaretUp, FaCaretDown } from "react-icons/fa";
-import { formatValueInCompactUsd, formatValueIntoCommaSeparated, roundOffNumber } from '@/services/utils.service';
+import { formatValueInUsdCompact, formatValueIntoCommaSeparated, roundOffNumber } from '@/services/utils.service';
 import type { CoingeckoCrypto } from '@/interfaces/CryptoCurrency';
-import { getItemsPerPage } from '@/services/utils.service';
 
 export const columns: ColumnDef<CoingeckoCrypto>[] = [
     {
@@ -16,7 +15,8 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
         header: ({ header }) => { return '#' },
         cell: ({ row, table }) => {
             const currentPageNumber = table.options.meta?.currentPageNumber;
-            return (row.index + 1) + (currentPageNumber === 1 ? 0 : getItemsPerPage())
+            const rowsPerPage = table.options.meta?.rowsPerPage ? table.options.meta?.rowsPerPage : 0;
+            return (row.index + 1) + (currentPageNumber === 1 ? 0 : rowsPerPage)
         },
         meta: {
             headerClassNames: 'w-[5%] text-center',
@@ -129,7 +129,7 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
         header: ({ header }) => 'Total Volume',
         cell: ({ row }) => {
             const totalVolume: number = row.getValue('total_volume');
-            return totalVolume && formatValueInCompactUsd(totalVolume, 2)
+            return totalVolume && formatValueInUsdCompact(totalVolume, 2)
         },
         meta: {
             headerClassNames: 'text-right',
@@ -140,7 +140,7 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
         header: ({ header }) => 'Market Cap.',
         cell: ({ row }) => {
             const marketCapital: number = row.getValue('market_cap');
-            return marketCapital && formatValueInCompactUsd(marketCapital, 2)
+            return marketCapital && formatValueInUsdCompact(marketCapital, 2)
         },
         meta: {
             headerClassNames: 'text-right',
@@ -172,7 +172,7 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
         },
         cell: ({ row }) => {
             const circulatingSupply: number = row.getValue('circulating_supply');
-            return circulatingSupply && formatValueInCompactUsd(circulatingSupply, 2)
+            return circulatingSupply && formatValueInUsdCompact(circulatingSupply, 2)
         },
         meta: {
             headerClassNames: 'text-right !pr-[12px]',
