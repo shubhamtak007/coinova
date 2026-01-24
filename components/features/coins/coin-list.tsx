@@ -55,10 +55,13 @@ function CoinList() {
                 />
 
                 <div className="bottom-bar">
-                    <div>
+                    <div className="flex items-center space-x-2">
+                        <p className="text-sm">Rows per page</p>
+
                         <Select
                             defaultValue={String(getRowsPerPageDefaultValue())}
                             onValueChange={(value) => { onRowsPerPageChange(value) }}
+                            disabled={fetchingCoinList}
                         >
                             <SelectTrigger>
                                 <SelectValue />
@@ -85,6 +88,7 @@ function CoinList() {
                         <Button
                             variant="outline"
                             size="sm"
+                            aria-label="previous button"
                             onClick={() => { setCurrentPageNumber(currentPageNumber - 1) }}
                             disabled={(currentPageNumber === 1 || fetchingCoinList)}
                         >
@@ -94,6 +98,7 @@ function CoinList() {
                         <Button
                             variant="outline"
                             size="sm"
+                            aria-label="close button"
                             onClick={() => { setCurrentPageNumber((prev) => prev + 1) }}
                             disabled={(coinList.length < rowsPerPage || fetchingCoinList)}
                         >

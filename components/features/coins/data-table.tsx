@@ -1,5 +1,5 @@
 import { ColumnDef, useReactTable, getCoreRowModel, flexRender } from '@tanstack/react-table';
-import { Skeleton } from '@/components/ui/skeleton';
+import { Spinner } from '@/components/ui/spinner';
 
 interface DataTableProps<TData> {
     list: TData[],
@@ -53,10 +53,10 @@ function DataTable<TData,>({ list, columns, listEmptyMessage, fetchingList, curr
                 </thead>
 
                 {fetchingList ?
-                    <tbody>
+                    <tbody className="h-[130px]">
                         <tr>
-                            <td colSpan={columns.length} className="!p-[unset]">
-                                <Skeleton className="rounded-md w-[100%] h-[490px]" />
+                            <td colSpan={columns.length} className="!p-[unset] place-items-center">
+                                <Spinner className="size-20" />
                             </td>
                         </tr>
                     </tbody> :
