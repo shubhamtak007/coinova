@@ -55,7 +55,7 @@ function CoinList() {
                 />
 
                 <div className="bottom-bar">
-                    <div className="flex items-center space-x-2">
+                    <div className="rows-per-page-dropdown">
                         <p className="text-sm">Rows per page</p>
 
                         <Select
@@ -69,10 +69,10 @@ function CoinList() {
 
                             <SelectContent>
                                 {
-                                    rowsCountList.map((rowsCount, index) => {
+                                    rowsCountList.map((rowsCount) => {
                                         return (
                                             <SelectItem
-                                                key={index + '-rows'}
+                                                key={rowsCount + '-rows'}
                                                 value={String(rowsCount)}
                                             >
                                                 {rowsCount}
@@ -84,7 +84,7 @@ function CoinList() {
                         </Select>
                     </div>
 
-                    <div className="pagination-btn-group space-x-2 text-end">
+                    <div className="pagination-btn-group">
                         <Button
                             variant="outline"
                             size="sm"
