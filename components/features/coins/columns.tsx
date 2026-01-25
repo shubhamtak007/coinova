@@ -7,12 +7,15 @@ import { BsFillInfoCircleFill } from "react-icons/bs";
 import { FaCaretUp, FaCaretDown } from "react-icons/fa";
 import { formatValueInUsdCompact, formatValueIntoCommaSeparated, roundOffNumber } from '@/services/utils.service';
 import type { CoingeckoCrypto } from '@/interfaces/CryptoCurrency';
+import { ChevronsUpDown, ArrowUp, ArrowDown } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
 export const columns: ColumnDef<CoingeckoCrypto>[] = [
     {
         id: 'indexNumber',
         accessorKey: '',
-        header: ({ header }) => { return '#' },
+        header: '#',
         cell: ({ row, table }) => {
             const currentPageNumber = table.options.meta?.currentPageNumber;
             const rowsPerPage = table.options.meta?.rowsPerPage ? table.options.meta?.rowsPerPage : 0;
@@ -25,7 +28,43 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
     }, {
         id: 'coinDetails',
         accessorKey: '',
-        header: ({ header }) => 'Coin',
+        header: ({ table }) => {
+            const sortByFn = table.options.meta?.sortBy ? table.options.meta?.sortBy : Function();
+            const currentSortingValue = table.options.meta?.currentSortingValue ?
+                table.options.meta?.currentSortingValue : null;
+
+            return (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="text-[12px]">
+                            Coin{currentSortingValue === 'id_asc' ? <ArrowUp /> :
+                                currentSortingValue === 'id_desc' ? <ArrowDown /> : <ChevronsUpDown />}
+                        </Button>
+                    </DropdownMenuTrigger>
+
+                    <DropdownMenuContent>
+                        <DropdownMenuItem
+                            onSelect={() => { sortByFn('id_asc'); }}
+                        >
+                            Asc<ArrowUp />
+                        </DropdownMenuItem>
+
+                        <DropdownMenuItem
+                            onSelect={() => { sortByFn('id_desc'); }}
+                        >
+                            Desc<ArrowDown />
+                        </DropdownMenuItem>
+
+                        <DropdownMenuItem
+                            disabled={!currentSortingValue?.startsWith('id_')}
+                            onSelect={() => { sortByFn(null) }}
+                        >
+                            Remove
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            )
+        },
         cell: ({ row }) => {
             const imageUrl: string = row.original['image'];
             const name: string = row.original['name'];
@@ -59,7 +98,7 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
             </div>
         },
         meta: {
-            headerClassNames: 'w-[35%] text-left',
+            headerClassNames: 'w-[30%] text-left',
             cellClassNames: 'text-center'
         }
     }, {
@@ -126,10 +165,55 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
         }
     }, {
         accessorKey: 'total_volume',
-        header: ({ header }) => 'Total Volume',
+        header: ({ table }) => {
+            const sortByFn = table.options.meta?.sortBy ? table.options.meta?.sortBy : Function();
+            const currentSortingValue = table.options.meta?.currentSortingValue ? table.options.meta?.currentSortingValue : null;
+
+            return (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="text-[12px]">
+                            Volume{currentSortingValue === 'volume_asc' ? <ArrowUp /> :
+                                currentSortingValue === 'volume_desc' ? <ArrowDown /> : <ChevronsUpDown />}
+                        </Button>
+                    </DropdownMenuTrigger>
+
+                    <DropdownMenuContent>
+                        <DropdownMenuItem
+                            onSelect={() => { sortByFn('volume_asc'); }}
+                        >
+                            Asc<ArrowUp />
+                        </DropdownMenuItem>
+
+                        <DropdownMenuItem
+                            onSelect={() => { sortByFn('volume_desc'); }}
+                        >
+                            Desc<ArrowDown />
+                        </DropdownMenuItem>
+
+                        <DropdownMenuItem
+                            disabled={!currentSortingValue?.startsWith('volume_')}
+                            onSelect={() => { sortByFn(null); }}
+                        >
+                            Remove
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            )
+        },
         cell: ({ row }) => {
             const totalVolume: number = row.getValue('total_volume');
-            return totalVolume && formatValueInUsdCompact(totalVolume, 2)
+            return (
+                <>
+                    <div>
+                        {totalVolume && formatValueInUsdCompact(totalVolume, 2)}
+                    </div>
+
+                    <div className="text-[grey] text-[12px]">
+                        {formatValueIntoCommaSeparated(totalVolume, 5, true)}
+                    </div>
+                </>
+            )
         },
         meta: {
             headerClassNames: 'text-right',
@@ -137,7 +221,35 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
         }
     }, {
         accessorKey: 'market_cap',
-        header: ({ header }) => 'Market Cap.',
+        header: ({ table }) => {
+            const sortByFn = table.options.meta?.sortBy ? table.options.meta?.sortBy : Function();
+            const currentSortingValue = table.options.meta?.currentSortingValue ? table.options.meta?.currentSortingValue : null;
+
+            return (
+                <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                        <Button variant="ghost" className="text-[12px]">
+                            Market Cap.{currentSortingValue === 'market_cap_asc' ? <ArrowUp /> :
+                                currentSortingValue === 'market_cap_desc' ? <ArrowDown /> : <ChevronsUpDown />}
+                        </Button>
+                    </DropdownMenuTrigger>
+
+                    <DropdownMenuContent>
+                        <DropdownMenuItem
+                            onSelect={() => { sortByFn('market_cap_asc'); }}
+                        >
+                            Asc<ArrowUp />
+                        </DropdownMenuItem>
+
+                        <DropdownMenuItem
+                            onSelect={() => { sortByFn('market_cap_desc'); }}
+                        >
+                            Desc<ArrowDown />
+                        </DropdownMenuItem>
+                    </DropdownMenuContent>
+                </DropdownMenu>
+            )
+        },
         cell: ({ row }) => {
             const marketCapital: number = row.getValue('market_cap');
             return marketCapital && formatValueInUsdCompact(marketCapital, 2)

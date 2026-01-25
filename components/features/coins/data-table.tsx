@@ -7,17 +7,21 @@ interface DataTableProps<TData> {
     listEmptyMessage?: string,
     fetchingList?: boolean,
     currentPageNumber?: number,
-    rowsPerPage?: number
+    rowsPerPage?: number,
+    currentSortingValue: string,
+    sendSortingValueToParent: (key: string) => void
 }
 
-function DataTable<TData,>({ list, columns, listEmptyMessage, fetchingList, currentPageNumber, rowsPerPage }: DataTableProps<TData>) {
+function DataTable<TData,>({ sendSortingValueToParent, ...props }: DataTableProps<TData>) {
     const tableConfig = useReactTable<TData>({
-        data: list,
-        columns,
+        data: props.list,
+        columns: props.columns,
         getCoreRowModel: getCoreRowModel(),
         meta: {
-            currentPageNumber: currentPageNumber,
-            rowsPerPage: rowsPerPage
+            currentSortingValue: props.currentSortingValue,
+            currentPageNumber: props.currentPageNumber,
+            rowsPerPage: props.rowsPerPage,
+            sortBy: (key: string) => sendSortingValueToParent(key)
         }
     });
 
@@ -52,10 +56,10 @@ function DataTable<TData,>({ list, columns, listEmptyMessage, fetchingList, curr
                     }
                 </thead>
 
-                {fetchingList ?
+                {props.fetchingList ?
                     <tbody className="h-[130px]">
                         <tr>
-                            <td colSpan={columns.length} className="!p-[unset] place-items-center">
+                            <td colSpan={props.columns.length} className="!p-[unset] place-items-center">
                                 <Spinner className="size-20" />
                             </td>
                         </tr>
@@ -82,10 +86,10 @@ function DataTable<TData,>({ list, columns, listEmptyMessage, fetchingList, curr
                         ) : (
                             <tr>
                                 <td
-                                    colSpan={columns.length}
+                                    colSpan={props.columns.length}
                                     className="italic text-[#ccc] text-center"
                                 >
-                                    {listEmptyMessage ? listEmptyMessage : 'No results'}
+                                    {props.listEmptyMessage ? props.listEmptyMessage : 'No results'}
                                 </td>
                             </tr>
                         )}

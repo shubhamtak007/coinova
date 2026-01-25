@@ -13,9 +13,10 @@ import { getRowsPerPageDefaultValue } from '@/services/utils.service';
 
 function CoinList() {
     const [rowsPerPage, setRowsPerPage] = useState<number>(getRowsPerPageDefaultValue());
+    const [sortingValue, setSortingValue] = useState<string>('market_cap_desc');
     const [currentPageNumber, setCurrentPageNumber] = useState(1);
     const [searchValue, setSearchValue] = useState<string>('');
-    const { fetchingCoinList, coinList } = useCoinList({ currentPageNumber, searchValue, rowsPerPage });
+    const { fetchingCoinList, coinList } = useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue });
     const rowsCountList = useRef([10, 25, 50, 100, 150, 200, 250]).current;
 
     function onSearchInputChange(event: React.ChangeEvent<HTMLInputElement>) {
@@ -25,6 +26,10 @@ function CoinList() {
 
     function onRowsPerPageChange(value: string) {
         setRowsPerPage(Number(value))
+    }
+
+    function setSortingValueFromDt(key: string) {
+        setSortingValue(key ? key : 'market_cap_desc')
     }
 
     return (
@@ -52,10 +57,12 @@ function CoinList() {
                     fetchingList={fetchingCoinList}
                     currentPageNumber={currentPageNumber}
                     rowsPerPage={rowsPerPage}
+                    currentSortingValue={sortingValue}
+                    sendSortingValueToParent={setSortingValueFromDt}
                 />
 
                 <div className="bottom-bar">
-                    <div className="flex items-center space-x-2">
+                    <div className="rows-per-page-dropdown">
                         <p className="text-sm">Rows per page</p>
 
                         <Select
@@ -69,10 +76,10 @@ function CoinList() {
 
                             <SelectContent>
                                 {
-                                    rowsCountList.map((rowsCount, index) => {
+                                    rowsCountList.map((rowsCount) => {
                                         return (
                                             <SelectItem
-                                                key={index + '-rows'}
+                                                key={rowsCount + '-rows'}
                                                 value={String(rowsCount)}
                                             >
                                                 {rowsCount}
@@ -84,7 +91,7 @@ function CoinList() {
                         </Select>
                     </div>
 
-                    <div className="pagination-btn-group space-x-2 text-end">
+                    <div className="pagination-btn-group">
                         <Button
                             variant="outline"
                             size="sm"

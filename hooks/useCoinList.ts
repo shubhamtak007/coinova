@@ -7,10 +7,11 @@ import type { CoingeckoCrypto } from '@/interfaces/CryptoCurrency';
 interface CoinListHookProps {
     currentPageNumber: number,
     searchValue: string,
-    rowsPerPage: number
+    rowsPerPage: number,
+    sortingValue: string
 }
 
-function useCoinList({ currentPageNumber, searchValue, rowsPerPage }: CoinListHookProps) {
+function useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue }: CoinListHookProps) {
     const [coinList, setCoinList] = useState<CoingeckoCrypto[]>([]);
     const [fetchingCoinList, setFetchingCoinList] = useState<boolean>(false);
     let coinName = useRef<string | null>(null).current;
@@ -29,7 +30,7 @@ function useCoinList({ currentPageNumber, searchValue, rowsPerPage }: CoinListHo
         }
 
         return () => { clearTimeout(debounceHandler) }
-    }, [searchValue, currentPageNumber, rowsPerPage])
+    }, [searchValue, currentPageNumber, rowsPerPage, sortingValue])
 
     const fetchCoins = async () => {
         setFetchingCoinList(true);
@@ -37,7 +38,8 @@ function useCoinList({ currentPageNumber, searchValue, rowsPerPage }: CoinListHo
         const params = {
             page: currentPageNumber,
             per_page: rowsPerPage,
-            names: coinName
+            names: coinName,
+            order: sortingValue
         }
 
         try {

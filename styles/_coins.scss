@@ -40,6 +40,7 @@
                     th {
                         font-weight: 600;
                         position: sticky;
+                        font-size: 12px;
                     }
                 }
             }
@@ -59,27 +60,49 @@
 
     .bottom-bar {
         display: flex;
-        margin: 16px;
+        margin-top: 16px;
         justify-content: space-between;
+        flex-wrap: wrap;
+
+        .rows-per-page-dropdown {
+            display: flex;
+            place-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin: 0px 12px 12px 12px;
+        }
+
+        .pagination-btn-group {
+            gap: 8px;
+            display: flex;
+            flex-wrap: wrap;
+            margin: 0px 12px 12px 12px;
+
+            button {
+                color: #333;
+                cursor: pointer;
+
+                &:hover {
+                    background-color: var(--main-color-2);
+                    outline: 1px solid var(--main-color-2);
+                    border-color: var(--main-color-2);
+                    color: #fff;
+                }
+
+                &:focus-visible {
+                    outline: 1px solid var(--main-color-2);
+                    border: 1px solid var(--main-color-2);
+                    box-shadow: unset;
+                }
+            }
+        }
     }
 }
 
-.pagination-btn-group {
-    button {
-        color: #333;
-        cursor: pointer;
-
-        &:hover {
-            background-color: var(--main-color-2);
-            outline: 1px solid var(--main-color-2);
-            border-color: var(--main-color-2);
-            color: #fff;
-        }
-
-        &:focus-visible {
-            outline: 1px solid var(--main-color-2);
-            border: 1px solid var(--main-color-2);
-            box-shadow: unset;
+@media (max-width:640px) {
+    .coins-sst-container {
+        .bottom-bar {
+            justify-content: center;
         }
     }
 }

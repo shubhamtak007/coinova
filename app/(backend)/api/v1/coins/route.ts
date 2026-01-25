@@ -27,7 +27,7 @@ export async function GET(request: Request) {
         per_page: searchParams.get('per_page') ? searchParams.get('per_page') : getRowsPerPageDefaultValue(),
         price_change_percentage: '1h,7d,14d,30d',
         order: searchParams.get('order') ? searchParams.get('order') : 'market_cap_desc',
-        names: searchParams.get('names') ? searchParams.get('names') : null
+        names: searchParams.get('names') ? searchParams.get('names') : null,
     }
 
     try {

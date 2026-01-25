@@ -8,6 +8,8 @@ declare module '@tanstack/react-table' {
 
     interface TableMeta<TData extends RowData> {
         currentPageNumber?: number,
-        rowsPerPage?: number
+        rowsPerPage?: number,
+        currentSortingValue: string,
+        sortBy?(key: string): void
     }
 }

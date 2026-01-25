@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
-import { Onest } from "next/font/google";
+import { Inter } from "next/font/google";
 import Header from "@/components/layout/Header";
 import Footer from '@/components/layout/Footer';
 import { Analytics } from '@vercel/analytics/next';
 import "./globals.scss";
 
-const onest = Onest({
+const inter = Inter({
     weight: ['400', '500', '600', '700', '800', '900'],
     subsets: ["latin"],
     display: 'swap'
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
     return (
         <html lang="en">
-            <body className={onest.className}>
+            <body className={inter.className}>
                 <Header />
 
                 <main className="main-container">
