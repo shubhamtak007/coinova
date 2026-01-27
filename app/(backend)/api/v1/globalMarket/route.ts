@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
-import { GlobalMarketDataCoinGecko } from '@/interfaces/GlobalMarketData';
+import { GlobalMarketDataCoinGecko } from '@/interfaces/global-market-data';
 import { formatValueIntoCommaSeparated, roundOffNumber } from '@/services/utils.service';
-import type { FetchFuncOptions, ApiProperties } from '@/interfaces/Api';
+import type { FetchFuncOptions, ApiProperties } from '@/interfaces/api';
 
 const apiProperties: ApiProperties = {
     baseUrl: 'https://api.coingecko.com/api/',

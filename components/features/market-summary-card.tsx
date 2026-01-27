@@ -1,6 +1,6 @@
 import { Item, ItemContent, ItemTitle } from '@/components/ui/item';
 import Image from 'next/image';
-import { type MarketSummaryItem } from '@/interfaces/CryptoCurrency';
+import { type MarketSummaryItem } from '@/interfaces/crypto-currency';
 import { formatValueInUsdCompact } from "@/services/utils.service";
 import React from "react";
 

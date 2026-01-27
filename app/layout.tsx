@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import Header from "@/components/layout/Header";
-import Footer from '@/components/layout/Footer';
+import Header from "@/components/layout/header";
+import Footer from '@/components/layout/footer';
 import { Analytics } from '@vercel/analytics/next';
 import "./globals.scss";
 
@@ -22,17 +22,17 @@ export const metadata: Metadata = {
 export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
     return (
         <html lang="en">
-            <body className={inter.className}>
-                <Header />
+            <body className={`${inter.className}`}>
+                <div className="main-content">
+                    <Header />
 
-                <main className="main-container">
-                    <div className="max-w-6xl mx-auto">
+                    <main className="container">
                         {children}
                         <Analytics />
-                    </div>
-                </main>
+                    </main>
 
-                <Footer />
+                    <Footer />
+                </div>
             </body>
         </html>
     );

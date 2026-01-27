@@ -1,5 +1,5 @@
 import { Coins } from 'lucide-react';
-import GlobalMarketStats from '@/components/features/GlobalMarketStats';
+import GlobalMarketStats from '@/components/features/global-market-stats';
 
 function Header() {
     return (

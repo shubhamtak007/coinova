@@ -7,6 +7,7 @@ declare module '@tanstack/react-table' {
     }
 
     interface TableMeta<TData extends RowData> {
+        fetchingList?: boolean,
         currentPageNumber?: number,
         rowsPerPage?: number,
         currentSortingValue: string,

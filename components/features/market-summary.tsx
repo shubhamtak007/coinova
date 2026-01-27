@@ -2,7 +2,7 @@
 
 import useMarketSummary from "@/hooks/useMarketSummary";
 import { Skeleton } from '@/components/ui/skeleton';
-import MarketSummaryCard from "@/components/features/MarketSummaryCard";
+import MarketSummaryCard from "@/components/features/market-summary-card";
 
 function MarketSummary() {
     const { marketSummary, fetchingMarketSummary } = useMarketSummary();

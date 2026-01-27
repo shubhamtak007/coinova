@@ -2,7 +2,7 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { retrieveCoinList } from '@/services/crypto-currency.service';
-import type { CoingeckoCrypto } from '@/interfaces/CryptoCurrency';
+import type { CoingeckoCrypto } from '@/interfaces/crypto-currency';
 
 interface CoinListHookProps {
     currentPageNumber: number,

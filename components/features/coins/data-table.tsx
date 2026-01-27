@@ -18,6 +18,7 @@ function DataTable<TData,>({ sendSortingValueToParent, ...props }: DataTableProp
         columns: props.columns,
         getCoreRowModel: getCoreRowModel(),
         meta: {
+            fetchingList: props.fetchingList,
             currentSortingValue: props.currentSortingValue,
             currentPageNumber: props.currentPageNumber,
             rowsPerPage: props.rowsPerPage,
@@ -87,7 +88,7 @@ function DataTable<TData,>({ sendSortingValueToParent, ...props }: DataTableProp
                             <tr>
                                 <td
                                     colSpan={props.columns.length}
-                                    className="italic text-[#ccc] text-center"
+                                    className="italic text-gray-400 text-center"
                                 >
                                     {props.listEmptyMessage ? props.listEmptyMessage : 'No results'}
                                 </td>

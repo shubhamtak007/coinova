@@ -3,7 +3,7 @@
 import useCoinList from '@/hooks/useCoinList';
 import DataTable from '@/components/features/coins/data-table';
 import React, { useState, useRef } from 'react';
-import type { CoingeckoCrypto } from '@/interfaces/CryptoCurrency';
+import type { CoingeckoCrypto } from '@/interfaces/crypto-currency';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';

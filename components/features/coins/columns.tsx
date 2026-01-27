@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import type { CoingeckoCrypto } from '@/interfaces/CryptoCurrency';
+import type { CoingeckoCrypto } from '@/interfaces/crypto-currency';
 import { ColumnDef } from '@tanstack/react-table';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { BsFillInfoCircleFill } from "react-icons/bs";
@@ -36,7 +36,11 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button className="sorting-btn" variant="ghost">
+                        <Button
+                            variant="ghost"
+                            className="sorting-btn"
+                            disabled={table.options.meta?.fetchingList}
+                        >
                             Coin{currentSortingValue === 'id_asc' ? <ArrowUp /> :
                                 currentSortingValue === 'id_desc' ? <ArrowDown /> : <ChevronsUpDown />}
                         </Button>
@@ -59,7 +63,7 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
                             disabled={!currentSortingValue?.startsWith('id_')}
                             onSelect={() => { sortByFn(null) }}
                         >
-                            Remove
+                            Reset
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -103,7 +107,7 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
         }
     }, {
         accessorKey: 'current_price',
-        header: ({ header }) => 'Current Price',
+        header: ({ }) => 'Current Price',
         cell: ({ row }) => {
             const currentPrice: number = row.getValue('current_price');
             return currentPrice && formatValueIntoCommaSeparated(currentPrice, 5, true)
@@ -114,7 +118,7 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
         }
     }, {
         accessorKey: 'price_change_percentage_1h_in_currency',
-        header: ({ header }) => '1h',
+        header: ({ }) => '1h',
         cell: ({ row }) => {
             const priceChangeIn1hInPercent: number = row.getValue('price_change_percentage_1h_in_currency');
 
@@ -131,7 +135,7 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
         }
     }, {
         accessorKey: 'price_change_percentage_24h',
-        header: ({ header }) => '24h',
+        header: ({ }) => '24h',
         cell: ({ row }) => {
             const priceChangeIn24hInPercent: number = row.getValue('price_change_percentage_24h');
 
@@ -148,7 +152,7 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
         }
     }, {
         accessorKey: 'price_change_percentage_7d_in_currency',
-        header: ({ header }) => '7d',
+        header: ({ }) => '7d',
         cell: ({ row }) => {
             const priceChangeIn7DaysInPercent: number = row.getValue('price_change_percentage_7d_in_currency');
 
@@ -172,7 +176,11 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="sorting-btn">
+                        <Button
+                            variant="ghost"
+                            className="sorting-btn"
+                            disabled={table.options.meta?.fetchingList}
+                        >
                             Volume{currentSortingValue === 'volume_asc' ? <ArrowUp /> :
                                 currentSortingValue === 'volume_desc' ? <ArrowDown /> : <ChevronsUpDown />}
                         </Button>
@@ -195,7 +203,7 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
                             disabled={!currentSortingValue?.startsWith('volume_')}
                             onSelect={() => { sortByFn(null); }}
                         >
-                            Remove
+                            Reset
                         </DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
@@ -230,7 +238,11 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
             return (
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="sorting-btn">
+                        <Button
+                            variant="ghost"
+                            className="sorting-btn"
+                            disabled={table.options.meta?.fetchingList}
+                        >
                             Market Cap.{currentSortingValue === 'market_cap_asc' ? <ArrowUp /> :
                                 currentSortingValue === 'market_cap_desc' ? <ArrowDown /> : <ChevronsUpDown />}
                         </Button>

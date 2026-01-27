@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import type { GlobalMarketStats } from '@/interfaces/GlobalMarketData';
+import type { GlobalMarketStats } from '@/interfaces/global-market-data';
 import { retrieveGlobalMarketData } from '@/services/crypto-currency.service';
 
 function useGlobalMarketStats() {

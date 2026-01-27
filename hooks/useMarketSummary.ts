@@ -1,6 +1,8 @@
+'use client';
+
 import { useEffect, useState, useRef } from 'react';
 import { retrieveCoinList, retrieveAllCoins, retrieveTrendingCoins } from '@/services/crypto-currency.service';
-import { CryptoCurrency, MarketSummaryItem, CoingeckoCrypto, TrendingCoin, MarketSummaryRefMap } from '@/interfaces/CryptoCurrency';
+import { CryptoCurrency, MarketSummaryItem, CoingeckoCrypto, TrendingCoin, MarketSummaryRefMap } from '@/interfaces/crypto-currency';
 import { roundOffNumber } from '@/services/utils.service';
 
 function useMarketSummary() {
@@ -11,6 +13,7 @@ function useMarketSummary() {
         trendingCoins: []
     }).current;
 
+    const numberOfItemsRef = useRef<number>(3).current;
     const [marketSummary, setMarketSummary] = useState<MarketSummaryItem[]>([]);
     const [fetchingMarketSummary, setFetchingMarketSummary] = useState<boolean>(false);
 
@@ -42,7 +45,8 @@ function useMarketSummary() {
     }
 
     function createTrendingCoinList(serverTrendingCoinsData: TrendingCoin[]) {
-        const localTrendingCoins = serverTrendingCoinsData.map((coinData: TrendingCoin) => coinData.item).slice(0, 3);
+        marketSummaryRef.trendingCoins = [];
+        const localTrendingCoins = serverTrendingCoinsData.map((coinData: TrendingCoin) => coinData.item).slice(0, numberOfItemsRef);
 
         for (const coin of localTrendingCoins) {
             marketSummaryRef.trendingCoins.push({
@@ -59,15 +63,15 @@ function useMarketSummary() {
     function createGainerLoserAndVolumeList(cryptoCurrencyList: CryptoCurrency[]) {
         marketSummaryRef.gainers = cryptoCurrencyList.sort((a: CryptoCurrency, b: CryptoCurrency) => {
             return Number(b.priceChangePercent) - Number(a.priceChangePercent)
-        }).slice(0, 3);
+        }).slice(0, numberOfItemsRef);
 
         marketSummaryRef.losers = cryptoCurrencyList.sort((a: CryptoCurrency, b: CryptoCurrency) => {
             return Number(a.priceChangePercent) - Number(b.priceChangePercent)
-        }).slice(0, 3);
+        }).slice(0, numberOfItemsRef);
 
         marketSummaryRef.volumes = cryptoCurrencyList.sort((a: CryptoCurrency, b: CryptoCurrency) => {
             return Number(b.quoteVolume) - Number(a.quoteVolume)
-        }).slice(0, 3);
+        }).slice(0, numberOfItemsRef);
     }
 
     async function fetchNameAndImageOfCryptoCurrencies() {
