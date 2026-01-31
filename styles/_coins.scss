@@ -6,6 +6,15 @@
 
     .search-bar {
         margin: 12px 12px 16px 12px;
+
+        .search-input-group {
+            .clear-btn {
+                margin-right: 6px;
+                padding: 1px;
+                border-radius: 4px;
+                cursor: pointer;
+            }
+        }
     }
 
     .coins-sst-wrapper {

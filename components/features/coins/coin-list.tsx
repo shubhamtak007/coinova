@@ -5,7 +5,7 @@ import DataTable from '@/components/features/coins/data-table';
 import type { CoingeckoCrypto } from '@/interfaces/crypto-currency';
 import React, { useState, useRef } from 'react';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
-import { Search } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { columns } from '@/components/features/coins/columns';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -53,6 +53,14 @@ function CoinList() {
 
                         <InputGroupAddon>
                             <Search />
+                        </InputGroupAddon>
+
+                        <InputGroupAddon
+                            className={`clear-btn ${(searchValue && searchValue.length > 0) ? 'block' : 'hidden'}`}
+                            align="inline-end"
+                            onClick={() => { setSearchValue('') }}
+                        >
+                            <X />
                         </InputGroupAddon>
                     </InputGroup>
                 </div>
