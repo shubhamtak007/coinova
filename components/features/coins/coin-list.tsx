@@ -12,7 +12,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { getRowsPerPageDefaultValue } from '@/services/utils.service';
 import { Row } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
-import { Spinner } from '@/components/ui/spinner';
 
 function CoinList() {
     const router = useRouter();
@@ -22,13 +21,6 @@ function CoinList() {
     const [searchValue, setSearchValue] = useState<string>('');
     const { fetchingCoinList, coinList } = useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue });
     const rowsCountList = useRef([10, 25, 50, 100, 150, 200, 250]).current;
-    // const { optimisticPathname, navigateOptimistically, isNavigating } = useOptimisticNavigation();
-
-    useEffect(() => {
-        for (const coin of coinList) {
-            router.prefetch(`/coin/${coin.symbol + '+' + coin.name}`)
-        }
-    }, [coinList])
 
     function onSearchInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         setCurrentPageNumber(1);
@@ -45,11 +37,7 @@ function CoinList() {
 
     function onRowClicked(row: Row<CoingeckoCrypto>) {
         const path = `/coin/${row.original.symbol + '+' + row.original.name}`;
-
-        // startTransition(() => {
-        //     navigateOptimistically(path);
         router.push(path);
-        // });
     }
 
     return (

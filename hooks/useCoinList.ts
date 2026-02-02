@@ -3,6 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { retrieveCoinList } from '@/services/crypto-currency.service';
 import type { CoingeckoCrypto } from '@/interfaces/crypto-currency';
+import { useRouter } from 'next/navigation';
 
 interface CoinListHookProps {
     currentPageNumber: number,
@@ -15,6 +16,7 @@ function useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue
     const [coinList, setCoinList] = useState<CoingeckoCrypto[]>([]);
     const [fetchingCoinList, setFetchingCoinList] = useState<boolean>(false);
     let coinName = useRef<string | null>(null).current;
+    const router = useRouter();
 
     useEffect(() => {
         let debounceHandler: ReturnType<typeof setTimeout>;
@@ -44,6 +46,11 @@ function useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue
 
         try {
             const response = await retrieveCoinList(params);
+
+            for (const coin of coinList) {
+                router.prefetch(`/coin/${coin.symbol + '+' + coin.name}`)
+            }
+
             setCoinList((response && response.data) ? response.data : []);
         } catch (error) {
 
