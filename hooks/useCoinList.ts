@@ -47,7 +47,7 @@ function useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue
         try {
             const response = await retrieveCoinList(params);
 
-            for (const coin of coinList) {
+            for (const coin of response.data) {
                 router.prefetch(`/coin/${coin.symbol + '+' + coin.name}`)
             }
 
