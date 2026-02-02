@@ -6,7 +6,7 @@
     top: 0px;
     background-color: white;
     width: 100%;
-    z-index: 15;
+    z-index: 60;
 
     &::-webkit-scrollbar {
         display: none;
@@ -28,14 +28,18 @@
     }
 }
 
-.main-content {
+.body-wrapper {
     position: relative;
     min-height: 100dvh;
 
-    .container {
-        margin: auto;
-        max-width: var(--container-width);
-        padding: 12px;
+    .main-content {
+        max-width: 100%;
+
+        .container {
+            padding: 12px;
+            margin: auto;
+            max-width: var(--container-width);
+        }
     }
 }
 
@@ -71,4 +75,9 @@
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
+}
+
+.spinner-overlay {
+    opacity: 0.5;
+    pointer-events: none;
 }

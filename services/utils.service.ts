@@ -1,3 +1,5 @@
+import type { CoingeckoCrypto } from "@/interfaces/crypto-currency";
+
 function roundOffNumber(value: number, decimalPlaces: number) {
     if (value === null || value === undefined) {
         throw new Error('Value is undefined or null');
@@ -33,4 +35,14 @@ function getRowsPerPageDefaultValue() {
     return 10;
 }
 
-export { roundOffNumber, formatValueInUsdCompact, formatValueIntoCommaSeparated, getRowsPerPageDefaultValue }
+const getPathName = (pageName: string, properties: CoingeckoCrypto) => {
+    switch (pageName) {
+        case 'coinDetails': { return `/coin/${properties.symbol + '+' + properties.name}` }
+        default: return null;
+    }
+}
+
+export {
+    roundOffNumber, formatValueInUsdCompact, formatValueIntoCommaSeparated,
+    getRowsPerPageDefaultValue, getPathName
+}

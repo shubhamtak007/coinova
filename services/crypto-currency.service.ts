@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CryptoCurrency } from '@/interfaces/crypto-currency';
+import { CoingeckoCrypto, CryptoCurrency } from '@/interfaces/crypto-currency';
 import { roundOffNumber } from '@/services/utils.service';
 
 interface MasterSymbol {
@@ -147,7 +147,6 @@ const retrieveCoinPriceHistory = async (coinUuid: string, queryParams: unknown) 
         throw error;
     }
 }
-
 
 export {
     retrieveCoinList, retrieveTrendingCoins, retrieveGlobalMarketData,

@@ -5,6 +5,7 @@ import Footer from '@/components/layout/footer';
 import { Analytics } from '@vercel/analytics/next';
 import "./globals.scss";
 import { OptimisticNavigationContextProvider } from '@/contexts/navigation-context';
+import NavigationWrapper from '@/components/layout/navigation-wrapper';
 
 const inter = Inter({
     weight: ['400', '500', '600', '700', '800', '900'],
@@ -24,16 +25,20 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
     return (
         <html lang="en">
             <body className={`${inter.className}`}>
-                <div className="main-content">
+                <div className="body-wrapper">
                     <Header />
 
-                    <main className="container">
-                        <OptimisticNavigationContextProvider>
-                            {children}
-                        </OptimisticNavigationContextProvider>
-                        <Analytics />
-                    </main>
 
+                    <OptimisticNavigationContextProvider>
+                        <NavigationWrapper>
+                            <main className="main-content">
+                                <div className="container">
+                                    {children}
+                                    <Analytics />
+                                </div>
+                            </main>
+                        </NavigationWrapper>
+                    </OptimisticNavigationContextProvider>
                     <Footer />
                 </div>
             </body>

@@ -3,15 +3,16 @@
 import useCoinList from '@/hooks/useCoinList';
 import DataTable from '@/components/features/coins/data-table';
 import type { CoingeckoCrypto } from '@/interfaces/crypto-currency';
-import React, { useState, useRef, useEffect, startTransition } from 'react';
+import React, { useState, useRef } from 'react';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { columns } from '@/components/features/coins/columns';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { getRowsPerPageDefaultValue } from '@/services/utils.service';
+import { getRowsPerPageDefaultValue, getPathName } from '@/services/utils.service';
 import { Row } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
+import { useOptimisticNavigation } from '@/contexts/navigation-context';
 
 function CoinList() {
     const router = useRouter();
@@ -21,6 +22,7 @@ function CoinList() {
     const [searchValue, setSearchValue] = useState<string>('');
     const { fetchingCoinList, coinList } = useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue });
     const rowsCountList = useRef([10, 25, 50, 100, 150, 200, 250]).current;
+    const { navigateOptimistically } = useOptimisticNavigation();
 
     function onSearchInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         setCurrentPageNumber(1);
@@ -36,8 +38,12 @@ function CoinList() {
     }
 
     function onRowClicked(row: Row<CoingeckoCrypto>) {
-        const path = `/coin/${row.original.symbol + '+' + row.original.name}`;
-        router.push(path);
+        const path = getPathName('coinDetails', row.original);
+
+        if (path) {
+            navigateOptimistically(path);
+            router.push(path);
+        }
     }
 
     return (
