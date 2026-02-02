@@ -2,23 +2,25 @@ import CoinDetailsContainer from '@/components/features/coin-details/coin-detail
 import type { Metadata, ResolvingMetadata } from 'next';
 
 type Props = {
-    params: { details: string }
-    searchParams: { [key: string]: string | string[] | undefined }
+    params: Promise<{ details: string }>
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
 }
 
 export async function generateMetadata(
     { params, searchParams }: Props,
     parent: ResolvingMetadata
 ): Promise<Metadata> {
-    const { name } = parseDetails(params.details);
+    const { details } = await params;
+    const { name } = parseDetails(details);
 
     return {
         title: name
     }
 }
 
-function CoinDetails({ params, searchParams }: Props) {
-    const { symbol, name } = parseDetails(params.details);
+async function CoinDetails({ params, searchParams }: Props) {
+    const { details } = await params;
+    const { symbol, name } = parseDetails(details);
 
     return (
         <CoinDetailsContainer
