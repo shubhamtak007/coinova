@@ -3,7 +3,7 @@
 import useCoinList from '@/hooks/useCoinList';
 import DataTable from '@/components/features/coins/data-table';
 import type { CoingeckoCrypto } from '@/interfaces/crypto-currency';
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect, startTransition } from 'react';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Search } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -12,6 +12,9 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { getRowsPerPageDefaultValue } from '@/services/utils.service';
 import { Row } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
+import { useOptimisticNavigation } from '@/contexts/navigation-context';
+import { Spinner } from '@/components/ui/spinner';
+import path from 'path';
 
 function CoinList() {
     const router = useRouter();
@@ -21,6 +24,14 @@ function CoinList() {
     const [searchValue, setSearchValue] = useState<string>('');
     const { fetchingCoinList, coinList } = useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue });
     const rowsCountList = useRef([10, 25, 50, 100, 150, 200, 250]).current;
+    const { optimisticPathname, navigateOptimistically, isNavigating } = useOptimisticNavigation();
+
+    useEffect(() => {
+        if (isNavigating === true) {
+            // console.log(isNavigating)
+            // console.log(optimisticPathname);
+        }
+    }, [isNavigating])
 
     function onSearchInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         setCurrentPageNumber(1);
@@ -36,11 +47,19 @@ function CoinList() {
     }
 
     function onRowClicked(row: Row<CoingeckoCrypto>) {
-        router.push(`coinDetails/${row.original.symbol}`)
+        const path = `/coin/${row.original.symbol + '+' + row.original.name}`;
+
+        startTransition(() => {
+            navigateOptimistically(path);
+            router.push(path);
+        });
     }
 
     return (
         <>
+            {isNavigating && <Spinner className="size-30" />}
+            {optimisticPathname}
+
             <div className="coins-sst-container">
                 <div className="search-bar place-items-end">
                     <InputGroup className="max-w-xs search-input-group">

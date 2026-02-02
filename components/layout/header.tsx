@@ -6,7 +6,7 @@ function Header() {
     return (
         <>
             <div className="header-container">
-                <div className="navbar max-w-6xl mx-auto">
+                <div className="navbar max-w-[calc(var(--container-width)_-_20px)] mx-auto">
                     <Link href="/" className="logo uppercase flex items-center">
                         <Coins
                             strokeWidth={2}
