@@ -27,11 +27,10 @@ function CoinList() {
     const { optimisticPathname, navigateOptimistically, isNavigating } = useOptimisticNavigation();
 
     useEffect(() => {
-        if (isNavigating === true) {
-            // console.log(isNavigating)
-            // console.log(optimisticPathname);
+        for (const coin of coinList) {
+            router.prefetch(`/coin/${coin.symbol + '+' + coin.name}`)
         }
-    }, [isNavigating])
+    }, [coinList])
 
     function onSearchInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         setCurrentPageNumber(1);
