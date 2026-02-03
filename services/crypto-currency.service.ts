@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { CoingeckoCrypto, CryptoCurrency } from '@/interfaces/crypto-currency';
-import { roundOffNumber } from '@/services/utils.service';
+import { roundOffNumber, getCoinovaApiBaseUrl } from '@/services/utils.service';
 
 interface MasterSymbol {
     symbol: string,
@@ -16,9 +16,7 @@ const binanceApiConfig = axios.create({
 
 
 const coinovaApiConfig = axios.create({
-    // baseURL: `${window.location.origin}/api/`,
-    baseURL: process.env.NODE_ENV === 'development' ? process.env.NEXT_PUBLIC_DEV_API_BASE_URL :
-        `${globalThis.location?.origin}/api/`,
+    baseURL: getCoinovaApiBaseUrl(),
     headers: {
         accept: 'application/json',
     }

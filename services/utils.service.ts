@@ -42,7 +42,14 @@ const getPathName = (pageName: string, properties: CoingeckoCrypto) => {
     }
 }
 
+function getCoinovaApiBaseUrl() {
+    const url = process.env.NODE_ENV === 'development' ? process.env.NEXT_PUBLIC_DEV_API_BASE_URL :
+        `${globalThis.location?.origin}/api/`
+
+    return url;
+}
+
 export {
     roundOffNumber, formatValueInUsdCompact, formatValueIntoCommaSeparated,
-    getRowsPerPageDefaultValue, getPathName
+    getRowsPerPageDefaultValue, getPathName, getCoinovaApiBaseUrl
 }
