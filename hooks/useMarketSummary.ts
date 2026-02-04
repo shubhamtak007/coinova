@@ -6,24 +6,17 @@ import { CryptoCurrency, MarketSummaryItem, CoingeckoCrypto, TrendingCoin, Marke
 import { roundOffNumber } from '@/services/utils.service';
 
 function useMarketSummary() {
-    let marketSummaryRef = useRef<MarketSummaryRefMap>({
-        gainers: [],
-        losers: [],
-        volumes: [],
-        trendingCoins: []
-    }).current;
-
+    const summaryInitialValues = { gainers: [], losers: [], volumes: [], trendingCoins: [] }
+    let marketSummaryRef = useRef<MarketSummaryRefMap>(summaryInitialValues).current;
     const numberOfItemsRef = useRef<number>(3).current;
     const [marketSummary, setMarketSummary] = useState<MarketSummaryItem[]>([]);
-    const [fetchingMarketSummary, setFetchingMarketSummary] = useState<boolean>(false);
+    const [fetchingMarketSummary, setFetchingMarketSummary] = useState<boolean>(true);
 
     useEffect(() => {
         fetchAllCoinsAndTrendingCoins();
     }, [])
 
     async function fetchAllCoinsAndTrendingCoins() {
-        setFetchingMarketSummary(true);
-
         try {
             const promises = [
                 retrieveTrendingCoins(),

@@ -6,15 +6,13 @@ import { retrieveGlobalMarketData } from '@/services/crypto-currency.service';
 
 function useGlobalMarketStats() {
     const [globalMarketStats, setGlobalMarketStats] = useState<GlobalMarketStats>({} as GlobalMarketStats);
-    const [fetchingGlobalMarketStats, setFetchingGlobalMarketStats] = useState<boolean>(false);
+    const [fetchingGlobalMarketStats, setFetchingGlobalMarketStats] = useState<boolean>(true);
 
     useEffect(() => {
         fetchGlobalMarketData();
     }, [])
 
     async function fetchGlobalMarketData() {
-        setFetchingGlobalMarketStats(true);
-
         try {
             const response = await retrieveGlobalMarketData();
             if (response) setGlobalMarketStats(response);

@@ -9,9 +9,10 @@ import { Search, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { columns } from '@/components/features/coins/columns';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { getRowsPerPageDefaultValue } from '@/services/utils.service';
+import { getRowsPerPageDefaultValue, getPathName } from '@/services/utils.service';
 import { Row } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
+import { useOptimisticNavigation } from '@/contexts/navigation-context';
 
 function CoinList() {
     const router = useRouter();
@@ -21,6 +22,7 @@ function CoinList() {
     const [searchValue, setSearchValue] = useState<string>('');
     const { fetchingCoinList, coinList } = useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue });
     const rowsCountList = useRef([10, 25, 50, 100, 150, 200, 250]).current;
+    const { navigateOptimistically } = useOptimisticNavigation();
 
     function onSearchInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         setCurrentPageNumber(1);
@@ -36,7 +38,12 @@ function CoinList() {
     }
 
     function onRowClicked(row: Row<CoingeckoCrypto>) {
-        router.push(`coinDetails/${row.original.symbol}`)
+        const path = getPathName('coinDetails', row.original);
+
+        if (path) {
+            navigateOptimistically(path);
+            router.push(path);
+        }
     }
 
     return (

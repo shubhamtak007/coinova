@@ -65,8 +65,6 @@ touch .env.local
 
 # Add your API key to .env.local
 COIN_GECKO_API_KEY=your_api_key_here
-NEXT_PUBLIC_DEV_API_BASE_URL='http://localhost:3000/api/'
-NEXT_PUBLIC_PROD_API_BASE_URL='https://coinova-app.vercel.app/api/'
 
 # Start the development server
 npm run dev

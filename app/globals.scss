@@ -1,5 +1,6 @@
 @use "@/styles/application-wide";
 @use "@/styles/market-summary";
+@use "@/styles/coin-details";
 @use "@/styles/coins";
 @use "@/styles/tooltip";
 @use "tailwindcss";
@@ -86,6 +87,7 @@
     --main-color: #e4e8f1;
     --main-color-2: #1e7ce0;
     --border-radius: 6px;
+    --container-width: 1200px;
 }
 
 .dark {

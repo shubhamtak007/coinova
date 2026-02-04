@@ -1,6 +1,6 @@
 import axios from 'axios';
-import { CryptoCurrency } from '@/interfaces/crypto-currency';
-import { roundOffNumber } from '@/services/utils.service';
+import { CoingeckoCrypto, CryptoCurrency } from '@/interfaces/crypto-currency';
+import { roundOffNumber, getCoinovaApiBaseUrl } from '@/services/utils.service';
 
 interface MasterSymbol {
     symbol: string,
@@ -14,11 +14,26 @@ const binanceApiConfig = axios.create({
     }
 })
 
+
 const coinovaApiConfig = axios.create({
-    baseURL: process.env.NODE_ENV === 'development' ? process.env.NEXT_PUBLIC_DEV_API_BASE_URL :
-        process.env.NEXT_PUBLIC_PROD_API_BASE_URL,
+    baseURL: getCoinovaApiBaseUrl(),
     headers: {
-        accept: 'application/json'
+        accept: 'application/json',
+    }
+})
+
+const coinRankingApiConfig = axios.create({
+    baseURL: 'https://api.coinranking.com/v2/',
+    headers: {
+        'x-access-token': process.env.NEXT_PUBLIC_COIN_RANKING_API_KEY
+    }
+})
+
+const coinGeckoApiConfig = axios.create({
+    baseURL: 'https://api.coingecko.com/api/',
+    headers: {
+        'accept': 'application/json',
+        'x-cg-demo-api-key': process.env.COIN_GECKO_API_KEY
     }
 })
 
@@ -113,5 +128,25 @@ function createCryptoCurrencyList(masterSymbolList: MasterSymbol[], cryptoPriceL
     return cryptoCurrencyList;
 }
 
+const retrieveCoinInfoFromCoinRanking = async (queryParams: unknown) => {
+    try {
+        const response = await coinRankingApiConfig.get('search-suggestions', { params: queryParams })
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
 
-export { retrieveCoinList, retrieveTrendingCoins, retrieveGlobalMarketData, retrieveAllCoins }
+const retrieveCoinPriceHistory = async (coinUuid: string, queryParams: unknown) => {
+    try {
+        const response = await coinGeckoApiConfig.get(`v3/coins/${coinUuid}/market_chart`, { params: queryParams });
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+export {
+    retrieveCoinList, retrieveTrendingCoins, retrieveGlobalMarketData,
+    retrieveAllCoins, retrieveCoinInfoFromCoinRanking, retrieveCoinPriceHistory
+}
