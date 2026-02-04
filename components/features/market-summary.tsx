@@ -16,7 +16,7 @@ function MarketSummary() {
             <div className="flex flex-wrap gap-3 justify-between">
                 {
                     fetchingMarketSummary ?
-                        <Skeleton className="rounded-[var(--border-radius)] w-full h-[161.14px]" /> :
+                        <Skeleton className="w-full h-[161.14px]" /> :
                         marketSummary.map((marketSummaryItem) => {
                             return (
                                 <MarketSummaryCard

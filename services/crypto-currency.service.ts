@@ -139,7 +139,7 @@ const retrieveCoinInfoFromCoinRanking = async (queryParams: unknown) => {
 
 const retrieveCoinPriceHistory = async (coinUuid: string, queryParams: unknown) => {
     try {
-        const response = await coinGeckoApiConfig.get(`v3/coins/${coinUuid}/market_chart/range`, { params: queryParams });
+        const response = await coinGeckoApiConfig.get(`v3/coins/${coinUuid}/market_chart`, { params: queryParams });
         return response;
     } catch (error) {
         throw error;

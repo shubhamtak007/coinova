@@ -43,7 +43,7 @@ const getPathName = (pageName: string, properties: CoingeckoCrypto) => {
 }
 
 function getCoinovaApiBaseUrl() {
-    const url = process.env.NODE_ENV === 'development' ? process.env.NEXT_PUBLIC_DEV_API_BASE_URL :
+    const url = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api/' :
         `${globalThis.location?.origin}/api/`
 
     return url;
