@@ -16,8 +16,9 @@ interface CoinListHookProps {
 function useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue }: CoinListHookProps) {
     let coinName = useRef<string | null>(null).current;
     const [coinList, setCoinList] = useState<CoingeckoCrypto[]>([]);
-    const [fetchingCoinList, setFetchingCoinList] = useState<boolean>(false);
+    const [fetchingCoinList, setFetchingCoinList] = useState<boolean>(true);
     const router = useRouter();
+    let abortController = useRef<AbortController | null>(null).current;
 
     useEffect(() => {
         let debounceHandler: ReturnType<typeof setTimeout>;
@@ -36,7 +37,8 @@ function useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue
     }, [searchValue, currentPageNumber, rowsPerPage, sortingValue])
 
     const fetchCoins = async () => {
-        setFetchingCoinList(true);
+        if (fetchingCoinList === false) setFetchingCoinList(true);
+        abortController = new AbortController();
 
         const params = {
             page: currentPageNumber,
@@ -46,7 +48,7 @@ function useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue
         }
 
         try {
-            const response = await retrieveCoinList(params);
+            const response = await retrieveCoinList(params, abortController.signal);
 
             for (const coin of response.data) {
                 const path = getPathName('coinDetails', coin)
