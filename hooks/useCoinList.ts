@@ -37,6 +37,7 @@ function useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue
     }, [searchValue, currentPageNumber, rowsPerPage, sortingValue])
 
     const fetchCoins = async () => {
+        if (fetchingCoinList === false) setFetchingCoinList(true);
         abortController = new AbortController();
 
         const params = {
