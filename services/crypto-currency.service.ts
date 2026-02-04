@@ -37,9 +37,12 @@ const coinGeckoApiConfig = axios.create({
     }
 })
 
-const retrieveCoinList = async (apiParams: unknown) => {
+const retrieveCoinList = async (apiParams: unknown, abortSignal: AbortSignal) => {
     try {
-        const response = await coinovaApiConfig.get('v1/coins', { params: apiParams });
+        const response = await coinovaApiConfig.get('v1/coins', {
+            params: apiParams,
+            signal: abortSignal
+        });
         return response;
     } catch (error) {
         throw error;
