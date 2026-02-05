@@ -90,7 +90,7 @@ function DataTable<TData,>({ sendSortingValueToParent, onRowClicked, ...props }:
                             <tr>
                                 <td
                                     colSpan={props.columns.length}
-                                    className="italic text-gray-400 text-center"
+                                    className="no-value-text"
                                 >
                                     {props.listEmptyMessage ? props.listEmptyMessage : 'No results'}
                                 </td>

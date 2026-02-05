@@ -68,40 +68,49 @@ function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
                 {
                     fetchingPriceChangeList ?
                         <div className="hz-and-vert-center"><Spinner className="size-10" /></div> :
-                        <ChartContainer
-                            config={chartConfig}
-                        >
-                            <AreaChart
-                                accessibilityLayer
-                                data={priceChangeList}
-                            >
-                                <CartesianGrid vertical={true} />
+                        <>
+                            {
+                                priceChangeList.length > 0 ?
+                                    <ChartContainer
+                                        config={chartConfig}
+                                    >
+                                        <AreaChart
+                                            accessibilityLayer
+                                            data={priceChangeList}
+                                        >
+                                            <CartesianGrid vertical={true} />
 
-                                <XAxis
-                                    dataKey="date"
-                                    tickLine={false}
-                                    axisLine={false}
-                                />
+                                            <XAxis
+                                                dataKey="date"
+                                                tickLine={false}
+                                                axisLine={false}
+                                            />
 
-                                <YAxis
-                                    dataKey="price"
-                                    axisLine={false}
-                                    tickCount={5}
-                                />
+                                            <YAxis
+                                                dataKey="price"
+                                                axisLine={false}
+                                                tickCount={5}
+                                            />
 
-                                <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
+                                            <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
 
-                                <Area
-                                    dataKey="price"
-                                    type="monotone"
-                                    fill="var(--chart-2)"
-                                    fillOpacity={0.1}
-                                    stroke="var(--chart-2)"
-                                    strokeWidth={2}
-                                />
+                                            <Area
+                                                dataKey="price"
+                                                type="monotone"
+                                                fill="var(--chart-2)"
+                                                fillOpacity={0.1}
+                                                stroke="var(--chart-2)"
+                                                strokeWidth={2}
+                                            />
 
-                            </AreaChart>
-                        </ChartContainer>
+                                        </AreaChart>
+                                    </ChartContainer>
+                                    :
+                                    <div className="hz-and-vert-center no-value-text">
+                                        No data found.
+                                    </div>
+                            }
+                        </>
                 }
             </ItemContent>
         </Item>
