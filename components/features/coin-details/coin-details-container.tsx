@@ -15,12 +15,12 @@ function CoinDetailsContainer({ name, symbol }: CoinDetailsProps) {
     }
 
     return (
-        <div className="coin-details-container grid grid-cols-12">
-            <div className="coin-info-section col-span-12 2xl:col-span-4 lg:col-span-4 md:col-span-12 sm:col-span-12">
+        <div className="coin-details-page-container grid grid-cols-12">
+            <div className="coin-info-col col-span-12 2xl:col-span-4 lg:col-span-4 md:col-span-12 sm:col-span-12">
                 <CoinInfo coinProperties={properties} />
             </div>
 
-            <div className="coin-price-change-chart-section col-span-12 2xl:col-span-8 lg:col-span-8 md:col-span-12 sm:col-span-12">
+            <div className="coin-price-change-chart-col col-span-12 2xl:col-span-8 lg:col-span-8 md:col-span-12 sm:col-span-12">
                 <CoinPriceChangeChart coinProperties={properties} />
             </div>
         </div>

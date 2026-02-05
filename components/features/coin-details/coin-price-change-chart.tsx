@@ -1,12 +1,13 @@
 'use client';
 
-import { useRef } from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip } from 'recharts';
+import { useRef, useState } from 'react';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
 import { Item, ItemContent } from "@/components/ui/item";
-import type { CoinDetails } from '@/interfaces/coin-details';
-import useCoinPriceChangeChart from '@/hooks/useCoinPriceChangeChart';
 import { Spinner } from '@/components/ui/spinner';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import useCoinPriceChangeChart from '@/hooks/useCoinPriceChangeChart';
+import type { CoinDetails } from '@/interfaces/coin-details';
 
 type CoinPriceChangeChartProps = CoinDetails;
 
@@ -18,34 +19,74 @@ const chartConfig = {
 } satisfies ChartConfig;
 
 function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
-    let coinName = useRef<string>(coinProperties.name).current;
-    const { priceChangeList, fetchingPriceChangeList } = useCoinPriceChangeChart({ coinProperties });
+    const tabList = useRef<{ name: string, value: string }[]>([
+        { name: '24H', value: '1' },
+        { name: '7D', value: '7' },
+        { name: '1M', value: '30' },
+        { name: '3M', value: '90' },
+        { name: '6M', value: '180' },
+        { name: '1Y', value: '365' }
+    ]).current;
+
+    const [days, setDays] = useState<string>(tabList[0].value);
+    const { fetchingPriceChangeList, priceChangeList } = useCoinPriceChangeChart({ coinProperties, days });
+
+    function onTabChange(value: string) {
+        setDays(value);
+    }
 
     return (
         <Item
             variant="outline"
-            className="relative max-h-[480px]"
+            className={`relative ${fetchingPriceChangeList ? 'min-h-[420px]' : 'min-h-[unset]'}`}
         >
-            <ItemContent className="h-[480px]">
+            <ItemContent
+                className="min-h-[420px]"
+            >
+                <Tabs
+                    onValueChange={(value) => { onTabChange(value) }}
+                    className="mb-[12px]"
+                    defaultValue={days}
+                >
+                    <TabsList>
+                        {
+                            tabList.map((tab) => {
+                                return (
+                                    <TabsTrigger
+                                        key={tab.value}
+                                        value={String(tab.value)}
+                                        disabled={fetchingPriceChangeList}
+                                    >
+                                        {tab.name}
+                                    </TabsTrigger>
+                                )
+                            })
+                        }
+                    </TabsList>
+                </Tabs>
+
                 {
                     fetchingPriceChangeList ?
                         <div className="hz-and-vert-center"><Spinner className="size-10" /></div> :
-                        <ChartContainer config={chartConfig}>
+                        <ChartContainer
+                            config={chartConfig}
+                        >
                             <AreaChart
                                 accessibilityLayer
                                 data={priceChangeList}
                             >
-                                <CartesianGrid vertical={false} />
+                                <CartesianGrid vertical={true} />
 
                                 <XAxis
+                                    dataKey="date"
                                     tickLine={false}
                                     axisLine={false}
-                                    dataKey="time"
                                 />
 
                                 <YAxis
                                     dataKey="price"
                                     axisLine={false}
+                                    tickCount={5}
                                 />
 
                                 <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
@@ -56,7 +97,7 @@ function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
                                     fill="var(--chart-2)"
                                     fillOpacity={0.1}
                                     stroke="var(--chart-2)"
-                                    strokeWidth={1}
+                                    strokeWidth={2}
                                 />
 
                             </AreaChart>

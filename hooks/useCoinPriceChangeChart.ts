@@ -4,23 +4,29 @@ import { useState, useEffect } from 'react';
 import { retrieveCoinPriceHistory } from '@/services/crypto-currency.service';
 import type { CoinDetails } from '@/interfaces/coin-details';
 
-type UseCoinPriceChartProps = CoinDetails;
+type ComponentProps = {
+    days: string
+}
 
-export default function useCoinPriceChart({ coinProperties }: UseCoinPriceChartProps) {
-    const [priceChangeList, setPriceChangeList] = useState<{ time: string, price: number }[]>([]);
+type UseCoinPriceChartProps = CoinDetails & ComponentProps;
+
+export default function useCoinPriceChart({ coinProperties, days }: UseCoinPriceChartProps) {
+    const [priceChangeList, setPriceChangeList] = useState<{ price: number, date: string }[]>([]);
     const [fetchingPriceChangeList, setFetchingPriceChangeList] = useState(true);
 
     useEffect(() => {
         if (coinProperties && coinProperties.name) fetchCoinPriceHistory();
-    }, [coinProperties.name]);
+    }, [coinProperties.name, days]);
 
     async function fetchCoinPriceHistory() {
         const params = {
             vs_currency: 'usd',
-            days: 30,
-            precision: 6,
+            days: days,
+            precision: '6',
             interval: 'daily'
         }
+
+        if (fetchingPriceChangeList === false) setFetchingPriceChangeList(true);
 
         try {
             const response = await retrieveCoinPriceHistory(coinProperties.name.toLowerCase(), params);
@@ -28,7 +34,10 @@ export default function useCoinPriceChart({ coinProperties }: UseCoinPriceChartP
 
             for (const pricePoint of response.data.prices) {
                 priceChangeHistory.push({
-                    time: new Date(pricePoint[0]).toDateString(),
+                    date: new Intl.DateTimeFormat('en-GB', {
+                        day: 'numeric',
+                        month: 'short'
+                    }).format(new Date(pricePoint[0])),
                     price: pricePoint[1]
                 })
             }

@@ -1,8 +1,10 @@
 import { Item, ItemContent, ItemTitle } from '@/components/ui/item';
 import Image from 'next/image';
-import { type MarketSummaryItem } from '@/interfaces/crypto-currency';
-import { formatValueInUsdCompact } from "@/services/utils.service";
+import { CryptoCurrency, type MarketSummaryItem } from '@/interfaces/crypto-currency';
+import { formatValueInUsdCompact, getPathName } from "@/services/utils.service";
 import React from "react";
+import { useOptimisticNavigation } from '@/contexts/navigation-context';
+import { useRouter } from 'next/navigation';
 
 interface MarketSummaryItemProps {
     key: string,
@@ -10,6 +12,18 @@ interface MarketSummaryItemProps {
 }
 
 function MarketSummaryCard({ marketSummaryItem }: MarketSummaryItemProps) {
+    const { navigateOptimistically } = useOptimisticNavigation();
+    const router = useRouter();
+
+    function onSymbolClick(coin: CryptoCurrency) {
+        const path = getPathName('coinDetails', coin);
+
+        if (path) {
+            navigateOptimistically(path);
+            router.push(path);
+        }
+    }
+
     return (
         <Item
             key={marketSummaryItem.id}
@@ -36,14 +50,17 @@ function MarketSummaryCard({ marketSummaryItem }: MarketSummaryItemProps) {
                                                     alt={`Image of ${coin.name}`}
                                                     src={coin.imageUrl}
                                                 /> :
-                                                    <div className="coin-letter-mark">
+                                                    <div className="coin-letter-mark cursor-pointer">
                                                         {coin.symbol[0]}
                                                     </div>
                                             }
                                         </td>
 
-                                        <td className="">
-                                            <div className="crypto-symbol">
+                                        <td>
+                                            <div
+                                                className="crypto-symbol cursor-pointer"
+                                                onClick={() => { onSymbolClick(coin) }}
+                                            >
                                                 {coin.symbol}
                                             </div>
                                         </td>

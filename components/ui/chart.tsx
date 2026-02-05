@@ -169,7 +169,6 @@ function ChartTooltipContent({
     }
 
     const nestLabel = payload.length === 1 && indicator !== "dot";
-    console.log(payload)
 
     return (
         <div
@@ -231,8 +230,7 @@ function ChartTooltipContent({
                                             )}
                                         >
                                             <div className="grid gap-1.5">
-                                                {item.payload['time']}
-                                                {/* {nestLabel ? tooltipLabel : null} */}
+                                                {Object.values(item.payload)[0] as React.ReactNode}
                                                 <span className="text-muted-foreground">
                                                     {itemConfig?.label || item.name}
                                                 </span>

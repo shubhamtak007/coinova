@@ -1,8 +1,58 @@
-.coin-details-container {
-    gap: 12px;
+.coin-details-page-container {
+    gap: 20px;
     margin-top: 12px;
 
-    .coin-info-section {}
+    .coin-info-col {
+        .coin-info-container {
+            .header {
+                display: flex;
+                align-items: center;
+                margin-bottom: 10px;
 
-    .coin-price-change-chart-section {}
+                .rank {
+                    background-color: #f2f2f2;
+                    padding: 2px 6px;
+                    border-radius: var(--border-radius);
+                    margin-right: 8px;
+                }
+
+                .coin-img {
+                    object-fit: contain;
+                    width: 26px;
+                    height: 26px;
+                    margin-right: 8px;
+                }
+
+                .name {
+                    font-weight: 600;
+                    font-size: 18px;
+                }
+            }
+
+            .coin-price {
+                font-weight: 700;
+                font-size: 30px;
+                margin-bottom: 10px;
+            }
+
+            .other-info-wrapper {
+                .pair {
+                    display: flex;
+                    justify-content: space-between;
+                    margin-bottom: 12px;
+                    font-size: 15px;
+
+                    &:last-child {
+                        margin-bottom: unset;
+                    }
+
+                    .key {
+                        color: #64748b;
+                    }
+                }
+            }
+        }
+    }
+
+    // .coin-price-change-chart-col {}
 }

@@ -35,7 +35,7 @@ function getRowsPerPageDefaultValue() {
     return 10;
 }
 
-const getPathName = (pageName: string, properties: CoingeckoCrypto) => {
+const getPathName = (pageName: string, properties: { name: string, symbol: string }) => {
     switch (pageName) {
         case 'coinDetails': { return `/coin/${properties.symbol + '+' + properties.name}` }
         default: return null;
