@@ -27,7 +27,7 @@ function MarketSummaryCard({ marketSummaryItem }: MarketSummaryItemProps) {
     return (
         <Item
             key={marketSummaryItem.id}
-            className="flex-1 min-w-[270px] border-[#ebeef5]"
+            className="item border-[#ebeef5]"
             variant="outline"
         >
             <ItemContent>

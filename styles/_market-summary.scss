@@ -1,3 +1,15 @@
+.market-summary-body {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+
+    .item {
+        min-width: 270px;
+        flex: 1;
+    }
+}
+
 .crypto-symbol {
     text-overflow: ellipsis;
     overflow: hidden;

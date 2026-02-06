@@ -30,9 +30,20 @@ function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
 
     const [days, setDays] = useState<string>(tabList[0].value);
     const { fetchingPriceChangeList, priceChangeList } = useCoinPriceChangeChart({ coinProperties, days });
+    const xAxisDataKey = useRef<string>('date').current;
+    const yAxisDataKey = useRef<string>('price').current;
 
     function onTabChange(value: string) {
         setDays(value);
+    }
+
+    function formatXAxisTick(milliseconds: string): string {
+        const currentDate = new Date();
+        return new Intl.DateTimeFormat('en-GB', {
+            day: '2-digit',
+            month: 'short',
+            year: (currentDate.getFullYear() === new Date(milliseconds).getFullYear()) ? undefined : 'numeric'
+        }).format(new Date(milliseconds));
     }
 
     return (
@@ -40,9 +51,7 @@ function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
             variant="outline"
             className={`relative ${fetchingPriceChangeList ? 'min-h-[420px]' : 'min-h-[unset]'}`}
         >
-            <ItemContent
-                className="min-h-[420px]"
-            >
+            <ItemContent className={`${fetchingPriceChangeList ? 'min-h-[420px]' : 'min-h-[unset]'}`}>
                 <Tabs
                     onValueChange={(value) => { onTabChange(value) }}
                     className="mb-[12px]"
@@ -81,18 +90,29 @@ function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
                                             <CartesianGrid vertical={true} />
 
                                             <XAxis
-                                                dataKey="date"
+                                                dataKey={xAxisDataKey}
                                                 tickLine={false}
                                                 axisLine={false}
+                                                tickCount={5}
+                                                interval={Math.floor(priceChangeList.length / 5)}
+                                                tickFormatter={formatXAxisTick}
                                             />
 
                                             <YAxis
-                                                dataKey="price"
+                                                dataKey={yAxisDataKey}
                                                 axisLine={false}
                                                 tickCount={5}
                                             />
 
-                                            <ChartTooltip content={<ChartTooltipContent indicator="line" />} />
+                                            <ChartTooltip
+                                                content={
+                                                    <ChartTooltipContent
+                                                        indicator="line"
+                                                        xAxisDataKey={xAxisDataKey}
+                                                        yAxisDataKey={yAxisDataKey}
+                                                    />
+                                                }
+                                            />
 
                                             <Area
                                                 dataKey="price"
@@ -102,7 +122,6 @@ function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
                                                 stroke="var(--chart-2)"
                                                 strokeWidth={2}
                                             />
-
                                         </AreaChart>
                                     </ChartContainer>
                                     :

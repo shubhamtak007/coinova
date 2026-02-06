@@ -52,6 +52,7 @@ function CoinList() {
                 <div className="search-bar place-items-end">
                     <InputGroup className="max-w-xs search-input-group">
                         <InputGroupInput
+                            className="text-[14px]"
                             placeholder="Search Coin Name"
                             value={searchValue}
                             onChange={(event) => { onSearchInputChange(event) }}

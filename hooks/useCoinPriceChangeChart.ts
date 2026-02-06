@@ -23,21 +23,19 @@ export default function useCoinPriceChart({ coinProperties, days }: UseCoinPrice
             vs_currency: 'usd',
             days: days,
             precision: '6',
-            interval: 'daily'
+            interval: null
         }
 
         if (fetchingPriceChangeList === false) setFetchingPriceChangeList(true);
+        if (priceChangeList.length === 0) setPriceChangeList([]);
 
         try {
-            const response = await retrieveCoinPriceHistory(coinProperties.name.toLowerCase(), params);
+            const response = await retrieveCoinPriceHistory(coinProperties.name.toLowerCase().replace(/ /g, "-"), params);
             const priceChangeHistory = [];
 
             for (const pricePoint of response.data.prices) {
                 priceChangeHistory.push({
-                    date: new Intl.DateTimeFormat('en-GB', {
-                        day: 'numeric',
-                        month: 'short'
-                    }).format(new Date(pricePoint[0])),
+                    date: pricePoint[0],
                     price: pricePoint[1]
                 })
             }

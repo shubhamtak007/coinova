@@ -118,13 +118,17 @@ function ChartTooltipContent({
     color,
     nameKey,
     labelKey,
+    xAxisDataKey,
+    yAxisDataKey
 }: React.ComponentProps<typeof RechartsPrimitive.Tooltip> &
     React.ComponentProps<"div"> & {
         hideLabel?: boolean
         hideIndicator?: boolean
         indicator?: "line" | "dot" | "dashed"
         nameKey?: string
-        labelKey?: string
+        labelKey?: string,
+        xAxisDataKey?: string,
+        yAxisDataKey?: string
     }) {
     const { config } = useChart()
 
@@ -182,9 +186,10 @@ function ChartTooltipContent({
                 {payload
                     .filter((item) => item.type !== "none")
                     .map((item, index) => {
-                        const key = `${nameKey || item.name || item.dataKey || "value"}`
-                        const itemConfig = getPayloadConfigFromPayload(config, item, key)
-                        const indicatorColor = color || item.payload.fill || item.color
+                        const key = `${nameKey || item.name || item.dataKey || "value"}`;
+                        const itemConfig = getPayloadConfigFromPayload(config, item, key);
+                        const indicatorColor = color || item.payload.fill || item.color;
+                        const formattedXAxisValue = getXAxisFormattedValue(item.payload, xAxisDataKey)
 
                         return (
                             <div
@@ -225,22 +230,22 @@ function ChartTooltipContent({
 
                                         <div
                                             className={cn(
-                                                "flex flex-1 justify-between leading-none",
+                                                "leading-none text-foreground font-mono font-medium",
                                                 nestLabel ? "items-end" : "items-center"
                                             )}
                                         >
-                                            <div className="grid gap-1.5">
-                                                {Object.values(item.payload)[0] as React.ReactNode}
-                                                <span className="text-muted-foreground">
-                                                    {itemConfig?.label || item.name}
-                                                </span>
+                                            <div className="mb-[7px]">
+                                                {formattedXAxisValue ? formattedXAxisValue : item.value}
                                             </div>
 
-                                            {item.value && (
-                                                <span className="text-foreground font-mono font-medium tabular-nums">
-                                                    <span>&nbsp;</span>{item.value.toLocaleString()}
-                                                </span>
-                                            )}
+                                            <div>
+                                                {item.value && (
+                                                    <span className="tabular-nums">
+                                                        {itemConfig?.label || item.name}:&nbsp;
+                                                        {item.value.toLocaleString()}
+                                                    </span>
+                                                )}
+                                            </div>
                                         </div>
                                     </>
                                 )}
@@ -250,6 +255,24 @@ function ChartTooltipContent({
             </div>
         </div>
     )
+}
+
+function getXAxisFormattedValue(payload: Record<string, string>, dataKey?: string) {
+    let formattedValue;
+
+    if (dataKey && Object.hasOwn(payload, dataKey)) {
+        formattedValue = new Intl.DateTimeFormat('en-US', {
+            day: '2-digit',
+            month: '2-digit',
+            year: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit',
+            hour12: true,
+        }).format(new Date(payload[dataKey]))
+    }
+
+    return formattedValue?.toString();
 }
 
 const ChartLegend = RechartsPrimitive.Legend

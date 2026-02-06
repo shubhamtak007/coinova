@@ -35,6 +35,13 @@
             th,
             td {
                 padding: 10px 8px;
+
+                &.sticky {
+                    z-index: 1;
+                    position: sticky;
+                    left: 0;
+                    background: white;
+                }
             }
 
             thead {

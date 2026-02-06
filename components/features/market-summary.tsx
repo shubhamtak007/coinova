@@ -13,10 +13,15 @@ function MarketSummary() {
                 Overview
             </div>
 
-            <div className="flex flex-wrap gap-3 justify-between">
+            <div className="market-summary-body">
                 {
                     fetchingMarketSummary ?
-                        <Skeleton className="w-full h-[161.14px]" /> :
+                        [...Array(4)].map((_, index) => {
+                            return (
+                                <Skeleton key={'indicator' + index} className="w-full item h-[161.14px]" />
+                            )
+                        })
+                        :
                         marketSummary.map((marketSummaryItem) => {
                             return (
                                 <MarketSummaryCard

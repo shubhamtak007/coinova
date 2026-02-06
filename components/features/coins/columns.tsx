@@ -102,8 +102,8 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
             </div>
         },
         meta: {
-            headerClassNames: 'w-[30%] text-left',
-            cellClassNames: 'text-center'
+            headerClassNames: 'w-[30%] text-left sticky',
+            cellClassNames: 'text-center sticky'
         }
     }, {
         accessorKey: 'current_price',

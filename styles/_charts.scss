@@ -1,0 +1,27 @@
+.recharts-layer {
+    &.recharts-yAxis {
+        .recharts-cartesian-axis-tick {
+
+            &:first-child,
+            &:last-child {
+                line {
+                    display: none;
+                }
+
+                text {
+                    display: none;
+                }
+            }
+        }
+    }
+
+    &.recharts-xAxis {
+        .recharts-cartesian-axis-tick {
+            &:first-child {
+                text {
+                    display: none;
+                }
+            }
+        }
+    }
+}
