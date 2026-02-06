@@ -3,7 +3,7 @@
 import { useRef, useState } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
-import { Item, ItemContent } from "@/components/ui/item";
+import { Item, ItemContent, ItemHeader } from "@/components/ui/item";
 import { Spinner } from '@/components/ui/spinner';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import useCoinPriceChangeChart from '@/hooks/useCoinPriceChangeChart';
@@ -49,9 +49,9 @@ function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
     return (
         <Item
             variant="outline"
-            className={`relative ${fetchingPriceChangeList ? 'min-h-[420px]' : 'min-h-[unset]'}`}
+            className="p-[10px]"
         >
-            <ItemContent className={`${fetchingPriceChangeList ? 'min-h-[420px]' : 'min-h-[unset]'}`}>
+            <ItemHeader>
                 <Tabs
                     onValueChange={(value) => { onTabChange(value) }}
                     className="mb-[12px]"
@@ -73,7 +73,9 @@ function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
                         }
                     </TabsList>
                 </Tabs>
+            </ItemHeader>
 
+            <ItemContent className={`relative min-h-[200px]`}>
                 {
                     fetchingPriceChangeList ?
                         <div className="hz-and-vert-center"><Spinner className="size-10" /></div> :
