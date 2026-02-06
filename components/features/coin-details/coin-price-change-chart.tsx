@@ -75,7 +75,7 @@ function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
                 </Tabs>
             </ItemHeader>
 
-            <ItemContent className={`relative min-h-[200px]`}>
+            <ItemContent className={`relative min-h-[100px]`}>
                 {
                     fetchingPriceChangeList ?
                         <div className="hz-and-vert-center"><Spinner className="size-10" /></div> :
