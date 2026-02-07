@@ -8,7 +8,12 @@ function Footer() {
 
                 <div className="source-code-link">
                     The source code is available on
-                    <a className="ml-2px" href={'https://github.com/shubhamtak007/coinova'} target="_blank">
+                    <a
+                        className="ml-2px"
+                        href={'https://github.com/shubhamtak007/coinova'}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
                         Github
                     </a>.
                 </div>
