@@ -13,6 +13,7 @@ import { getRowsPerPageDefaultValue, getPathName } from '@/services/utils.servic
 import { Row } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
 import { useOptimisticNavigation } from '@/contexts/navigation-context';
+import type { MenuItem } from '@/interfaces/data-table';
 
 function CoinList() {
     const router = useRouter();
@@ -23,6 +24,7 @@ function CoinList() {
     const { fetchingCoinList, coinList } = useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue });
     const rowsCountList = useRef([10, 25, 50, 100, 150, 200, 250]).current;
     const { navigateOptimistically } = useOptimisticNavigation();
+    const contextMenuList = useRef([{ id: crypto.randomUUID(), name: 'Open in New Tab' }]).current;
 
     function onSearchInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         setCurrentPageNumber(1);
@@ -43,6 +45,13 @@ function CoinList() {
         if (path) {
             navigateOptimistically(path);
             router.push(path);
+        }
+    }
+
+    function onContextMenuItemClicked(row: Row<CoingeckoCrypto>, contextMenu: MenuItem) {
+        if (contextMenu.name === 'Open in New Tab') {
+            const path = getPathName('coinDetails', row.original);
+            if (path) globalThis.open(path, '_blank', 'noopener,noreferrer');
         }
     }
 
@@ -76,6 +85,7 @@ function CoinList() {
                 <DataTable<CoingeckoCrypto>
                     list={coinList}
                     columns={columns}
+                    contextMenuList={contextMenuList}
                     listEmptyMessage={'No coins found.'}
                     fetchingList={fetchingCoinList}
                     currentPageNumber={currentPageNumber}
@@ -83,6 +93,7 @@ function CoinList() {
                     currentSortingValue={sortingValue}
                     sendSortingValueToParent={setSortingValueFromDt}
                     onRowClicked={onRowClicked}
+                    onContextMenuItemClicked={onContextMenuItemClicked}
                 />
 
                 <div className="bottom-bar">

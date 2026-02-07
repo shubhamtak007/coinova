@@ -102,7 +102,7 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
             </div>
         },
         meta: {
-            headerClassNames: 'w-[30%] text-left sticky',
+            headerClassNames: 'w-[25%] text-left sticky',
             cellClassNames: 'text-center sticky'
         }
     }, {
