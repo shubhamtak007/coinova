@@ -32,98 +32,103 @@ function DataTable<TData,>({ sendSortingValueToParent, onRowClicked, onContextMe
     });
 
     return (
-        <div className="coins-sst-wrapper">
-            <table className="coins-server-side-table">
-                <thead>
-                    {
-                        tableConfig.getHeaderGroups().map((headerGroup) => (
-                            <tr key={headerGroup.id}>
-                                {
-                                    headerGroup.headers.map((header) => {
-                                        return (
-                                            <th
-                                                key={header.id}
-                                                className={header.column.columnDef.meta?.headerClassNames}
-                                            >
-                                                {
-                                                    header.isPlaceholder ? null :
-                                                        flexRender(
-                                                            header.column.columnDef.header,
-                                                            header.getContext()
-                                                        )
-                                                }
-                                            </th>
+        <>
+            <div className="coins-sst-wrapper">
+                <table className="coins-server-side-table">
+                    <thead>
+                        {
+                            tableConfig.getHeaderGroups().map((headerGroup) => (
+                                <tr key={headerGroup.id}>
+                                    {
+                                        headerGroup.headers.map((header) => {
+                                            return (
+                                                <th
+                                                    key={header.id}
+                                                    className={header.column.columnDef.meta?.headerClassNames}
+                                                >
+                                                    {
+                                                        header.isPlaceholder ? null :
+                                                            flexRender(
+                                                                header.column.columnDef.header,
+                                                                header.getContext()
+                                                            )
+                                                    }
+                                                </th>
+                                            )
+                                        }
                                         )
                                     }
-                                    )
-                                }
-                            </tr>
-                        ))
-                    }
-                </thead>
-
-                {props.fetchingList ?
-                    <tbody className="h-[130px]">
-                        <tr>
-                            <td colSpan={props.columns.length} className="!p-[unset] place-items-center">
-                                <Spinner className="size-20" />
-                            </td>
-                        </tr>
-                    </tbody> :
-                    <tbody>
-                        {tableConfig.getRowModel().rows?.length ? (
-                            tableConfig.getRowModel().rows.map((row) => (
-                                <ContextMenu key={row.id}>
-                                    <ContextMenuTrigger asChild>
-                                        <tr
-                                            data-state={row.getIsSelected() && "selected"}
-                                            onClick={() => { onRowClicked(row) }}
-                                        >
-                                            {
-                                                row.getVisibleCells().map((cell) => (
-                                                    <td
-                                                        key={cell.id}
-                                                        className={cell.column.columnDef.meta?.cellClassNames}
-                                                    >
-                                                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                                                    </td>
-                                                ))
-                                            }
-                                        </tr>
-                                    </ContextMenuTrigger>
-
-                                    <ContextMenuContent>
-                                        <ContextMenuGroup>
-                                            {
-                                                props.contextMenuList.map((contextMenu) => {
-                                                    return (
-                                                        <ContextMenuItem
-                                                            key={contextMenu.id}
-                                                            onClick={() => onContextMenuItemClicked(row, contextMenu)}
-                                                        >
-                                                            {contextMenu.name}
-                                                        </ContextMenuItem>
-                                                    )
-                                                })
-                                            }
-                                        </ContextMenuGroup>
-                                    </ContextMenuContent>
-                                </ContextMenu>
+                                </tr>
                             ))
-                        ) : (
-                            <tr>
-                                <td
-                                    colSpan={props.columns.length}
-                                    className="no-value-text"
-                                >
-                                    {props.listEmptyMessage ? props.listEmptyMessage : 'No results'}
-                                </td>
-                            </tr>
-                        )}
-                    </tbody>
-                }
-            </table>
-        </div>
+                        }
+                    </thead>
+
+                    {
+                        (props.fetchingList === false)
+                        &&
+                        <tbody>
+                            {tableConfig.getRowModel().rows?.length ? (
+                                tableConfig.getRowModel().rows.map((row) => (
+                                    <ContextMenu key={row.id}>
+                                        <ContextMenuTrigger asChild>
+                                            <tr
+                                                data-state={row.getIsSelected() && "selected"}
+                                                onClick={() => { onRowClicked(row) }}
+                                            >
+                                                {
+                                                    row.getVisibleCells().map((cell) => (
+                                                        <td
+                                                            key={cell.id}
+                                                            className={cell.column.columnDef.meta?.cellClassNames}
+                                                        >
+                                                            {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                                                        </td>
+                                                    ))
+                                                }
+                                            </tr>
+                                        </ContextMenuTrigger>
+
+                                        <ContextMenuContent>
+                                            <ContextMenuGroup>
+                                                {
+                                                    props.contextMenuList.map((contextMenu) => {
+                                                        return (
+                                                            <ContextMenuItem
+                                                                key={contextMenu.id}
+                                                                onClick={() => onContextMenuItemClicked(row, contextMenu)}
+                                                            >
+                                                                {contextMenu.name}
+                                                            </ContextMenuItem>
+                                                        )
+                                                    })
+                                                }
+                                            </ContextMenuGroup>
+                                        </ContextMenuContent>
+                                    </ContextMenu>
+                                ))
+                            ) : (
+                                <tr>
+                                    <td
+                                        colSpan={props.columns.length}
+                                        className="no-value-text"
+                                    >
+                                        {props.listEmptyMessage ? props.listEmptyMessage : 'No results'}
+                                    </td>
+                                </tr>
+                            )}
+                        </tbody>
+                    }
+                </table>
+            </div>
+
+            {
+                (props.fetchingList === true)
+                &&
+                <div className="place-items-center m-[20px]">
+                    <Spinner className="size-20" />
+                </div>
+            }
+        </>
     )
 }
 
