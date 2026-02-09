@@ -60,6 +60,10 @@
     margin-right: 8px;
     width: max-content;
 
+    &:last-child {
+        margin-right: unset;
+    }
+
     .name {
         padding-right: 6px;
         color: #81878c;

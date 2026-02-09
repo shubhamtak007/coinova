@@ -1,7 +1,8 @@
 'use client';
 
-import CoinPriceChangeChart from '@/components/features/coin-details/coin-price-change-chart';
-import CoinInfo from '@/components/features/coin-details/coin-info';
+import { lazy, Suspense } from 'react';
+const CoinPriceChangeChart = lazy(() => import('@/components/features/coin-details/coin-price-change-chart'));
+const CoinInfo = lazy(() => import('@/components/features/coin-details/coin-info'));
 
 interface CoinDetailsProps {
     name: string,

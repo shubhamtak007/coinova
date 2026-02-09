@@ -1,9 +1,7 @@
 .recharts-layer {
     &.recharts-yAxis {
         .recharts-cartesian-axis-tick {
-
-            &:first-child,
-            &:last-child {
+            &:first-child {
                 line {
                     display: none;
                 }
