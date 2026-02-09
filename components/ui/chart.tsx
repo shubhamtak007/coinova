@@ -230,7 +230,7 @@ function ChartTooltipContent({
 
                                         <div
                                             className={cn(
-                                                "leading-none text-foreground font-mono font-medium",
+                                                "leading-none text-foreground font-mono",
                                                 nestLabel ? "items-end" : "items-center"
                                             )}
                                         >
@@ -241,7 +241,8 @@ function ChartTooltipContent({
                                             <div>
                                                 {item.value && (
                                                     <span className="tabular-nums">
-                                                        {itemConfig?.label || item.name}:&nbsp;
+                                                        <span>{itemConfig?.label || item.name}</span>
+                                                        :&nbsp;
                                                         {item.value.toLocaleString()}
                                                     </span>
                                                 )}

@@ -8,6 +8,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import useCoinPriceChangeChart from '@/hooks/useCoinPriceChangeChart';
 import type { CoinDetails } from '@/interfaces/coin-details';
+import { formatValueInUsdCompact } from '@/services/utils.service';
 
 type CoinPriceChangeChartProps = CoinDetails;
 
@@ -44,6 +45,11 @@ function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
             month: 'short',
             year: (currentDate.getFullYear() === new Date(milliseconds).getFullYear()) ? undefined : 'numeric'
         }).format(new Date(milliseconds));
+    }
+
+    function formatYAxisTick(price: string): string {
+        const formattedPrice = formatValueInUsdCompact(Number(price), 6)
+        return String(formattedPrice);
     }
 
     return (
@@ -104,6 +110,7 @@ function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
                                                 dataKey={yAxisDataKey}
                                                 axisLine={false}
                                                 tickCount={5}
+                                                tickFormatter={formatYAxisTick}
                                             />
 
                                             <ChartTooltip
