@@ -15,7 +15,7 @@ export default function useCoinPriceChart({ coinProperties, days }: UseCoinPrice
     const [fetchingPriceChangeList, setFetchingPriceChangeList] = useState(true);
 
     useEffect(() => {
-        if (coinProperties && coinProperties.name) fetchCoinPriceHistory();
+        if (coinProperties && coinProperties.id) fetchCoinPriceHistory();
     }, [coinProperties.name, days]);
 
     async function fetchCoinPriceHistory() {
@@ -30,7 +30,7 @@ export default function useCoinPriceChart({ coinProperties, days }: UseCoinPrice
         if (priceChangeList.length === 0) setPriceChangeList([]);
 
         try {
-            const response = await retrieveCoinPriceHistory(coinProperties.name.toLowerCase().replace(/ /g, "-"), params);
+            const response = await retrieveCoinPriceHistory(coinProperties.id, params);
             const priceChangeHistory = [];
 
             for (const pricePoint of response.data.prices) {

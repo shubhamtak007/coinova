@@ -42,7 +42,7 @@ function useMarketSummary() {
 
         for (const coin of localTrendingCoins) {
             marketSummaryRef.trendingCoins.push({
-                id: self.crypto.randomUUID(),
+                id: coin.id,
                 name: coin.name,
                 imageUrl: coin.large,
                 symbol: coin.symbol,
@@ -81,6 +81,7 @@ function useMarketSummary() {
                     const matchedCrypto = response.data.find((item: CoingeckoCrypto) => crypto.symbol.toLowerCase() === item.symbol);
 
                     if (matchedCrypto) {
+                        crypto.id = matchedCrypto.id;
                         crypto.name = matchedCrypto.name;
                         crypto.imageUrl = matchedCrypto.image ? matchedCrypto.image : '';
                     }
@@ -103,7 +104,7 @@ function useMarketSummary() {
             { id: 'topVolume', title: 'Top Volume', coins: marketSummaryRef.volumes }
         ]
 
-        setMarketSummary(localMarketSummary)
+        setMarketSummary(localMarketSummary);
     }
 
     return { marketSummary, fetchingMarketSummary }

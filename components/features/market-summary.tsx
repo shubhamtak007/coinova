@@ -22,7 +22,7 @@ function MarketSummary() {
                             )
                         })
                         :
-                        marketSummary.map((marketSummaryItem) => {
+                        marketSummary.length > 0 && marketSummary.map((marketSummaryItem) => {
                             return (
                                 <MarketSummaryCard
                                     key={marketSummaryItem.id}

@@ -38,7 +38,7 @@ function MarketSummaryCard({ marketSummaryItem }: MarketSummaryItemProps) {
                 <table className="coins-table">
                     <tbody>
                         {
-                            marketSummaryItem.coins.map((coin) => {
+                            (marketSummaryItem.coins.length > 0) && marketSummaryItem.coins.map((coin) => {
                                 return (
                                     <tr key={coin.id}>
                                         <td className="w-[30px]">

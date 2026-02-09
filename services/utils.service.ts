@@ -35,9 +35,9 @@ function getRowsPerPageDefaultValue() {
     return 10;
 }
 
-const getPathName = (pageName: string, properties: { name: string, symbol: string }) => {
+const getPathName = (pageName: string, properties: { id: string }) => {
     switch (pageName) {
-        case 'coinDetails': { return `/coin/${properties.symbol + '+' + properties.name}` }
+        case 'coinDetails': { return `/coin/${properties.id}` }
         default: return null;
     }
 }

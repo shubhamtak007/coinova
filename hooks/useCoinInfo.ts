@@ -13,12 +13,12 @@ function useCoinInfo({ coinProperties }: UseCoinInfoProps) {
     const [fetchingCoinInfo, setFetchingCoinInfo] = useState<boolean>(true);
 
     useEffect(() => {
-        fetchCoinInfoByName(coinProperties.name);
+        if (coinProperties.id) fetchCoinInfoByName();
     }, [])
 
-    async function fetchCoinInfoByName(coinName: string) {
+    async function fetchCoinInfoByName() {
         try {
-            const response = await retrieveCoinList({ names: coinName });
+            const response = await retrieveCoinList({ ids: coinProperties.id });
 
             if (response.data?.length > 0) {
                 formatValues(response.data);

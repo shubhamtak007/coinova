@@ -1,18 +1,16 @@
 'use client';
 
-import { lazy, Suspense } from 'react';
+import { lazy } from 'react';
 const CoinPriceChangeChart = lazy(() => import('@/components/features/coin-details/coin-price-change-chart'));
 const CoinInfo = lazy(() => import('@/components/features/coin-details/coin-info'));
 
 interface CoinDetailsProps {
-    name: string,
-    symbol: string
+    coinId: string
 }
 
-function CoinDetailsContainer({ name, symbol }: CoinDetailsProps) {
+function CoinDetailsContainer({ coinId }: CoinDetailsProps) {
     let properties = {
-        name: name,
-        symbol: symbol
+        id: coinId
     }
 
     return (

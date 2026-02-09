@@ -28,6 +28,7 @@ export async function GET(request: Request) {
         price_change_percentage: '1h,7d,14d,30d',
         order: searchParams.get('order') ? searchParams.get('order') : 'market_cap_desc',
         names: searchParams.get('names') ? searchParams.get('names') : null,
+        ids: searchParams.get('ids') ? searchParams.get('ids') : null
     }
 
     try {

@@ -3,7 +3,6 @@
 import useCoinInfo from '@/hooks/useCoinInfo';
 import type { CoinDetails } from '@/interfaces/coin-details';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Item, ItemContent } from '@/components/ui/item';
 import { formatValueIntoCommaSeparated } from '@/services/utils.service';
 
 type CoinInfoProps = CoinDetails;
@@ -28,7 +27,7 @@ function CoinInfo({ coinProperties }: CoinInfoProps) {
                             />
 
                             <div className="name">
-                                {coinProperties.name}
+                                {coinInfo.name}
                             </div>
                         </div>
 
