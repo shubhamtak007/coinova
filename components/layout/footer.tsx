@@ -3,7 +3,16 @@ function Footer() {
         <footer className="sticky top-[100vh] text-center w-full p-[12px] border-t-[1px] border-[var(--main-color)]">
             <div className="footer-inner-wrapper max-w-5xl mx-auto bg-[#ffffff]">
                 <div>
-                    &copy; {new Date().getFullYear()} Coinova. All Rights Reserved.
+                    <span>Built by</span>&nbsp;
+                    <a
+                        className="underline"
+                        href={'https://shubhamtak.com'}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+                        Shubham Tak
+                    </a>
+                    .
                 </div>
 
                 <div className="source-code-link">
