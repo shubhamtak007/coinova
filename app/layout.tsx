@@ -6,6 +6,7 @@ import { Analytics } from '@vercel/analytics/next';
 import "./globals.scss";
 import { OptimisticNavigationContextProvider } from '@/contexts/navigation-context';
 import NavigationWrapper from '@/components/layout/navigation-wrapper';
+import { Toaster } from '@/components/ui/sonner';
 
 const inter = Inter({
     weight: ['400', '500', '600', '700', '800', '900'],
@@ -34,6 +35,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
                             <main className="main-content">
                                 <div className="container">
                                     {children}
+                                    <Toaster />
                                     <Analytics />
                                 </div>
                             </main>
