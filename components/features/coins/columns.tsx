@@ -122,12 +122,13 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
         cell: ({ row }) => {
             const priceChangeIn1hInPercent: number = row.getValue('price_change_percentage_1h_in_currency');
 
-            return priceChangeIn1hInPercent && <div className={`flex items-center justify-end ${(priceChangeIn1hInPercent > 0 ? 'success-text' : 'danger-text')}`}>
-                <span className="relative bottom-[1px]">
-                    {(priceChangeIn1hInPercent > 0) ? <FaCaretUp /> : <FaCaretDown />}
-                </span>
-                {roundOffNumber(priceChangeIn1hInPercent, 1) + '%'}
-            </div>
+            return priceChangeIn1hInPercent &&
+                <div className={`flex items-center justify-end ${(priceChangeIn1hInPercent > 0 ? 'success-text' : 'danger-text')}`}>
+                    <span className="relative bottom-[1px]">
+                        {(priceChangeIn1hInPercent > 0) ? <FaCaretUp /> : <FaCaretDown />}
+                    </span>
+                    {Math.abs(roundOffNumber(priceChangeIn1hInPercent, 1)) + '%'}
+                </div>
         },
         meta: {
             headerClassNames: 'text-right',
@@ -139,12 +140,13 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
         cell: ({ row }) => {
             const priceChangeIn24hInPercent: number = row.getValue('price_change_percentage_24h');
 
-            return priceChangeIn24hInPercent && <div className={`flex items-center justify-end ${(priceChangeIn24hInPercent > 0 ? 'success-text' : 'danger-text')}`}>
-                <span className="relative bottom-[1px]">
-                    {(priceChangeIn24hInPercent > 0) ? <FaCaretUp /> : <FaCaretDown />}
-                </span>
-                {roundOffNumber(priceChangeIn24hInPercent, 1) + '%'}
-            </div>
+            return priceChangeIn24hInPercent &&
+                <div className={`flex items-center justify-end ${(priceChangeIn24hInPercent > 0 ? 'success-text' : 'danger-text')}`}>
+                    <span className="relative bottom-[1px]">
+                        {(priceChangeIn24hInPercent > 0) ? <FaCaretUp /> : <FaCaretDown />}
+                    </span>
+                    {Math.abs(roundOffNumber(priceChangeIn24hInPercent, 1)) + '%'}
+                </div>
         },
         meta: {
             headerClassNames: 'text-right',
@@ -156,12 +158,14 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
         cell: ({ row }) => {
             const priceChangeIn7DaysInPercent: number = row.getValue('price_change_percentage_7d_in_currency');
 
-            return priceChangeIn7DaysInPercent && <div className={`flex items-center justify-end ${(priceChangeIn7DaysInPercent > 0 ? 'success-text' : 'danger-text')}`}>
-                <span className="relative bottom-[1px]">
-                    {(priceChangeIn7DaysInPercent > 0) ? <FaCaretUp /> : <FaCaretDown />}
-                </span>
-                {roundOffNumber(priceChangeIn7DaysInPercent, 1) + '%'}
-            </div>
+            return priceChangeIn7DaysInPercent &&
+                <div className={`flex items-center justify-end ${(priceChangeIn7DaysInPercent > 0 ? 'success-text' : 'danger-text')}`}>
+                    <span className="relative bottom-[1px]">
+                        {(priceChangeIn7DaysInPercent > 0) ? <FaCaretUp /> : <FaCaretDown />}
+                    </span>
+
+                    {Math.abs(roundOffNumber(priceChangeIn7DaysInPercent, 1)) + '%'}
+                </div>
         },
         meta: {
             headerClassNames: 'text-right',

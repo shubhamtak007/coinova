@@ -1,14 +1,31 @@
 'use client';
 
-import useCoinInfo from '@/hooks/useCoinInfo';
-import type { CoinDetails } from '@/interfaces/coin-details';
+import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { formatValueIntoCommaSeparated } from '@/services/utils.service';
+import { formatValueIntoCommaSeparated, roundOffNumber } from '@/services/utils.service';
+import { useCoinDetailsContext } from '@/contexts/coin-details-context';
+import { FaCaretUp, FaCaretDown } from 'react-icons/fa';
+import type { CoinDetails } from '@/interfaces/coin-details';
+import useCoinInfo from '@/hooks/useCoinInfo';
 
 type CoinInfoProps = CoinDetails;
 
 function CoinInfo({ coinProperties }: CoinInfoProps) {
-    const { coinInfo, fetchingCoinInfo } = useCoinInfo({ coinProperties })
+    const { coinInfo, fetchingCoinInfo } = useCoinInfo({ coinProperties });
+    const { timeFrame, setPriceStatus } = useCoinDetailsContext();
+    const [priceChangePercentage, setPriceChangePercentage] = useState<number | null>(null);
+
+    useEffect(() => {
+        if (coinInfo && timeFrame?.name) {
+            const timeFrameName = timeFrame.name === '1M' ? '30d' : timeFrame.name;
+            const key = `price_change_percentage_${timeFrameName.toLowerCase()}_in_currency`;
+            const percent = roundOffNumber(Number(coinInfo[key as keyof typeof coinInfo]), 2);
+            const priceStatus = (percent > 0) ? 'up' : 'down';
+
+            setPriceStatus(priceStatus);
+            setPriceChangePercentage(percent);
+        }
+    }, [coinInfo, timeFrame?.name])
 
     return (
         fetchingCoinInfo ? <Skeleton className="w-full min-h-[220px]" /> :
@@ -31,8 +48,18 @@ function CoinInfo({ coinProperties }: CoinInfoProps) {
                             </div>
                         </div>
 
-                        <div className="coin-price">
-                            {coinInfo.currentPriceWithCurrencySymbol}
+                        <div className={`coin-price`}>
+                            <div className="current-price">
+                                {coinInfo.currentPriceWithCurrencySymbol}
+                            </div>
+
+                            {priceChangePercentage &&
+                                <div className={`price-change-percent ${(priceChangePercentage > 0 ? 'success-text' : 'danger-text')}`}>
+                                    {
+                                        (priceChangePercentage > 0) ? <FaCaretUp /> : <FaCaretDown />
+                                    }
+                                    {Math.abs(priceChangePercentage)}%
+                                </div>}
                         </div>
 
                         <div className="other-info-wrapper">

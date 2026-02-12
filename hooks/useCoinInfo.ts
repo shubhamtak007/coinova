@@ -17,6 +17,8 @@ function useCoinInfo({ coinProperties }: UseCoinInfoProps) {
     }, [])
 
     async function fetchCoinInfoByName() {
+        if (fetchingCoinInfo === false) setFetchingCoinInfo(true);
+
         try {
             const response = await retrieveCoinList({ ids: coinProperties.id });
 
@@ -27,7 +29,7 @@ function useCoinInfo({ coinProperties }: UseCoinInfoProps) {
         } catch (error) {
 
         } finally {
-            setFetchingCoinInfo(false)
+            setFetchingCoinInfo(false);
         }
     }
 

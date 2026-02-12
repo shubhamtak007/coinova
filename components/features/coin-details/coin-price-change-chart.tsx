@@ -1,6 +1,6 @@
 'use client';
 
-import { useRef, useState } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
 import { Item, ItemContent, ItemHeader } from "@/components/ui/item";
@@ -9,6 +9,7 @@ import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import useCoinPriceChangeChart from '@/hooks/useCoinPriceChangeChart';
 import type { CoinDetails } from '@/interfaces/coin-details';
 import { formatValueInUsdCompact } from '@/services/utils.service';
+import { useCoinDetailsContext } from '@/contexts/coin-details-context';
 
 type CoinPriceChangeChartProps = CoinDetails;
 
@@ -23,9 +24,9 @@ function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
     const tabList = useRef<{ name: string, value: string }[]>([
         { name: '24H', value: '1' },
         { name: '7D', value: '7' },
+        { name: '14D', value: '14' },
         { name: '1M', value: '30' },
-        { name: '3M', value: '90' },
-        { name: '6M', value: '180' },
+        { name: '200D', value: '200' },
         { name: '1Y', value: '365' }
     ]).current;
 
@@ -33,6 +34,14 @@ function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
     const { fetchingPriceChangeList, priceChangeList } = useCoinPriceChangeChart({ coinProperties, days });
     const xAxisDataKey = useRef<string>('date').current;
     const yAxisDataKey = useRef<string>('price').current;
+    const { setTimeFrame, priceStatus } = useCoinDetailsContext();
+
+    useEffect(() => {
+        if (days) {
+            const foundTimeFrame = tabList.find((tab) => tab.value === days);
+            if (foundTimeFrame) setTimeFrame(foundTimeFrame);
+        }
+    }, [days])
 
     function onTabChange(value: string) {
         setDays(value);
@@ -126,9 +135,9 @@ function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
                                             <Area
                                                 dataKey="price"
                                                 type="monotone"
-                                                fill="var(--chart-2)"
+                                                fill={priceStatus === 'up' ? 'var(--chart-2)' : 'var(--chart-1)'}
                                                 fillOpacity={0.1}
-                                                stroke="var(--chart-2)"
+                                                stroke={priceStatus === 'up' ? 'var(--chart-2)' : 'var(--chart-1)'}
                                                 strokeWidth={2}
                                             />
                                         </AreaChart>

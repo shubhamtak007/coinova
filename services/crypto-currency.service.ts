@@ -1,4 +1,3 @@
-import axios from 'axios';
 import { CryptoCurrency } from '@/interfaces/crypto-currency';
 import { roundOffNumber } from '@/services/utils.service';
 import { coinovaClient, binanceClient, coinGeckoClient } from '@/lib/api-client';

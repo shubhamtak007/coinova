@@ -31,9 +31,22 @@
             }
 
             .coin-price {
-                font-weight: 700;
-                font-size: 30px;
+                display: flex;
+                align-items: center;
                 margin-bottom: 10px;
+
+                .current-price {
+                    font-weight: 700;
+                    font-size: 30px;
+                    margin-right: 8px;
+                }
+
+                .price-change-percent {
+                    display: flex;
+                    align-items: center;
+                    font-size: 18px;
+                    font-weight: bold;
+                }
             }
 
             .other-info-wrapper {
