@@ -1,11 +1,30 @@
+'use client';
+
+import { useState, useEffect } from 'react';
 import { Coins } from 'lucide-react';
-import GlobalMarketStats from '@/components/features/global-market-stats';
+import GlobalMarketStats from '@/components/features/global-market/global-market-stats';
 import Link from 'next/link';
 
 function Header() {
+    const [scrolled, setScrolled] = useState<boolean>(false);
+
+    useEffect(() => {
+        const handleScroll = () => {
+            if (window.scrollY > 10) {
+                setScrolled(true);
+            } else {
+                setScrolled(false);
+            }
+        }
+
+        window.addEventListener('scroll', handleScroll)
+
+        return () => { window.removeEventListener('scroll', handleScroll) }
+    }, [])
+
     return (
         <>
-            <div className="header-container">
+            <div className={`header-container ${scrolled ? 'with-shadow' : ''}`}>
                 <div className="navbar max-w-[calc(var(--container-width)_-_20px)] mx-auto">
                     <Link href="/" className="logo uppercase flex items-center">
                         <Coins

@@ -1,0 +1,34 @@
+.header-container {
+    border-bottom: 1px solid var(--main-color);
+    padding: 8px 10px;
+    overflow-x: scroll;
+    position: fixed;
+    top: 0px;
+    background-color: white;
+    width: 100%;
+    z-index: 60;
+
+    &::-webkit-scrollbar {
+        display: none;
+    }
+
+    &.with-shadow {
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+        border-bottom: unset;
+    }
+
+    .navbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+
+        .logo {
+            color: #1e7ce0;
+            font-size: 20px;
+            font-weight: 700;
+            margin-right: 12px;
+            background-color: #fff;
+        }
+    }
+}

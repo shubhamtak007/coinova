@@ -127,7 +127,7 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
                     <span className="relative bottom-[1px]">
                         {(priceChangeIn1hInPercent > 0) ? <FaCaretUp /> : <FaCaretDown />}
                     </span>
-                    {Math.abs(roundOffNumber(priceChangeIn1hInPercent, 1)) + '%'}
+                    {Math.abs(roundOffNumber(priceChangeIn1hInPercent, 2)) + '%'}
                 </div>
         },
         meta: {
@@ -145,7 +145,7 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
                     <span className="relative bottom-[1px]">
                         {(priceChangeIn24hInPercent > 0) ? <FaCaretUp /> : <FaCaretDown />}
                     </span>
-                    {Math.abs(roundOffNumber(priceChangeIn24hInPercent, 1)) + '%'}
+                    {Math.abs(roundOffNumber(priceChangeIn24hInPercent, 2)) + '%'}
                 </div>
         },
         meta: {
@@ -164,7 +164,7 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
                         {(priceChangeIn7DaysInPercent > 0) ? <FaCaretUp /> : <FaCaretDown />}
                     </span>
 
-                    {Math.abs(roundOffNumber(priceChangeIn7DaysInPercent, 1)) + '%'}
+                    {Math.abs(roundOffNumber(priceChangeIn7DaysInPercent, 2)) + '%'}
                 </div>
         },
         meta: {

@@ -4,6 +4,7 @@
 @use "@/styles/charts";
 @use "@/styles/coins";
 @use "@/styles/tooltip";
+@use "@/styles/header";
 @use "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
