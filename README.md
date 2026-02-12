@@ -1,6 +1,6 @@
 # Coinova 🚀
 
-Coinova is a modern, real-time cryptocurrency dashboard that helps users track market trends and major coins through a clean and responsive interface.
+Coinova is a modern, real-time cryptocurrency app that helps users track market trends and major coins through a clean and responsive interface.
 
 ## 🌐 Live Demo
 https://coinova-app.vercel.app/
