@@ -76,10 +76,10 @@ function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
             variant="outline"
             className="p-[10px]"
         >
-            <ItemHeader>
+            <ItemHeader className="overflow-x-auto">
                 <Tabs
-                    onValueChange={(value) => { onTabChange(value) }}
                     className="mb-[12px]"
+                    onValueChange={(value) => { onTabChange(value) }}
                     defaultValue={days}
                 >
                     <TabsList>
