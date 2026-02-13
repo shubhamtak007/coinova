@@ -19,11 +19,13 @@ function CoinInfo({ coinProperties }: CoinInfoProps) {
         if (coinInfo && timeFrame?.name) {
             const timeFrameName = timeFrame.name === '1M' ? '30d' : timeFrame.name;
             const key = `price_change_percentage_${timeFrameName.toLowerCase()}_in_currency`;
-            const percent = roundOffNumber(Number(coinInfo[key as keyof typeof coinInfo]), 2);
+            const percent = Number(coinInfo[key as keyof typeof coinInfo]);
+
+            const priceChangePercentRoundOffValue = roundOffNumber(percent, 2);
             const priceStatus = (percent > 0) ? 'up' : 'down';
 
             setPriceStatus(priceStatus);
-            setPriceChangePercentage(percent);
+            setPriceChangePercentage(priceChangePercentRoundOffValue);
         }
     }, [coinInfo, timeFrame?.name])
 
@@ -53,7 +55,7 @@ function CoinInfo({ coinProperties }: CoinInfoProps) {
                                 {coinInfo.currentPriceWithCurrencySymbol}
                             </div>
 
-                            {(priceChangePercentage && priceChangePercentage > 0) &&
+                            {(priceChangePercentage && priceChangePercentage !== 0) &&
                                 <div className={`price-change-percent ${(priceChangePercentage > 0 ? 'success-text' : 'danger-text')}`}>
                                     {
                                         (priceChangePercentage > 0) ? <FaCaretUp /> : <FaCaretDown />

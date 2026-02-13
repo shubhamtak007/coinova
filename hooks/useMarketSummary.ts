@@ -86,9 +86,7 @@ function useMarketSummary() {
                             name: matchedCrypto.name,
                             imageUrl: matchedCrypto.image ? matchedCrypto.image : '',
                             lastPrice: matchedCrypto.current_price,
-                            priceChangePercent: roundOffNumber(matchedCrypto.price_change_percentage_24h, (
-                                (matchedCrypto.price_change_percentage_24h < -100) ? 5 : 2
-                            ))
+                            priceChangePercent: roundOffNumber(matchedCrypto.price_change_percentage_24h, getDecimalPlaces(matchedCrypto.price_change_percentage_24h))
                         }
 
                         Object.assign(crypto, info);
@@ -102,6 +100,12 @@ function useMarketSummary() {
         } finally {
             setFetchingMarketSummary(false);
         }
+    }
+
+    function getDecimalPlaces(percent: number) {
+        const percentPositiveValue = Math.abs(percent);
+        const decimalPlaces = -Math.floor(Math.log(percentPositiveValue) / Math.log(10) + 1);
+        return (decimalPlaces > 0) ? decimalPlaces : 2;
     }
 
     function createMarketSummary() {
