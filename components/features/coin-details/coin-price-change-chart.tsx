@@ -1,7 +1,7 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid } from 'recharts';
+import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Text } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
 import { Item, ItemContent, ItemHeader } from "@/components/ui/item";
 import { Spinner } from '@/components/ui/spinner';
@@ -10,6 +10,7 @@ import useCoinPriceChangeChart from '@/hooks/useCoinPriceChangeChart';
 import type { CoinDetails } from '@/interfaces/coin-details';
 import { formatValueInUsdCompact } from '@/services/utils.service';
 import { useCoinDetailsContext } from '@/contexts/coin-details-context';
+import { AxisInterval } from 'recharts/types/util/types';
 
 type CoinPriceChangeChartProps = CoinDetails;
 
@@ -20,40 +21,49 @@ const chartConfig = {
     }
 } satisfies ChartConfig;
 
-function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
-    const tabList = useRef<{ name: string, value: string }[]>([
-        { name: '24H', value: '1' },
-        { name: '7D', value: '7' },
-        { name: '14D', value: '14' },
-        { name: '1M', value: '30' },
-        { name: '200D', value: '200' },
-        { name: '1Y', value: '365' }
-    ]).current;
+const tabList = [
+    { name: '24H', value: '1' },
+    { name: '7D', value: '7' },
+    { name: '14D', value: '14' },
+    { name: '1M', value: '30' },
+    { name: '200D', value: '200' },
+    { name: '1Y', value: '365' }
+]
 
-    const [days, setDays] = useState<string>(tabList[0].value);
-    const { fetchingPriceChangeList, priceChangeList } = useCoinPriceChangeChart({ coinProperties, days });
+function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
     const xAxisDataKey = useRef<string>('date').current;
     const yAxisDataKey = useRef<string>('price').current;
-    const { setTimeFrame, priceStatus } = useCoinDetailsContext();
+    const [days, setDays] = useState<string>(tabList[0].value);
+    const { fetchingPriceChangeList, priceChangeList } = useCoinPriceChangeChart({ coinProperties, days });
+    const { timeFrame, setTimeFrame, priceStatus } = useCoinDetailsContext();
 
     useEffect(() => {
         if (days) {
             const foundTimeFrame = tabList.find((tab) => tab.value === days);
             if (foundTimeFrame) setTimeFrame(foundTimeFrame);
         }
-    }, [days])
+    }, [days]);
 
     function onTabChange(value: string) {
         setDays(value);
     }
 
     function formatXAxisTick(milliseconds: string): string {
-        const currentDate = new Date();
-        return new Intl.DateTimeFormat('en-GB', {
-            day: '2-digit',
-            month: 'short',
-            year: (currentDate.getFullYear() === new Date(milliseconds).getFullYear()) ? undefined : 'numeric'
-        }).format(new Date(milliseconds));
+        const currentYear = new Date().getFullYear();
+
+        if (timeFrame?.name === '24H') {
+            return new Intl.DateTimeFormat('en-US', {
+                hour: '2-digit',
+                minute: '2-digit',
+                hour12: true
+            }).format(new Date(milliseconds)).toUpperCase();
+        } else {
+            return new Intl.DateTimeFormat('en-US', {
+                day: '2-digit',
+                month: 'short',
+                year: (new Date(milliseconds).getFullYear() !== currentYear) ? 'numeric' : undefined
+            }).format(new Date(milliseconds));
+        }
     }
 
     function formatYAxisTick(price: string): string {
@@ -98,6 +108,7 @@ function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
                             {
                                 priceChangeList.length > 0 ?
                                     <ChartContainer
+                                        className="max-h-[350px]"
                                         config={chartConfig}
                                     >
                                         <AreaChart
@@ -110,9 +121,10 @@ function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
                                                 dataKey={xAxisDataKey}
                                                 tickLine={false}
                                                 axisLine={false}
-                                                tickCount={5}
-                                                interval={Math.floor(priceChangeList.length / 5)}
+                                                minTickGap={40}
                                                 tickFormatter={formatXAxisTick}
+                                                textAnchor="middle"
+                                                tickMargin={5}
                                             />
 
                                             <YAxis

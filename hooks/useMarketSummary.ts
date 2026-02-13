@@ -81,9 +81,17 @@ function useMarketSummary() {
                     const matchedCrypto = response.data.find((item: CoingeckoCrypto) => crypto.symbol.toLowerCase() === item.symbol);
 
                     if (matchedCrypto) {
-                        crypto.id = matchedCrypto.id;
-                        crypto.name = matchedCrypto.name;
-                        crypto.imageUrl = matchedCrypto.image ? matchedCrypto.image : '';
+                        const info = {
+                            id: matchedCrypto.id,
+                            name: matchedCrypto.name,
+                            imageUrl: matchedCrypto.image ? matchedCrypto.image : '',
+                            lastPrice: matchedCrypto.current_price,
+                            priceChangePercent: roundOffNumber(matchedCrypto.price_change_percentage_24h, (
+                                (matchedCrypto.price_change_percentage_24h < -100) ? 5 : 2
+                            ))
+                        }
+
+                        Object.assign(crypto, info);
                     }
                 }
             }

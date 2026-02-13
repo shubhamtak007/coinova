@@ -1,23 +1,17 @@
-.recharts-layer {
-    &.recharts-yAxis {
-        .recharts-cartesian-axis-tick {
-            &:first-child {
-                line {
-                    display: none;
-                }
+.recharts-responsive-container {
+    max-height: 340px;
 
-                text {
-                    display: none;
-                }
-            }
-        }
-    }
+    .recharts-layer {
+        &.recharts-yAxis {
+            .recharts-cartesian-axis-tick {
+                &:first-child {
+                    line {
+                        display: none;
+                    }
 
-    &.recharts-xAxis {
-        .recharts-cartesian-axis-tick {
-            &:first-child {
-                text {
-                    display: none;
+                    text {
+                        display: none;
+                    }
                 }
             }
         }

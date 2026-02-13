@@ -53,7 +53,7 @@ function CoinInfo({ coinProperties }: CoinInfoProps) {
                                 {coinInfo.currentPriceWithCurrencySymbol}
                             </div>
 
-                            {priceChangePercentage &&
+                            {(priceChangePercentage && priceChangePercentage > 0) &&
                                 <div className={`price-change-percent ${(priceChangePercentage > 0 ? 'success-text' : 'danger-text')}`}>
                                     {
                                         (priceChangePercentage > 0) ? <FaCaretUp /> : <FaCaretDown />

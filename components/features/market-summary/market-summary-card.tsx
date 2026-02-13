@@ -78,7 +78,6 @@ function MarketSummaryCard({ marketSummaryItem }: MarketSummaryItemProps) {
                                             {
                                                 coin.priceChangePercent && (marketSummaryItem.id === 'topGainer' || marketSummaryItem.id === 'topVolume' || marketSummaryItem.id === 'trending') &&
                                                 <span className={`${coin.priceChangePercent > 0 ? 'success-text' : 'danger-text'}`}>
-                                                    {coin.priceChangePercent > 0 ? '+' : ''}
                                                     {coin.priceChangePercent}%
                                                 </span>
                                             }
