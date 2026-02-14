@@ -27,7 +27,7 @@ export default function useCoinPriceChart({ coinProperties, days }: UseCoinPrice
         }
 
         if (fetchingPriceChangeList === false) setFetchingPriceChangeList(true);
-        if (priceChangeList.length === 0) setPriceChangeList([]);
+        if (priceChangeList.length !== 0) setPriceChangeList([]);
 
         try {
             const response = await retrieveCoinPriceHistory(coinProperties.id, params);

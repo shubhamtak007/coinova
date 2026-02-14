@@ -122,13 +122,13 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
         cell: ({ row }) => {
             const priceChangeIn1hInPercent: number = row.getValue('price_change_percentage_1h_in_currency');
 
-            return priceChangeIn1hInPercent &&
+            return (priceChangeIn1hInPercent && priceChangeIn1hInPercent !== 0) ?
                 <div className={`flex items-center justify-end ${(priceChangeIn1hInPercent > 0 ? 'success-text' : 'danger-text')}`}>
                     <span className="relative bottom-[1px]">
                         {(priceChangeIn1hInPercent > 0) ? <FaCaretUp /> : <FaCaretDown />}
                     </span>
                     {roundOffNumber(priceChangeIn1hInPercent, 2) + '%'}
-                </div>
+                </div> : <div className="no-value-text">No 1hr</div>
         },
         meta: {
             headerClassNames: 'text-right',
@@ -140,13 +140,13 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
         cell: ({ row }) => {
             const priceChangeIn24hInPercent: number = row.getValue('price_change_percentage_24h');
 
-            return priceChangeIn24hInPercent &&
+            return (priceChangeIn24hInPercent && priceChangeIn24hInPercent !== 0) ?
                 <div className={`flex items-center justify-end ${(priceChangeIn24hInPercent > 0 ? 'success-text' : 'danger-text')}`}>
                     <span className="relative bottom-[1px]">
                         {(priceChangeIn24hInPercent > 0) ? <FaCaretUp /> : <FaCaretDown />}
                     </span>
                     {roundOffNumber(priceChangeIn24hInPercent, 2) + '%'}
-                </div>
+                </div> : <div className="no-value-text">No 24hr</div>
         },
         meta: {
             headerClassNames: 'text-right',
@@ -158,14 +158,14 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
         cell: ({ row }) => {
             const priceChangeIn7DaysInPercent: number = row.getValue('price_change_percentage_7d_in_currency');
 
-            return priceChangeIn7DaysInPercent &&
+            return (priceChangeIn7DaysInPercent && priceChangeIn7DaysInPercent !== 0) ?
                 <div className={`flex items-center justify-end ${(priceChangeIn7DaysInPercent > 0 ? 'success-text' : 'danger-text')}`}>
                     <span className="relative bottom-[1px]">
                         {(priceChangeIn7DaysInPercent > 0) ? <FaCaretUp /> : <FaCaretDown />}
                     </span>
 
                     {roundOffNumber(priceChangeIn7DaysInPercent, 2) + '%'}
-                </div>
+                </div> : <div className="no-value-text">No 7d</div>
         },
         meta: {
             headerClassNames: 'text-right',
