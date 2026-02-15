@@ -82,8 +82,8 @@ function createCryptoCurrencyList(masterSymbolList: MasterSymbol[], cryptoPriceL
             cryptoCurrencyList.push({
                 id: self.crypto.randomUUID(),
                 symbol: symbolWithoutUSDT,
-                lastPrice: roundOffNumber(Number(matchedCrypto.lastPrice), 5),
-                priceChange: roundOffNumber(Number(matchedCrypto.priceChange), 5),
+                lastPrice: roundOffNumber(Number(matchedCrypto.lastPrice), 8),
+                priceChange: roundOffNumber(Number(matchedCrypto.priceChange), 9),
                 priceChangePercent: roundOffNumber(Number(matchedCrypto.priceChangePercent), 2),
                 volume: Number(matchedCrypto.volume),
                 quoteVolume: Number(matchedCrypto.quoteVolume),

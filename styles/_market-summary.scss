@@ -7,6 +7,24 @@
     .item {
         min-width: 270px;
         flex: 1;
+
+        [data-slot="item-title"] {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+
+            .more-link {
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+
+                .lucide-chevron-right {
+                    width: 13px;
+                    margin-left: 1px;
+                }
+            }
+        }
     }
 }
 
@@ -26,6 +44,8 @@
 }
 
 .coins-table {
+    width: 100%;
+
     tbody {
         tr {
             vertical-align: middle;

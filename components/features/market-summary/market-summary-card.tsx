@@ -1,100 +1,73 @@
-import { Item, ItemContent, ItemTitle } from '@/components/ui/item';
-import Image from 'next/image';
-import { CryptoCurrency, type MarketSummaryItem } from '@/interfaces/crypto-currency';
-import { formatValueInUsdCompact, getPathName } from "@/services/utils.service";
-import React from "react";
-import { useOptimisticNavigation } from '@/contexts/navigation-context';
-import { useRouter } from 'next/navigation';
+'use client';
 
-interface MarketSummaryItemProps {
-    key: string,
-    marketSummaryItem: MarketSummaryItem,
+import React, { useState } from "react";
+import MarketSummaryCoins from '@/components/features/market-summary/market-summary-coins';
+import { Item, ItemContent, ItemTitle } from '@/components/ui/item';
+import { MarketSummaryItem } from '@/interfaces/market-summary';
+import { ChevronRight } from 'lucide-react';
+import { Dialog, DialogTrigger, DialogHeader, DialogTitle, DialogContent, DialogDescription } from '@/components/ui/dialog';
+
+interface Bindings {
+    marketSummaryItem: MarketSummaryItem
 }
 
-function MarketSummaryCard({ marketSummaryItem }: MarketSummaryItemProps) {
-    const { navigateOptimistically } = useOptimisticNavigation();
-    const router = useRouter();
-
-    function onSymbolClick(coin: CryptoCurrency) {
-        const path = getPathName('coinDetails', coin);
-
-        if (path) {
-            navigateOptimistically(path);
-            router.push(path);
-        }
-    }
+function MarketSummaryCard({ marketSummaryItem }: Bindings) {
+    const [showMarketSummaryItemCardDialog, setShowMarketSummaryItemCardDialog] = useState<boolean>(false);
 
     return (
-        <Item
-            key={marketSummaryItem.id}
-            className="item border-[#ebeef5]"
-            variant="outline"
-        >
-            <ItemContent>
-                <ItemTitle className="mb-[8px] text-[12px]">
-                    {marketSummaryItem.title}
-                </ItemTitle>
+        <>
+            <Item
+                key={marketSummaryItem.id}
+                className="item border-[#ebeef5]"
+                variant="outline"
+            >
+                <ItemContent>
+                    <ItemTitle className="mb-[8px] text-[12px]">
+                        <div>
+                            {marketSummaryItem.title}
+                        </div>
 
-                <table className="coins-table">
-                    <tbody>
-                        {
-                            (marketSummaryItem.coins.length > 0) && marketSummaryItem.coins.map((coin) => {
-                                return (
-                                    <tr key={coin.id}>
-                                        <td className="w-[30px]">
-                                            {
-                                                coin.imageUrl ? <Image
-                                                    className="object-contain rounded-[10px]"
-                                                    width={28}
-                                                    height={28}
-                                                    alt={`Image of ${coin.name}`}
-                                                    src={coin.imageUrl}
-                                                /> :
-                                                    <div className="coin-letter-mark cursor-pointer">
-                                                        {coin.symbol[0]}
-                                                    </div>
-                                            }
-                                        </td>
+                        <div
+                            onClick={() => { setShowMarketSummaryItemCardDialog(true) }}
+                            className="more-link"
+                        >
+                            More <ChevronRight />
+                        </div>
+                    </ItemTitle>
 
-                                        <td>
-                                            <div
-                                                className="crypto-symbol cursor-pointer"
-                                                onClick={() => { onSymbolClick(coin) }}
-                                            >
-                                                {coin.symbol}
-                                            </div>
-                                        </td>
+                    <MarketSummaryCoins
+                        noOfCoins={3}
+                        key={marketSummaryItem.id}
+                        marketSummaryItem={marketSummaryItem}
+                    />
+                </ItemContent>
+            </Item>
 
-                                        <td className={`text-left`}>
-                                            {
-                                                coin.lastPrice &&
-                                                <span>
-                                                    {coin.lastPrice > 999 ? formatValueInUsdCompact(coin.lastPrice, 2) : '$' + coin.lastPrice}
-                                                </span>
-                                            }
-                                        </td>
+            <Dialog
+                open={showMarketSummaryItemCardDialog}
+                onOpenChange={setShowMarketSummaryItemCardDialog}
+            >
+                <DialogTrigger asChild>
 
-                                        <td className="text-right">
-                                            {
-                                                coin.priceChangePercent && (marketSummaryItem.id === 'topGainer' || marketSummaryItem.id === 'topVolume' || marketSummaryItem.id === 'trending') &&
-                                                <span className={`${coin.priceChangePercent > 0 ? 'success-text' : 'danger-text'}`}>
-                                                    {coin.priceChangePercent}%
-                                                </span>
-                                            }
+                </DialogTrigger>
 
-                                            {
-                                                (marketSummaryItem.id === 'topLoser') &&
-                                                <span className="danger-text">{coin.priceChangePercent}%</span>
-                                            }
-                                        </td>
-                                    </tr>
-                                )
-                            })
-                        }
-                    </tbody>
-                </table>
-            </ItemContent>
-        </Item>
+                <DialogContent>
+                    <DialogHeader>
+                        <DialogTitle>
+                            {marketSummaryItem.title}
+                        </DialogTitle>
+                    </DialogHeader>
+
+                    <div className="dialog-body">
+                        <MarketSummaryCoins
+                            noOfCoins={15}
+                            key={marketSummaryItem.id}
+                            marketSummaryItem={marketSummaryItem}
+                        />
+                    </div>
+                </DialogContent>
+            </Dialog>
+        </>
     )
 }
 

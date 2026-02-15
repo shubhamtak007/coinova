@@ -5,6 +5,7 @@
 @use "@/styles/coins";
 @use "@/styles/tooltip";
 @use "@/styles/header";
+@use "@/styles/cn-dialog";
 @use "tailwindcss";
 
 @custom-variant dark (&:is(.dark *));
@@ -90,6 +91,7 @@
     --main-color-2: #1e7ce0;
     --border-radius: 6px;
     --container-width: 1200px;
+    --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 }
 
 .dark {

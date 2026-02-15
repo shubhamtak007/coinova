@@ -29,12 +29,6 @@ interface CoingeckoCrypto {
     circulating_supply: number
 }
 
-interface MarketSummaryItem {
-    id: string,
-    title: string,
-    coins: CryptoCurrency[]
-}
-
 interface TrendingCoinItem {
     id: string,
     name: string,
@@ -60,6 +54,6 @@ interface MarketSummaryRefMap {
 }
 
 export type {
-    CryptoCurrency, CoingeckoCrypto, MarketSummaryItem,
+    CryptoCurrency, CoingeckoCrypto,
     TrendingCoinItem, TrendingCoin, MarketSummaryRefMap
 }

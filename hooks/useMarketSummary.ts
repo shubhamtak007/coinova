@@ -2,12 +2,13 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { retrieveCoinList, retrieveAllCoins, retrieveTrendingCoins } from '@/services/crypto-currency.service';
-import { CryptoCurrency, MarketSummaryItem, CoingeckoCrypto, TrendingCoin, MarketSummaryRefMap } from '@/interfaces/crypto-currency';
+import { CryptoCurrency, CoingeckoCrypto, TrendingCoin, MarketSummaryRefMap } from '@/interfaces/crypto-currency';
 import { roundOffNumber } from '@/services/utils.service';
+import type { MarketSummaryItem } from '@/interfaces/market-summary';
 
 function useMarketSummary() {
     let marketSummaryRef = useRef<MarketSummaryRefMap>({ gainers: [], losers: [], volumes: [], trendingCoins: [] }).current;
-    const numberOfItemsRef = useRef<number>(3).current;
+    const numberOfItemsRef = useRef<number>(15).current;
     const [marketSummary, setMarketSummary] = useState<MarketSummaryItem[]>([]);
     const [fetchingMarketSummary, setFetchingMarketSummary] = useState<boolean>(true);
 
@@ -38,7 +39,7 @@ function useMarketSummary() {
 
     function createTrendingCoinList(serverTrendingCoinsData: TrendingCoin[]) {
         marketSummaryRef.trendingCoins = [];
-        const localTrendingCoins = serverTrendingCoinsData.map((coinData: TrendingCoin) => coinData.item).slice(0, numberOfItemsRef);
+        const localTrendingCoins = serverTrendingCoinsData.map((coinData: TrendingCoin) => coinData.item);
 
         for (const coin of localTrendingCoins) {
             marketSummaryRef.trendingCoins.push({
