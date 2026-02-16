@@ -5,7 +5,7 @@ import MarketSummaryCoins from '@/components/features/market-summary/market-summ
 import { Item, ItemContent, ItemTitle } from '@/components/ui/item';
 import { MarketSummaryItem } from '@/interfaces/market-summary';
 import { ChevronRight } from 'lucide-react';
-import { Dialog, DialogTrigger, DialogHeader, DialogTitle, DialogContent, DialogDescription } from '@/components/ui/dialog';
+import { Dialog, DialogHeader, DialogTitle, DialogContent } from '@/components/ui/dialog';
 
 interface Bindings {
     marketSummaryItem: MarketSummaryItem
@@ -47,10 +47,6 @@ function MarketSummaryCard({ marketSummaryItem }: Bindings) {
                 open={showMarketSummaryItemCardDialog}
                 onOpenChange={setShowMarketSummaryItemCardDialog}
             >
-                <DialogTrigger asChild>
-
-                </DialogTrigger>
-
                 <DialogContent>
                     <DialogHeader>
                         <DialogTitle>

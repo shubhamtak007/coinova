@@ -67,9 +67,8 @@ function DialogHeader({
             {showCloseButton && (
                 <DialogPrimitive.Close
                     data-slot="dialog-close"
-                    className={`ring-offset-background focus:ring-ring data-[state=open]:bg-accent
-                                p-[4px] h-[max-content] rounded-[var(--border-radius)] bg-[var(--main-color)]
-                                data-[state=open]:text-muted-foreground opacity-70 cursor-pointer
+                    className={`data-[state=open]:bg-accent p-[4px] h-[max-content] rounded-[var(--border-radius)] bg-[hsl(from_var(--main-color)_h_s_calc(l_+_3))]
+                                data-[state=open]:text-muted-foreground opacity-70 cursor-pointer outline-[var(--main-color)]
                                 transition-opacity hover:opacity-100 disabled:pointer-events-none [&_svg]:pointer-events-none
                                  [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4`}
                 >
