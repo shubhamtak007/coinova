@@ -92,6 +92,7 @@
     --border-radius: 6px;
     --container-width: 1200px;
     --box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    --overview-section-th-color: #9c9c9c;
 }
 
 .dark {
@@ -127,8 +128,6 @@
     --sidebar-border: oklch(1 0 0 / 10%);
     --sidebar-ring: oklch(0.553 0.013 58.071);
 }
-
-
 
 @layer base {
     * {

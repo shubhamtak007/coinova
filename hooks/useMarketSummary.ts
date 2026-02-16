@@ -111,8 +111,8 @@ function useMarketSummary() {
 
     function createMarketSummary() {
         const localMarketSummary = [
-            { id: 'topGainer', title: 'Top Gainer', coins: marketSummaryRef.gainers },
-            { id: 'topLoser', title: 'Top Loser', coins: marketSummaryRef.losers },
+            { id: 'topGainer', title: 'Top Gainers', coins: marketSummaryRef.gainers },
+            { id: 'topLoser', title: 'Top Losers', coins: marketSummaryRef.losers },
             { id: 'trending', title: 'Trending', coins: marketSummaryRef.trendingCoins },
             { id: 'topVolume', title: 'Top Volume', coins: marketSummaryRef.volumes }
         ]

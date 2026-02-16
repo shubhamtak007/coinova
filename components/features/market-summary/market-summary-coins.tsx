@@ -15,44 +15,64 @@ export default function MarketSummaryCoins({ noOfCoins, marketSummaryItem }: Bin
     const router = useRouter();
     const { navigateOptimistically } = useOptimisticNavigation();
 
-    function onSymbolClick(coin: CryptoCurrency) {
+    function onSymbolClick(event: React.MouseEvent<HTMLElement>, coin: CryptoCurrency) {
         const path = getPathName('coinDetails', coin);
 
         if (path) {
             navigateOptimistically(path);
             router.push(path);
         }
+
+        event.preventDefault();
     }
 
     return (
         <table className="coins-table">
+            {noOfCoins === 15 && <thead>
+                <tr>
+                    <th className="w-[35px]"></th>
+                    <th className="text-left w-[30%]">Name</th>
+                    <th className="text-left">Price</th>
+                    <th className="text-right">24hr Change</th>
+                </tr>
+            </thead>}
+
             <tbody>
                 {
                     (marketSummaryItem.coins.length > 0) &&
-                    marketSummaryItem.coins.slice(0, noOfCoins).map((coin) => {
+                    marketSummaryItem.coins.slice(0, noOfCoins).map((coin, index) => {
                         return (
                             <tr key={coin.id}>
-                                <td className="w-[30px]">
-                                    {
-                                        coin.imageUrl ? <Image
-                                            className="object-contain rounded-[10px]"
-                                            width={28}
-                                            height={28}
-                                            alt={`Image of ${coin.name}`}
-                                            src={coin.imageUrl}
-                                        /> :
-                                            <div className="coin-letter-mark cursor-pointer">
-                                                {coin.symbol[0]}
-                                            </div>
-                                    }
-                                </td>
+                                {
+                                    noOfCoins === 15 && <td className="text-center">
+                                        {index + 1}
+                                    </td>
+                                }
 
                                 <td>
-                                    <div
-                                        className="crypto-symbol cursor-pointer"
-                                        onClick={() => { onSymbolClick(coin) }}
-                                    >
-                                        {coin.symbol}
+                                    <div className="flex items-center">
+                                        <div className="pr-[8px]">
+                                            {
+                                                coin.imageUrl ? <Image
+                                                    className="object-contain rounded-[10px]"
+                                                    width={23}
+                                                    height={23}
+                                                    alt={`Image of ${coin.name}`}
+                                                    src={coin.imageUrl}
+                                                /> :
+                                                    <div className="coin-letter-mark cursor-pointer">
+                                                        {coin.symbol[0]}
+                                                    </div>
+                                            }
+                                        </div>
+
+                                        <a
+                                            className="crypto-symbol cursor-pointer"
+                                            onClick={(event) => { onSymbolClick(event, coin) }}
+                                            rel="noopener"
+                                        >
+                                            {coin.symbol}
+                                        </a>
                                     </div>
                                 </td>
 
