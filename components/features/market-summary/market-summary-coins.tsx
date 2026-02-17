@@ -30,8 +30,8 @@ export default function MarketSummaryCoins({ noOfCoins, marketSummaryItem }: Bin
         <table className="coins-table">
             {noOfCoins === 15 && <thead>
                 <tr>
-                    <th className="w-[35px]"></th>
-                    <th className="text-left w-[30%]">Name</th>
+                    <th className="w-[35px]">#</th>
+                    <th className="text-left w-[30%]">Coin</th>
                     <th className="text-left">Price</th>
                     <th className="text-right">24hr Change</th>
                 </tr>
@@ -67,9 +67,11 @@ export default function MarketSummaryCoins({ noOfCoins, marketSummaryItem }: Bin
                                         </div>
 
                                         <a
+                                            href={`${getPathName('coinDetails', coin)}`}
+                                            target="_blank"
                                             className="crypto-symbol cursor-pointer"
                                             onClick={(event) => { onSymbolClick(event, coin) }}
-                                            rel="noopener"
+                                            rel="noopener noreferrer"
                                         >
                                             {coin.symbol}
                                         </a>
@@ -103,6 +105,6 @@ export default function MarketSummaryCoins({ noOfCoins, marketSummaryItem }: Bin
                     })
                 }
             </tbody>
-        </table>
+        </table >
     )
 }

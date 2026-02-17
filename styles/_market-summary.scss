@@ -53,6 +53,10 @@
             font-weight: unset;
             padding: 0px 8px 12px 8px;
 
+            &:first-child {
+                padding-left: unset;
+            }
+
             &:last-child {
                 padding-right: unset;
             }

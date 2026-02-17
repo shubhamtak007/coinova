@@ -44,7 +44,7 @@ const getPathName = (pageName: string, properties: { id: string }) => {
 
 function getCoinovaApiBaseUrl() {
     const url = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api/' :
-        `${globalThis.location?.origin}/api/`
+        `${globalThis.location?.origin}/api/`;
 
     return url;
 }
