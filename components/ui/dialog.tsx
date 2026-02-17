@@ -60,7 +60,7 @@ function DialogHeader({
         <div
             data-slot="dialog-header"
             className={cn(`flex items-center justify-between gap-2 text-center sm:text-left min-w-[100%]
-                        p-[12px] sticky top-[0px] bg-[#fff] border-b-[1px] border-[var(--main-color)] rounded-t-[var(--border-radius)]`, className)}
+                        p-[8px_12px] sticky top-[0px] bg-[#fff] border-b-[1px] border-[var(--main-color)] rounded-t-[var(--border-radius)]`, className)}
             {...props}
         >
             {children}
