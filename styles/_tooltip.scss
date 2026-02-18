@@ -1,6 +1,7 @@
 .tooltipContent {
     animation-duration: 0.6s;
     animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+    white-space: pre-line;
 }
 
 .tooltipContent[data-side="top"] {

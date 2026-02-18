@@ -1,12 +1,5 @@
-@use "@/styles/application-wide";
-@use "@/styles/market-summary";
-@use "@/styles/coin-details";
-@use "@/styles/charts";
-@use "@/styles/coins";
-@use "@/styles/tooltip";
-@use "@/styles/header";
-@use "@/styles/cn-dialog";
 @use "tailwindcss";
+@use "@/styles/main";
 
 @custom-variant dark (&:is(.dark *));
 

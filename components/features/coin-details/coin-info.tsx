@@ -5,8 +5,11 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { formatValueIntoCommaSeparated, roundOffNumber } from '@/services/utils.service';
 import { useCoinDetailsContext } from '@/contexts/coin-details-context';
 import { FaCaretUp, FaCaretDown } from 'react-icons/fa';
+import { Info } from "lucide-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import type { CoinDetails } from '@/interfaces/coin-details';
 import useCoinInfo from '@/hooks/useCoinInfo';
+import { coinKeyList } from '@/constants/coin.constants';
 
 type CoinInfoProps = CoinDetails;
 
@@ -65,26 +68,39 @@ function CoinInfo({ coinProperties }: CoinInfoProps) {
                         </div>
 
                         <div className="other-info-wrapper">
-                            <div className="pair">
-                                <div className="key">Total Volume</div>
-                                <div>
-                                    {formatValueIntoCommaSeparated(coinInfo.total_volume, 5, true)}
-                                </div>
-                            </div>
+                            {
+                                coinKeyList.map((coinKeyItem, index) => {
+                                    return (
+                                        <div
+                                            key={`${index}-${coinKeyItem.key}`}
+                                            className="pair"
+                                        >
+                                            <div className="key flex items-center">
+                                                <div className="mr-[4px]">
+                                                    {coinKeyItem.name}
+                                                </div>
 
-                            <div className="pair">
-                                <div className="key">Market Cap.</div>
-                                <div>
-                                    {formatValueIntoCommaSeparated(coinInfo.market_cap, 5, true)}
-                                </div>
-                            </div>
+                                                {coinKeyItem.toolTipValue ? <Tooltip>
+                                                    <TooltipTrigger>
+                                                        <Info size={'15'} />
+                                                    </TooltipTrigger>
 
-                            <div className="pair">
-                                <div className="key">Circulating Supply</div>
-                                <div>
-                                    {formatValueIntoCommaSeparated(coinInfo.circulating_supply, 5, true)}
-                                </div>
-                            </div>
+                                                    <TooltipContent
+                                                        side="bottom"
+                                                        className="max-w-[260px]"
+                                                    >
+                                                        {coinKeyItem.toolTipValue}
+                                                    </TooltipContent>
+                                                </Tooltip> : undefined}
+                                            </div>
+
+                                            <div className="font-semibold">
+                                                {formatValueIntoCommaSeparated(Number(coinInfo[coinKeyItem.key]), 0, true)}
+                                            </div>
+                                        </div>
+                                    )
+                                })
+                            }
                         </div>
                     </>
                 }
