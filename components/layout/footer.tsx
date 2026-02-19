@@ -1,6 +1,6 @@
 function Footer() {
     return (
-        <footer className="sticky top-[100vh] text-center w-full p-[12px] border-t-[1px] border-[var(--main-color)]">
+        <footer className="sticky top-[100vh] text-center w-full p-[12px] border-t-[1px] border-[var(--border-color)]">
             <div className="footer-inner-wrapper max-w-5xl mx-auto bg-[#ffffff]">
                 <div>
                     <span>Built by</span>&nbsp;

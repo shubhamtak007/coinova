@@ -68,5 +68,40 @@
         }
     }
 
-    // .coin-price-change-chart-col {}
+    .coin-price-change-chart-col {
+        .coin-chart-wrapper {
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius);
+            padding: 12px;
+            position: relative;
+            min-height: 100%;
+
+            .timeframe-tabs-wrapper {
+                overflow-x: auto;
+                overflow-y: hidden;
+                margin: 0 auto 16px auto;
+            }
+
+            .chart-container {
+                max-height: 320px;
+
+                [data-slot="chart"] {
+                    width: 100%;
+                    max-height: inherit;
+                }
+
+                .loading-spinner {
+                    place-items: center;
+                    display: grid;
+                    min-height: 180px;
+                }
+
+                .no-value-text {
+                    place-items: center;
+                    display: grid;
+                    min-height: 180px;
+                }
+            }
+        }
+    }
 }

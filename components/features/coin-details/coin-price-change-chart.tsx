@@ -1,16 +1,15 @@
 'use client';
 
 import { useRef, useState, useEffect } from 'react';
-import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Text } from 'recharts';
 import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
-import { Item, ItemContent, ItemHeader } from "@/components/ui/item";
+import { AreaChart, XAxis, YAxis, Area, CartesianGrid } from 'recharts';
 import { Spinner } from '@/components/ui/spinner';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import useCoinPriceChangeChart from '@/hooks/useCoinPriceChangeChart';
 import type { CoinDetails } from '@/interfaces/coin-details';
 import { formatValueInUsdCompact } from '@/services/utils.service';
 import { useCoinDetailsContext } from '@/contexts/coin-details-context';
-import { AxisInterval } from 'recharts/types/util/types';
+import { coinPriceChartTimeframeList } from '@/constants/coin.constants';
 
 type CoinPriceChangeChartProps = CoinDetails;
 
@@ -21,25 +20,16 @@ const chartConfig = {
     }
 } satisfies ChartConfig;
 
-const tabList = [
-    { name: '24H', value: '1' },
-    { name: '7D', value: '7' },
-    { name: '14D', value: '14' },
-    { name: '1M', value: '30' },
-    { name: '200D', value: '200' },
-    { name: '1Y', value: '365' }
-]
-
 function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
     const xAxisDataKey = useRef<string>('date').current;
     const yAxisDataKey = useRef<string>('price').current;
-    const [days, setDays] = useState<string>(tabList[0].value);
+    const [days, setDays] = useState<string>(coinPriceChartTimeframeList[0].value);
     const { fetchingPriceChangeList, priceChangeList } = useCoinPriceChangeChart({ coinProperties, days });
     const { timeFrame, setTimeFrame, priceStatus } = useCoinDetailsContext();
 
     useEffect(() => {
         if (days) {
-            const foundTimeFrame = tabList.find((tab) => tab.value === days);
+            const foundTimeFrame = coinPriceChartTimeframeList.find((timeframe) => timeframe.value === days);
             if (foundTimeFrame) setTimeFrame(foundTimeFrame);
         }
     }, [days]);
@@ -72,43 +62,42 @@ function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
     }
 
     return (
-        <Item
-            variant="outline"
-            className="p-[10px]"
+        <div
+            className="coin-chart-wrapper"
         >
-            <ItemHeader className="overflow-x-auto">
+            <div className="timeframe-tabs-wrapper">
                 <Tabs
-                    className="mb-[12px]"
                     onValueChange={(value) => { onTabChange(value) }}
                     defaultValue={days}
                 >
                     <TabsList>
                         {
-                            tabList.map((tab) => {
+                            coinPriceChartTimeframeList.map((timeframe) => {
                                 return (
                                     <TabsTrigger
-                                        key={tab.value}
-                                        value={String(tab.value)}
+                                        key={timeframe.value}
+                                        value={String(timeframe.value)}
                                         disabled={fetchingPriceChangeList}
                                     >
-                                        {tab.name}
+                                        {timeframe.name}
                                     </TabsTrigger>
                                 )
                             })
                         }
                     </TabsList>
                 </Tabs>
-            </ItemHeader>
+            </div>
 
-            <ItemContent className={`relative min-h-[100px]`}>
+            <div className="chart-container">
                 {
                     fetchingPriceChangeList ?
-                        <div className="hz-and-vert-center"><Spinner className="size-10" /></div> :
-                        <>
+                        <div className="loading-spinner">
+                            <Spinner className="size-15" />
+                        </div>
+                        : <>
                             {
                                 priceChangeList.length > 0 ?
                                     <ChartContainer
-                                        className="max-h-[350px]"
                                         config={chartConfig}
                                     >
                                         <AreaChart
@@ -155,14 +144,14 @@ function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
                                         </AreaChart>
                                     </ChartContainer>
                                     :
-                                    <div className="hz-and-vert-center no-value-text">
+                                    <div className="no-value-text p-[12px]">
                                         No data found.
                                     </div>
                             }
                         </>
                 }
-            </ItemContent>
-        </Item>
+            </div>
+        </div>
     )
 }
 

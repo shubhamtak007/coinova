@@ -33,7 +33,7 @@ function CoinInfo({ coinProperties }: CoinInfoProps) {
     }, [coinInfo, timeFrame?.name])
 
     return (
-        fetchingCoinInfo ? <Skeleton className="w-full min-h-[220px]" /> :
+        fetchingCoinInfo ? <Skeleton className="w-full min-h-[308px]" /> :
             <div className="coin-info-container">
                 {
                     coinInfo &&
