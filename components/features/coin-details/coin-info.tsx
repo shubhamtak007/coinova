@@ -94,7 +94,7 @@ function CoinInfo({ coinProperties }: CoinInfoProps) {
                                                 </Tooltip> : undefined}
                                             </div>
 
-                                            <div className="font-semibold">
+                                            <div className="font-medium">
                                                 {formatValueIntoCommaSeparated(Number(coinInfo[coinKeyItem.key]), 0, true)}
                                             </div>
                                         </div>
