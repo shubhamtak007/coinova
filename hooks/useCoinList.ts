@@ -2,9 +2,9 @@
 
 import { useEffect, useState, useRef } from 'react';
 import { retrieveCoinList } from '@/services/crypto-currency.service';
-import type { CoingeckoCrypto } from '@/interfaces/crypto-currency';
 import { useRouter } from 'next/navigation';
 import { getPathName } from '@/services/utils.service';
+import type { CoingeckoCrypto } from '@/interfaces/crypto-currency';
 
 interface CoinListHookProps {
     currentPageNumber: number,
@@ -13,54 +13,88 @@ interface CoinListHookProps {
     sortingValue: string | null
 }
 
+let previousSearchValue: string | null = null;
+let searchedCoinSymbols: string | null = null;
+
 function useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue }: CoinListHookProps) {
-    let coinName = useRef<string | null>(null).current;
+    const router = useRouter();
     const [coinList, setCoinList] = useState<CoingeckoCrypto[]>([]);
     const [fetchingCoinList, setFetchingCoinList] = useState<boolean>(true);
-    const router = useRouter();
     let abortController = useRef<AbortController | null>(null).current;
 
     useEffect(() => {
         let debounceHandler: ReturnType<typeof setTimeout>;
-        coinName = null;
 
-        if (searchValue) {
+        if (searchValue.length > 0 && (searchValue !== previousSearchValue)) {
             debounceHandler = setTimeout(() => {
-                coinName = searchValue;
                 fetchCoins();
-            }, 1500)
+            }, 1500);
         } else {
             fetchCoins();
         }
 
         return () => { clearTimeout(debounceHandler) }
-    }, [searchValue, currentPageNumber, rowsPerPage, sortingValue])
+    }, [searchValue, currentPageNumber, rowsPerPage, sortingValue]);
 
-    const fetchCoins = async () => {
+    async function fetchCoins() {
         if (fetchingCoinList === false) setFetchingCoinList(true);
         if (coinList.length !== 0) setCoinList([]);
+
+        abortController?.abort();
         abortController = new AbortController();
 
-        const params = {
+        let params: Record<string, string | number | null> = {
             page: currentPageNumber,
             per_page: rowsPerPage,
-            names: coinName,
             order: sortingValue
         }
 
         try {
-            const response = await retrieveCoinList(params, abortController.signal);
+            if (searchValue.length > 0) {
+                if (searchValue !== previousSearchValue) {
+                    previousSearchValue = searchValue;
+                    const response = await fetch(getSearchApiUrl(), { signal: abortController.signal });
+                    const responseJson = await response.json();
+                    searchedCoinSymbols = createSymbolsFromSearchedCoins(responseJson.data.coins);
+                }
 
-            for (const coin of response.data) {
-                const path = getPathName('coinDetails', coin)
-                if (path) router.prefetch(path);
+                params.symbols = searchedCoinSymbols;
             }
 
-            setCoinList((response && response.data) ? response.data : []);
+            const coinGeckoApiResponse = await retrieveCoinList(params, abortController.signal);
+
+            prefetchCoinDetailsPageRoutes(coinGeckoApiResponse.data);
+            setCoinList((coinGeckoApiResponse && coinGeckoApiResponse.data) ? coinGeckoApiResponse.data : []);
         } catch (error) {
 
         } finally {
             setFetchingCoinList(false);
+        }
+    }
+
+    function getSearchApiUrl() {
+        const url = new URL('https://api.coinranking.com/v2/search-suggestions');
+        const params = {
+            query: searchValue
+        }
+
+        url.search = new URLSearchParams(params).toString();
+        return url;
+    }
+
+    function createSymbolsFromSearchedCoins(coins: Record<string, string>[]) {
+        const symbols = [];
+        for (const coin of coins) {
+            symbols.push(coin.symbol.toLowerCase())
+        }
+
+        return symbols.join();
+    }
+
+    function prefetchCoinDetailsPageRoutes(coins: CoingeckoCrypto[]) {
+        for (const coin of coins) {
+            const path = getPathName('coinDetails', coin)
+            if (path) router.prefetch(path);
         }
     }
 
