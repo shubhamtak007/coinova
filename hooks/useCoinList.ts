@@ -13,35 +13,39 @@ interface CoinListHookProps {
     sortingValue: string | null
 }
 
-let previousSearchValue: string | null = null;
-let searchedCoinSymbols: string | null = null;
-
 function useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue }: CoinListHookProps) {
     const router = useRouter();
     const [coinList, setCoinList] = useState<CoingeckoCrypto[]>([]);
     const [fetchingCoinList, setFetchingCoinList] = useState<boolean>(true);
-    let abortController = useRef<AbortController | null>(null).current;
+    const abortControllerRef = useRef<AbortController | null>(null);
+    const previousSearchValueRef = useRef<string | null>(null);
+    const searchedCoinsSymbolsRef = useRef<string | null>(null);
+    const requestIdRef = useRef<number>(0);
 
     useEffect(() => {
         let debounceHandler: ReturnType<typeof setTimeout>;
 
-        if (searchValue.length > 0 && (searchValue !== previousSearchValue)) {
+        if (searchValue.length > 0 && (searchValue !== previousSearchValueRef.current)) {
             debounceHandler = setTimeout(() => {
                 fetchCoins();
             }, 1500);
         } else {
             fetchCoins();
+            previousSearchValueRef.current = null;
+            searchedCoinsSymbolsRef.current = null;
         }
 
         return () => { clearTimeout(debounceHandler) }
     }, [searchValue, currentPageNumber, rowsPerPage, sortingValue]);
 
     async function fetchCoins() {
-        if (fetchingCoinList === false) setFetchingCoinList(true);
+        setFetchingCoinList(true);
         if (coinList.length !== 0) setCoinList([]);
+        const requestId = ++requestIdRef.current;
 
-        abortController?.abort();
-        abortController = new AbortController();
+        abortControllerRef.current?.abort();
+        abortControllerRef.current = new AbortController();
+        const { signal } = abortControllerRef.current;
 
         let params: Record<string, string | number | null> = {
             page: currentPageNumber,
@@ -51,24 +55,34 @@ function useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue
 
         try {
             if (searchValue.length > 0) {
-                if (searchValue !== previousSearchValue) {
-                    previousSearchValue = searchValue;
-                    const response = await fetch(getSearchApiUrl(), { signal: abortController.signal });
-                    const responseJson = await response.json();
-                    searchedCoinSymbols = createSymbolsFromSearchedCoins(responseJson.data.coins);
+                if (searchValue !== previousSearchValueRef.current) {
+                    previousSearchValueRef.current = searchValue;
+                    const response = await fetch(getSearchApiUrl(), { signal });
+
+                    if (!response.ok) throw new Error(`Search API failed: ${response.status}`)
+
+                    const json = await response.json();
+                    searchedCoinsSymbolsRef.current = createSymbolsFromSearchedCoins(json.data.coins);
                 }
 
-                params.symbols = searchedCoinSymbols;
+                params.symbols = searchedCoinsSymbolsRef.current;
             }
 
-            const coinGeckoApiResponse = await retrieveCoinList(params, abortController.signal);
+            const coinGeckoApiResponse = await retrieveCoinList(params, signal);
+
+            if (requestId !== requestIdRef.current) return;
 
             prefetchCoinDetailsPageRoutes(coinGeckoApiResponse.data);
             setCoinList((coinGeckoApiResponse && coinGeckoApiResponse.data) ? coinGeckoApiResponse.data : []);
+
         } catch (error) {
+            if (error instanceof DOMException && error.name === 'AbortError') return;
+            if (requestId !== requestIdRef.current) return;
 
         } finally {
-            setFetchingCoinList(false);
+            if (requestId === requestIdRef.current) {
+                setFetchingCoinList(false);
+            }
         }
     }
 
