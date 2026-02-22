@@ -96,7 +96,7 @@ function createCryptoCurrencyList(masterSymbolList: MasterSymbol[], cryptoPriceL
     return cryptoCurrencyList;
 }
 
-const retrieveCoinPriceHistory = async (coinUuid: string, queryParams: unknown) => {
+const retrieveCoinMarketChartData = async (coinUuid: string, queryParams: unknown) => {
     try {
         const response = await coinGeckoClient.get(`v3/coins/${coinUuid}/market_chart`, { params: queryParams });
         return response;
@@ -107,5 +107,5 @@ const retrieveCoinPriceHistory = async (coinUuid: string, queryParams: unknown) 
 
 export {
     retrieveCoinList, retrieveTrendingCoins, retrieveGlobalMarketData,
-    retrieveAllCoins, retrieveCoinPriceHistory
+    retrieveAllCoins, retrieveCoinMarketChartData
 }

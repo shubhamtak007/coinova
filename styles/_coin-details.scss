@@ -76,10 +76,17 @@
             position: relative;
             min-height: 100%;
 
-            .timeframe-tabs-wrapper {
+            .tabs-wrapper {
                 overflow-x: auto;
                 overflow-y: hidden;
-                margin: 0 auto 16px auto;
+                margin: 0 auto 0px auto;
+                display: flex;
+                flex-wrap: wrap;
+
+                [data-slot='tabs'] {
+                    margin-right: 14px;
+                    margin-bottom: 16px;
+                }
             }
 
             .chart-container {

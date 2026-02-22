@@ -1,6 +1,7 @@
 "use client";
 
 import { createContext, useContext, ReactNode, useState } from 'react';
+import { timeFrameList } from '@/constants/coin.constants';
 
 type TimeFrame = {
     name: string,
@@ -23,7 +24,7 @@ type CoinDetailsContextProviderProps = {
 const CoinDetailsContext = createContext<CoinDetailsContextType | undefined>(undefined);
 
 const CoinDetailsContextProvider = ({ children, }: CoinDetailsContextProviderProps) => {
-    const [timeFrame, setTimeFrame] = useState<TimeFrame | null>(null);
+    const [timeFrame, setTimeFrame] = useState<TimeFrame | null>(timeFrameList[0]);
     const [priceStatus, setPriceStatus] = useState<Status | null>(null)
 
     return (

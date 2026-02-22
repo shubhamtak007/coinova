@@ -40,7 +40,7 @@ const coinKeyList = [
     }
 ]
 
-const coinPriceChartTimeframeList = [
+const timeFrameList = [
     { name: '24H', value: '1' },
     { name: '7D', value: '7' },
     { name: '14D', value: '14' },
@@ -49,4 +49,10 @@ const coinPriceChartTimeframeList = [
     { name: '1Y', value: '365' }
 ]
 
-export { coinKeyList, coinPriceChartTimeframeList };
+const chartViewList = [
+    { name: 'Price', value: 'price' },
+    { name: 'Volume', value: 'volume' },
+    { name: 'Market Capital', value: 'marketCapital' }
+]
+
+export { coinKeyList, timeFrameList, chartViewList };

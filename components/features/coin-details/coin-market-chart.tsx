@@ -1,83 +1,62 @@
 'use client';
 
-import { useRef, useState, useEffect } from 'react';
-import { ChartContainer, ChartTooltip, ChartTooltipContent, type ChartConfig } from '@/components/ui/chart';
+import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/ui/chart';
 import { AreaChart, XAxis, YAxis, Area, CartesianGrid } from 'recharts';
 import { Spinner } from '@/components/ui/spinner';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import useCoinPriceChangeChart from '@/hooks/useCoinPriceChangeChart';
-import type { CoinDetails } from '@/interfaces/coin-details';
-import { formatValueInUsdCompact } from '@/services/utils.service';
 import { useCoinDetailsContext } from '@/contexts/coin-details-context';
-import { coinPriceChartTimeframeList } from '@/constants/coin.constants';
+import { timeFrameList, chartViewList } from '@/constants/coin.constants';
+import useCoinMarketChartData from '@/hooks/useCoinMarketChartData';
+import useCoinChart from '@/hooks/useCoinChart';
+import type { CoinDetails } from '@/interfaces/coin-details';
 
 type CoinPriceChangeChartProps = CoinDetails;
 
-const chartConfig = {
-    price: {
-        label: 'Price (USD)',
-        color: 'var(--chart-2)'
-    }
-} satisfies ChartConfig;
-
 function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
-    const xAxisDataKey = useRef<string>('date').current;
-    const yAxisDataKey = useRef<string>('price').current;
-    const [days, setDays] = useState<string>(coinPriceChartTimeframeList[0].value);
-    const { fetchingPriceChangeList, priceChangeList } = useCoinPriceChangeChart({ coinProperties, days });
-    const { timeFrame, setTimeFrame, priceStatus } = useCoinDetailsContext();
-
-    useEffect(() => {
-        if (days) {
-            const foundTimeFrame = coinPriceChartTimeframeList.find((timeframe) => timeframe.value === days);
-            if (foundTimeFrame) setTimeFrame(foundTimeFrame);
-        }
-    }, [days]);
-
-    function onTabChange(value: string) {
-        setDays(value);
-    }
-
-    function formatXAxisTick(milliseconds: string): string {
-        const currentYear = new Date().getFullYear();
-
-        if (timeFrame?.name === '24H') {
-            return new Intl.DateTimeFormat('en-US', {
-                hour: '2-digit',
-                minute: '2-digit',
-                hour12: true
-            }).format(new Date(milliseconds)).toUpperCase();
-        } else {
-            return new Intl.DateTimeFormat('en-US', {
-                day: '2-digit',
-                month: 'short',
-                year: (new Date(milliseconds).getFullYear() !== currentYear) ? 'numeric' : undefined
-            }).format(new Date(milliseconds));
-        }
-    }
-
-    function formatYAxisTick(price: string): string {
-        const formattedPrice = formatValueInUsdCompact(Number(price), 6)
-        return String(formattedPrice);
-    }
+    const { priceStatus } = useCoinDetailsContext();
+    const { chartConfiguration, xAxisDataKey, yAxisDataKey, formatXAxisTick, formatYAxisTick, onChartViewChange, onTimeFrameChange, chartTimeFrame, chartView } = useCoinChart();
+    const { fetchingMarketDataPointList, marketDataPointList } = useCoinMarketChartData({ coinProperties, days: chartTimeFrame.value, currentChartView: chartView.value });
 
     return (
         <div
             className="coin-chart-wrapper"
         >
-            <div className="timeframe-tabs-wrapper">
+            <div className="tabs-wrapper">
                 <Tabs
-                    onValueChange={(value) => { onTabChange(value) }}
-                    defaultValue={days}
+                    id={'chart-view-tabs'}
+                    onValueChange={(value) => { onChartViewChange(value) }}
+                    defaultValue={chartView.value}
                 >
                     <TabsList>
                         {
-                            coinPriceChartTimeframeList.map((timeframe) => {
+                            chartViewList.map((chartView) => {
+                                return (
+                                    <TabsTrigger
+                                        key={chartView.value}
+                                        value={String(chartView.value)}
+                                        disabled={fetchingMarketDataPointList}
+                                    >
+                                        {chartView.name}
+                                    </TabsTrigger>
+                                )
+                            })
+                        }
+                    </TabsList>
+                </Tabs>
+
+                <Tabs
+                    id={'time-frame-tabs'}
+                    onValueChange={(value) => { onTimeFrameChange(value) }}
+                    defaultValue={chartTimeFrame.value}
+                >
+                    <TabsList>
+                        {
+                            timeFrameList.map((timeframe) => {
                                 return (
                                     <TabsTrigger
                                         key={timeframe.value}
                                         value={String(timeframe.value)}
-                                        disabled={fetchingPriceChangeList}
+                                        disabled={fetchingMarketDataPointList}
                                     >
                                         {timeframe.name}
                                     </TabsTrigger>
@@ -90,24 +69,24 @@ function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
 
             <div className="chart-container">
                 {
-                    fetchingPriceChangeList ?
+                    fetchingMarketDataPointList ?
                         <div className="loading-spinner">
                             <Spinner className="size-15" />
                         </div>
                         : <>
                             {
-                                priceChangeList.length > 0 ?
+                                marketDataPointList.length > 0 ?
                                     <ChartContainer
-                                        config={chartConfig}
+                                        config={chartConfiguration}
                                     >
                                         <AreaChart
                                             accessibilityLayer
-                                            data={priceChangeList}
+                                            data={marketDataPointList}
                                         >
                                             <CartesianGrid vertical={true} />
 
                                             <XAxis
-                                                dataKey={xAxisDataKey}
+                                                dataKey={xAxisDataKey.current}
                                                 tickLine={false}
                                                 axisLine={false}
                                                 minTickGap={40}
@@ -117,7 +96,7 @@ function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
                                             />
 
                                             <YAxis
-                                                dataKey={yAxisDataKey}
+                                                dataKey={yAxisDataKey.current}
                                                 axisLine={false}
                                                 tickCount={5}
                                                 tickFormatter={formatYAxisTick}
@@ -127,14 +106,14 @@ function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
                                                 content={
                                                     <ChartTooltipContent
                                                         indicator="line"
-                                                        xAxisDataKey={xAxisDataKey}
-                                                        yAxisDataKey={yAxisDataKey}
+                                                        xAxisDataKey={xAxisDataKey.current}
+                                                        yAxisDataKey={yAxisDataKey.current}
                                                     />
                                                 }
                                             />
 
                                             <Area
-                                                dataKey="price"
+                                                dataKey={yAxisDataKey.current}
                                                 type="monotone"
                                                 fill={priceStatus === 'up' ? 'var(--chart-2)' : 'var(--chart-1)'}
                                                 fillOpacity={0.1}
