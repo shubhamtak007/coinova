@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
-import { formatValueIntoCommaSeparated, roundOffNumber } from '@/services/utils.service';
+import { formatValueIntoCommaSeparated, roundOffNumber, formatValueInUsdCompact } from '@/services/utils.service';
 import { useCoinDetailsContext } from '@/contexts/coin-details-context';
 import { FaCaretUp, FaCaretDown } from 'react-icons/fa';
 import { Info } from "lucide-react";
@@ -63,7 +63,7 @@ function CoinInfo({ coinProperties }: CoinInfoProps) {
                                     {
                                         (priceChangePercentage > 0) ? <FaCaretUp /> : <FaCaretDown />
                                     }
-                                    {Math.abs(priceChangePercentage)}%
+                                    {formatValueInUsdCompact(Math.abs(priceChangePercentage), 2, false)}%
                                 </div>}
                         </div>
 

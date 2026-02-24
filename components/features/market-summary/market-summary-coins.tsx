@@ -89,15 +89,16 @@ export default function MarketSummaryCoins({ noOfCoins, marketSummaryItem }: Bin
 
                                 <td className="text-right">
                                     {
-                                        coin.priceChangePercent && (marketSummaryItem.id === 'topGainer' || marketSummaryItem.id === 'topVolume' || marketSummaryItem.id === 'trending') &&
-                                        <span className={`${coin.priceChangePercent > 0 ? 'success-text' : 'danger-text'}`}>
-                                            {coin.priceChangePercent}%
-                                        </span>
-                                    }
+                                        coin.priceChangePercent &&
+                                        <>
+                                            {(marketSummaryItem.id === 'topGainer' || marketSummaryItem.id === 'topVolume' || marketSummaryItem.id === 'trending') &&
+                                                <span className={`${coin.priceChangePercent > 0 ? 'success-text' : 'danger-text'}`}>
+                                                    {formatValueInUsdCompact(coin.priceChangePercent, 2, false)}%
+                                                </span>}
 
-                                    {
-                                        (marketSummaryItem.id === 'topLoser') &&
-                                        <span className="danger-text">{coin.priceChangePercent}%</span>
+                                            {(marketSummaryItem.id === 'topLoser') &&
+                                                <span className="danger-text">{formatValueInUsdCompact(coin.priceChangePercent, 2, false)}%</span>}
+                                        </>
                                     }
                                 </td>
                             </tr>

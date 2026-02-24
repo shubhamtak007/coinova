@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { retrieveCoinList, retrieveAllCoins, retrieveTrendingCoins } from '@/services/crypto-currency.service';
 import { CryptoCurrency, CoingeckoCrypto, TrendingCoin, MarketSummaryRefMap } from '@/interfaces/crypto-currency';
-import { roundOffNumber, formatValueInUsdCompact } from '@/services/utils.service';
+import { roundOffNumber } from '@/services/utils.service';
 import type { MarketSummaryItem } from '@/interfaces/market-summary';
 
 function useMarketSummary() {
@@ -90,7 +90,7 @@ function useMarketSummary() {
                             name: matchedCrypto.name,
                             imageUrl: matchedCrypto.image ? matchedCrypto.image : '',
                             lastPrice: matchedCrypto.current_price,
-                            priceChangePercent: formatValueInUsdCompact(priceChangePercentRoundOffValue, 3, false)
+                            priceChangePercent: priceChangePercentRoundOffValue
                         }
 
                         Object.assign(crypto, info);
