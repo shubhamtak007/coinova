@@ -7,12 +7,14 @@ function roundOffNumber(value: number, decimalPlaces: number) {
     return Math.round((value + Number.EPSILON) * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces);
 }
 
-function formatValueInUsdCompact(value: number, decimalPlaces: number) {
+function formatValueInUsdCompact(value: number, decimalPlaces: number, withCurrencySymbol: boolean) {
     if (value === null || value === undefined) throw new Error('Value is undefined or null');
 
+    if (withCurrencySymbol === undefined || withCurrencySymbol === null) withCurrencySymbol = true;
+
     return new Intl.NumberFormat('en-US', {
-        style: 'currency',
-        currency: 'USD',
+        style: withCurrencySymbol ? 'currency' : undefined,
+        currency: withCurrencySymbol ? 'USD' : undefined,
         notation: 'compact',
         compactDisplay: 'short',
         maximumFractionDigits: decimalPlaces ? decimalPlaces : 0

@@ -81,7 +81,7 @@ export default function MarketSummaryCoins({ noOfCoins, marketSummaryItem }: Bin
                                 <td className={`text-left`}>
                                     {
                                         coin.lastPrice &&
-                                        <span>
+                                        <span className="break-all">
                                             {coin.lastPrice > 999 ? formatValueInUsdCompact(coin.lastPrice, 2) : '$' + coin.lastPrice}
                                         </span>
                                     }
