@@ -107,7 +107,7 @@ function useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue
 
     function prefetchCoinDetailsPageRoutes(coins: CoingeckoCrypto[]) {
         for (const coin of coins) {
-            const path = getUiRoute('coinDetails', coin)
+            const path = getUiRoute('coinAnalysis', coin)
             if (path) router.prefetch(path);
         }
     }
