@@ -1,22 +1,22 @@
 'use client';
 
 import { lazy } from 'react';
-import { CoinDetailsContextProvider } from '@/contexts/coin-details-context';
-const CoinMarketChart = lazy(() => import('@/components/features/coin-details/coin-market-chart'));
-const CoinInfo = lazy(() => import('@/components/features/coin-details/coin-info'));
+import { CoinAnalysisContextProvider } from '@/contexts/coin-analysis-context';
+const CoinMarketChart = lazy(() => import('@/components/features/coin-analysis/coin-market-chart'));
+const CoinInfo = lazy(() => import('@/components/features/coin-analysis/coin-info'));
 
-interface CoinDetailsProps {
+type Bindings = {
     coinId: string
 }
 
-function CoinDetailsContainer({ coinId }: CoinDetailsProps) {
+function CoinAnalysisContainer({ coinId }: Bindings) {
     let properties = {
         id: coinId
     }
 
     return (
-        <CoinDetailsContextProvider>
-            <div className="coin-details-page-container grid grid-cols-12">
+        <CoinAnalysisContextProvider>
+            <div className="coin-analysis-container grid grid-cols-12">
                 <div className="coin-info-col col-span-12 2xl:col-span-4 lg:col-span-4 md:col-span-12 sm:col-span-12">
                     <CoinInfo coinProperties={properties} />
                 </div>
@@ -25,8 +25,8 @@ function CoinDetailsContainer({ coinId }: CoinDetailsProps) {
                     <CoinMarketChart coinProperties={properties} />
                 </div>
             </div>
-        </CoinDetailsContextProvider>
+        </CoinAnalysisContextProvider>
     )
 }
 
-export default CoinDetailsContainer;
+export default CoinAnalysisContainer;

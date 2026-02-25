@@ -49,6 +49,32 @@ function DialogOverlay({
     )
 }
 
+function DialogContent({
+    className,
+    children,
+    ...props
+}: React.ComponentProps<typeof DialogPrimitive.Content>) {
+    return (
+        <DialogPortal data-slot="dialog-portal">
+            <DialogOverlay />
+            <DialogPrimitive.Content
+                data-slot="dialog-content"
+                className={cn(
+                    `data-[state=open]:animate-[var(--animate-zoom-in)]
+                    data-[state=closed]:animate-[var(--animate-zoom-out)] fixed top-[50%] left-[50%]
+                    z-[100] grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%]
+                    rounded-[var(--border-radius)] border shadow-lg duration-200 outline-none sm:max-w-lg
+                    max-h-[80vh] bg-background`,
+                    className
+                )}
+                {...props}
+            >
+                {children}
+            </DialogPrimitive.Content>
+        </DialogPortal>
+    )
+}
+
 function DialogHeader({
     className,
     children,
@@ -95,34 +121,6 @@ function DialogTitle({
     )
 }
 
-function DialogContent({
-    className,
-    children,
-    ...props
-}: React.ComponentProps<typeof DialogPrimitive.Content> & {
-    showCloseButton?: boolean
-}) {
-    return (
-        <DialogPortal data-slot="dialog-portal">
-            <DialogOverlay />
-            <DialogPrimitive.Content
-                data-slot="dialog-content"
-                className={cn(
-                    `data-[state=open]:animate-[var(--animate-zoom-in)]
-                    data-[state=closed]:animate-[var(--animate-zoom-out)] fixed top-[50%] left-[50%]
-                    z-[100] grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%]
-                    rounded-[var(--border-radius)] border shadow-lg duration-200 outline-none sm:max-w-lg
-                    max-h-[80vh] bg-background`,
-                    className
-                )}
-                {...props}
-            >
-                {children}
-            </DialogPrimitive.Content>
-        </DialogPortal>
-    )
-}
-
 function DialogDescription({
     className,
     ...props
@@ -133,6 +131,22 @@ function DialogDescription({
             className={cn("text-muted-foreground text-sm", className)}
             {...props}
         />
+    )
+}
+
+function DialogBody({
+    className,
+    children,
+    ...props
+}: React.ComponentProps<"div">) {
+    return (
+        <div
+            data-slot="dialog-body"
+            className={cn(`dialog-body`, className)}
+            {...props}
+        >
+            {children}
+        </div>
     )
 }
 
@@ -154,6 +168,7 @@ function DialogFooter({
             {...props}
         >
             {children}
+
             {showCloseButton && (
                 <DialogPrimitive.Close asChild>
                     <Button variant="outline">Close</Button>
@@ -165,13 +180,14 @@ function DialogFooter({
 
 export {
     Dialog,
-    DialogClose,
-    DialogContent,
-    DialogDescription,
-    DialogFooter,
-    DialogHeader,
     DialogOverlay,
-    DialogPortal,
+    DialogContent,
+    DialogHeader,
     DialogTitle,
+    DialogDescription,
+    DialogBody,
+    DialogFooter,
+    DialogPortal,
     DialogTrigger,
+    DialogClose
 }

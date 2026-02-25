@@ -10,38 +10,38 @@ type TimeFrame = {
 
 type Status = 'up' | 'down';
 
-type CoinDetailsContextType = {
+type CoinAnalysisContextType = {
     timeFrame: TimeFrame | null,
     setTimeFrame: (timeFrame: TimeFrame) => void,
     priceStatus: Status | null,
     setPriceStatus: (priceStatus: Status) => void
 }
 
-type CoinDetailsContextProviderProps = {
+type CoinAnalysisContextProviderProps = {
     children: ReactNode
 }
 
-const CoinDetailsContext = createContext<CoinDetailsContextType | undefined>(undefined);
+const CoinAnalysisContext = createContext<CoinAnalysisContextType | undefined>(undefined);
 
-const CoinDetailsContextProvider = ({ children, }: CoinDetailsContextProviderProps) => {
+const CoinAnalysisContextProvider = ({ children, }: CoinAnalysisContextProviderProps) => {
     const [timeFrame, setTimeFrame] = useState<TimeFrame | null>(timeFrameList[0]);
     const [priceStatus, setPriceStatus] = useState<Status | null>(null)
 
     return (
-        <CoinDetailsContext.Provider value={{ timeFrame, setTimeFrame, priceStatus, setPriceStatus }}>
+        <CoinAnalysisContext.Provider value={{ timeFrame, setTimeFrame, priceStatus, setPriceStatus }}>
             {children}
-        </CoinDetailsContext.Provider>
+        </CoinAnalysisContext.Provider>
     )
 }
 
-const useCoinDetailsContext = (): CoinDetailsContextType => {
-    const context = useContext(CoinDetailsContext);
+const useCoinAnalysisContext = (): CoinAnalysisContextType => {
+    const context = useContext(CoinAnalysisContext);
 
     if (!context) {
-        throw new Error('useTimeFrame must be in CoinDetailsContextProvider');
+        throw new Error('useTimeFrame must be in CoinAnalysisContextProvider');
     }
 
     return context;
 }
 
-export { CoinDetailsContextProvider, useCoinDetailsContext }
+export { CoinAnalysisContextProvider, useCoinAnalysisContext }

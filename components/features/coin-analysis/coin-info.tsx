@@ -3,19 +3,19 @@
 import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { formatValueIntoCommaSeparated, roundOffNumber, formatValueInUsdCompact } from '@/services/utils.service';
-import { useCoinDetailsContext } from '@/contexts/coin-details-context';
+import { useCoinAnalysisContext } from '@/contexts/coin-analysis-context';
 import { FaCaretUp, FaCaretDown } from 'react-icons/fa';
 import { Info } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import type { CoinDetails } from '@/interfaces/coin-details';
+import type { CoinAnalysis } from '@/interfaces/coin-analysis.interface';
 import useCoinInfo from '@/hooks/useCoinInfo';
 import { coinKeyList } from '@/constants/coin.constants';
 
-type CoinInfoProps = CoinDetails;
+type Bindings = CoinAnalysis;
 
-function CoinInfo({ coinProperties }: CoinInfoProps) {
+function CoinInfo({ coinProperties }: Bindings) {
     const { coinInfo, fetchingCoinInfo } = useCoinInfo({ coinProperties });
-    const { timeFrame, setPriceStatus } = useCoinDetailsContext();
+    const { timeFrame, setPriceStatus } = useCoinAnalysisContext();
     const [priceChangePercentage, setPriceChangePercentage] = useState<number | null>(null);
 
     useEffect(() => {

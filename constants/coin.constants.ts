@@ -1,3 +1,5 @@
+import type { MenuItem } from '@/interfaces/data-table';
+
 const coinKeyList = [
     {
         name: 'Market Cap.',
@@ -55,4 +57,8 @@ const chartViewList = [
     { name: 'Market Capital', value: 'marketCapital' }
 ]
 
-export { coinKeyList, timeFrameList, chartViewList };
+const coinsTableContextMenuList: MenuItem[] = ['Analyze Coin'].map((name) => {
+    return { id: crypto.randomUUID(), name }
+})
+
+export { coinKeyList, timeFrameList, chartViewList, coinsTableContextMenuList };

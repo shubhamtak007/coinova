@@ -1,19 +1,21 @@
 'use client';
 
-import useCoinList from '@/hooks/useCoinList';
-import DataTable from '@/components/features/coins/data-table';
-import type { CoingeckoCrypto } from '@/interfaces/crypto-currency';
 import React, { useState, useRef } from 'react';
+import type { CoingeckoCrypto } from '@/interfaces/crypto-currency';
+import type { MenuItem } from '@/interfaces/data-table';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Search, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { columns } from '@/components/features/coins/columns';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { getRowsPerPageDefaultValue, getPathName } from '@/services/utils.service';
+import { getRowsPerPageDefaultValue, getUiRoute } from '@/services/utils.service';
 import { Row } from '@tanstack/react-table';
 import { useRouter } from 'next/navigation';
 import { useOptimisticNavigation } from '@/contexts/navigation-context';
-import type { MenuItem } from '@/interfaces/data-table';
+import { coinsTableContextMenuList } from '@/constants/coin.constants';
+import useCoinList from '@/hooks/useCoinList';
+import DataTable from '@/components/features/coins/data-table';
+import CoinDetailsDialog from '@/components/features/coin-details/coin-details-dialog';
 
 function CoinList() {
     const router = useRouter();
@@ -21,12 +23,12 @@ function CoinList() {
     const [sortingValue, setSortingValue] = useState<string | null>('market_cap_desc');
     const [currentPageNumber, setCurrentPageNumber] = useState(1);
     const [searchValue, setSearchValue] = useState<string>('');
+    const { navigateOptimistically } = useOptimisticNavigation();
     const { fetchingCoinList, coinList } = useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue });
     const rowsCountList = useRef([10, 25, 50, 100, 150, 200, 250]).current;
-    const { navigateOptimistically } = useOptimisticNavigation();
-    const contextMenuList = useRef([{
-        id: crypto.randomUUID(), name: 'Open in New Tab'
-    }]).current;
+    const contextMenuList = useRef(coinsTableContextMenuList);
+    const [showCoinDetailsDialog, setShowCoinDetailsDialog] = useState<boolean>(false);
+    const clickedCoinRef = useRef<CoingeckoCrypto>(null);
 
     function onSearchInputChange(event: React.ChangeEvent<HTMLInputElement>) {
         setCurrentPageNumber(1);
@@ -42,18 +44,22 @@ function CoinList() {
     }
 
     function onRowClicked(row: Row<CoingeckoCrypto>) {
-        const path = getPathName('coinDetails', row.original);
+        const route = getUiRoute('coinAnalysis', row.original);
 
-        if (path) {
-            navigateOptimistically(path);
-            router.push(path);
+        if (route) {
+            navigateOptimistically(route);
+            router.push(route);
         }
     }
 
-    function onContextMenuItemClicked(row: Row<CoingeckoCrypto>, contextMenu: MenuItem) {
-        if (contextMenu.name === 'Open in New Tab') {
-            const path = getPathName('coinDetails', row.original);
-            if (path) globalThis.open(path, '_blank', 'noopener,noreferrer');
+    function onContextMenuItemClicked(row: Row<CoingeckoCrypto>, contextMenu: MenuItem, event: React.MouseEvent<HTMLElement>) {
+        if (contextMenu.name === 'Analyze Coin') {
+            const route = getUiRoute('coinAnalysis', row.original);
+            if (route) globalThis?.open(route, '_blank', 'noopener,noreferrer');
+            event.preventDefault();
+
+        } else if (contextMenu.name === 'View Details') {
+            setShowCoinDetailsDialog(true);
         }
     }
 
@@ -87,7 +93,7 @@ function CoinList() {
                 <DataTable<CoingeckoCrypto>
                     list={coinList}
                     columns={columns}
-                    contextMenuList={contextMenuList}
+                    contextMenuList={contextMenuList.current}
                     listEmptyMessage={'No coins found.'}
                     fetchingList={fetchingCoinList}
                     currentPageNumber={currentPageNumber}
@@ -150,7 +156,15 @@ function CoinList() {
                         </Button>
                     </div>
                 </div>
-            </div >
+            </div>
+
+            {
+                <CoinDetailsDialog
+                    showDialog={showCoinDetailsDialog}
+                    setShowDialog={setShowCoinDetailsDialog}
+                    coin={clickedCoinRef.current}
+                />
+            }
         </>
     )
 }

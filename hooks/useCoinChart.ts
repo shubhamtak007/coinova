@@ -3,7 +3,7 @@
 import { useState, useRef } from 'react';
 import { formatValueInUsdCompact } from '@/services/utils.service';
 import { timeFrameList, chartViewList } from '@/constants/coin.constants';
-import { useCoinDetailsContext } from '@/contexts/coin-details-context';
+import { useCoinAnalysisContext } from '@/contexts/coin-analysis-context';
 import { type ChartConfig } from '@/components/ui/chart';
 
 type ChartView = { name: string, value: string };
@@ -11,7 +11,7 @@ type ChartView = { name: string, value: string };
 function useCoinChart() {
     const xAxisDataKey = useRef<string>('date');
     const yAxisDataKey = useRef<string>('value');
-    const { setTimeFrame } = useCoinDetailsContext();
+    const { setTimeFrame } = useCoinAnalysisContext();
     const [chartTimeFrame, setChartTimeFrame] = useState(timeFrameList[0]);
     const [chartView, setChartView] = useState<ChartView>(chartViewList[0]);
     const [chartConfiguration, setChartConfiguration] = useState<ChartConfig>({

@@ -3,7 +3,7 @@
 import { useEffect, useState, useRef } from 'react';
 import { retrieveCoinList } from '@/services/crypto-currency.service';
 import { useRouter } from 'next/navigation';
-import { getPathName } from '@/services/utils.service';
+import { getUiRoute } from '@/services/utils.service';
 import type { CoingeckoCrypto } from '@/interfaces/crypto-currency';
 
 interface CoinListHookProps {
@@ -107,7 +107,7 @@ function useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue
 
     function prefetchCoinDetailsPageRoutes(coins: CoingeckoCrypto[]) {
         for (const coin of coins) {
-            const path = getPathName('coinDetails', coin)
+            const path = getUiRoute('coinDetails', coin)
             if (path) router.prefetch(path);
         }
     }

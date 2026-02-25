@@ -14,7 +14,7 @@ interface DataTableProps<TData> {
     currentSortingValue: string | null,
     sendSortingValueToParent: (key: string) => void,
     onRowClicked: (row: Row<TData>) => void,
-    onContextMenuItemClicked: (row: Row<TData>, contextMenu: MenuItem) => void
+    onContextMenuItemClicked: (row: Row<TData>, contextMenu: MenuItem, event: React.MouseEvent<HTMLElement>) => void
 }
 
 function DataTable<TData,>({ sendSortingValueToParent, onRowClicked, onContextMenuItemClicked, ...props }: DataTableProps<TData>) {
@@ -95,7 +95,7 @@ function DataTable<TData,>({ sendSortingValueToParent, onRowClicked, onContextMe
                                                         return (
                                                             <ContextMenuItem
                                                                 key={contextMenu.id}
-                                                                onClick={() => onContextMenuItemClicked(row, contextMenu)}
+                                                                onClick={(event) => onContextMenuItemClicked(row, contextMenu, event)}
                                                             >
                                                                 {contextMenu.name}
                                                             </ContextMenuItem>

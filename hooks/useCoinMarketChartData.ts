@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { retrieveCoinMarketChartData } from '@/services/crypto-currency.service';
-import type { CoinDetails } from '@/interfaces/coin-details';
+import type { CoinAnalysis } from '@/interfaces/coin-analysis.interface';
 
 type DataPoint = { date: number, value: number };
 
@@ -17,7 +17,7 @@ type ComponentProps = {
     currentChartView: string
 }
 
-type Bindings = CoinDetails & ComponentProps;
+type Bindings = CoinAnalysis & ComponentProps;
 
 export default function useCoinMarketChartData({ coinProperties, days, currentChartView }: Bindings) {
     const [fetchingMarketDataPointList, setFetchingMarketDataPointList] = useState(true);

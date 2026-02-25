@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react';
 import type { CoingeckoCrypto } from '@/interfaces/crypto-currency';
 import { formatValueIntoCommaSeparated } from '@/services/utils.service';
 import { retrieveCoinList } from '@/services/crypto-currency.service';
-import type { CoinDetails } from '@/interfaces/coin-details';
+import type { CoinAnalysis } from '@/interfaces/coin-analysis.interface';
 
-type UseCoinInfoProps = CoinDetails;
+type Bindings = CoinAnalysis;
 
-function useCoinInfo({ coinProperties }: UseCoinInfoProps) {
+function useCoinInfo({ coinProperties }: Bindings) {
     const [coinInfo, setCoinInfo] = useState<CoingeckoCrypto | null>(null);
     const [fetchingCoinInfo, setFetchingCoinInfo] = useState<boolean>(true);
 

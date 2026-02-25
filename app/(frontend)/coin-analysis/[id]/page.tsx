@@ -1,4 +1,4 @@
-import CoinDetailsContainer from '@/components/features/coin-details/coin-details-container';
+import CoinAnalysisContainer from '@/components/features/coin-analysis/coin-analysis-container';
 import type { Metadata, ResolvingMetadata } from 'next';
 
 type Props = {
@@ -17,14 +17,14 @@ export async function generateMetadata(
     }
 }
 
-async function CoinDetails({ params, searchParams }: Props) {
+async function CoinAnalysis({ params, searchParams }: Props) {
     const { id } = await params;
 
     return (
-        <CoinDetailsContainer
+        <CoinAnalysisContainer
             coinId={id}
         />
     )
 }
 
-export default CoinDetails;
+export default CoinAnalysis;

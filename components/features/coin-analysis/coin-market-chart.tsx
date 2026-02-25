@@ -4,16 +4,16 @@ import { ChartContainer, ChartTooltip, ChartTooltipContent } from '@/components/
 import { AreaChart, XAxis, YAxis, Area, CartesianGrid } from 'recharts';
 import { Spinner } from '@/components/ui/spinner';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { useCoinDetailsContext } from '@/contexts/coin-details-context';
+import { useCoinAnalysisContext } from '@/contexts/coin-analysis-context';
 import { timeFrameList, chartViewList } from '@/constants/coin.constants';
 import useCoinMarketChartData from '@/hooks/useCoinMarketChartData';
 import useCoinChart from '@/hooks/useCoinChart';
-import type { CoinDetails } from '@/interfaces/coin-details';
+import type { CoinAnalysis } from '@/interfaces/coin-analysis.interface';
 
-type CoinPriceChangeChartProps = CoinDetails;
+type Bindings = CoinAnalysis;
 
-function CoinPriceChart({ coinProperties }: CoinPriceChangeChartProps) {
-    const { priceStatus } = useCoinDetailsContext();
+function CoinPriceChart({ coinProperties }: Bindings) {
+    const { priceStatus } = useCoinAnalysisContext();
     const { chartConfiguration, xAxisDataKey, yAxisDataKey, formatXAxisTick, formatYAxisTick, onChartViewChange, onTimeFrameChange, chartTimeFrame, chartView } = useCoinChart();
     const { fetchingMarketDataPointList, marketDataPointList } = useCoinMarketChartData({ coinProperties, days: chartTimeFrame.value, currentChartView: chartView.value });
 

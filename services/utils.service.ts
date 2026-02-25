@@ -37,21 +37,19 @@ function getRowsPerPageDefaultValue() {
     return 50;
 }
 
-const getPathName = (pageName: string, properties: { id: string }) => {
+const getUiRoute = (pageName: string, properties: { id: string }) => {
     switch (pageName) {
-        case 'coinDetails': { return `/coin/${properties.id}` }
+        case 'coinAnalysis': { return `/coin-analysis/${properties.id}` }
         default: return null;
     }
 }
 
 function getCoinovaApiBaseUrl() {
-    const url = process.env.NODE_ENV === 'development' ? 'http://localhost:3000/api/' :
-        `${globalThis.location?.origin}/api/`;
-
+    const url = `${globalThis.location?.origin}/api/`;
     return url;
 }
 
 export {
     roundOffNumber, formatValueInUsdCompact, formatValueIntoCommaSeparated,
-    getRowsPerPageDefaultValue, getPathName, getCoinovaApiBaseUrl
+    getRowsPerPageDefaultValue, getUiRoute, getCoinovaApiBaseUrl
 }
