@@ -57,7 +57,7 @@ const chartViewList = [
     { name: 'Market Capital', value: 'marketCapital' }
 ]
 
-const coinsTableContextMenuList: MenuItem[] = ['Analyze Coin'].map((name) => {
+const coinsTableContextMenuList: MenuItem[] = ['Analyze Coin', 'View Details'].map((name) => {
     return { id: crypto.randomUUID(), name }
 })
 

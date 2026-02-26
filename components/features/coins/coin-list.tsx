@@ -59,6 +59,7 @@ function CoinList() {
             event.preventDefault();
 
         } else if (contextMenu.name === 'View Details') {
+            clickedCoinRef.current = row.original;
             setShowCoinDetailsDialog(true);
         }
     }
@@ -159,10 +160,11 @@ function CoinList() {
             </div>
 
             {
-                <CoinDetailsDialog
+                (showCoinDetailsDialog === true) && <CoinDetailsDialog
+                    key={crypto.randomUUID()}
+                    coin={clickedCoinRef.current}
                     showDialog={showCoinDetailsDialog}
                     setShowDialog={setShowCoinDetailsDialog}
-                    coin={clickedCoinRef.current}
                 />
             }
         </>

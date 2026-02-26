@@ -105,7 +105,20 @@ const retrieveCoinMarketChartData = async (coinUuid: string, queryParams: unknow
     }
 }
 
+const retrieveCoinDetailsByCoinId = async function (coinId: string) {
+    try {
+        const response = await coinGeckoClient.get(`https://api.coingecko.com/api/v3/coins/${coinId}`)
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
 export {
-    retrieveCoinList, retrieveTrendingCoins, retrieveGlobalMarketData,
-    retrieveAllCoins, retrieveCoinMarketChartData
+    retrieveCoinList,
+    retrieveTrendingCoins,
+    retrieveGlobalMarketData,
+    retrieveAllCoins,
+    retrieveCoinMarketChartData,
+    retrieveCoinDetailsByCoinId
 }
