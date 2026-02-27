@@ -1,4 +1,4 @@
-interface CoinDetails {
+interface CoinDetailsServerResponse {
     id: string,
     name: string,
     symbol: string,
@@ -17,4 +17,14 @@ interface CoinDetails {
     }
 }
 
-export type { CoinDetails }
+interface ClientCoinProperties {
+    id: string,
+    name: string,
+    symbol: string,
+    description: string,
+    imageUrl: string,
+    websiteUrl: string,
+    socialLinks: { [key: string]: string }[]
+}
+
+export type { CoinDetailsServerResponse, ClientCoinProperties }

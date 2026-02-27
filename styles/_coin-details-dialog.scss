@@ -1,0 +1,81 @@
+.coin-details-dialog-container {
+    .coin-details-table {
+        width: 100%;
+        font-size: 13px;
+        border-collapse: separate;
+        border-spacing: 0px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+
+        tr {
+            &:not(:last-child) {
+                border-bottom: 1px solid var(--border-color);
+
+                th {
+                    border-bottom: 1px solid var(--border-color);
+                }
+
+                td {
+                    border-bottom: 1px solid var(--border-color);
+                }
+            }
+        }
+
+        td {
+            &:not(:last-child) {
+                border-right: 1px solid var(--border-color);
+            }
+        }
+
+        tbody {
+            tr {
+                &:not(:last-child) {
+                    border-bottom: 1px solid var(--border-color);
+
+                    th {
+                        border-bottom: 1px solid var(--border-color);
+                    }
+
+                    td {
+                        border-bottom: 1px solid var(--border-color);
+                    }
+                }
+
+                td {
+                    padding: 4px 6px;
+
+                    &:first-child {
+                        width: 20%;
+                        color: #9c9c9c;
+                    }
+
+                    .social-container {
+                        display: flex;
+
+                        .social-link-chip {
+                            display: flex;
+                            align-items: center;
+                            margin-right: 12px;
+                            background-color: #eeee;
+                            padding: 1px 4px;
+                            border-radius: var(--border-radius);
+
+                            .icon {
+                                margin-right: 5px;
+                                font-size: 16px;
+
+                                [name="reddit"] {
+                                    color: #ff4500;
+                                }
+
+                                [name="github"] {
+                                    color: #1f2328;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
