@@ -44,7 +44,7 @@ export default function MarketSummaryCoins({ noOfCoins, marketSummaryItem }: Bin
                                     </td>
                                 }
 
-                                <td>
+                                <td className={`${noOfCoins === 3 ? 'w-[40%]' : ''}`}>
                                     <div className="flex items-center">
                                         <div className="pr-[8px]">
                                             {
