@@ -52,12 +52,14 @@ function DialogOverlay({
 function DialogContent({
     className,
     children,
+    closeOnOutsideClick = false,
     ...props
-}: React.ComponentProps<typeof DialogPrimitive.Content>) {
+}: React.ComponentProps<typeof DialogPrimitive.Content> & { closeOnOutsideClick?: boolean }) {
     return (
         <DialogPortal data-slot="dialog-portal">
             <DialogOverlay />
             <DialogPrimitive.Content
+                onInteractOutside={(event) => { (closeOnOutsideClick === false) && event.preventDefault() }}
                 data-slot="dialog-content"
                 className={cn(
                     `data-[state=open]:animate-[var(--animate-zoom-in)]
