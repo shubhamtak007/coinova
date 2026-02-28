@@ -9,16 +9,16 @@ function GlobalMarketStats() {
     const { globalMarketStats, fetchingGlobalMarketStats } = useGlobalMarketStats();
 
     return (
-        <>
+        <div className="global-market-stats-bottom-bar">
             {
                 fetchingGlobalMarketStats ?
-                    <Skeleton className="rounded-[var(--border-radius)] w-[830px] h-[22.75px]" /> :
-                    <div className="flex">
+                    <Skeleton className="rounded-[var(--border-radius)] w-[830px] h-[21px] m-[5px_auto]" /> :
+                    <div className="inner-wrapper">
                         {
                             globalMarketStats.totalCoins &&
                             <div className="pair-container">
                                 <div className="name">
-                                    Total Coins
+                                    Total Coins:
                                 </div>
 
                                 <div className="value">
@@ -31,7 +31,7 @@ function GlobalMarketStats() {
                             globalMarketStats.exchanges &&
                             <div className="pair-container">
                                 <div className="name">
-                                    Exchanges
+                                    Exchanges:
                                 </div>
 
                                 <div className="value">
@@ -44,7 +44,7 @@ function GlobalMarketStats() {
                             globalMarketStats.totalMarketCapital &&
                             <div className="pair-container">
                                 <div className="name">
-                                    Market Cap
+                                    Market Cap:
                                 </div>
 
                                 <div className="value flex items-center">
@@ -67,7 +67,7 @@ function GlobalMarketStats() {
                             globalMarketStats.totalVolume &&
                             <div className="pair-container">
                                 <div className="name">
-                                    24h Vol
+                                    24h Vol:
                                 </div>
 
                                 <div className="value">
@@ -80,7 +80,7 @@ function GlobalMarketStats() {
                             globalMarketStats.totalMarketCapital &&
                             <div className="pair-container">
                                 <div className="name">
-                                    Dominance
+                                    Dominance:
                                 </div>
 
 
@@ -99,7 +99,7 @@ function GlobalMarketStats() {
                         }
                     </div>
             }
-        </>
+        </div>
     )
 }
 

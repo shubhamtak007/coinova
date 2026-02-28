@@ -61,9 +61,9 @@ function CoinDetailsDialog(bindings: Bindings) {
                                 <>
                                     {coinDetails &&
                                         <div>
-                                            <div className="text-[13px] mb-[12px]">
+                                            {coinDetails.description && <div className="text-[13px] mb-[12px]">
                                                 {coinDetails.description}
-                                            </div>
+                                            </div>}
 
                                             <div>
                                                 <table className="coin-details-table">

@@ -28,7 +28,7 @@ function useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue
         if (searchValue.length > 0 && (searchValue !== previousSearchValueRef.current)) {
             debounceHandler = setTimeout(() => {
                 fetchCoins();
-            }, 1500);
+            }, 500);
         } else {
             fetchCoins();
             previousSearchValueRef.current = null;

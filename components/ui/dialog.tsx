@@ -41,7 +41,7 @@ function DialogOverlay({
             className={cn(
                 `data-[state=open]:animate-[var(--animate-fade-in)]
                 data-[state=closed]:animate-[var(--animate-fade-out)]
-                fixed inset-0 z-60 bg-[#58667e99]`,
+                fixed inset-0 z-[100] bg-[#58667e99]`,
                 className
             )}
             {...props}
@@ -64,7 +64,7 @@ function DialogContent({
                 className={cn(
                     `data-[state=open]:animate-[var(--animate-zoom-in)]
                     data-[state=closed]:animate-[var(--animate-zoom-out)] fixed top-[50%] left-[50%]
-                    z-[100] grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%]
+                    z-[200] grid w-full max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%]
                     rounded-[var(--border-radius)] border shadow-lg duration-200 outline-none sm:max-w-lg
                     max-h-[80vh] bg-background`,
                     className

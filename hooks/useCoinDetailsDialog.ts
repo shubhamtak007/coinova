@@ -37,7 +37,7 @@ export default function useCoinDetailsDialog({ coinId }: Bindings) {
             id: serverCoinProperties.id,
             name: serverCoinProperties.name,
             symbol: serverCoinProperties.symbol,
-            description: `${serverCoinProperties.description.en.split('.').slice(0, 3)}.`,
+            description: serverCoinProperties.description.en.length > 0 ? `${serverCoinProperties.description.en.split('.').slice(0, 3)}.` : null,
             imageUrl: serverCoinProperties.image.large,
             websiteUrl: serverCoinProperties.links.homepage[0],
             socialLinks: [

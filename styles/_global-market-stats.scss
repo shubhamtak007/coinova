@@ -1,0 +1,40 @@
+.global-market-stats-bottom-bar {
+    position: fixed;
+    bottom: 0px;
+    width: 100%;
+    z-index: 50;
+    background-color: #f8fafd;
+    padding: 0px 8px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    font-size: 12px;
+
+    .inner-wrapper {
+        display: flex;
+        align-items: center;
+        width: max-content;
+        margin: auto;
+
+        .pair-container {
+            display: flex;
+            padding: 2px 6px;
+            border-radius: 6px;
+            margin: 2px 4px;
+            width: max-content;
+
+            &:last-child {
+                margin-right: unset;
+            }
+
+            .name {
+                margin-right: 4px;
+                color: #81878c;
+            }
+
+            .value {
+                font-weight: 600;
+                color: var(--main-color-2);
+            }
+        }
+    }
+}

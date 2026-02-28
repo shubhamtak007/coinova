@@ -1,12 +1,13 @@
 import type { Metadata } from "next";
+import "./globals.scss";
 import { Inter } from "next/font/google";
+import { Analytics } from '@vercel/analytics/next';
+import { OptimisticNavigationContextProvider } from '@/contexts/navigation-context';
+import { Toaster } from '@/components/ui/sonner';
+import NavigationWrapper from '@/components/layout/navigation-wrapper';
 import Header from "@/components/layout/header";
 import Footer from '@/components/layout/footer';
-import { Analytics } from '@vercel/analytics/next';
-import "./globals.scss";
-import { OptimisticNavigationContextProvider } from '@/contexts/navigation-context';
-import NavigationWrapper from '@/components/layout/navigation-wrapper';
-import { Toaster } from '@/components/ui/sonner';
+import GlobalMarketStats from "@/components/features/global-market/global-market-stats";
 
 const inter = Inter({
     weight: ['400', '500', '600', '700', '800', '900'],
@@ -41,6 +42,8 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
                             </main>
                         </NavigationWrapper>
                     </OptimisticNavigationContextProvider>
+
+                    <GlobalMarketStats />
                     <Footer />
                 </div>
             </body>

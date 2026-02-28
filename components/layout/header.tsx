@@ -2,7 +2,6 @@
 
 import { useState, useEffect } from 'react';
 import { Coins } from 'lucide-react';
-import GlobalMarketStats from '@/components/features/global-market/global-market-stats';
 import Link from 'next/link';
 
 function Header() {
@@ -37,10 +36,6 @@ function Header() {
                             Coinova
                         </div>
                     </Link>
-
-                    <div>
-                        <GlobalMarketStats />
-                    </div>
                 </div>
             </div>
         </>
