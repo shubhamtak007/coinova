@@ -1,8 +1,6 @@
 import Image from 'next/image';
 import { formatValueInUsdCompact } from "@/services/utils.service";
 import { getUiRoute } from "@/services/utils.service";
-import { useOptimisticNavigation } from '@/contexts/navigation-context';
-import { useRouter } from 'next/navigation';
 import type { MarketSummaryItem } from '@/interfaces/market-summary';
 import type { CryptoCurrency } from '@/interfaces/crypto-currency';
 
@@ -12,9 +10,6 @@ interface Bindings {
 }
 
 export default function MarketSummaryCoins({ noOfCoins, marketSummaryItem }: Bindings) {
-    const router = useRouter();
-    const { navigateOptimistically } = useOptimisticNavigation();
-
     function onSymbolClick(event: React.MouseEvent<HTMLElement>, coin: CryptoCurrency) {
         const route = getUiRoute('coinAnalysis', coin);
         if (route) globalThis?.open(route, '_blank', 'noopener,noreferrer');
@@ -62,10 +57,10 @@ export default function MarketSummaryCoins({ noOfCoins, marketSummaryItem }: Bin
                                         </div>
 
                                         <a
-                                            href={`${getUiRoute('coinDetails', coin)}`}
-                                            target="_blank"
                                             className="crypto-symbol cursor-pointer"
                                             onClick={(event) => { onSymbolClick(event, coin) }}
+                                            href={`${getUiRoute('coinAnalysis', coin)}`}
+                                            target="_blank"
                                             rel="noopener noreferrer"
                                         >
                                             {coin.symbol}

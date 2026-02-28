@@ -3,7 +3,7 @@
 import useGlobalMarketStats from '@/hooks/useGlobalMarketStats';
 import { formatValueInUsdCompact, roundOffNumber } from '@/services/utils.service';
 import { FaCaretUp, FaCaretDown } from "react-icons/fa";
-import { Skeleton } from "@/components/ui/skeleton";
+import { Spinner } from "@/components/ui/spinner";
 
 function GlobalMarketStats() {
     const { globalMarketStats, fetchingGlobalMarketStats } = useGlobalMarketStats();
@@ -12,7 +12,7 @@ function GlobalMarketStats() {
         <div className="global-market-stats-bottom-bar">
             {
                 fetchingGlobalMarketStats ?
-                    <Skeleton className="rounded-[var(--border-radius)] w-[830px] h-[21px] m-[5px_auto]" /> :
+                    <Spinner className="m-[2px_auto]" /> :
                     <div className="inner-wrapper">
                         {
                             globalMarketStats.totalCoins &&

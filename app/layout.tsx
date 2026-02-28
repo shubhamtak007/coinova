@@ -40,10 +40,11 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
                                     <Analytics />
                                 </div>
                             </main>
+
+                            <GlobalMarketStats />
                         </NavigationWrapper>
                     </OptimisticNavigationContextProvider>
 
-                    <GlobalMarketStats />
                     <Footer />
                 </div>
             </body>

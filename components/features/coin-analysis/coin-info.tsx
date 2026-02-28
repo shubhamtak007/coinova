@@ -1,15 +1,17 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { formatValueIntoCommaSeparated, roundOffNumber, formatValueInUsdCompact } from '@/services/utils.service';
 import { useCoinAnalysisContext } from '@/contexts/coin-analysis-context';
 import { FaCaretUp, FaCaretDown } from 'react-icons/fa';
 import { Info } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import type { CoinAnalysis } from '@/interfaces/coin-analysis.interface';
-import useCoinInfo from '@/hooks/useCoinInfo';
 import { coinKeyList } from '@/constants/coin.constants';
+import type { CoinAnalysis } from '@/interfaces/coin-analysis.interface';
+import type { CoingeckoCrypto } from '@/interfaces/crypto-currency';
+import useCoinInfo from '@/hooks/useCoinInfo';
+import CoinDetailsDialog from '@/components/features/coin-details/coin-details-dialog';
 
 type Bindings = CoinAnalysis;
 
@@ -17,6 +19,8 @@ function CoinInfo({ coinProperties }: Bindings) {
     const { coinInfo, fetchingCoinInfo } = useCoinInfo({ coinProperties });
     const { timeFrame, setPriceStatus } = useCoinAnalysisContext();
     const [priceChangePercentage, setPriceChangePercentage] = useState<number | null>(null);
+    const [showCoinDetailsDialog, setShowCoinDetailsDialog] = useState<boolean>(false);
+    const coinInfoRef = useRef<CoingeckoCrypto>(null);
 
     useEffect(() => {
         if (coinInfo && timeFrame?.name) {
@@ -30,7 +34,12 @@ function CoinInfo({ coinProperties }: Bindings) {
             setPriceStatus(priceStatus);
             setPriceChangePercentage(priceChangePercentRoundOffValue);
         }
-    }, [coinInfo, timeFrame?.name])
+    }, [coinInfo, timeFrame?.name]);
+
+    const onCoinInfoNameAndImgClick = () => {
+        coinInfoRef.current = coinInfo;
+        setShowCoinDetailsDialog(true);
+    }
 
     return (
         fetchingCoinInfo ? <Skeleton className="w-full min-h-[308px]" /> :
@@ -43,13 +52,18 @@ function CoinInfo({ coinProperties }: Bindings) {
                                 #{coinInfo.market_cap_rank}
                             </div>
 
-                            <img
-                                className="coin-img"
-                                src={coinInfo.image}
-                            />
+                            <div
+                                className="flex items-center cursor-pointer"
+                                onClick={() => { onCoinInfoNameAndImgClick() }}
+                            >
+                                <img
+                                    className="coin-img"
+                                    src={coinInfo.image}
+                                />
 
-                            <div className="name">
-                                {coinInfo.name}
+                                <div className="name">
+                                    {coinInfo.name}
+                                </div>
                             </div>
                         </div>
 
@@ -103,6 +117,15 @@ function CoinInfo({ coinProperties }: Bindings) {
                             }
                         </div>
                     </>
+                }
+
+                {
+                    (showCoinDetailsDialog === true) && <CoinDetailsDialog
+                        key={crypto.randomUUID()}
+                        coin={coinInfoRef.current}
+                        showDialog={showCoinDetailsDialog}
+                        setShowDialog={setShowCoinDetailsDialog}
+                    />
                 }
             </div>
     )

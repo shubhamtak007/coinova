@@ -3,7 +3,9 @@
     bottom: 0px;
     width: 100%;
     z-index: 50;
-    background-color: #f8fafd;
+    // border-top: 1px solid hsl(from var(--main-color-2) h s calc(l + 45));
+    background-color: hsl(from var(--main-color-2) h calc(s - 26) calc(l + 49));
+    // backdrop-filter: blur(15px);
     padding: 0px 8px;
     overflow-x: auto;
     overflow-y: hidden;
@@ -17,9 +19,9 @@
 
         .pair-container {
             display: flex;
-            padding: 2px 6px;
+            padding: 2px 8px;
             border-radius: 6px;
-            margin: 2px 4px;
+            margin: 2px 0px;
             width: max-content;
 
             &:last-child {
