@@ -6,10 +6,10 @@ import { FaCaretUp, FaCaretDown } from "react-icons/fa";
 import { Spinner } from "@/components/ui/spinner";
 
 function GlobalMarketStats() {
-    const { globalMarketStats, fetchingGlobalMarketStats } = useGlobalMarketStats();
+    const { globalMarketStats, fetchingGlobalMarketStats, scrollReachedBottom } = useGlobalMarketStats();
 
     return (
-        <div className="global-market-stats-bottom-bar">
+        <div className={`global-market-stats-bottom-bar ${(scrollReachedBottom === false) && 'with-shadow'}`}>
             {
                 fetchingGlobalMarketStats ?
                     <Spinner className="m-[2px_auto]" /> :

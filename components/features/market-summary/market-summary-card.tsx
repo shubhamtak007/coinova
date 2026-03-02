@@ -18,7 +18,7 @@ function MarketSummaryCard({ marketSummaryItem }: Bindings) {
         <>
             <Item
                 key={marketSummaryItem.id}
-                className="item border-[#ebeef5]"
+                className="item border-[var(--border-color)]"
                 variant="outline"
             >
                 <ItemContent>

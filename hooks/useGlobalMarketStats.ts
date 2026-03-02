@@ -1,15 +1,31 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import type { GlobalMarketStats } from '@/interfaces/global-market-data';
 import { retrieveGlobalMarketData } from '@/services/crypto-currency.service';
+import type { GlobalMarketStats } from '@/interfaces/global-market-data';
 
 function useGlobalMarketStats() {
     const [globalMarketStats, setGlobalMarketStats] = useState<GlobalMarketStats>({} as GlobalMarketStats);
     const [fetchingGlobalMarketStats, setFetchingGlobalMarketStats] = useState<boolean>(true);
+    const [scrollReachedBottom, setScrollReachedBottom] = useState<boolean>(true);
 
     useEffect(() => {
         fetchGlobalMarketData();
+
+        function handleScroll() {
+            const { innerHeight, scrollY } = globalThis;
+            const { offsetHeight } = document.body;
+
+            if ((innerHeight + Math.round(scrollY)) >= offsetHeight) {
+                setScrollReachedBottom(true);
+            } else {
+                setScrollReachedBottom(false);
+            }
+        }
+
+        globalThis.addEventListener('scroll', handleScroll);
+
+        return () => { globalThis.removeEventListener('scroll', handleScroll) }
     }, [])
 
     async function fetchGlobalMarketData() {
@@ -23,7 +39,7 @@ function useGlobalMarketStats() {
         }
     }
 
-    return { globalMarketStats, fetchingGlobalMarketStats }
+    return { globalMarketStats, fetchingGlobalMarketStats, scrollReachedBottom }
 }
 
 export default useGlobalMarketStats;

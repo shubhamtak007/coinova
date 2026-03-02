@@ -74,7 +74,6 @@ function CoinList() {
                             placeholder="Search Coin Name"
                             value={searchValue}
                             onChange={(event) => { onSearchInputChange(event) }}
-                            disabled={fetchingCoinList}
                         />
 
                         <InputGroupAddon>
