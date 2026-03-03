@@ -1,10 +1,8 @@
-import type { CoingeckoCrypto } from "@/interfaces/crypto-currency";
+function roundOffNumber(value: number, decimalPlaces = 2) {
+    if (!Number.isFinite(value) || !Number.isFinite(decimalPlaces)) return 0;
 
-function roundOffNumber(value: number, decimalPlaces: number) {
-    if (value === null || value === undefined) {
-        throw new Error('Value is undefined or null');
-    }
-    return Math.round((value + Number.EPSILON) * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces);
+    const finalValue = Math.round((value + Number.EPSILON) * Math.pow(10, decimalPlaces)) / Math.pow(10, decimalPlaces);
+    return finalValue;
 }
 
 function formatValueInUsdCompact(value: number, decimalPlaces: number, withCurrencySymbol?: boolean) {
