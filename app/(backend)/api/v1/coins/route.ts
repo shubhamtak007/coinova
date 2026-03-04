@@ -1,6 +1,7 @@
 import { NextResponse } from 'next/server';
 import axios from 'axios';
 import { getRowsPerPageDefaultValue } from '@/services/utils.service';
+import { CoinListApiParams } from '@/interfaces/coin-list.interface';
 
 const coinGeckoApiProperties = axios.create({
     baseURL: 'https://api.coingecko.com/api/',
@@ -20,12 +21,12 @@ export async function GET(request: Request) {
         })
     }
 
-    const queryParameters = {
+    const queryParameters: CoinListApiParams = {
         vs_currency: 'usd',
         precision: 3,
         symbols: searchParams.get('symbols') ? searchParams.get('symbols') : null,
-        page: searchParams.get('page') ? searchParams.get('page') : 1,
-        per_page: searchParams.get('per_page') ? searchParams.get('per_page') : getRowsPerPageDefaultValue(),
+        page: searchParams.get('page') ? Number(searchParams.get('page')) : 1,
+        per_page: searchParams.get('per_page') ? Number(searchParams.get('per_page')) : getRowsPerPageDefaultValue(),
         price_change_percentage: '1h,24h,7d,14d,30d,200d,1y',
         order: searchParams.get('order') ? searchParams.get('order') : 'market_cap_desc',
         names: searchParams.get('names') ? searchParams.get('names') : null,

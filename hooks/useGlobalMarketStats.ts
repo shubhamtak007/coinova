@@ -1,8 +1,8 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { retrieveGlobalMarketData } from '@/services/crypto-currency.service';
-import type { GlobalMarketStats } from '@/interfaces/global-market-data';
+import { retrieveGlobalMarketData } from '@/services/coin.service';
+import type { GlobalMarketStats } from '@/interfaces/global-market-stats.interface';
 
 function useGlobalMarketStats() {
     const [globalMarketStats, setGlobalMarketStats] = useState<GlobalMarketStats>({} as GlobalMarketStats);

@@ -1,19 +1,16 @@
-import { CryptoCurrency } from '@/interfaces/crypto-currency';
+import { CryptoCurrency } from '@/interfaces/coin.interface';
 import { roundOffNumber } from '@/services/utils.service';
-import { coinovaClient, binanceClient, coinGeckoClient } from '@/lib/api-client';
+import { coinovaClient, binanceClient, coinGeckoClient, coinRankingClient } from '@/lib/api-client';
+import { CoinListApiParams } from '@/interfaces/coin-list.interface';
 
 interface MasterSymbol {
     symbol: string,
     quoteAsset: string
 }
 
-const retrieveCoinList = async (apiParams: unknown, abortSignal?: AbortSignal) => {
+const retrieveCoinList = async (params: CoinListApiParams, signal?: AbortSignal) => {
     try {
-        const response = await coinovaClient.get('v1/coins', {
-            params: apiParams,
-            signal: abortSignal
-        });
-
+        const response = await coinovaClient.get('v1/coins', { params, signal });
         return response;
     } catch (error) {
         throw error;
@@ -96,9 +93,9 @@ function createCryptoCurrencyList(masterSymbolList: MasterSymbol[], cryptoPriceL
     return cryptoCurrencyList;
 }
 
-const retrieveCoinMarketChartData = async (coinUuid: string, queryParams: unknown) => {
+const retrieveCoinMarketChartData = async (coinUuid: string, params: unknown) => {
     try {
-        const response = await coinGeckoClient.get(`v3/coins/${coinUuid}/market_chart`, { params: queryParams });
+        const response = await coinGeckoClient.get(`v3/coins/${coinUuid}/market_chart`, { params });
         return response;
     } catch (error) {
         throw error;
@@ -107,7 +104,16 @@ const retrieveCoinMarketChartData = async (coinUuid: string, queryParams: unknow
 
 const retrieveCoinDetailsByCoinId = async function (coinId: string) {
     try {
-        const response = await coinGeckoClient.get(`https://api.coingecko.com/api/v3/coins/${coinId}`)
+        const response = await coinGeckoClient.get(`v3/coins/${coinId}`)
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+const searchCoin = async function (params: { query: string }, signal: AbortSignal) {
+    try {
+        const response = await coinRankingClient.get('v2/search-suggestions', { params, signal })
         return response;
     } catch (error) {
         throw error;
@@ -120,5 +126,6 @@ export {
     retrieveGlobalMarketData,
     retrieveAllCoins,
     retrieveCoinMarketChartData,
-    retrieveCoinDetailsByCoinId
+    retrieveCoinDetailsByCoinId,
+    searchCoin
 }

@@ -1,4 +1,4 @@
-import type { MenuItem } from '@/interfaces/data-table';
+import type { MenuItem } from '@/interfaces/data-table.interface';
 
 const coinKeyList = [
     {

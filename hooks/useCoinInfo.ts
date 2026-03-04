@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import type { CoingeckoCrypto } from '@/interfaces/crypto-currency';
+import type { CoingeckoCrypto } from '@/interfaces/coin.interface';
 import { formatValueIntoCommaSeparated } from '@/services/utils.service';
-import { retrieveCoinList } from '@/services/crypto-currency.service';
+import { retrieveCoinList } from '@/services/coin.service';
 import type { CoinAnalysis } from '@/interfaces/coin-analysis.interface';
 
 type Bindings = CoinAnalysis;

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { GlobalMarketDataCoinGecko } from '@/interfaces/global-market-data';
+import { GlobalMarketDataCoinGecko } from '@/interfaces/global-market-stats.interface';
 import { formatValueIntoCommaSeparated, roundOffNumber } from '@/services/utils.service';
 import type { FetchFuncOptions, ApiProperties } from '@/interfaces/api';
 

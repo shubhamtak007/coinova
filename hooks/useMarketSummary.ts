@@ -1,10 +1,10 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { retrieveCoinList, retrieveAllCoins, retrieveTrendingCoins } from '@/services/crypto-currency.service';
-import { CryptoCurrency, CoingeckoCrypto, TrendingCoin, MarketSummaryRefMap } from '@/interfaces/crypto-currency';
+import { retrieveCoinList, retrieveAllCoins, retrieveTrendingCoins } from '@/services/coin.service';
+import { CryptoCurrency, CoingeckoCrypto, TrendingCoin, MarketSummaryRefMap } from '@/interfaces/coin.interface';
 import { roundOffNumber } from '@/services/utils.service';
-import type { MarketSummaryItem } from '@/interfaces/market-summary';
+import type { MarketSummaryItem } from '@/interfaces/market-summary.interface';
 
 function useMarketSummary() {
     let marketSummaryRef = useRef<MarketSummaryRefMap>({ gainers: [], losers: [], volumes: [], trendingCoins: [] }).current;

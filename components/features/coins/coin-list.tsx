@@ -1,8 +1,8 @@
 'use client';
 
 import React, { useState, useRef } from 'react';
-import type { CoingeckoCrypto } from '@/interfaces/crypto-currency';
-import type { MenuItem } from '@/interfaces/data-table';
+import type { CoingeckoCrypto } from '@/interfaces/coin.interface';
+import type { MenuItem } from '@/interfaces/data-table.interface';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Search, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';

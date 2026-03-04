@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import MarketSummaryCoins from '@/components/features/market-summary/market-summary-coins';
 import { Item, ItemContent, ItemTitle } from '@/components/ui/item';
-import { MarketSummaryItem } from '@/interfaces/market-summary';
+import { MarketSummaryItem } from '@/interfaces/market-summary.interface';
 import { ChevronRight } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogBody } from '@/components/ui/dialog';
 

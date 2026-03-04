@@ -1,10 +1,11 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { retrieveCoinList } from '@/services/crypto-currency.service';
+import { retrieveCoinList, searchCoin } from '@/services/coin.service';
 import { useRouter } from 'next/navigation';
 import { getUiRoute } from '@/services/utils.service';
-import type { CoingeckoCrypto } from '@/interfaces/crypto-currency';
+import { CoinListApiParams } from '@/interfaces/coin-list.interface';
+import type { CoingeckoCrypto } from '@/interfaces/coin.interface';
 
 interface CoinListHookProps {
     currentPageNumber: number,
@@ -47,7 +48,7 @@ function useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue
         abortControllerRef.current = new AbortController();
         const { signal } = abortControllerRef.current;
 
-        let params: Record<string, string | number | null> = {
+        let params: CoinListApiParams = {
             page: currentPageNumber,
             per_page: rowsPerPage,
             order: sortingValue
@@ -57,12 +58,8 @@ function useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue
             if (searchValue.length > 0) {
                 if (searchValue !== previousSearchValueRef.current) {
                     previousSearchValueRef.current = searchValue;
-                    const response = await fetch(getSearchApiUrl(), { signal });
-
-                    if (!response.ok) throw new Error(`Search API failed: ${response.status}`)
-
-                    const json = await response.json();
-                    searchedCoinsSymbolsRef.current = createSymbolsFromSearchedCoins(json.data.coins);
+                    const response = await searchCoin({ query: searchValue }, signal);
+                    searchedCoinsSymbolsRef.current = createSymbolsFromSearchedCoins(response.data.data.coins);
                 }
 
                 params.symbols = searchedCoinsSymbolsRef.current;
@@ -84,16 +81,6 @@ function useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue
                 setFetchingCoinList(false);
             }
         }
-    }
-
-    function getSearchApiUrl() {
-        const url = new URL('https://api.coinranking.com/v2/search-suggestions');
-        const params = {
-            query: searchValue
-        }
-
-        url.search = new URLSearchParams(params).toString();
-        return url;
     }
 
     function createSymbolsFromSearchedCoins(coins: Record<string, string>[]) {

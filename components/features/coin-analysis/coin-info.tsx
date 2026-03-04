@@ -9,7 +9,7 @@ import { Info } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { coinKeyList } from '@/constants/coin.constants';
 import type { CoinAnalysis } from '@/interfaces/coin-analysis.interface';
-import type { CoingeckoCrypto } from '@/interfaces/crypto-currency';
+import type { CoingeckoCrypto } from '@/interfaces/coin.interface';
 import useCoinInfo from '@/hooks/useCoinInfo';
 import CoinDetailsDialog from '@/components/features/coin-details/coin-details-dialog';
 

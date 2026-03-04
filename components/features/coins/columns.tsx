@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import type { CoingeckoCrypto } from '@/interfaces/crypto-currency';
+import type { CoingeckoCrypto } from '@/interfaces/coin.interface';
 import { ColumnDef } from '@tanstack/react-table';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { BsFillInfoCircleFill } from "react-icons/bs";

@@ -42,12 +42,7 @@ const getUiRoute = (pageName: string, properties: { id: string }) => {
     }
 }
 
-function getCoinovaApiBaseUrl() {
-    const url = `${globalThis.location?.origin}/api/`;
-    return url;
-}
-
 export {
     roundOffNumber, formatValueInUsdCompact, formatValueIntoCommaSeparated,
-    getRowsPerPageDefaultValue, getUiRoute, getCoinovaApiBaseUrl
+    getRowsPerPageDefaultValue, getUiRoute
 }

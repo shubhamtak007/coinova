@@ -1,7 +1,7 @@
 'use client';
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogBody } from '@/components/ui/dialog';
-import type { CoingeckoCrypto } from '@/interfaces/crypto-currency';
+import type { CoingeckoCrypto } from '@/interfaces/coin.interface';
 import React from 'react';
 import Image from 'next/image';
 import CoinDetailsBlock from '@/components/features/coin-details/coin-details-block';

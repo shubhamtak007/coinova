@@ -1,7 +1,7 @@
 import { ColumnDef, useReactTable, getCoreRowModel, flexRender, Row } from '@tanstack/react-table';
 import { Spinner } from '@/components/ui/spinner';
 import { ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuGroup, ContextMenuItem } from '@/components/ui/context-menu';
-import type { MenuItem } from '@/interfaces/data-table.ts'
+import type { MenuItem } from '@/interfaces/data-table.interface'
 
 interface DataTableProps<TData> {
     list: TData[],

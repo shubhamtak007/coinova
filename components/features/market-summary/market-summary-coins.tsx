@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import { formatValueInUsdCompact } from "@/services/utils.service";
 import { getUiRoute } from "@/services/utils.service";
-import type { MarketSummaryItem } from '@/interfaces/market-summary';
-import type { CryptoCurrency } from '@/interfaces/crypto-currency';
+import type { MarketSummaryItem } from '@/interfaces/market-summary.interface';
+import type { CryptoCurrency } from '@/interfaces/coin.interface';
 
 interface Bindings {
     noOfCoins: number,

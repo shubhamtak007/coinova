@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react';
-import { retrieveCoinMarketChartData } from '@/services/crypto-currency.service';
+import { retrieveCoinMarketChartData } from '@/services/coin.service';
 import type { CoinAnalysis } from '@/interfaces/coin-analysis.interface';
 
 type DataPoint = { date: number, value: number };
