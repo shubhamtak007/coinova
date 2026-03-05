@@ -32,7 +32,7 @@ function formatValueIntoCommaSeparated(value: number, decimalPlaces?: number | n
 }
 
 function getRowsPerPageDefaultValue() {
-    return 50;
+    return 150;
 }
 
 const getUiRoute = (pageName: string, properties: { id: string }) => {
