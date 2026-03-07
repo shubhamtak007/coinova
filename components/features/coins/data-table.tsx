@@ -28,7 +28,7 @@ function DataTable<TData,>(bindings: DataTableBindings<TData>) {
         count: rows.length,
         estimateSize: () => 60,
         measureElement: (el) => el.getBoundingClientRect().height,
-        overscan: 25
+        overscan: 30
     })
 
     return (
