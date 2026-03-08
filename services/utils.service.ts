@@ -6,7 +6,7 @@ function roundOffNumber(value: number, decimalPlaces = 2) {
 }
 
 function formatValueInUsdCompact(value: number, decimalPlaces: number, withCurrencySymbol?: boolean) {
-    if (value === null || value === undefined) throw new Error('Value is undefined or null');
+    if (!Number.isFinite(value)) throw new Error('Value is invalid');
 
     if (typeof withCurrencySymbol !== "boolean") withCurrencySymbol = true;
 
@@ -20,7 +20,7 @@ function formatValueInUsdCompact(value: number, decimalPlaces: number, withCurre
 }
 
 function formatValueIntoCommaSeparated(value: number, decimalPlaces?: number | null, withCurrencySymbol?: boolean) {
-    if (value === null || value === undefined) throw new Error('Value is undefined or null');
+    if (!Number.isFinite(value)) throw new Error('Value is invalid');
 
     const roundOffValue = roundOffNumber(value, decimalPlaces ? decimalPlaces : 0);
 

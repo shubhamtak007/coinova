@@ -3,21 +3,26 @@
 import { useEffect, useState, useRef } from 'react';
 import { retrieveCoinList, searchCoin } from '@/services/coin.service';
 import { useRouter } from 'next/navigation';
-import { getUiRoute } from '@/services/utils.service';
+import { getUiRoute, getRowsPerPageDefaultValue } from '@/services/utils.service';
 import { CoinListApiParams } from '@/interfaces/coin-list.interface';
+import { Row } from '@tanstack/react-table';
+import { useOptimisticNavigation } from '@/contexts/navigation-context';
+import type { MenuItem } from '@/interfaces/data-table.interface';
 import type { CoingeckoCrypto } from '@/interfaces/coin.interface';
 
-interface CoinListHookProps {
-    currentPageNumber: number,
-    searchValue: string,
-    rowsPerPage: number,
-    sortingValue: string | null
-}
-
-function useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue }: CoinListHookProps) {
+function useCoinList() {
     const router = useRouter();
+    const { navigateOptimistically } = useOptimisticNavigation();
     const [coinList, setCoinList] = useState<CoingeckoCrypto[]>([]);
     const [fetchingCoinList, setFetchingCoinList] = useState<boolean>(true);
+    const [rowsPerPage, setRowsPerPage] = useState<number>(getRowsPerPageDefaultValue());
+    const [sortingValue, setSortingValue] = useState<string | null>('market_cap_desc');
+    const [currentPageNumber, setCurrentPageNumber] = useState(1);
+    const [searchValue, setSearchValue] = useState<string>('');
+    const [showCoinDetailsDialog, setShowCoinDetailsDialog] = useState<boolean>(false);
+    const clickedCoinRef = useRef<CoingeckoCrypto>(null);
+    const rowsPerPageListRef = useRef([10, 25, 50, 100, 150, 200, 250]);
+
     const abortControllerRef = useRef<AbortController | null>(null);
     const previousSearchValueRef = useRef<string | null>(null);
     const searchedCoinsSymbolsRef = useRef<string | null>(null);
@@ -99,7 +104,46 @@ function useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue
         }
     }
 
-    return { coinList, fetchingCoinList };
+    function onRowsPerPageChange(value: string) {
+        setRowsPerPage(Number(value))
+    }
+
+    function setSortingValueFromDt(key: string) {
+        setSortingValue(key ? key : null)
+    }
+
+    function onSearchInputChange(event: React.ChangeEvent<HTMLInputElement>) {
+        setCurrentPageNumber(1);
+        setSearchValue(event.target.value);
+    }
+
+    function onRowClicked(row: Row<CoingeckoCrypto>) {
+        const route = getUiRoute('coinAnalysis', row.original);
+
+        if (route) {
+            navigateOptimistically(route);
+            router.push(route);
+        }
+    }
+
+    function onContextMenuItemClicked(row: Row<CoingeckoCrypto>, contextMenu: MenuItem, event: React.MouseEvent<HTMLElement>) {
+        if (contextMenu.name === 'Analyze Coin') {
+            const route = getUiRoute('coinAnalysis', row.original);
+            if (route) globalThis?.open(route, '_blank', 'noopener,noreferrer');
+            event.preventDefault();
+
+        } else if (contextMenu.name === 'View Details') {
+            clickedCoinRef.current = row.original;
+            setShowCoinDetailsDialog(true);
+        }
+    }
+
+    return {
+        fetchingCoinList, coinList, rowsPerPage, sortingValue, currentPageNumber, searchValue,
+        showCoinDetailsDialog, clickedCoinRef, rowsPerPageListRef, setSearchValue, setCurrentPageNumber,
+        onRowsPerPageChange, setSortingValueFromDt, onSearchInputChange, onRowClicked, onContextMenuItemClicked,
+        setShowCoinDetailsDialog
+    };
 }
 
 export default useCoinList;

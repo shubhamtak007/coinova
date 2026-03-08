@@ -1,68 +1,23 @@
 'use client';
 
-import React, { useState, useRef } from 'react';
-import type { CoingeckoCrypto } from '@/interfaces/coin.interface';
-import type { MenuItem } from '@/interfaces/data-table.interface';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Search, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { columns } from '@/components/features/coins/columns';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getRowsPerPageDefaultValue, getUiRoute } from '@/services/utils.service';
-import { Row } from '@tanstack/react-table';
-import { useRouter } from 'next/navigation';
-import { useOptimisticNavigation } from '@/contexts/navigation-context';
 import { coinsTableContextMenuList } from '@/constants/coin.constants';
 import useCoinList from '@/hooks/useCoinList';
 import DataTable from '@/components/features/coins/data-table';
 import CoinDetailsDialog from '@/components/features/coin-details/coin-details-dialog';
+import type { CoingeckoCrypto } from '@/interfaces/coin.interface';
 
 function CoinList() {
-    const router = useRouter();
-    const [rowsPerPage, setRowsPerPage] = useState<number>(getRowsPerPageDefaultValue());
-    const [sortingValue, setSortingValue] = useState<string | null>('market_cap_desc');
-    const [currentPageNumber, setCurrentPageNumber] = useState(1);
-    const [searchValue, setSearchValue] = useState<string>('');
-    const { navigateOptimistically } = useOptimisticNavigation();
-    const { fetchingCoinList, coinList } = useCoinList({ currentPageNumber, searchValue, rowsPerPage, sortingValue });
-    const rowsCountList = useRef([10, 25, 50, 100, 150, 200, 250]).current;
-    const contextMenuList = useRef(coinsTableContextMenuList);
-    const [showCoinDetailsDialog, setShowCoinDetailsDialog] = useState<boolean>(false);
-    const clickedCoinRef = useRef<CoingeckoCrypto>(null);
-
-    function onSearchInputChange(event: React.ChangeEvent<HTMLInputElement>) {
-        setCurrentPageNumber(1);
-        setSearchValue(event.target.value);
-    }
-
-    function onRowsPerPageChange(value: string) {
-        setRowsPerPage(Number(value))
-    }
-
-    function setSortingValueFromDt(key: string) {
-        setSortingValue(key ? key : null)
-    }
-
-    function onRowClicked(row: Row<CoingeckoCrypto>) {
-        const route = getUiRoute('coinAnalysis', row.original);
-
-        if (route) {
-            navigateOptimistically(route);
-            router.push(route);
-        }
-    }
-
-    function onContextMenuItemClicked(row: Row<CoingeckoCrypto>, contextMenu: MenuItem, event: React.MouseEvent<HTMLElement>) {
-        if (contextMenu.name === 'Analyze Coin') {
-            const route = getUiRoute('coinAnalysis', row.original);
-            if (route) globalThis?.open(route, '_blank', 'noopener,noreferrer');
-            event.preventDefault();
-
-        } else if (contextMenu.name === 'View Details') {
-            clickedCoinRef.current = row.original;
-            setShowCoinDetailsDialog(true);
-        }
-    }
+    const {
+        fetchingCoinList, coinList, rowsPerPage, sortingValue, currentPageNumber, searchValue, showCoinDetailsDialog,
+        clickedCoinRef, rowsPerPageListRef, setSearchValue, setCurrentPageNumber, onRowsPerPageChange,
+        setSortingValueFromDt, onSearchInputChange, onRowClicked, onContextMenuItemClicked, setShowCoinDetailsDialog
+    } = useCoinList();
 
     return (
         <>
@@ -70,14 +25,14 @@ function CoinList() {
                 <div className="search-bar place-items-end">
                     <InputGroup className="max-w-xs search-input-group">
                         <InputGroupInput
-                            className="text-[14px]"
+                            className="!text-[13px]"
                             placeholder="Search Coin Name"
                             value={searchValue}
                             onChange={(event) => { onSearchInputChange(event) }}
                         />
 
                         <InputGroupAddon>
-                            <Search />
+                            <Search className="size-4" />
                         </InputGroupAddon>
 
                         <InputGroupAddon
@@ -93,7 +48,7 @@ function CoinList() {
                 <DataTable<CoingeckoCrypto>
                     list={coinList}
                     columns={columns}
-                    contextMenuList={contextMenuList.current}
+                    contextMenuList={coinsTableContextMenuList}
                     listEmptyMessage={'No coins found.'}
                     fetchingList={fetchingCoinList}
                     currentPageNumber={currentPageNumber}
@@ -119,13 +74,13 @@ function CoinList() {
 
                             <SelectContent>
                                 {
-                                    rowsCountList.map((rowsCount) => {
+                                    rowsPerPageListRef.current.map((rowsPerPage) => {
                                         return (
                                             <SelectItem
-                                                key={rowsCount + '-rows'}
-                                                value={String(rowsCount)}
+                                                key={rowsPerPage + '-rows'}
+                                                value={String(rowsPerPage)}
                                             >
-                                                {rowsCount}
+                                                {rowsPerPage}
                                             </SelectItem>
                                         )
                                     })

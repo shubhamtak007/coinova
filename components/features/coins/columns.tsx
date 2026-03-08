@@ -128,7 +128,7 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
                         {(priceChangeIn1hInPercent > 0) ? <FaCaretUp /> : <FaCaretDown />}
                     </span>
                     {roundOffNumber(priceChangeIn1hInPercent, 2) + '%'}
-                </div> : <div className="no-value-text text-right">No 1hr</div>
+                </div> : <div className="no-value-text">No 1hr</div>
         },
         meta: {
             headerClassNames: 'text-right',
@@ -146,7 +146,7 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
                         {(priceChangeIn24hInPercent > 0) ? <FaCaretUp /> : <FaCaretDown />}
                     </span>
                     {roundOffNumber(priceChangeIn24hInPercent, 2) + '%'}
-                </div> : <div className="no-value-text text-right">No 24hr</div>
+                </div> : <div className="no-value-text">No 24hr</div>
         },
         meta: {
             headerClassNames: 'text-right',
@@ -165,7 +165,7 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
                     </span>
 
                     {roundOffNumber(priceChangeIn7DaysInPercent, 2) + '%'}
-                </div> : <div className="no-value-text text-right">No 7d</div>
+                </div> : <div className="no-value-text">No 7d</div>
         },
         meta: {
             headerClassNames: 'text-right',
@@ -216,17 +216,20 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
         cell: ({ row }) => {
             const totalVolume: number = row.getValue('total_volume');
             return (
-                <>
-                    {totalVolume && <div className="px-3">
-                        <div>
-                            {formatValueInUsdCompact(totalVolume, 2)}
-                        </div>
+                <div className="px-3">
+                    {
+                        totalVolume &&
+                        <>
+                            <div>
+                                {formatValueInUsdCompact(totalVolume, 2)}
+                            </div>
 
-                        <div className="text-[grey] text-[12px]">
-                            {formatValueIntoCommaSeparated(totalVolume, 5, true)}
-                        </div>
-                    </div>}
-                </>
+                            <div className="text-[grey] text-[12px]">
+                                {formatValueIntoCommaSeparated(totalVolume, 5, true)}
+                            </div>
+                        </>
+                    }
+                </div>
             )
         },
         meta: {
@@ -277,9 +280,21 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
         },
         cell: ({ row }) => {
             const marketCapital: number = row.getValue('market_cap');
-            return <div className="px-3">
-                {marketCapital && formatValueInUsdCompact(marketCapital, 2)}
-            </div>
+            return (
+                <div className="px-3">
+                    {marketCapital &&
+                        <>
+                            <div>
+                                {formatValueInUsdCompact(marketCapital, 2)}
+                            </div>
+
+                            <div className="text-[grey] text-[12px]">
+                                {formatValueIntoCommaSeparated(marketCapital, 5, true)}
+                            </div>
+                        </>
+                    }
+                </div>
+            )
         },
         meta: {
             headerClassNames: 'text-right',
@@ -288,30 +303,46 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
     }, {
         accessorKey: 'circulating_supply',
         header: ({ header }) => {
-            return <div className="flex justify-end">
-                <div className="mr-[4px]">
-                    Circulating Supply
+            return (
+                <div className="flex justify-end">
+                    <div className="mr-[4px]">
+                        Circulating Supply
+                    </div>
+
+                    <Tooltip>
+                        <TooltipTrigger>
+                            <BsFillInfoCircleFill />
+                        </TooltipTrigger>
+
+                        <TooltipContent
+                            data-side={'top'}
+                            side={'top'}
+                            className="w-[300px]"
+                        >
+                            The amount of coins that are circulating in the market and are in public
+                            hands. It is analogous to the flowing shares in the stock market.
+                        </TooltipContent>
+                    </Tooltip>
                 </div>
-
-                <Tooltip>
-                    <TooltipTrigger>
-                        <BsFillInfoCircleFill />
-                    </TooltipTrigger>
-
-                    <TooltipContent
-                        data-side={'top'}
-                        side={'top'}
-                        className="w-[300px]"
-                    >
-                        The amount of coins that are circulating in the market and are in public
-                        hands. It is analogous to the flowing shares in the stock market.
-                    </TooltipContent>
-                </Tooltip>
-            </div>
+            )
         },
         cell: ({ row }) => {
             const circulatingSupply: number = row.getValue('circulating_supply');
-            return circulatingSupply && formatValueInUsdCompact(circulatingSupply, 2)
+            return (
+                <div className="px-3">
+                    {circulatingSupply &&
+                        <>
+                            <div>
+                                {formatValueInUsdCompact(circulatingSupply, 2)}
+                            </div>
+
+                            <div className="text-[grey] text-[12px]">
+                                {formatValueIntoCommaSeparated(circulatingSupply, 2, true)}
+                            </div>
+                        </>
+                    }
+                </div>
+            )
         },
         meta: {
             headerClassNames: 'text-right !pr-[12px]',

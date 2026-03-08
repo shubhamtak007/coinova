@@ -2,7 +2,7 @@ function Footer() {
     return (
         <footer className={`sticky top-[100vh] text-center w-full p-[12px_12px_44px_12px]`}
         >
-            <div className="footer-inner-wrapper max-w-5xl mx-auto bg-[#ffffff]">
+            <div className="footer-inner-wrapper max-w-5xl mx-auto">
                 <div>
                     <span>Built by</span>&nbsp;
                     <a

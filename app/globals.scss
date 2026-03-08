@@ -52,6 +52,7 @@
 }
 
 :root {
+    color-scheme: light;
     --radius: 0.625rem;
     --background: oklch(1 0 0);
     --foreground: oklch(0.147 0.004 49.25);
@@ -87,6 +88,7 @@
 
     --main-color: #e4e8f1;
     --main-color-2: #1e7ce0;
+    --main-bg-color: #ffffff;
     --border-radius: 6px;
     --border-color: #ebeef5;
     --container-width: 1280px;
