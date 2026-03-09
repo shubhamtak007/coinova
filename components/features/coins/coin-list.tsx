@@ -5,7 +5,7 @@ import { Search, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { columns } from '@/components/features/coins/columns';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { getRowsPerPageDefaultValue, getUiRoute } from '@/services/utils.service';
+import { getRowsPerPageDefaultValue } from '@/services/utils.service';
 import { coinsTableContextMenuList } from '@/constants/coin.constants';
 import useCoinList from '@/hooks/useCoinList';
 import DataTable from '@/components/features/coins/data-table';
