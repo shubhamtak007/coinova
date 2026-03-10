@@ -17,7 +17,7 @@ interface DataTableBindings<TData> {
     currentSortingValue: string | null,
     sendSortingValueToParent: (key: string) => void,
     onRowClicked: (row: Row<TData>) => void,
-    onContextMenuItemClicked: (row: Row<TData>, contextMenu: MenuItem, event: React.MouseEvent<HTMLElement>) => void
+    onContextMenuItemClicked: (row: Row<TData>, contextMenu: MenuItem, event: Event) => void
 }
 
 interface DataTableHeaderBindings<TData> {

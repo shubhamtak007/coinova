@@ -20,9 +20,9 @@ function useCoinList() {
     const [currentPageNumber, setCurrentPageNumber] = useState(1);
     const [searchValue, setSearchValue] = useState<string>('');
     const [showCoinDetailsDialog, setShowCoinDetailsDialog] = useState<boolean>(false);
+
     const clickedCoinRef = useRef<CoingeckoCrypto>(null);
     const rowsPerPageListRef = useRef([10, 25, 50, 100, 150, 200, 250]);
-
     const abortControllerRef = useRef<AbortController | null>(null);
     const previousSearchValueRef = useRef<string | null>(null);
     const searchedCoinsSymbolsRef = useRef<string | null>(null);
@@ -126,11 +126,10 @@ function useCoinList() {
         }
     }
 
-    function onContextMenuItemClicked(row: Row<CoingeckoCrypto>, contextMenu: MenuItem, event: React.MouseEvent<HTMLElement>) {
+    function onContextMenuItemClicked(row: Row<CoingeckoCrypto>, contextMenu: MenuItem, event: Event) {
         if (contextMenu.name === 'Analyze Coin') {
             const route = getUiRoute('coinAnalysis', row.original);
             if (route) globalThis?.open(route, '_blank', 'noopener,noreferrer');
-            event.preventDefault();
 
         } else if (contextMenu.name === 'View Details') {
             clickedCoinRef.current = row.original;
