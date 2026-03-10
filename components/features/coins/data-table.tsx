@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useRef } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { useWindowVirtualizer } from '@tanstack/react-virtual';
 import { useReactTable, getCoreRowModel, flexRender, Row } from '@tanstack/react-table';
@@ -150,9 +150,7 @@ function DataTableBody<TData,>({ rows, rowVirtualizer, dataTableBindings }: Data
                                                         return (
                                                             <ContextMenuItem
                                                                 key={contextMenu.id}
-                                                                onSelect={(event) => {
-                                                                    onContextMenuItemClicked(row, contextMenu, event);
-                                                                }}
+                                                                onSelect={(event) => onContextMenuItemClicked(row, contextMenu, event)}
                                                             >
                                                                 {contextMenu.name}
                                                             </ContextMenuItem>
