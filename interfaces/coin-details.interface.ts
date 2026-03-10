@@ -14,6 +14,11 @@ interface CoinDetailsServerResponse {
         repos_url: {
             [key: string]: string[]
         }
+    },
+    market_data: {
+        current_price: {
+            usd: number
+        }
     }
 }
 
@@ -24,7 +29,8 @@ interface ClientCoinProperties {
     description: string | null,
     imageUrl: string,
     websiteUrl: string,
-    socialLinks: { [key: string]: string }[]
+    socialLinks: { [key: string]: string }[],
+    currentPrice: number
 }
 
 export type { CoinDetailsServerResponse, ClientCoinProperties }

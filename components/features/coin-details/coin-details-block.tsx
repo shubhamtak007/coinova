@@ -4,6 +4,7 @@ import { useCallback } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { FaReddit, FaGithub } from "react-icons/fa";
 import { ExternalLink } from 'lucide-react';
+import { formatValueIntoCommaSeparated } from '@/services/utils.service';
 import useCoinDetailsDialog from '@/hooks/useCoinDetailsDialog';
 
 type Bindings = {
@@ -73,6 +74,14 @@ export default function CoinDetailsBlock({ coinId }: Bindings) {
                                                         })
                                                     }
                                                 </div>
+                                            </td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>Current Price</td>
+                                            <td>
+                                                {coinDetails.currentPrice &&
+                                                    formatValueIntoCommaSeparated(coinDetails.currentPrice, 5, true)}
                                             </td>
                                         </tr>
                                     </tbody>

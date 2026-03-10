@@ -44,7 +44,8 @@ export default function useCoinDetailsDialog({ coinId }: Bindings) {
             socialLinks: [
                 { name: 'Reddit', url: serverCoinProperties.links.subreddit_url },
                 { name: 'Github', url: serverCoinProperties.links.repos_url.github[0] }
-            ]
+            ],
+            currentPrice: serverCoinProperties.market_data.current_price.usd
         }
 
         return properties
