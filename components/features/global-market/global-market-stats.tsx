@@ -12,7 +12,8 @@ function GlobalMarketStats() {
         <div className={`global-market-stats-bottom-bar ${(scrollReachedBottom === false) && 'with-shadow'}`}>
             {
                 fetchingGlobalMarketStats ?
-                    <Spinner className="m-[2px_auto]" /> :
+                    <Spinner className="m-[auto] size-6" />
+                    :
                     <div className="inner-wrapper">
                         {
                             globalMarketStats.totalCoins &&
