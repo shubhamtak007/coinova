@@ -38,7 +38,7 @@ export default function useCoinDetailsDialog({ coinId }: Bindings) {
             name: serverCoinProperties.name,
             symbol: serverCoinProperties.symbol,
             description: serverCoinProperties.description.en.length > 0 ?
-                `${serverCoinProperties.description.en.split('.').slice(0, 3)}.` : null,
+                summarizeDescription(serverCoinProperties.description.en) : null,
             imageUrl: serverCoinProperties.image.large,
             websiteUrl: serverCoinProperties.links.homepage[0],
             socialLinks: [
@@ -49,6 +49,21 @@ export default function useCoinDetailsDialog({ coinId }: Bindings) {
         }
 
         return properties
+    }
+
+    async function summarizeDescription(description: string) {
+        if ('Summarizer' in self) {
+            const summarizer = await Summarizer.create({
+                type: 'tldr',
+                outputLanguage: 'en-GB',
+                length: 'medium',
+                format: 'plain-text'
+            })
+            const summary = await summarizer.summarize(description);
+            return summary;
+        } else {
+            return `${description.split('.').slice(0, 3)}.`
+        }
     }
 
     return { fetchingCoinDetails, coinDetails };

@@ -26,7 +26,7 @@ interface ClientCoinProperties {
     id: string,
     name: string,
     symbol: string,
-    description: string | null,
+    description: Promise<string | undefined> | null,
     imageUrl: string,
     websiteUrl: string,
     socialLinks: { [key: string]: string }[],

@@ -12,7 +12,7 @@ function GlobalMarketStats() {
         <div className={`global-market-stats-bottom-bar ${(scrollReachedBottom === false) && 'with-shadow'}`}>
             {
                 fetchingGlobalMarketStats ?
-                    <Spinner className="m-[auto] size-6" />
+                    <Spinner className="m-[auto] size-5" />
                     :
                     <div className="inner-wrapper">
                         {
@@ -86,15 +86,20 @@ function GlobalMarketStats() {
 
 
                                 <div className="value">
-                                    <span className="mr-[10px]">
-                                        {globalMarketStats.totalMarketCapital.marketCapShareList[0].name}&nbsp;
-                                        {globalMarketStats.totalMarketCapital.marketCapShareList[0].value}
-                                    </span>
-
-                                    <span>
-                                        {globalMarketStats.totalMarketCapital.marketCapShareList[1].name}&nbsp;
-                                        {globalMarketStats.totalMarketCapital.marketCapShareList[1].value}
-                                    </span>
+                                    {
+                                        globalMarketStats.totalMarketCapital.marketCapShareList.slice(0, 3)
+                                            .map((marketCapShareItem, index) => {
+                                                return (
+                                                    <span
+                                                        key={globalThis?.crypto.randomUUID()}
+                                                        className="mr-[10px]"
+                                                    >
+                                                        {marketCapShareItem.name}&nbsp;
+                                                        {marketCapShareItem.value}
+                                                    </span>
+                                                )
+                                            })
+                                    }
                                 </div>
                             </div>
                         }
