@@ -61,4 +61,16 @@ const coinsTableContextMenuList: MenuItem[] = ['View Details', 'Analyze Coin'].m
     return { id: crypto.randomUUID(), name }
 })
 
-export { coinKeyList, timeFrameList, chartViewList, coinsTableContextMenuList };
+const bottomBarTabList = [
+    { name: 'Home', value: 'home' },
+    { name: 'Trending', value: 'trending' },
+    { name: 'Categories', value: 'categories' }
+].map((tab) => {
+    return {
+        id: crypto.randomUUID(),
+        name: tab.name,
+        value: tab.value
+    }
+})
+
+export { coinKeyList, timeFrameList, chartViewList, coinsTableContextMenuList, bottomBarTabList };

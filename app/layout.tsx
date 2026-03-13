@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import { Analytics } from '@vercel/analytics/next';
 import { OptimisticNavigationContextProvider } from '@/contexts/navigation-context';
 import { Toaster } from '@/components/ui/sonner';
+import BottomTabBar from "@/components/layout/bottom-tab-bar";
 import NavigationWrapper from '@/components/layout/navigation-wrapper';
 import Header from "@/components/layout/header";
 import Footer from '@/components/layout/footer';
@@ -41,6 +42,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
                                 </div>
                             </main>
 
+                            {/* <BottomTabBar /> */}
                             <GlobalMarketStats />
                         </NavigationWrapper>
                     </OptimisticNavigationContextProvider>

@@ -1,0 +1,31 @@
+.bottom-tab-bar {
+    position: fixed;
+    bottom: 40px;
+    z-index: 90;
+    place-items: center;
+    width: 100%;
+
+    [data-slot="tabs"] {
+        place-items: center;
+
+        [data-slot="tabs-list"] {
+            background-color: var(--main-bg-color);
+            box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--main-color);
+            height: 38px;
+
+            [data-state="active"] {
+                background-color: var(--main-color-2);
+                color: #fafafa;
+            }
+
+            button {
+                margin-right: 5px;
+
+                &:last-child {
+                    margin-right: unset;
+                }
+            }
+        }
+    }
+}

@@ -41,7 +41,7 @@ function DialogOverlay({
             className={cn(
                 `data-[state=open]:animate-[var(--animate-fade-in)]
                 data-[state=closed]:animate-[var(--animate-fade-out)]
-                fixed inset-0 z-[100] bg-[#58667e99]`,
+                fixed inset-0 z-[100] bg-[var(--overlay-color)]`,
                 className
             )}
             {...props}
