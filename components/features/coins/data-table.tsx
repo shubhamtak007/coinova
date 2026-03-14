@@ -48,15 +48,15 @@ function DataTable<TData,>(bindings: DataTableBindings<TData>) {
                         dataTableBindings={bindings}
                     />
                 </table>
-
-                {
-                    (props.fetchingList === true)
-                    &&
-                    <div className="place-items-center m-[20px]">
-                        <Spinner className="size-20" />
-                    </div>
-                }
             </div>
+
+            {
+                (props.fetchingList === true)
+                &&
+                <div className="place-items-center m-[20px]">
+                    <Spinner className="size-20" />
+                </div>
+            }
         </>
     )
 }
