@@ -1,13 +1,6 @@
 import { NextResponse } from 'next/server';
 import axios from 'axios';
-
-const apiProperties = axios.create({
-    baseURL: 'https://api.coingecko.com/api/',
-    headers: {
-        accept: 'application/json',
-        'x-cg-demo-api-key': process.env.COIN_GECKO_API_KEY
-    }
-})
+import { coinGeckoClient } from '@/lib/api-client';
 
 export async function GET(request: Request) {
     if (!process.env.COIN_GECKO_API_KEY) {
@@ -25,7 +18,7 @@ export async function GET(request: Request) {
 
     try {
         const endPoint = 'v3/search/trending';
-        const response = await apiProperties.get(endPoint, { params: queryParameters });
+        const response = await coinGeckoClient.get(endPoint, { params: queryParameters });
         return NextResponse.json(response.data);
 
     } catch (error: unknown) {

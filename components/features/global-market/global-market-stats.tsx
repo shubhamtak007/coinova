@@ -9,7 +9,7 @@ function GlobalMarketStats() {
     const { globalMarketStats, fetchingGlobalMarketStats, scrollReachedBottom } = useGlobalMarketStats();
 
     return (
-        <div className={`global-market-stats-bottom-bar ${(scrollReachedBottom === false) && 'with-shadow'}`}>
+        <div className={`global-market-stats-bottom-bar ${(scrollReachedBottom === true) && 'remove-shadow'}`}>
             {
                 fetchingGlobalMarketStats ?
                     <Spinner className="m-[auto] size-5" />

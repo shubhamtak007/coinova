@@ -7,11 +7,13 @@ import type { GlobalMarketStats } from '@/interfaces/global-market-stats.interfa
 function useGlobalMarketStats() {
     const [globalMarketStats, setGlobalMarketStats] = useState<GlobalMarketStats>({} as GlobalMarketStats);
     const [fetchingGlobalMarketStats, setFetchingGlobalMarketStats] = useState<boolean>(true);
-    const [scrollReachedBottom, setScrollReachedBottom] = useState<boolean>(true);
+    const [scrollReachedBottom, setScrollReachedBottom] = useState<boolean>(false);
 
     useEffect(() => {
         fetchGlobalMarketData();
+    }, [])
 
+    useEffect(() => {
         function handleScroll() {
             const { innerHeight, scrollY } = globalThis;
             const { offsetHeight } = document.body;
@@ -26,7 +28,7 @@ function useGlobalMarketStats() {
         globalThis.addEventListener('scroll', handleScroll);
 
         return () => { globalThis.removeEventListener('scroll', handleScroll) }
-    }, [])
+    })
 
     async function fetchGlobalMarketData() {
         try {

@@ -10,9 +10,15 @@
 
         [data-slot="tabs-list"] {
             background-color: var(--main-bg-color);
-            box-shadow: 0 0 8px 2px rgba(0, 0, 0, 0.06);
-            border: 1px solid var(--main-color);
-            height: 38px;
+            box-shadow: 0 0 6px 10px rgba(0, 0, 0, 0.06);
+            height: 40px;
+            overflow: auto hidden;
+            gap: 5px;
+
+            &.remove-shadow {
+                border: 1px solid var(--border-color);
+                box-shadow: unset;
+            }
 
             [data-state="active"] {
                 background-color: var(--main-color-2);
@@ -20,12 +26,15 @@
             }
 
             button {
-                margin-right: 5px;
-
-                &:last-child {
-                    margin-right: unset;
-                }
+                min-width: 40px;
+                max-width: max-content;
             }
         }
+    }
+}
+
+@media screen and (max-width: 910px) {
+    .bottom-tab-bar {
+        bottom: 47px;
     }
 }

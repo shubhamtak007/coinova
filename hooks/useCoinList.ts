@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { retrieveCoinList, searchCoin } from '@/services/coin.service';
+import { retrieveCoinList, search } from '@/services/coin.service';
 import { useRouter } from 'next/navigation';
 import { getUiRoute, getRowsPerPageDefaultValue } from '@/services/utils.service';
 import { CoinListApiParams } from '@/interfaces/coin-list.interface';
@@ -63,8 +63,8 @@ function useCoinList() {
             if (searchValue.length > 0) {
                 if (searchValue !== previousSearchValueRef.current) {
                     previousSearchValueRef.current = searchValue;
-                    const response = await searchCoin({ query: searchValue }, signal);
-                    searchedCoinsSymbolsRef.current = createSymbolsFromSearchedCoins(response.data.data.coins);
+                    const response = await search({ query: searchValue }, signal);
+                    searchedCoinsSymbolsRef.current = createSymbolsFromSearchedCoins(response.data.coins);
                 }
 
                 params.symbols = searchedCoinsSymbolsRef.current;

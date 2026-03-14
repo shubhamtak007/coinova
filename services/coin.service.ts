@@ -111,9 +111,9 @@ const retrieveCoinDetailsByCoinId = async function (coinId: string) {
     }
 }
 
-const searchCoin = async function (params: { query: string }, signal: AbortSignal) {
+const search = async function (params: { query: string }, signal: AbortSignal) {
     try {
-        const response = await coinRankingClient.get('v2/search-suggestions', { params, signal })
+        const response = await coinGeckoClient.get('v3/search', { params, signal })
         return response;
     } catch (error) {
         throw error;
@@ -127,5 +127,5 @@ export {
     retrieveAllCoins,
     retrieveCoinMarketChartData,
     retrieveCoinDetailsByCoinId,
-    searchCoin
+    search
 }
