@@ -57,7 +57,17 @@ interface MarketSummaryRefMap {
     trendingCoins: CryptoCurrency[]
 }
 
+interface SearchApiCoin {
+    api_symbol: string,
+    id: string,
+    large: string,
+    market_cap_rank: string,
+    name: string,
+    symbol: string,
+    thumb: string
+}
+
 export type {
     CryptoCurrency, CoingeckoCrypto,
-    TrendingCoinItem, TrendingCoin, MarketSummaryRefMap
+    TrendingCoinItem, TrendingCoin, MarketSummaryRefMap, SearchApiCoin
 }

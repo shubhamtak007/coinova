@@ -18,7 +18,7 @@ export default function MarketSummaryCoins({ noOfCoins, marketSummaryItem }: Bin
 
     return (
         <table className="coins-table">
-            {noOfCoins === 15 && <thead>
+            {noOfCoins > 3 && <thead>
                 <tr>
                     <th className="w-[35px]">#</th>
                     <th className="text-left w-[30%]">Coin</th>
@@ -34,7 +34,7 @@ export default function MarketSummaryCoins({ noOfCoins, marketSummaryItem }: Bin
                         return (
                             <tr key={coin.id}>
                                 {
-                                    noOfCoins === 15 && <td className="text-center">
+                                    noOfCoins > 3 && <td className="text-center">
                                         {index + 1}
                                     </td>
                                 }

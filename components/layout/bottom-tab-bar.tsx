@@ -1,13 +1,14 @@
 'use client';
 
+import useBottomTabBar from '@/hooks/useBottomTabBar';
 import { Tabs, TabsTrigger, TabsList } from '@/components/ui/tabs';
 import { House } from 'lucide-react';
 import { FiGithub } from "react-icons/fi";
-import useBottomTabBar from '@/hooks/useBottomTabBar';
 import { bottomBarTabList } from '@/constants/coin.constants';
+import CoinSearchDialog from '@/components/features/coin-search/coin-search-dialog'
 
 function BottomTabBar() {
-    const { scrollEnded, activeTab, onTabChange } = useBottomTabBar();
+    const { scrollEnded, activeTab, onTabChange, showCoinSearchDialog, setShowCoinSearchDialog } = useBottomTabBar();
 
     return (
         <div
@@ -24,8 +25,8 @@ function BottomTabBar() {
                             return (
                                 <TabsTrigger key={tab.id} value={tab.value}>
                                     {
-                                        tab.name === 'Home' ? <House /> :
-                                            tab.name === 'Github' ? <FiGithub /> :
+                                        tab.name === 'Home' ? <House className="size-4" /> :
+                                            tab.name === 'Github' ? <FiGithub className="size-4" /> :
                                                 tab.name
                                     }
                                 </TabsTrigger>
@@ -34,6 +35,14 @@ function BottomTabBar() {
                     }
                 </TabsList>
             </Tabs>
+
+            {
+                showCoinSearchDialog === true &&
+                <CoinSearchDialog
+                    showDialog={showCoinSearchDialog}
+                    setShowDialog={setShowCoinSearchDialog}
+                />
+            }
         </div>
     )
 }

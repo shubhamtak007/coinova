@@ -1,6 +1,6 @@
 .dialog-body {
+    max-height: calc(80vh - 101px);
     padding: 12px;
     font-size: 14px;
     overflow-y: auto;
-    max-height: calc(80vh - 60px);
 }

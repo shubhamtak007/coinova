@@ -10,6 +10,7 @@ function useBottomTabBar() {
     const { navigateOptimistically } = useOptimisticNavigation();
     const [activeTab, setActiveTab] = useState<string>('home');
     const [scrollEnded, setScrollEnded] = useState<boolean>(false);
+    const [showCoinSearchDialog, setShowCoinSearchDialog] = useState<boolean>(false);
 
     useEffect(() => {
         function handleScroll() {
@@ -49,7 +50,7 @@ function useBottomTabBar() {
         } else if (value === 'categories') {
             route = 'categories';
         } else if (value === 'analyzeCoin') {
-
+            setShowCoinSearchDialog(true);
         } else if (value === 'github') {
             globalThis?.open('https://github.com/shubhamtak007/coinova', '_blank', 'noopener,noreferrer');
             globalThis?.event?.preventDefault();
@@ -61,7 +62,7 @@ function useBottomTabBar() {
         }
     }
 
-    return { scrollEnded, activeTab, onTabChange }
+    return { scrollEnded, activeTab, onTabChange, showCoinSearchDialog, setShowCoinSearchDialog }
 }
 
 export default useBottomTabBar;

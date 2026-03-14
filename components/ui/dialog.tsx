@@ -96,7 +96,8 @@ function DialogHeader({
         <div
             data-slot="dialog-header"
             className={cn(`flex items-center justify-between gap-2 text-center sm:text-left min-w-[100%]
-                        p-[8px_12px] sticky top-[0px] bg-[#fff] border-b-[1px] border-[var(--border-color)] rounded-t-[var(--border-radius)]`, className)}
+                        p-[8px_12px] sticky top-[0px] bg-[#fff] border-b-[1px] border-[var(--border-color)]
+                        rounded-t-[var(--border-radius)]`, className)}
             {...props}
         >
             {children}
@@ -124,7 +125,8 @@ function DialogTitle({
     return (
         <DialogPrimitive.Title
             data-slot="dialog-title"
-            className={cn("text-left text-md whitespace-nowrap overflow-x-auto overflow-y-hidden w-[90%] leading-none font-semibold", className)}
+            className={cn(`text-left text-md whitespace-nowrap overflow-x-auto overflow-y-hidden w-full leading-none
+                            font-semibold`, className)}
             {...props}
         />
     )
@@ -171,7 +173,8 @@ function DialogFooter({
         <div
             data-slot="dialog-footer"
             className={cn(
-                "flex flex-col-reverse gap-2 sm:flex-row sm:justify-end",
+                `max-h-[47px] flex gap-2 sm:flex-row w-full justify-between border-t border-[var(--border-color)] p-[8px_12px]
+                items-center`,
                 className
             )}
             {...props}

@@ -111,7 +111,7 @@ const retrieveCoinDetailsByCoinId = async function (coinId: string) {
     }
 }
 
-const search = async function (params: { query: string }, signal: AbortSignal) {
+const search = async function (params: { query: string }, signal?: AbortSignal) {
     try {
         const response = await coinGeckoClient.get('v3/search', { params, signal })
         return response;

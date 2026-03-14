@@ -65,7 +65,7 @@ const bottomBarTabList = [
     { name: 'Home', value: 'home' },
     // { name: 'Trending', value: 'trending' },
     // { name: 'Categories', value: 'categories' },
-    // { name: 'Analyze Coin', value: 'analyzeCoin' },
+    { name: 'Analyze Coin', value: 'analyzeCoin' },
     { name: 'Github', value: 'github' }
 ].map((tab) => {
     return {
