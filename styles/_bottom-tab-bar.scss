@@ -1,6 +1,6 @@
 .bottom-tab-bar {
     position: fixed;
-    bottom: 40px;
+    bottom: 35px;
     z-index: 90;
     place-items: center;
     width: 100%;
@@ -10,13 +10,13 @@
 
         [data-slot="tabs-list"] {
             background-color: var(--main-bg-color);
-            box-shadow: 0 0 6px 10px rgba(0, 0, 0, 0.06);
+            border: 1px solid var(--border-color);
+            box-shadow: var(--box-shadow);
             height: 40px;
             overflow: auto hidden;
             gap: 5px;
 
             &.remove-shadow {
-                border: 1px solid var(--border-color);
                 box-shadow: unset;
             }
 
@@ -35,6 +35,6 @@
 
 @media screen and (max-width: 910px) {
     .bottom-tab-bar {
-        bottom: 45px;
+        bottom: 40px;
     }
 }
