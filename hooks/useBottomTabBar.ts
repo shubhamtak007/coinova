@@ -40,7 +40,7 @@ function useBottomTabBar() {
         }
     }, [pathName]);
 
-    function onTabChange(value: string) {
+    function onTabClick(value: string) {
         let route;
 
         if (value === 'home') {
@@ -62,7 +62,7 @@ function useBottomTabBar() {
         }
     }
 
-    return { scrollEnded, activeTab, onTabChange, showCoinSearchDialog, setShowCoinSearchDialog }
+    return { scrollEnded, activeTab, onTabClick, showCoinSearchDialog, setShowCoinSearchDialog }
 }
 
 export default useBottomTabBar;

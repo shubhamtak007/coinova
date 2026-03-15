@@ -26,6 +26,7 @@ function CoinSearchDialog(bindings: Bindings) {
             >
                 <DialogContent
                     closeOnOutsideClick={true}
+                    style={{ '--dialog-body-height': '60vh' } as React.CSSProperties}
                 >
                     <DialogHeader
                         showCloseButton={false}
@@ -68,60 +69,55 @@ function CoinSearchDialog(bindings: Bindings) {
 
                         {
                             (searchingCoins === false && coins.length > 0) &&
-                            <table className="coins-table">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th className="text-left">Coin</th>
-                                    </tr>
-                                </thead>
+                            <>
+                                <div className="text-gray-500 text-[12px] mb-[12px]">
+                                    Search Results
+                                </div>
 
-                                <tbody>
-                                    {
-                                        coins.map((coin, index) => {
-                                            return (
-                                                <tr
-                                                    className="p-2"
-                                                    key={coin.id}
-                                                >
-                                                    <td className="text-center">
-                                                        {index + 1}
-                                                    </td>
+                                <table className="coins-table">
+                                    <tbody>
+                                        {
+                                            coins.map((coin, index) => {
+                                                return (
+                                                    <tr
+                                                        className="p-2"
+                                                        key={coin.id}
+                                                    >
+                                                        <td>
+                                                            <div className="flex items-center">
+                                                                <div className="pr-[8px]">
+                                                                    {
+                                                                        coin.large ? <Image
+                                                                            className="object-contain rounded-[10px]"
+                                                                            width={23}
+                                                                            height={23}
+                                                                            alt={`Image of ${coin.name}`}
+                                                                            src={coin.large}
+                                                                        /> :
+                                                                            <div className="coin-letter-mark cursor-pointer">
+                                                                                {coin.symbol[0]}
+                                                                            </div>
+                                                                    }
+                                                                </div>
 
-                                                    <td>
-                                                        <div className="flex items-center">
-                                                            <div className="pr-[8px]">
-                                                                {
-                                                                    coin.large ? <Image
-                                                                        className="object-contain rounded-[10px]"
-                                                                        width={23}
-                                                                        height={23}
-                                                                        alt={`Image of ${coin.name}`}
-                                                                        src={coin.large}
-                                                                    /> :
-                                                                        <div className="coin-letter-mark cursor-pointer">
-                                                                            {coin.symbol[0]}
-                                                                        </div>
-                                                                }
+                                                                <a
+                                                                    className="crypto-symbol cursor-pointer"
+                                                                    onClick={(event) => { onSymbolClick(event, coin) }}
+                                                                    href={`${getUiRoute('coinAnalysis', coin)}`}
+                                                                    target="_blank"
+                                                                    rel="noopener noreferrer"
+                                                                >
+                                                                    {coin.name}
+                                                                </a>
                                                             </div>
-
-                                                            <a
-                                                                className="crypto-symbol cursor-pointer"
-                                                                onClick={(event) => { onSymbolClick(event, coin) }}
-                                                                href={`${getUiRoute('coinAnalysis', coin)}`}
-                                                                target="_blank"
-                                                                rel="noopener noreferrer"
-                                                            >
-                                                                {coin.name}
-                                                            </a>
-                                                        </div>
-                                                    </td>
-                                                </tr>
-                                            )
-                                        })
-                                    }
-                                </tbody>
-                            </table>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })
+                                        }
+                                    </tbody>
+                                </table>
+                            </>
                         }
                     </DialogBody>
 
@@ -132,7 +128,7 @@ function CoinSearchDialog(bindings: Bindings) {
                     </DialogFooter>
                 </DialogContent>
             </Dialog>
-        </div>
+        </div >
     )
 }
 

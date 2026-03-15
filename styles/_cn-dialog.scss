@@ -1,6 +1,10 @@
-.dialog-body {
-    max-height: calc(80vh - 101px);
-    padding: 12px;
-    font-size: 14px;
-    overflow-y: auto;
+[data-slot="dialog-content"] {
+    --dialog-body-height: 80vh;
+
+    .dialog-body {
+        max-height: calc(var(--dialog-body-height) - 101px);
+        padding: 12px;
+        font-size: 14px;
+        overflow-y: auto;
+    }
 }

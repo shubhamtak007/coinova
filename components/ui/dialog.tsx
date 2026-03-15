@@ -70,7 +70,7 @@ function DialogContent({
                     data-[state=closed]:animate-[var(--animate-zoom-out)] fixed top-[50%] left-[50%]
                     z-[200] grid w-[calc(100%-2rem)] max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%]
                     rounded-[var(--border-radius)] border shadow-lg duration-200 outline-none
-                    max-h-[80vh] bg-background ${size === 'sm' ? 'max-w-lg' :
+                    max-h-[var(--dialog-body-height)] bg-background ${size === 'sm' ? 'max-w-lg' :
                         size === 'md' ? 'max-w-4xl' :
                             size === 'lg' ? 'max-w-6xl' : 'max-w-lg'
                     }`,
@@ -105,10 +105,10 @@ function DialogHeader({
             {showCloseButton && (
                 <DialogPrimitive.Close
                     data-slot="dialog-close"
-                    className={`data-[state=open]:bg-accent p-[4px] h-[max-content] rounded-[var(--border-radius)] bg-[hsl(from_var(--main-color)_h_s_calc(l_+_3))]
-                                data-[state=open]:text-muted-foreground opacity-70 cursor-pointer outline-[var(--main-color)]
-                                transition-opacity hover:opacity-100 disabled:pointer-events-none [&_svg]:pointer-events-none
-                                 [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4`}
+                    className={`data-[state=open]:bg-accent p-[4px] h-[max-content] rounded-[var(--border-radius)]
+                                bg-[hsl(from_var(--main-color)_h_s_calc(l_+_3))] data-[state=open]:text-muted-foreground opacity-70 cursor-pointer outline-[var(--main-color)]
+                                transition-opacity hover:opacity-100 disabled:pointer-events-none
+                                [&_svg]:pointer-events-none [&_svg]:shrink-0 [&_svg:not([class*='size-'])]:size-4`}
                 >
                     <XIcon />
                     <span className="sr-only">Close</span>
@@ -173,8 +173,8 @@ function DialogFooter({
         <div
             data-slot="dialog-footer"
             className={cn(
-                `max-h-[47px] flex gap-2 sm:flex-row w-full justify-between border-t border-[var(--border-color)] p-[8px_12px]
-                items-center`,
+                `max-h-[47px] flex gap-2 sm:flex-row w-full justify-between border-t border-[var(--border-color)]
+                p-[8px_12px] items-center`,
                 className
             )}
             {...props}

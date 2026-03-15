@@ -8,14 +8,13 @@ import { bottomBarTabList } from '@/constants/coin.constants';
 import CoinSearchDialog from '@/components/features/coin-search/coin-search-dialog'
 
 function BottomTabBar() {
-    const { scrollEnded, activeTab, onTabChange, showCoinSearchDialog, setShowCoinSearchDialog } = useBottomTabBar();
+    const { scrollEnded, activeTab, onTabClick, showCoinSearchDialog, setShowCoinSearchDialog } = useBottomTabBar();
 
     return (
         <div
             className={`bottom-tab-bar`}
         >
             <Tabs
-                onValueChange={(value) => { onTabChange(value) }}
                 defaultValue={'home'}
                 value={activeTab}
             >
@@ -23,7 +22,11 @@ function BottomTabBar() {
                     {
                         bottomBarTabList.map((tab: { id: string, name: string, value: string }) => {
                             return (
-                                <TabsTrigger key={tab.id} value={tab.value}>
+                                <TabsTrigger
+                                    key={tab.id}
+                                    value={tab.value}
+                                    onClick={() => { onTabClick(tab.value) }}
+                                >
                                     {
                                         tab.name === 'Home' ? <House className="size-4" /> :
                                             tab.name === 'Github' ? <FiGithub className="size-4" /> :
