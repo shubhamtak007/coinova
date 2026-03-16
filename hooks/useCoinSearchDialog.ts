@@ -4,8 +4,16 @@ import { useState, useEffect } from 'react';
 import { search } from '@/services/coin.service';
 import { getUiRoute } from '@/services/utils.service';
 import { SearchApiCoin } from '@/interfaces/coin.interface';
+import { useRouter } from 'next/navigation';
+import { useOptimisticNavigation } from '@/contexts/navigation-context';
 
-export default function useCoinSearchDialog() {
+type bindings = {
+    setShowDialog: (value: boolean) => void;
+}
+
+export default function useCoinSearchDialog({ setShowDialog }: bindings) {
+    const router = useRouter();
+    const { navigateOptimistically } = useOptimisticNavigation();
     const [searchValue, setSearchValue] = useState<string>('');
     const [searchingCoins, setSearchingCoins] = useState<boolean>(false);
     const [coins, setCoins] = useState<SearchApiCoin[]>([]);
@@ -16,13 +24,13 @@ export default function useCoinSearchDialog() {
         if (searchValue.length > 0) {
             debounceHandler = setTimeout(() => {
                 searchCoin();
-            }, 500);
+            }, 300);
         } else {
             if (coins.length > 0) setCoins([]);
         }
 
         return () => { clearTimeout(debounceHandler) }
-    }, [searchValue])
+    }, [searchValue]);
 
     function onSearchValueChange(event: React.ChangeEvent<HTMLInputElement>) {
         setSearchValue(event.target.value)
@@ -33,6 +41,7 @@ export default function useCoinSearchDialog() {
 
         try {
             const response = await search({ query: searchValue })
+            prefetchCoinAnalysisRoutes(response.data.coins);
             setCoins(response.data.coins);
         } catch (error) {
 
@@ -41,11 +50,21 @@ export default function useCoinSearchDialog() {
         }
     }
 
-    function onSymbolClick(event: React.MouseEvent<HTMLElement>, coin: SearchApiCoin) {
-        const route = getUiRoute('coinAnalysis', coin);
-        if (route) globalThis?.open(route, '_blank', 'noopener,noreferrer');
-        event.preventDefault();
+    function prefetchCoinAnalysisRoutes(coins: SearchApiCoin[]) {
+        for (const coin of coins) {
+            const path = getUiRoute('coinAnalysis', coin)
+            if (path) router.prefetch(path);
+        }
     }
 
-    return { searchValue, setSearchValue, onSearchValueChange, searchingCoins, coins, onSymbolClick };
+    function onCoinClick(event: React.MouseEvent<HTMLElement>, coin: SearchApiCoin) {
+        const route = getUiRoute('coinAnalysis', coin);
+        setShowDialog(false);
+        if (route) {
+            navigateOptimistically(route);
+            router.push(route);
+        }
+    }
+
+    return { searchValue, setSearchValue, onSearchValueChange, searchingCoins, coins, onCoinClick };
 }

@@ -2,7 +2,6 @@ import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/in
 import { Dialog, DialogHeader, DialogTitle, DialogBody, DialogContent, DialogFooter } from '@/components/ui/dialog';
 import { Search, X } from 'lucide-react'
 import { Spinner } from '@/components/ui/spinner';
-import { getUiRoute } from '@/services/utils.service';
 import useCoinSearchDialog from '@/hooks/useCoinSearchDialog';
 import Image from 'next/image';
 
@@ -15,8 +14,8 @@ function CoinSearchDialog(bindings: Bindings) {
     const { showDialog, setShowDialog } = bindings;
     const {
         searchValue, setSearchValue, onSearchValueChange,
-        searchingCoins, coins, onSymbolClick
-    } = useCoinSearchDialog();
+        searchingCoins, coins, onCoinClick
+    } = useCoinSearchDialog({ setShowDialog });
 
     return (
         <div>
@@ -59,18 +58,18 @@ function CoinSearchDialog(bindings: Bindings) {
                     <DialogBody>
                         {
                             searchingCoins === true &&
-                            <Spinner className="size-12 m-[12px_auto]" />
+                            <Spinner className="size-12 mx-auto" />
                         }
 
                         {
                             (searchingCoins === false && coins.length === 0) &&
-                            <div className="no-value-text !text-center m-[12px_auto]">No coins.</div>
+                            <div className="no-value-text !text-center">No coins.</div>
                         }
 
                         {
                             (searchingCoins === false && coins.length > 0) &&
                             <>
-                                <div className="text-gray-500 text-[12px] mb-[12px]">
+                                <div className="text-gray-500 text-[12px] mb-[8px]">
                                     Search Results
                                 </div>
 
@@ -80,10 +79,13 @@ function CoinSearchDialog(bindings: Bindings) {
                                             coins.map((coin, index) => {
                                                 return (
                                                     <tr
-                                                        className="p-2"
                                                         key={coin.id}
+                                                        className="cursor-pointer hover:bg-[#f2f3f8]"
+                                                        onClick={(event) => { onCoinClick(event, coin); }}
                                                     >
-                                                        <td>
+                                                        <td className={`!p-[8px_10px] mb-[4px]
+                                                                        rounded-[var(--border-radius)]`}
+                                                        >
                                                             <div className="flex items-center">
                                                                 <div className="pr-[8px]">
                                                                     {
@@ -100,15 +102,11 @@ function CoinSearchDialog(bindings: Bindings) {
                                                                     }
                                                                 </div>
 
-                                                                <a
+                                                                <div
                                                                     className="crypto-symbol cursor-pointer"
-                                                                    onClick={(event) => { onSymbolClick(event, coin) }}
-                                                                    href={`${getUiRoute('coinAnalysis', coin)}`}
-                                                                    target="_blank"
-                                                                    rel="noopener noreferrer"
                                                                 >
                                                                     {coin.name}
-                                                                </a>
+                                                                </div>
                                                             </div>
                                                         </td>
                                                     </tr>

@@ -1,6 +1,6 @@
 .bottom-tab-bar {
     position: fixed;
-    bottom: 35px;
+    bottom: 34px;
     z-index: 90;
     place-items: center;
     width: 100%;
@@ -35,6 +35,6 @@
 
 @media screen and (max-width: 910px) {
     .bottom-tab-bar {
-        bottom: 40px;
+        bottom: 38px;
     }
 }
