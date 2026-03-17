@@ -75,4 +75,12 @@ const bottomBarTabList = [
     }
 })
 
-export { coinKeyList, timeFrameList, chartViewList, coinsTableContextMenuList, bottomBarTabList };
+const coinSymbolImageSize = {
+    width: 22,
+    height: 22
+}
+
+export {
+    coinKeyList, timeFrameList, chartViewList, coinsTableContextMenuList,
+    bottomBarTabList, coinSymbolImageSize
+};

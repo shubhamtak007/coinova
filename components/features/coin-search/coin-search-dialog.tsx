@@ -1,9 +1,10 @@
+import Image from 'next/image';
+import useCoinSearchDialog from '@/hooks/useCoinSearchDialog';
+import { coinSymbolImageSize } from '@/constants/coin.constants';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Dialog, DialogHeader, DialogTitle, DialogBody, DialogContent, DialogFooter } from '@/components/ui/dialog';
-import { Search, X } from 'lucide-react'
+import { Search, X } from 'lucide-react';
 import { Spinner } from '@/components/ui/spinner';
-import useCoinSearchDialog from '@/hooks/useCoinSearchDialog';
-import Image from 'next/image';
 
 type Bindings = {
     showDialog: boolean,
@@ -24,8 +25,8 @@ function CoinSearchDialog(bindings: Bindings) {
                 onOpenChange={setShowDialog}
             >
                 <DialogContent
-                    closeOnOutsideClick={true}
                     style={{ '--dialog-body-height': '60vh' } as React.CSSProperties}
+                    closeOnOutsideClick={true}
                 >
                     <DialogHeader
                         showCloseButton={false}
@@ -34,8 +35,10 @@ function CoinSearchDialog(bindings: Bindings) {
                         <DialogTitle className="font-normal">
                             <InputGroup className="w-full h-[40px] m-[12px] w-[stretch]">
                                 <InputGroupInput
-                                    className="!text-[13px] h-[inherit]"
+                                    type="text"
+                                    tabIndex={0}
                                     placeholder="Search for the coin you want to analyze"
+                                    className="!text-[13px] h-[inherit]"
                                     value={searchValue}
                                     onChange={(event) => { onSearchValueChange(event) }}
                                 />
@@ -58,7 +61,7 @@ function CoinSearchDialog(bindings: Bindings) {
                     <DialogBody>
                         {
                             searchingCoins === true &&
-                            <Spinner className="size-12 mx-auto" />
+                            <Spinner className="size-13 mx-auto" />
                         }
 
                         {
@@ -79,9 +82,17 @@ function CoinSearchDialog(bindings: Bindings) {
                                             coins.map((coin, index) => {
                                                 return (
                                                     <tr
+                                                        tabIndex={0}
                                                         key={coin.id}
-                                                        className="cursor-pointer hover:bg-[#f2f3f8]"
+                                                        className={`cursor-pointer hover:bg-[#f2f3f8]
+                                                                outline-[#2663eb] rounded-[var(--border-radius)]
+                                                            `}
                                                         onClick={(event) => { onCoinClick(event, coin); }}
+                                                        onKeyDown={(event) => {
+                                                            if (event.key === 'Enter') {
+                                                                onCoinClick(event, coin);
+                                                            }
+                                                        }}
                                                     >
                                                         <td className={`!p-[8px_10px] mb-[4px]
                                                                         rounded-[var(--border-radius)]`}
@@ -90,9 +101,9 @@ function CoinSearchDialog(bindings: Bindings) {
                                                                 <div className="pr-[8px]">
                                                                     {
                                                                         coin.large ? <Image
-                                                                            className="object-contain rounded-[10px]"
-                                                                            width={23}
-                                                                            height={23}
+                                                                            className="coin-symbol-image"
+                                                                            width={coinSymbolImageSize.width}
+                                                                            height={coinSymbolImageSize.height}
                                                                             alt={`Image of ${coin.name}`}
                                                                             src={coin.large}
                                                                         /> :

@@ -29,3 +29,10 @@
     font-size: 15px !important;
     background-color: var(--color-red-800) !important;
 }
+
+.coin-symbol-image {
+    width: 22px;
+    height: 22px;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+}

@@ -1,6 +1,9 @@
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { formatValueInUsdCompact } from "@/services/utils.service";
 import { getUiRoute } from "@/services/utils.service";
+import { useOptimisticNavigation } from '@/contexts/navigation-context';
+import { coinSymbolImageSize } from '@/constants/coin.constants';
 import type { MarketSummaryItem } from '@/interfaces/market-summary.interface';
 import type { CryptoCurrency } from '@/interfaces/coin.interface';
 
@@ -10,10 +13,15 @@ interface Bindings {
 }
 
 export default function MarketSummaryCoins({ noOfCoins, marketSummaryItem }: Bindings) {
+    const { navigateOptimistically } = useOptimisticNavigation();
+    const router = useRouter();
     function onSymbolClick(event: React.MouseEvent<HTMLElement>, coin: CryptoCurrency) {
         const route = getUiRoute('coinAnalysis', coin);
-        if (route) globalThis?.open(route, '_blank', 'noopener,noreferrer');
-        event.preventDefault();
+
+        if (route) {
+            navigateOptimistically(route);
+            router.push(route);
+        }
     }
 
     return (
@@ -44,9 +52,9 @@ export default function MarketSummaryCoins({ noOfCoins, marketSummaryItem }: Bin
                                         <div className="pr-[8px]">
                                             {
                                                 coin.imageUrl ? <Image
-                                                    className="object-contain rounded-[10px]"
-                                                    width={23}
-                                                    height={23}
+                                                    className="coin-symbol-image"
+                                                    width={coinSymbolImageSize.width}
+                                                    height={coinSymbolImageSize.height}
                                                     alt={`Image of ${coin.name}`}
                                                     src={coin.imageUrl}
                                                 /> :
@@ -56,15 +64,12 @@ export default function MarketSummaryCoins({ noOfCoins, marketSummaryItem }: Bin
                                             }
                                         </div>
 
-                                        <a
+                                        <div
                                             className="crypto-symbol cursor-pointer"
                                             onClick={(event) => { onSymbolClick(event, coin) }}
-                                            href={`${getUiRoute('coinAnalysis', coin)}`}
-                                            target="_blank"
-                                            rel="noopener noreferrer"
                                         >
                                             {coin.symbol}
-                                        </a>
+                                        </div>
                                     </div>
                                 </td>
 

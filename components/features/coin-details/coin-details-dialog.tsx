@@ -5,6 +5,7 @@ import type { CoingeckoCrypto } from '@/interfaces/coin.interface';
 import React from 'react';
 import Image from 'next/image';
 import CoinDetailsBlock from '@/components/features/coin-details/coin-details-block';
+import { coinSymbolImageSize } from '@/constants/coin.constants';
 
 type Bindings = {
     showDialog: boolean,
@@ -28,9 +29,9 @@ function CoinDetailsDialog(bindings: Bindings) {
                             {
                                 coin.image ?
                                     <Image
-                                        className="object-cover rounded-[10px]"
-                                        width={22}
-                                        height={22}
+                                        className="coin-symbol-image"
+                                        width={coinSymbolImageSize.width}
+                                        height={coinSymbolImageSize.height}
                                         alt={`Image of ${coin.name}`}
                                         src={coin.image}
                                     />

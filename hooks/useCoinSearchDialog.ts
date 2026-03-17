@@ -57,7 +57,7 @@ export default function useCoinSearchDialog({ setShowDialog }: bindings) {
         }
     }
 
-    function onCoinClick(event: React.MouseEvent<HTMLElement>, coin: SearchApiCoin) {
+    function onCoinClick(event: React.SyntheticEvent, coin: SearchApiCoin) {
         const route = getUiRoute('coinAnalysis', coin);
         setShowDialog(false);
         if (route) {
@@ -66,5 +66,8 @@ export default function useCoinSearchDialog({ setShowDialog }: bindings) {
         }
     }
 
-    return { searchValue, setSearchValue, onSearchValueChange, searchingCoins, coins, onCoinClick };
+    return {
+        searchValue, setSearchValue, onSearchValueChange,
+        searchingCoins, coins, onCoinClick
+    };
 }

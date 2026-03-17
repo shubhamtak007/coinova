@@ -79,9 +79,9 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
                     {
                         imageUrl ?
                             <Image
-                                className="object-cover rounded-[10px]"
-                                width={24}
-                                height={24}
+                                className="coin-symbol-image"
+                                width={22}
+                                height={22}
                                 alt={`Image of ${name}`}
                                 src={imageUrl}
                             />
