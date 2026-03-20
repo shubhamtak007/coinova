@@ -15,10 +15,11 @@ function BottomTabBar() {
             className={`bottom-tab-bar`}
         >
             <Tabs
+                className={`${scrollEnded === true && 'remove-shadow'}`}
                 defaultValue={'home'}
                 value={activeTab}
             >
-                <TabsList className={`${scrollEnded === true && 'remove-shadow'}`}>
+                <TabsList>
                     {
                         bottomBarTabList.map((tab: { id: string, name: string, value: string }) => {
                             return (

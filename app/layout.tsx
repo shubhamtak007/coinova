@@ -40,8 +40,11 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
                                 </div>
                             </main>
 
-                            <BottomTabBar />
-                            <GlobalMarketStats />
+                            <div className="bottom-sticky-container">
+                                <BottomTabBar />
+                                <div className="m-[6px]"></div>
+                                <GlobalMarketStats />
+                            </div>
                         </NavigationWrapper>
                     </OptimisticNavigationContextProvider>
                 </div>

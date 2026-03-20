@@ -21,9 +21,16 @@
         max-width: 100%;
 
         .container {
-            padding: 12px;
+            padding: 12px 12px 100px 12px;
             margin: auto;
             max-width: var(--container-width);
         }
+    }
+
+    .bottom-sticky-container {
+        position: fixed;
+        bottom: 0px;
+        z-index: 99;
+        width: 100%;
     }
 }
