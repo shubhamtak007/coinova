@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
         root: path.join(__dirname)
     },
     images: {
+        minimumCacheTTL: 31536000,
         remotePatterns: [
             {
                 protocol: 'https',
