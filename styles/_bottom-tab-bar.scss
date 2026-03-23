@@ -12,6 +12,7 @@
             box-shadow: var(--box-shadow);
             height: 40px;
             gap: 5px;
+            border-radius: unset;
 
             [data-state="active"] {
                 background-color: var(--bottom-bar-tab-bg-color);
