@@ -23,7 +23,7 @@ function TrendingCoinsCategoriesAndNftsContainer() {
                             return (
                                 <div
                                     key={trendingItem.id}
-                                    className="item"
+                                    className="item min-w-fit"
                                 >
                                     <div className="text-[12px] mb-[12px]">
                                         {trendingItem.header}

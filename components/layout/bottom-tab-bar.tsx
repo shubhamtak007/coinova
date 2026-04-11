@@ -29,8 +29,15 @@ function BottomTabBar() {
                                     onClick={() => { onTabClick(tab.value) }}
                                 >
                                     {
-                                        tab.name === 'Home' ? <House className="size-4" /> :
-                                            tab.name === 'Github' ? <FiGithub className="size-4" /> :
+                                        tab.name === 'Home' ? <House
+                                            className="size-4"
+                                            absoluteStrokeWidth={true}
+                                            strokeWidth={3}
+                                        /> :
+                                            tab.name === 'Github' ? <FiGithub
+                                                className="size-4"
+                                                strokeWidth={3}
+                                            /> :
                                                 tab.name
                                     }
                                 </TabsTrigger>

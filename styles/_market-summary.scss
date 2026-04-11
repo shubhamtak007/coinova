@@ -44,8 +44,7 @@
     font-weight: 500;
 }
 
-.coins-table,
-.cn-table {
+.coins-table {
     width: 100%;
 
     thead {
@@ -94,4 +93,9 @@
             }
         }
     }
+}
+
+.cn-table {
+    @extend .coins-table;
+    font-size: 14px;
 }

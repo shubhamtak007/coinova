@@ -17,7 +17,7 @@ function TrendingCoinsCategoriesAndNftsTable(bindings: Bindings) {
                 <tr>
                     <th className="text-center">#</th>
 
-                    <th className="text-left w-[30%]">
+                    <th className="text-left w-[40%]">
                         Name
                     </th>
 
@@ -67,7 +67,7 @@ function TrendingCoinsCategoriesAndNftsTable(bindings: Bindings) {
 
                                         {
                                             (type === 'categories' || type === 'nfts') &&
-                                            <div className="whitespace-pre w-[70px] overflow-hidden text-ellipsis">
+                                            <div className="whitespace-pre w-[100px] overflow-hidden text-ellipsis">
                                                 {coinCategoryOrNft.name}
                                             </div>
                                         }
@@ -78,7 +78,7 @@ function TrendingCoinsCategoriesAndNftsTable(bindings: Bindings) {
                                     <span className="break-all">
                                         {
                                             type === 'coins' ? formatValueInUsdCompact(Number(coinCategoryOrNft.price), 2) :
-                                                type === 'nfts' ? coinCategoryOrNft.price :
+                                                type === 'nfts' ? <span>{coinCategoryOrNft.price}</span> :
                                                     (type === 'categories' && coinCategoryOrNft.marketCap) ?
                                                         formatValueInUsdCompact(Number(coinCategoryOrNft.marketCap), 2) : ''
                                         }
