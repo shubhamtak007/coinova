@@ -1,0 +1,13 @@
+.trending-coins-categories-and-nfts-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+
+    .item {
+        width: 100%;
+        flex: 1;
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius);
+        padding: 12px;
+    }
+}

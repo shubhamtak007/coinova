@@ -64,7 +64,7 @@ const coinsTableContextMenuList: MenuItem[] = ['View Details', 'Analyze Coin'].m
 const bottomBarTabList = [
     { name: 'Home', value: 'home' },
     { name: 'Analyze Coin', value: 'analyzeCoin' },
-    // { name: 'Trending', value: 'trending' },
+    { name: 'Trending', value: 'trending' },
     // { name: 'Categories', value: 'categories' },
     { name: 'Github', value: 'github' }
 ].map((tab) => {

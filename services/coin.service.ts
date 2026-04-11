@@ -26,6 +26,15 @@ const retrieveTrendingCoins = async () => {
     }
 }
 
+const retrieveTrendingCoinsCategoriesAndNfts = async () => {
+    try {
+        const response = await coinovaClient.get('v1/trending');
+        return response.data;
+    } catch (error) {
+        throw error;
+    }
+}
+
 const retrieveGlobalMarketData = async () => {
     try {
         const response = await coinovaClient.get(`v1/globalMarket`);
@@ -127,5 +136,6 @@ export {
     retrieveAllCoins,
     retrieveCoinMarketChartData,
     retrieveCoinDetailsByCoinId,
+    retrieveTrendingCoinsCategoriesAndNfts,
     search
 }
