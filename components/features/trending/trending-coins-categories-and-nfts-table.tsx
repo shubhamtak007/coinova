@@ -87,12 +87,12 @@ function TrendingCoinsCategoriesAndNftsTable(bindings: Bindings) {
 
                                 <td className="text-right">
                                     {
-                                        (type === 'coins' || type === 'nfts') && coinCategoryOrNft.priceChangePercentIn24hr ?
+                                        ((type === 'coins' || type === 'nfts') && coinCategoryOrNft.priceChangePercentIn24hr) ?
                                             <span className={`${coinCategoryOrNft.priceChangePercentIn24hr > 0 ? 'success-text' : 'danger-text'}`}>
                                                 {formatValueInUsdCompact(coinCategoryOrNft.priceChangePercentIn24hr, 2, false)}%
                                             </span>
                                             :
-                                            (type === 'categories' && coinCategoryOrNft.marketCapChangePercentIn24hr) ?
+                                            ((type === 'categories') && coinCategoryOrNft.marketCapChangePercentIn24hr) ?
                                                 <span className={`${coinCategoryOrNft.marketCapChangePercentIn24hr > 0 ? 'success-text' : 'danger-text'}`}>
                                                     {formatValueInUsdCompact(coinCategoryOrNft.marketCapChangePercentIn24hr, 2, false)}%
                                                 </span> : ''
