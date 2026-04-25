@@ -26,7 +26,7 @@ function BottomTabBar() {
                                 <TabsTrigger
                                     key={tab.id}
                                     value={tab.value}
-                                    onClick={() => { onTabClick(tab.value) }}
+                                    onClick={(event) => { onTabClick(event, tab.value) }}
                                 >
                                     {
                                         tab.name === 'Home' ? <House
