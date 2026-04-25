@@ -52,8 +52,10 @@ function useBottomTabBar() {
         } else if (value === 'analyzeCoin') {
             setShowCoinSearchDialog(true);
         } else if (value === 'github') {
-            globalThis?.open('https://github.com/shubhamtak007/coinova', '_blank', 'noopener,noreferrer');
-            globalThis?.event?.preventDefault();
+            const cnWindow = globalThis ?? window ?? null;
+            if (!cnWindow) return;
+            cnWindow?.open('https://github.com/shubhamtak007/coinova', '_blank', 'noopener,noreferrer');
+            cnWindow?.event?.preventDefault();
         }
 
         if (route) {
