@@ -55,6 +55,7 @@ function useBottomTabBar() {
             if (typeof window !== undefined) {
                 window.open('https://github.com/shubhamtak007/coinova', '_blank', 'noopener, noreferrer');
                 event.preventDefault();
+                return false;
             }
         }
 
