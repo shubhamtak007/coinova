@@ -52,7 +52,7 @@ function useBottomTabBar() {
         } else if (value === 'analyzeCoin') {
             setShowCoinSearchDialog(true);
         } else if (value === 'github') {
-            const cnWindow = globalThis ?? window ?? null;
+            const cnWindow = window ?? globalThis ?? null;
             if (!cnWindow) return;
             cnWindow?.open('https://github.com/shubhamtak007/coinova', '_blank', 'noopener,noreferrer');
             cnWindow?.event?.preventDefault();
