@@ -53,11 +53,7 @@ function useBottomTabBar() {
             setShowCoinSearchDialog(true);
         } else if (value === 'github') {
             if (typeof window !== undefined) {
-                console.log(window);
                 window.open('https://github.com/shubhamtak007/coinova', '_blank', 'noopener, noreferrer');
-                console.log('window opened');
-                event.preventDefault();
-                return false;
             }
         }
 
