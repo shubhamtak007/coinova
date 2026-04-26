@@ -41,20 +41,18 @@ function useBottomTabBar() {
     }, [pathName]);
 
     function onTabClick(event: React.MouseEvent<HTMLButtonElement>, value: string) {
+        if (value === 'github' && typeof window !== "undefined") {
+            window.open('https://github.com/shubhamtak007/coinova', '_blank', 'noopener, noreferrer');
+            return;
+        }
+
         let route;
 
-        if (value === 'home') {
-            route = '/';
-        } else if (value === 'trending') {
-            route = 'trending';
-        } else if (value === 'categories') {
-            route = 'categories';
-        } else if (value === 'analyzeCoin') {
-            setShowCoinSearchDialog(true);
-        } else if (value === 'github') {
-            if (typeof window !== "undefined") {
-                window.open('https://github.com/shubhamtak007/coinova', '_blank', 'noopener, noreferrer');
-            }
+        switch (value) {
+            case 'home': route = '/'; break;
+            case 'analyzeCoin': setShowCoinSearchDialog(true); break;
+            case 'trending': route = 'trending'; break;
+            default: route = '/'; break;
         }
 
         if (route) {
