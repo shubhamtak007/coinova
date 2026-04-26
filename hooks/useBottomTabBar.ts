@@ -8,7 +8,7 @@ function useBottomTabBar() {
     const router = useRouter();
     const pathName = usePathname();
     const { navigateOptimistically } = useOptimisticNavigation();
-    const [activeTab, setActiveTab] = useState<string>('home');
+    const [activeTab, setActiveTab] = useState<string>('');
     const [scrollEnded, setScrollEnded] = useState<boolean>(false);
     const [showCoinSearchDialog, setShowCoinSearchDialog] = useState<boolean>(false);
 
