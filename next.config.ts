@@ -3,7 +3,7 @@ import path from 'path';
 
 const nextConfig: NextConfig = {
     devIndicators: false,
-    productionBrowserSourceMaps: false,
+    productionBrowserSourceMaps: true,
     turbopack: {
         root: path.join(__dirname)
     },
