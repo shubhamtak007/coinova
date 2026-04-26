@@ -41,8 +41,12 @@ function useBottomTabBar() {
     }, [pathName]);
 
     function onTabClick(event: React.MouseEvent<HTMLButtonElement>, value: string) {
-        if (value === 'github' && typeof window !== "undefined") {
-            window.open('https://github.com/shubhamtak007/coinova', '_blank');
+        if (value === 'github') {
+            event.preventDefault();
+            event.stopPropagation();
+            if (typeof window !== "undefined") {
+                window.open('https://github.com/shubhamtak007/coinova', '_blank');
+            }
             return;
         }
 
