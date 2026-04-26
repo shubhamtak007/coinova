@@ -42,7 +42,7 @@ function useBottomTabBar() {
 
     function onTabClick(event: React.MouseEvent<HTMLButtonElement>, value: string) {
         if (value === 'github' && typeof window !== "undefined") {
-            window.open('https://github.com/shubhamtak007/coinova', '_blank', 'noopener, noreferrer');
+            window.open('https://github.com/shubhamtak007/coinova', '_blank');
             return;
         }
 
