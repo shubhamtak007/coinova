@@ -1,5 +1,6 @@
 'use client';
 
+import { Fragment } from 'react';
 import useBottomTabBar from '@/hooks/useBottomTabBar';
 import { Tabs, TabsTrigger, TabsList } from '@/components/ui/tabs';
 import { House } from 'lucide-react';
@@ -23,24 +24,30 @@ function BottomTabBar() {
                     {
                         bottomBarTabList.map((tab: { id: string, name: string, value: string }) => {
                             return (
-                                <TabsTrigger
-                                    key={tab.id}
-                                    value={tab.value}
-                                    onClick={(event) => { onTabClick(event, tab.value) }}
-                                >
+                                <Fragment key={tab.id}>
                                     {
-                                        tab.name === 'Home' ? <House
-                                            className="size-4"
-                                            absoluteStrokeWidth={true}
-                                            strokeWidth={3}
-                                        /> :
-                                            tab.name === 'Github' ? <FiGithub
-                                                className="size-4"
-                                                strokeWidth={3}
-                                            /> :
-                                                tab.name
+                                        tab.name === 'Github' ?
+                                            <a
+                                                href="https://github.com/shubhamtak007/coinova"
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                            >
+                                                <FiGithub className="size-4" strokeWidth={3} />
+                                            </a>
+                                            :
+                                            <TabsTrigger
+                                                value={tab.value}
+                                                onClick={(event) => { onTabClick(event, tab.value) }}
+                                            >
+                                                {tab.name === 'Home' ? <House
+                                                    className="size-4"
+                                                    absoluteStrokeWidth={true}
+                                                    strokeWidth={3}
+                                                /> :
+                                                    tab.name}
+                                            </TabsTrigger>
                                     }
-                                </TabsTrigger>
+                                </Fragment>
                             )
                         })
                     }

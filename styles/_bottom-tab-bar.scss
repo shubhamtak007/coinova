@@ -6,6 +6,8 @@
         overflow: auto hidden;
         border: 1px solid var(--border-color);
         border-radius: var(--border-radius);
+        display: flex;
+        align-items: center;
 
         [data-slot="tabs-list"] {
             background-color: var(--main-bg-color);
@@ -19,10 +21,19 @@
                 color: var(--text-color);
             }
 
-            button {
+            button,
+            a {
                 min-width: 36px;
                 max-width: max-content;
                 font-weight: 600;
+                place-items: center;
+            }
+
+            a:hover {
+                background-color: #f2f3f8;
+                border-radius: var(--border-radius);
+                color: var(--text-color);
+                padding: 8.5px;
             }
         }
 
