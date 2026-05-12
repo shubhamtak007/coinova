@@ -1,6 +1,6 @@
 'use client';
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogBody } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogBody, DialogDescription } from '@/components/ui/dialog';
 import type { CoingeckoCrypto } from '@/interfaces/coin.interface';
 import React from 'react';
 import Image from 'next/image';
@@ -22,7 +22,8 @@ function CoinDetailsDialog(bindings: Bindings) {
             open={showDialog}
             onOpenChange={setShowDialog}
         >
-            <DialogContent>
+            <DialogContent
+            >
                 <DialogHeader>
                     <DialogTitle>
                         <div className="flex items-center">
@@ -41,9 +42,15 @@ function CoinDetailsDialog(bindings: Bindings) {
                                     </div>
                             }
 
-                            <span className="ml-[6px]"> {coin.name}</span>
+                            <span className="ml-[6px]">{coin.name}</span>
                         </div>
                     </DialogTitle>
+
+                    <DialogDescription
+                        className="sr-only"
+                    >
+                        {coin.name} details dialog
+                    </DialogDescription>
                 </DialogHeader>
 
                 <DialogBody>

@@ -20,7 +20,7 @@ export const setupInterceptors = (client: AxiosInstance) => {
     )
 }
 
-function showError(error: unknown) {
+function showError(error: AxiosError) {
     if (axios.isAxiosError(error) && error.message) {
         console.error(error.message);
     }

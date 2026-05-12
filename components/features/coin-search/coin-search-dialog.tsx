@@ -2,7 +2,7 @@ import Image from 'next/image';
 import useCoinSearchDialog from '@/hooks/useCoinSearchDialog';
 import { coinSymbolImageSize } from '@/constants/coin.constants';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
-import { Dialog, DialogHeader, DialogTitle, DialogBody, DialogContent, DialogFooter } from '@/components/ui/dialog';
+import { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogBody, DialogContent, DialogFooter } from '@/components/ui/dialog';
 import { Search, X } from 'lucide-react';
 import { Spinner } from '@/components/ui/spinner';
 
@@ -56,6 +56,10 @@ function CoinSearchDialog(bindings: Bindings) {
                                 </InputGroupAddon>
                             </InputGroup>
                         </DialogTitle>
+
+                        <DialogDescription className="sr-only">
+                            coin search dialog
+                        </DialogDescription>
                     </DialogHeader>
 
                     <DialogBody>
