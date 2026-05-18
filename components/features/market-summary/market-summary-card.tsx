@@ -5,7 +5,7 @@ import MarketSummaryCoins from '@/components/features/market-summary/market-summ
 import { Item, ItemContent, ItemTitle } from '@/components/ui/item';
 import { MarketSummaryItem } from '@/interfaces/market-summary.interface';
 import { ChevronRight } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogBody } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogBody, DialogDescription } from '@/components/ui/dialog';
 
 interface Bindings {
     marketSummaryItem: MarketSummaryItem
@@ -52,7 +52,15 @@ function MarketSummaryCard({ marketSummaryItem }: Bindings) {
                 >
                     <DialogHeader>
                         <DialogTitle>
-                            {marketSummaryItem.title}
+                            <div>
+                                {marketSummaryItem.title}
+                            </div>
+
+                            <DialogDescription
+                                className="text-[11px] m-[4px_0px] sr-only"
+                            >
+                                {marketSummaryItem.title.toLowerCase()} coins dialog.
+                            </DialogDescription>
                         </DialogTitle>
                     </DialogHeader>
 

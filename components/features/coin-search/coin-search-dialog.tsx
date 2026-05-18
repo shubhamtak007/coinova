@@ -33,33 +33,35 @@ function CoinSearchDialog(bindings: Bindings) {
                         className="p-[unset]"
                     >
                         <DialogTitle className="font-normal">
-                            <InputGroup className="w-full h-[40px] m-[12px] w-[stretch]">
-                                <InputGroupInput
-                                    type="text"
-                                    tabIndex={0}
-                                    placeholder="Search for the coin you want to analyze"
-                                    className="!text-[13px] h-[inherit]"
-                                    value={searchValue}
-                                    onChange={(event) => { onSearchValueChange(event) }}
-                                />
+                            <div>
+                                <InputGroup className="w-full h-[40px] m-[12px] w-[stretch]">
+                                    <InputGroupInput
+                                        type="text"
+                                        tabIndex={0}
+                                        placeholder="Search for the coin you want to analyze"
+                                        className="!text-[13px] h-[inherit]"
+                                        value={searchValue}
+                                        onChange={(event) => { onSearchValueChange(event) }}
+                                    />
 
-                                <InputGroupAddon>
-                                    <Search className="size-4" />
-                                </InputGroupAddon>
+                                    <InputGroupAddon>
+                                        <Search className="size-4" />
+                                    </InputGroupAddon>
 
-                                <InputGroupAddon
-                                    className={`clear-btn ${(searchValue && searchValue.length > 0) ? 'block' : 'hidden'}`}
-                                    align="inline-end"
-                                    onClick={() => { setSearchValue('') }}
-                                >
-                                    <X />
-                                </InputGroupAddon>
-                            </InputGroup>
+                                    <InputGroupAddon
+                                        className={`clear-btn ${(searchValue && searchValue.length > 0) ? 'block' : 'hidden'}`}
+                                        align="inline-end"
+                                        onClick={() => { setSearchValue('') }}
+                                    >
+                                        <X />
+                                    </InputGroupAddon>
+                                </InputGroup>
+                            </div>
+
+                            <DialogDescription className="text-[11px] m-[4px_0px] sr-only">
+                                coin search dialog
+                            </DialogDescription>
                         </DialogTitle>
-
-                        <DialogDescription className="sr-only">
-                            coin search dialog
-                        </DialogDescription>
                     </DialogHeader>
 
                     <DialogBody>

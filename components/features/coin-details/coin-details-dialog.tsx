@@ -44,13 +44,13 @@ function CoinDetailsDialog(bindings: Bindings) {
 
                             <span className="ml-[6px]">{coin.name}</span>
                         </div>
-                    </DialogTitle>
 
-                    <DialogDescription
-                        className="sr-only"
-                    >
-                        {coin.name} details dialog
-                    </DialogDescription>
+                        <DialogDescription
+                            className="text-[11px] m-[4px_0px] sr-only"
+                        >
+                            {coin.name} details dialog
+                        </DialogDescription>
+                    </DialogTitle>
                 </DialogHeader>
 
                 <DialogBody>
