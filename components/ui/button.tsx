@@ -10,7 +10,7 @@ const buttonVariants = cva(
     [&_svg:not([class*='size-'])]:size-4 shrink-0 [&_svg]:shrink-0 outline-none
     focus-visible:border-[var(--main-color-2)] focus-visible:outline-solid
     focus-visible:outline-[var(--main-color-2)] focus-visible:outline-2 aria-invalid:ring-destructive/20
-    dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive`,
+    dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive hover:cursor-pointer`,
     {
         variants: {
             variant: {

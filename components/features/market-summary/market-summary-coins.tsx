@@ -51,13 +51,14 @@ export default function MarketSummaryCoins({ noOfCoins, marketSummaryItem }: Bin
                                     <div className="flex items-center">
                                         <div className="pr-[8px]">
                                             {
-                                                coin.imageUrl ? <Image
-                                                    className="coin-symbol-image"
-                                                    width={coinSymbolImageSize.width}
-                                                    height={coinSymbolImageSize.height}
-                                                    alt={`Image of ${coin.name}`}
-                                                    src={coin.imageUrl}
-                                                /> :
+                                                coin.imageUrl ?
+                                                    <Image
+                                                        className="coin-symbol-image"
+                                                        width={coinSymbolImageSize.width}
+                                                        height={coinSymbolImageSize.height}
+                                                        alt={`Image of ${coin.name}`}
+                                                        src={coin.imageUrl}
+                                                    /> :
                                                     <div className="coin-letter-mark cursor-pointer">
                                                         {coin.symbol[0]}
                                                     </div>

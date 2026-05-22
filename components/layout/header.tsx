@@ -2,10 +2,13 @@
 
 import { useState, useEffect } from 'react';
 import { Coins } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 import Link from 'next/link';
+import Login from '@/components/features/login/login';
 
 function Header() {
     const [scrolled, setScrolled] = useState<boolean>(false);
+    const [showLoginDialog, setShowLoginDialog] = useState(false);
 
     useEffect(() => {
         const handleScroll = () => {
@@ -36,8 +39,21 @@ function Header() {
                             Coinova
                         </div>
                     </Link>
+
+                    <div>
+                        <Button variant="outline" onClick={() => setShowLoginDialog(true)}>
+                            Sign in
+                        </Button>
+                    </div>
                 </div>
             </div>
+
+            {
+                <Login
+                    showDialog={showLoginDialog}
+                    setShowDialog={setShowLoginDialog}
+                />
+            }
         </>
     )
 }
