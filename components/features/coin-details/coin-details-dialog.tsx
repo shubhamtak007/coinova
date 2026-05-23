@@ -1,7 +1,7 @@
 'use client';
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogBody, DialogDescription } from '@/components/ui/dialog';
-import type { CoingeckoCrypto } from '@/interfaces/coin.interface';
+import type { CoinDetailsDialogCoin } from '@/interfaces/coin.interface';
 import React from 'react';
 import Image from 'next/image';
 import CoinDetailsBlock from '@/components/features/coin-details/coin-details-block';
@@ -10,7 +10,7 @@ import { coinSymbolImageSize } from '@/constants/coin.constants';
 type Bindings = {
     showDialog: boolean,
     setShowDialog: (value: boolean) => void,
-    coin: CoingeckoCrypto | null
+    coin: CoinDetailsDialogCoin | null
 }
 
 function CoinDetailsDialog(bindings: Bindings) {

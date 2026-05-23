@@ -14,6 +14,8 @@
         "@radix-ui/react-separator": "^1.1.8",
         "@radix-ui/react-slot": "^1.2.4",
         "@radix-ui/react-tooltip": "^1.2.8",
+        "@tanstack/react-form": "^1.32.0",
+        "@tanstack/react-form-nextjs": "^1.32.0",
         "@tanstack/react-table": "^8.21.3",
         "@tanstack/react-virtual": "^3.13.19",
         "@types/dom-chromium-ai": "^0.0.15",

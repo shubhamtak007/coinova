@@ -12,6 +12,7 @@
 @use "@/styles/footer";
 @use "@/styles/coin-search-dialog";
 @use "@/styles/trending";
+@use "@/styles/sign-in";
 
 .body-wrapper {
     position: relative;
@@ -40,4 +41,9 @@
     font-size: 13px;
     margin-bottom: 3px;
     display: block;
+}
+
+.required {
+    color: oklch(57.7% 0.245 27.325);
+    margin-left: 2px;
 }
