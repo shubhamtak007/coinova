@@ -1,3 +1,10 @@
+type CoinDetailsDialogCoin = {
+    id: string,
+    name: string,
+    image: string,
+    symbol: string
+}
+
 interface CryptoCurrency {
     id: string,
     name: string,
@@ -69,5 +76,6 @@ interface SearchApiCoin {
 
 export type {
     CryptoCurrency, CoingeckoCrypto,
-    TrendingCoinItem, TrendingCoin, MarketSummaryRefMap, SearchApiCoin
+    TrendingCoinItem, TrendingCoin, MarketSummaryRefMap, SearchApiCoin,
+    CoinDetailsDialogCoin
 }

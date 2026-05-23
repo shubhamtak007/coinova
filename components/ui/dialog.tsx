@@ -125,7 +125,7 @@ function DialogTitle({
     return (
         <DialogPrimitive.Title
             data-slot="dialog-title"
-            className={cn(`w-[100%] text-left text-md whitespace-nowrap overflow-auto font-semibold`, className)}
+            className={cn(`w-full text-left text-md whitespace-nowrap overflow-auto font-semibold`, className)}
             {...props}
         />
     )
