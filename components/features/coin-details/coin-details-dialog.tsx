@@ -1,6 +1,6 @@
 'use client';
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogBody, DialogDescription } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogBody, DialogDescription, DialogOverlay } from '@/components/ui/dialog';
 import type { CoinDetailsDialogCoin } from '@/interfaces/coin.interface';
 import React from 'react';
 import Image from 'next/image';
@@ -10,20 +10,21 @@ import { coinSymbolImageSize } from '@/constants/coin.constants';
 type Bindings = {
     showDialog: boolean,
     setShowDialog: (value: boolean) => void,
-    coin: CoinDetailsDialogCoin | null
+    coin: CoinDetailsDialogCoin | null,
+    dialogNumber: number
 }
 
 function CoinDetailsDialog(bindings: Bindings) {
     if (!bindings.coin) return;
-    const { showDialog, setShowDialog, coin } = bindings;
+    const { showDialog, setShowDialog, coin, dialogNumber } = bindings;
 
     return (
         <Dialog
             open={showDialog}
             onOpenChange={setShowDialog}
         >
-            <DialogContent
-            >
+            <DialogOverlay dialogNumber={dialogNumber} />
+            <DialogContent>
                 <DialogHeader>
                     <DialogTitle>
                         <div className="flex items-center">
