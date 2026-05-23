@@ -1,6 +1,6 @@
 'use client';
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogBody, DialogDescription, DialogOverlay } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogBody, DialogDescription } from '@/components/ui/dialog';
 import type { CoinDetailsDialogCoin } from '@/interfaces/coin.interface';
 import React from 'react';
 import Image from 'next/image';
@@ -11,7 +11,7 @@ type Bindings = {
     showDialog: boolean,
     setShowDialog: (value: boolean) => void,
     coin: CoinDetailsDialogCoin | null,
-    dialogNumber: number
+    dialogNumber?: number
 }
 
 function CoinDetailsDialog(bindings: Bindings) {
@@ -23,8 +23,7 @@ function CoinDetailsDialog(bindings: Bindings) {
             open={showDialog}
             onOpenChange={setShowDialog}
         >
-            <DialogOverlay dialogNumber={dialogNumber} />
-            <DialogContent>
+            <DialogContent dialogNumber={dialogNumber}>
                 <DialogHeader>
                     <DialogTitle>
                         <div className="flex items-center">
