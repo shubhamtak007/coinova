@@ -10,19 +10,20 @@ import { coinSymbolImageSize } from '@/constants/coin.constants';
 type Bindings = {
     showDialog: boolean,
     setShowDialog: (value: boolean) => void,
-    coin: CoinDetailsDialogCoin | null
+    coin: CoinDetailsDialogCoin | null,
+    dialogNumber?: number
 }
 
 function CoinDetailsDialog(bindings: Bindings) {
     if (!bindings.coin) return;
-    const { showDialog, setShowDialog, coin } = bindings;
+    const { showDialog, setShowDialog, coin, dialogNumber } = bindings;
 
     return (
         <Dialog
             open={showDialog}
             onOpenChange={setShowDialog}
         >
-            <DialogContent>
+            <DialogContent dialogNumber={dialogNumber}>
                 <DialogHeader>
                     <DialogTitle>
                         <div className="flex items-center">

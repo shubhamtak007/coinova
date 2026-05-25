@@ -2,7 +2,7 @@ import Image from 'next/image';
 import useCoinSearchDialog from '@/hooks/useCoinSearchDialog';
 import { coinSymbolImageSize } from '@/constants/coin.constants';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
-import { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogBody, DialogContent, DialogFooter } from '@/components/ui/dialog';
+import { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogBody, DialogContent, DialogFooter, DialogOverlay } from '@/components/ui/dialog';
 import { Search, X } from 'lucide-react';
 import { Spinner } from '@/components/ui/spinner';
 
