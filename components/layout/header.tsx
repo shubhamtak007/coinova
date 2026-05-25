@@ -40,19 +40,19 @@ function Header() {
                         </div>
                     </Link>
 
-                    {/* <div>
+                    <div>
                         <Button variant="outline" onClick={() => setShowSignInDialog(true)}>
                             Sign in
                         </Button>
-                    </div> */}
+                    </div>
                 </div>
             </div>
 
             {
-                // <SignIn
-                //     showDialog={showSignInDialog}
-                //     setShowDialog={setShowSignInDialog}
-                // />
+                <SignIn
+                    showDialog={showSignInDialog}
+                    setShowDialog={setShowSignInDialog}
+                />
             }
         </>
     )

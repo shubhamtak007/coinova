@@ -22,8 +22,7 @@ function CoinDetailsDialog(bindings: Bindings) {
             open={showDialog}
             onOpenChange={setShowDialog}
         >
-            <DialogContent
-            >
+            <DialogContent>
                 <DialogHeader>
                     <DialogTitle>
                         <div className="flex items-center">
