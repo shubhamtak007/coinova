@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import type { CoingeckoCrypto } from '@/interfaces/coin.interface';
 import { formatValueIntoCommaSeparated } from '@/services/utils.service';
-import { retrieveCoinList } from '@/services/coin.service';
+import CoinService from '@/services/coin.service';
 import type { CoinAnalysis } from '@/interfaces/coin-analysis.interface';
 
 type Bindings = CoinAnalysis;
@@ -20,7 +20,7 @@ function useCoinInfo({ coinProperties }: Bindings) {
         if (fetchingCoinInfo === false) setFetchingCoinInfo(true);
 
         try {
-            const response = await retrieveCoinList({ ids: coinProperties.id });
+            const response = await CoinService.retrieveCoinList({ ids: coinProperties.id });
 
             if (response.data?.length > 0) {
                 formatValues(response.data);

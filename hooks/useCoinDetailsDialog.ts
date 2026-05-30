@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { CoinDetailsServerResponse, ClientCoinProperties } from '@/interfaces/coin-details.interface';
-import { retrieveCoinDetailsByCoinId } from '@/services/coin.service';
+import CoinService from '@/services/coin.service';
 
 type Bindings = {
     coinId: string
@@ -20,7 +20,7 @@ export default function useCoinDetailsDialog({ coinId }: Bindings) {
         setFetchingCoinDetails(true);
 
         try {
-            const response = await retrieveCoinDetailsByCoinId(coinId);
+            const response = await CoinService.retrieveCoinDetailsByCoinId(coinId);
             const coinProperties = createCoinProperties(response.data);
             if (coinProperties) setCoinDetails(coinProperties);
         } catch (error) {
@@ -53,7 +53,7 @@ export default function useCoinDetailsDialog({ coinId }: Bindings) {
 
     async function summarizeDescription(description: string) {
         if ('Summarizer' in self) {
-            const summarizer = await Summarizer.create({
+            const summarizer = await (self as any).Summarizer.create({
                 type: 'tldr',
                 outputLanguage: 'en-GB',
                 length: 'medium',

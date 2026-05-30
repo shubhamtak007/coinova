@@ -1,7 +1,7 @@
 'use client';
 
 import { useEffect, useState, useRef } from 'react';
-import { retrieveCoinList, retrieveAllCoins, retrieveTrendingCoins } from '@/services/coin.service';
+import CoinService from '@/services/coin.service';
 import { CryptoCurrency, CoingeckoCrypto, TrendingCoin, MarketSummaryRefMap } from '@/interfaces/coin.interface';
 import { roundOffNumber } from '@/services/utils.service';
 import type { MarketSummaryItem } from '@/interfaces/market-summary.interface';
@@ -19,8 +19,8 @@ function useMarketSummary() {
     async function fetchAllCoinsAndTrendingCoins() {
         try {
             const promises = [
-                retrieveTrendingCoins(),
-                retrieveAllCoins()
+                CoinService.retrieveTrendingCoins(),
+                CoinService.retrieveAllCoins()
             ]
 
             const responses = await Promise.all(promises);
@@ -75,7 +75,7 @@ function useMarketSummary() {
         })
 
         try {
-            const response = await retrieveCoinList({ symbols: symbolsInLowerCase.join(',') });
+            const response = await CoinService.retrieveCoinList({ symbols: symbolsInLowerCase.join(',') });
 
             if (response && response.data) {
                 for (const crypto of coins) {

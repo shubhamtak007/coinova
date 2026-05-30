@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { retrieveTrendingCoinsCategoriesAndNfts } from '@/services/coin.service';
+import CoinService from '@/services/coin.service';
 import { TrendingCoinsCategoriesAndNftsServerResponse, TrendingCoinsCategoriesAndNftsClient, CoinCategoryOrNft } from '@/interfaces/trending.interface';
 
 function useTrendingCoinsCategoriesAndNfts() {
@@ -16,7 +16,7 @@ function useTrendingCoinsCategoriesAndNfts() {
         setFetchingTrendingCoinsCategoriesAndNfts(true);
 
         try {
-            const response = await retrieveTrendingCoinsCategoriesAndNfts();
+            const response = await CoinService.retrieveTrendingCoinsCategoriesAndNfts();
             createTopFiveTrendingCoinCategoryAndNftList(response);
         } catch (error) {
 

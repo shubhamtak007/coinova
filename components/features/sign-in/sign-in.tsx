@@ -1,8 +1,11 @@
 import { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogBody, DialogContent } from '@/components/ui/dialog';
 import { useState, useEffect, Dispatch, SetStateAction } from 'react';
-import { useForm, useStore } from '@tanstack/react-form';
-import { InputGroup, InputGroupInput } from '@/components/ui/input-group';
+import { useForm } from '@tanstack/react-form';
+import { InputGroup, InputGroupInput, InputGroupAddon } from '@/components/ui/input-group';
 import { Button } from '@/components/ui/button';
+import { EyeOff, Eye, Circle } from 'lucide-react';
+import { FaCheckCircle } from "react-icons/fa";
+import useSignIn from '@/hooks/useSignIn';
 
 type Bindings = {
     showDialog: boolean,
@@ -12,6 +15,9 @@ type Bindings = {
 export default function signIn(bindings: Bindings) {
     const { showDialog, setShowDialog } = bindings;
     const [formType, setFormType] = useState<string>('signIn');
+    const [showEyeIcon, setShowEyeIcon] = useState<boolean>(true);
+    const [password, setPassword] = useState('');
+    const { passwordCriteriaList, signFormValidations } = useSignIn({ password });
 
     useEffect(() => {
         return (() => {
@@ -24,14 +30,17 @@ export default function signIn(bindings: Bindings) {
             fullName: '',
             email: '',
             password: ''
-        }, onSubmit: async ({ value }) => {
+        },
+
+        validators: {
+            onChange: signFormValidations,
+            onMount: signFormValidations
+        },
+
+        onSubmit: async ({ value }) => {
             console.log(value)
             console.log('submit');
-        }, validators: {
-            onChange: (event) => {
-
-            }
-        }
+        },
     });
 
     return (
@@ -55,6 +64,7 @@ export default function signIn(bindings: Bindings) {
                         className="sign-in-form"
                         onSubmit={(event) => {
                             event.preventDefault();
+                            event.stopPropagation();
                             signInForm.handleSubmit();
                         }}
                     >
@@ -127,15 +137,60 @@ export default function signIn(bindings: Bindings) {
 
                                             <InputGroup>
                                                 <InputGroupInput
+                                                    type={`${showEyeIcon === true ? 'password' : 'text'}`}
                                                     id={field.name}
                                                     required={true}
                                                     name={field.name}
                                                     value={field.state.value}
                                                     onBlur={field.handleBlur}
-                                                    onChange={(e) => field.handleChange(e.target.value)}
+                                                    onChange={(e) => {
+                                                        field.handleChange(e.target.value);
+                                                        if (formType === 'signUp') { setPassword(e.target.value) }
+                                                    }}
                                                     placeholder={'Enter Password'}
                                                 />
+
+                                                <InputGroupAddon
+                                                    align={'inline-end'}
+                                                    onClick={() => { setShowEyeIcon(!showEyeIcon); }}
+                                                >
+                                                    {showEyeIcon === true ? <Eye /> : <EyeOff />}
+                                                </InputGroupAddon>
                                             </InputGroup>
+
+                                            {formType === 'signUp' &&
+                                                <div
+                                                    className="password-criteria-container"
+                                                >
+                                                    <div>
+                                                        {passwordCriteriaList.uppercase ? <FaCheckCircle /> : <Circle />}
+                                                        <div>Uppercase letter</div>
+                                                    </div>
+
+                                                    <div>
+                                                        {passwordCriteriaList.lowercase ? <FaCheckCircle /> : <Circle />}
+                                                        <div>
+                                                            Lowercase letter
+                                                        </div>
+                                                    </div>
+
+                                                    <div>
+                                                        {passwordCriteriaList.number ? <FaCheckCircle /> : <Circle />}
+                                                        <div>
+                                                            Number
+                                                        </div>
+                                                    </div>
+
+                                                    <div>
+                                                        {passwordCriteriaList.special ? <FaCheckCircle /> : <Circle />}
+                                                        <div>Special character (e.g. !?&lt;&gt;@#$%)</div>
+                                                    </div>
+
+                                                    <div>
+                                                        {passwordCriteriaList.length ? <FaCheckCircle /> : <Circle />}
+                                                        <div>8 characters or more</div>
+                                                    </div>
+                                                </div>}
                                         </>
                                     )
                                 }}

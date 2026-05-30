@@ -18,7 +18,6 @@
         "@tanstack/react-form-nextjs": "^1.32.0",
         "@tanstack/react-table": "^8.21.3",
         "@tanstack/react-virtual": "^3.13.19",
-        "@types/dom-chromium-ai": "^0.0.15",
         "@vercel/analytics": "^1.6.1",
         "ajv": "^8.18.0",
         "axios": "^1.13.6",
@@ -40,10 +39,12 @@
         "sonner": "^2.0.7",
         "tailwind-merge": "^3.4.0",
         "tailwindcss-animate": "^1.0.7",
-        "tsx": "^4.21.0"
+        "tsx": "^4.21.0",
+        "zod": "^4.4.3"
     },
     "devDependencies": {
         "@tailwindcss/postcss": "^4.3.0",
+        "@types/dom-chromium-ai": "^0.0.16",
         "@types/node": "^20.19.34",
         "@types/react": "19.2.14",
         "@types/react-dom": "19.2.3",

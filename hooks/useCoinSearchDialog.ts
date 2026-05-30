@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { search } from '@/services/coin.service';
+import CoinService from '@/services/coin.service';
 import { getUiRoute } from '@/services/utils.service';
 import { SearchApiCoin } from '@/interfaces/coin.interface';
 import { useRouter } from 'next/navigation';
@@ -40,7 +40,7 @@ export default function useCoinSearchDialog({ setShowDialog }: bindings) {
         setSearchingCoins(true);
 
         try {
-            const response = await search({ query: searchValue })
+            const response = await CoinService.search({ query: searchValue })
             prefetchCoinAnalysisRoutes(response.data.coins);
             setCoins(response.data.coins);
         } catch (error) {

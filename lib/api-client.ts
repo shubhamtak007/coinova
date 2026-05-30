@@ -1,12 +1,10 @@
 import axios from 'axios';
 import { setupInterceptors } from "./http-interceptor";
 
-const coinovaBackendClient = axios.create({
-    baseURL: `https://coinova-backend-dev.onrender.com/api/`,
-    headers: {
-        'accept': 'application/json',
-        'Content-Type': 'application/json'
-    }
+const coinovaClientV2 = axios.create({
+    baseURL: process.env.NODE_ENV === 'production' ? `https://coinova-backend-production.onrender.com/api/` :
+        `https://coinova-backend-dev.onrender.com/api/`,
+    withCredentials: true
 })
 
 const coinovaClient = axios.create({
@@ -44,10 +42,10 @@ const coinRankingClient = axios.create({
     }
 })
 
-const clientList = [coinovaClient, coinGeckoClient, binanceClient, coinRankingClient, coinovaBackendClient];
+const clientList = [coinovaClient, coinGeckoClient, binanceClient, coinRankingClient, coinovaClientV2];
 
 for (const client of clientList) {
     setupInterceptors(client);
 }
 
-export { coinovaClient, binanceClient, coinGeckoClient, coinRankingClient, coinovaBackendClient }
+export { coinovaClient, binanceClient, coinGeckoClient, coinRankingClient, coinovaClientV2 }

@@ -8,63 +8,92 @@ interface MasterSymbol {
     quoteAsset: string
 }
 
-const retrieveCoinList = async (params: CoinListApiParams, signal?: AbortSignal) => {
-    try {
-        const response = await coinovaClient.get('v1/coins', { params, signal });
-        return response;
-    } catch (error) {
-        throw error;
-    }
-}
+const CoinService = {
+    retrieveCoinList: async (params: CoinListApiParams, signal?: AbortSignal) => {
+        try {
+            const response = await coinovaClient.get('v1/coins', { params, signal });
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    },
 
-const retrieveTrendingCoins = async () => {
-    try {
-        const response = await coinovaClient.get('v1/trending');
-        return response.data.coins;
-    } catch (error) {
-        throw error;
-    }
-}
+    retrieveTrendingCoins: async () => {
+        try {
+            const response = await coinovaClient.get('v1/trending');
+            return response.data.coins;
+        } catch (error) {
+            throw error;
+        }
+    },
 
-const retrieveTrendingCoinsCategoriesAndNfts = async () => {
-    try {
-        const response = await coinovaClient.get('v1/trending');
-        return response.data;
-    } catch (error) {
-        throw error;
-    }
-}
+    retrieveTrendingCoinsCategoriesAndNfts: async () => {
+        try {
+            const response = await coinovaClient.get('v1/trending');
+            return response.data;
+        } catch (error) {
+            throw error;
+        }
+    },
 
-const retrieveGlobalMarketData = async () => {
-    try {
-        const response = await coinovaClient.get(`v1/globalMarket`);
-        return response.data.data;
-    } catch (error) {
-        throw error;
-    }
-}
+    retrieveGlobalMarketData: async () => {
+        try {
+            const response = await coinovaClient.get(`v1/globalMarket`);
+            return response.data.data;
+        } catch (error) {
+            throw error;
+        }
+    },
 
-const retrieveAllCoins = async () => {
-    const queryParameters = {
-        symbolStatus: 'TRADING'
-    }
+    retrieveAllCoins: async () => {
+        const queryParameters = {
+            symbolStatus: 'TRADING'
+        }
 
-    try {
-        const promises = [
-            binanceClient.get('v3/exchangeInfo', { params: queryParameters }),
-            binanceClient.get('v3/ticker/24hr', { params: queryParameters })
-        ]
+        try {
+            const promises = [
+                binanceClient.get('v3/exchangeInfo', { params: queryParameters }),
+                binanceClient.get('v3/ticker/24hr', { params: queryParameters })
+            ]
 
-        const responses = await Promise.all(promises);
-        const masterSymbolList = responses[0].data.symbols.filter((symbol: MasterSymbol) => {
-            return symbol.quoteAsset === 'USDT' && !symbol.symbol.includes('WBTC')
-        });
+            const responses = await Promise.all(promises);
+            const masterSymbolList = responses[0].data.symbols.filter((symbol: MasterSymbol) => {
+                return symbol.quoteAsset === 'USDT' && !symbol.symbol.includes('WBTC')
+            });
 
-        const cryptoPriceList = responses[1].data;
-        return createCryptoCurrencyList(masterSymbolList, cryptoPriceList);
+            const cryptoPriceList = responses[1].data;
+            return createCryptoCurrencyList(masterSymbolList, cryptoPriceList);
 
-    } catch (error) {
-        throw error;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    retrieveCoinMarketChartData: async (coinUuid: string, params: unknown) => {
+        try {
+            const response = await coinGeckoClient.get(`v3/coins/${coinUuid}/market_chart`, { params });
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    retrieveCoinDetailsByCoinId: async function (coinId: string) {
+        try {
+            const response = await coinGeckoClient.get(`v3/coins/${coinId}`)
+            return response;
+        } catch (error) {
+            throw error;
+        }
+    },
+
+    search: async function (params: { query: string }, signal?: AbortSignal) {
+        try {
+            const response = await coinGeckoClient.get('v3/search', { params, signal })
+            return response;
+        } catch (error) {
+            throw error;
+        }
     }
 }
 
@@ -102,40 +131,5 @@ function createCryptoCurrencyList(masterSymbolList: MasterSymbol[], cryptoPriceL
     return cryptoCurrencyList;
 }
 
-const retrieveCoinMarketChartData = async (coinUuid: string, params: unknown) => {
-    try {
-        const response = await coinGeckoClient.get(`v3/coins/${coinUuid}/market_chart`, { params });
-        return response;
-    } catch (error) {
-        throw error;
-    }
-}
 
-const retrieveCoinDetailsByCoinId = async function (coinId: string) {
-    try {
-        const response = await coinGeckoClient.get(`v3/coins/${coinId}`)
-        return response;
-    } catch (error) {
-        throw error;
-    }
-}
-
-const search = async function (params: { query: string }, signal?: AbortSignal) {
-    try {
-        const response = await coinGeckoClient.get('v3/search', { params, signal })
-        return response;
-    } catch (error) {
-        throw error;
-    }
-}
-
-export {
-    retrieveCoinList,
-    retrieveTrendingCoins,
-    retrieveGlobalMarketData,
-    retrieveAllCoins,
-    retrieveCoinMarketChartData,
-    retrieveCoinDetailsByCoinId,
-    retrieveTrendingCoinsCategoriesAndNfts,
-    search
-}
+export default CoinService;
