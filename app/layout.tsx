@@ -4,10 +4,9 @@ import { Inter } from "next/font/google";
 import { Analytics } from '@vercel/analytics/next';
 import { OptimisticNavigationContextProvider } from '@/contexts/navigation-context';
 import { Toaster } from '@/components/ui/sonner';
-import BottomTabBar from "@/components/layout/bottom-tab-bar";
 import NavigationWrapper from '@/components/layout/navigation-wrapper';
 import Header from "@/components/layout/header";
-import GlobalMarketStats from "@/components/features/global-market/global-market-stats";
+import Footer from "@/components/layout/footer";
 
 const inter = Inter({
     weight: ['400', '500', '600', '700', '800', '900'],
@@ -28,10 +27,10 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
         <html lang="en">
             <body className={`${inter.className}`}>
                 <div className="body-wrapper">
-                    <Header />
-
                     <OptimisticNavigationContextProvider>
                         <NavigationWrapper>
+                            <Header />
+
                             <main className="main-content">
                                 <div className="container">
                                     {children}
@@ -40,11 +39,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
                                 </div>
                             </main>
 
-                            <div className="bottom-sticky-container">
-                                <BottomTabBar />
-                                <div className="m-[6px]"></div>
-                                <GlobalMarketStats />
-                            </div>
+                            <Footer />
                         </NavigationWrapper>
                     </OptimisticNavigationContextProvider>
                 </div>

@@ -1,33 +1,33 @@
-function Footer() {
-    return (
-        <footer
-            className={`footer-container`}
-        >
-            <div className="footer-inner-wrapper max-w-5xl mx-auto">
-                <div>
-                    <span>Built by</span>&nbsp;
-                    <a
-                        className="underline"
-                        href={'https://shubhamtak.com'}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Shubham Tak
-                    </a>
-                    .
-                </div>
+'use client';
 
-                <div className="source-code-link">
-                    The source code is available on
-                    <a
-                        className="ml-2px"
-                        href={'https://github.com/shubhamtak007/coinova'}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                    >
-                        Github
-                    </a>.
-                </div>
+import GlobalMarketStats from "@/components/features/global-market/global-market-stats";
+import BottomTabBar from "./bottom-tab-bar";
+import { useState, useEffect } from 'react';
+
+function Footer() {
+    const [showBottomTabBar, setShowBottomTabBar] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (window.innerWidth <= 1080) setShowBottomTabBar(true);
+
+        const handleWindowSize = () => {
+            if (window.innerWidth <= 1080) {
+                setShowBottomTabBar(true);
+            } else {
+                setShowBottomTabBar(false);
+            }
+        }
+
+        window.addEventListener('resize', handleWindowSize);
+        return (() => { window.removeEventListener('resize', handleWindowSize) })
+    }, [])
+
+    return (
+        <footer>
+            <div className="bottom-sticky-container">
+                {showBottomTabBar === true && <BottomTabBar />}
+                <div className="m-[6px]"></div>
+                <GlobalMarketStats />
             </div>
         </footer>
     )

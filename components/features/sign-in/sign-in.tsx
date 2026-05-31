@@ -1,27 +1,28 @@
 import { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogBody, DialogContent } from '@/components/ui/dialog';
-import { useState, useEffect, Dispatch, SetStateAction } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction, memo } from 'react';
 import { useForm } from '@tanstack/react-form';
 import { InputGroup, InputGroupInput, InputGroupAddon } from '@/components/ui/input-group';
 import { Button } from '@/components/ui/button';
 import { EyeOff, Eye, Circle } from 'lucide-react';
 import { FaCheckCircle } from "react-icons/fa";
 import useSignIn from '@/hooks/useSignIn';
+import { z } from 'zod';
 
 type Bindings = {
     showDialog: boolean,
     setShowDialog: Dispatch<SetStateAction<boolean>>;
 }
 
-export default function signIn(bindings: Bindings) {
+export default memo(function signIn(bindings: Bindings) {
     const { showDialog, setShowDialog } = bindings;
     const [formType, setFormType] = useState<string>('signIn');
     const [showEyeIcon, setShowEyeIcon] = useState<boolean>(true);
     const [password, setPassword] = useState('');
-    const { passwordCriteriaList, signFormValidations } = useSignIn({ password });
+    const { passwordCriteriaList, userFormSchema, authenticateUser } = useSignIn({ password, formType });
 
     useEffect(() => {
         return (() => {
-            signInForm.reset();
+
         })
     }, []);
 
@@ -33,25 +34,36 @@ export default function signIn(bindings: Bindings) {
         },
 
         validators: {
-            onChange: signFormValidations,
-            onMount: signFormValidations
+            onChange: userFormSchema as any,
+            onMount: userFormSchema as any
         },
 
         onSubmit: async ({ value }) => {
-            console.log(value)
-            console.log('submit');
+            authenticateUser(formType, value);
         },
     });
+
+    function resetForm() {
+        setPassword('');
+        signInForm.reset();
+        signInForm.mount();
+    }
 
     return (
         <Dialog
             open={showDialog}
-            onOpenChange={setShowDialog}
+            onOpenChange={(showDialog) => {
+                setShowDialog(showDialog);
+                if (!showDialog) {
+                    setFormType('signIn');
+                    resetForm();
+                }
+            }}
         >
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>
-                        Join Coinova Today
+                        {formType === 'signIn' ? 'Sign in your account' : 'Get Started - Create a new account'}
 
                         <DialogDescription className="sr-only">
                             sign-{formType === 'signIn' ? 'in' : 'up'} dialog
@@ -204,7 +216,7 @@ export default function signIn(bindings: Bindings) {
                                 {([canSubmit, isSubmitting]) => (
                                     <Button
                                         type="submit"
-                                        disabled={!canSubmit || isSubmitting}
+                                        disabled={!signInForm.state.isValid || !canSubmit || isSubmitting}
                                     >
                                         Sign {formType === 'signIn' ? 'in' : 'up'}
                                     </Button>
@@ -221,7 +233,7 @@ export default function signIn(bindings: Bindings) {
                             className="underline cursor-pointer ml-[3px]"
                             onClick={() => {
                                 setFormType(formType === 'signIn' ? 'signUp' : 'signIn');
-                                signInForm.reset();
+                                resetForm();
                             }}
                         >
                             {formType === 'signIn' ? 'Sign up' : 'Sign in'}
@@ -231,4 +243,6 @@ export default function signIn(bindings: Bindings) {
             </DialogContent>
         </Dialog>
     )
-}
+})
+
+

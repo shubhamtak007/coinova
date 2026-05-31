@@ -5,12 +5,24 @@ import { Coins } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Link from 'next/link';
 import SignIn from '@/components/features/sign-in/sign-in';
+import BottomTabBar from '@/components/layout/bottom-tab-bar';
 
 function Header() {
     const [scrolled, setScrolled] = useState<boolean>(false);
+    const [showBottomTabBar, setShowBottomTabBar] = useState<boolean>(false);
     const [showSignInDialog, setShowSignInDialog] = useState(false);
 
     useEffect(() => {
+        if (window.innerWidth > 1080) setShowBottomTabBar(true);
+
+        const handleWindowSize = () => {
+            if (window.innerWidth > 1080) {
+                setShowBottomTabBar(true);
+            } else {
+                setShowBottomTabBar(false);
+            }
+        }
+
         const handleScroll = () => {
             if (window.scrollY > 10) {
                 setScrolled(true);
@@ -19,9 +31,13 @@ function Header() {
             }
         }
 
-        window.addEventListener('scroll', handleScroll)
+        window.addEventListener('resize', handleWindowSize);
+        window.addEventListener('scroll', handleScroll);
 
-        return () => { window.removeEventListener('scroll', handleScroll) }
+        return () => {
+            window.removeEventListener('resize', handleWindowSize);
+            window.removeEventListener('scroll', handleScroll);
+        }
     }, [])
 
     return (
@@ -40,8 +56,16 @@ function Header() {
                         </div>
                     </Link>
 
-                    <div>
-                        <Button variant="outline" onClick={() => setShowSignInDialog(true)}>
+                    {showBottomTabBar === true && <div className="m-auto">
+                        <BottomTabBar />
+                    </div>}
+
+                    <div className="w-[130px] invisible">
+                        <Button
+                            className="hidden"
+                            variant="outline"
+                            onClick={() => setShowSignInDialog(true)}
+                        >
                             Sign in
                         </Button>
                     </div>

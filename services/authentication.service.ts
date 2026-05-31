@@ -23,6 +23,15 @@ const AuthenticationService = {
         } catch (error) {
             throw error;
         }
+    },
+
+    refreshToken: async () => {
+        try {
+            const response = await coinovaClientV2.post(`v0/auth/refresh-token`);
+            return response;
+        } catch (error) {
+            throw error;
+        }
     }
 }
 

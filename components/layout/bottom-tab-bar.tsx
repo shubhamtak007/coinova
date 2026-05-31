@@ -32,7 +32,7 @@ function BottomTabBar() {
                                                 target="_blank"
                                                 rel="noopener noreferrer"
                                             >
-                                                <FiGithub className="size-4" strokeWidth={3} />
+                                                <FiGithub className="size-4" strokeWidth={2} />
                                             </a>
                                             :
                                             <TabsTrigger
@@ -42,7 +42,7 @@ function BottomTabBar() {
                                                 {tab.name === 'Home' ? <House
                                                     className="size-4"
                                                     absoluteStrokeWidth={true}
-                                                    strokeWidth={3}
+                                                    strokeWidth={2}
                                                 /> :
                                                     tab.name}
                                             </TabsTrigger>

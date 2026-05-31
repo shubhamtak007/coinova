@@ -43,4 +43,11 @@
     }
 }
 
-@media screen and (max-width: 910px) {}
+@media (width > 1080) {
+    .bottom-tab-bar {
+        [data-slot="tabs"] {
+            box-shadow: unset;
+            border: unset;
+        }
+    }
+}

@@ -4,7 +4,7 @@ import { toast } from 'sonner';
 export const setupInterceptors = (client: AxiosInstance) => {
     if (client.defaults.baseURL?.includes('coinova-backend')) {
         client.interceptors.request.use((config) => {
-            const accessToken = localStorage.getItem("accessToken");
+            const accessToken = localStorage.getItem("xat");
             if (accessToken) {
                 config.headers.Authorization = `Bearer ${accessToken}`;
             }

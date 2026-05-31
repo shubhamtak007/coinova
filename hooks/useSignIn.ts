@@ -1,12 +1,17 @@
 'use client';
 
 import { z } from 'zod';
+import { useState } from 'react';
+import AuthenticationService from '@/services/authentication.service';
 
 type Bindings = {
-    password: string
+    password: string,
+    formType: string
 }
 
-export default function useSignIn({ password }: Bindings) {
+export default function useSignIn({ password, formType }: Bindings) {
+    const [authenticatingUser, setAuthenticatingUser] = useState<boolean>(false);
+
     const passwordCriteriaList = {
         uppercase: /[A-Z]/.test(password),
         lowercase: /[a-z]/.test(password),
@@ -15,8 +20,8 @@ export default function useSignIn({ password }: Bindings) {
         length: password.length >= 8,
     };
 
-    const signFormValidations = z.object({
-        fullName: z.string().min(2),
+    const userFormSchema = z.object({
+        fullName: formType === 'signUp' ? z.string().min(2) : z.string().nullable(),
         email: z.email().min(5),
         password: z.string().min(8, 'Password must be at least 8 characters')
             .regex(/[A-Z]/, 'Must contain an uppercase letter')
@@ -25,7 +30,25 @@ export default function useSignIn({ password }: Bindings) {
             .regex(/[!?<>@#$%]/, 'Must contain a special character'),
     })
 
+    async function authenticateUser(formType: string, userDetails: { fullName: string, email: string, password: string }) {
+        try {
+            const serverUser = {
+                name: userDetails.fullName,
+                email: userDetails.email,
+                password: userDetails.password
+            };
+
+            const promise = formType === 'signIn' ? AuthenticationService.signIn({ email: userDetails.email, password: userDetails.password }) :
+                formType === 'signUp' ? AuthenticationService.signUp(serverUser) : null;
+            const response = await promise;
+        } catch (error) {
+
+        } finally {
+
+        }
+    }
+
     return {
-        passwordCriteriaList, signFormValidations
+        passwordCriteriaList, userFormSchema, authenticateUser
     }
 }
