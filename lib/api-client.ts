@@ -4,6 +4,7 @@ import { setupInterceptors } from "./http-interceptor";
 const coinovaClientV2 = axios.create({
     baseURL: process.env.NODE_ENV === 'production' ? `https://coinova-backend-production.onrender.com/api/` :
         `https://coinova-backend-dev.onrender.com/api/`,
+    // baseURL: 'http://localhost:5000/api/',
     withCredentials: true
 })
 

@@ -5,8 +5,8 @@ import { InputGroup, InputGroupInput, InputGroupAddon } from '@/components/ui/in
 import { Button } from '@/components/ui/button';
 import { EyeOff, Eye, Circle } from 'lucide-react';
 import { FaCheckCircle } from "react-icons/fa";
+import { Spinner } from '@/components/ui/spinner';
 import useSignIn from '@/hooks/useSignIn';
-import { z } from 'zod';
 
 type Bindings = {
     showDialog: boolean,
@@ -15,16 +15,10 @@ type Bindings = {
 
 export default memo(function signIn(bindings: Bindings) {
     const { showDialog, setShowDialog } = bindings;
-    const [formType, setFormType] = useState<string>('signIn');
+    const [formType, setFormType] = useState<'signIn' | 'signUp'>('signIn');
     const [showEyeIcon, setShowEyeIcon] = useState<boolean>(true);
     const [password, setPassword] = useState('');
-    const { passwordCriteriaList, userFormSchema, authenticateUser } = useSignIn({ password, formType });
-
-    useEffect(() => {
-        return (() => {
-
-        })
-    }, []);
+    const { passwordCriteriaList, userFormSchema, authenticateUser, signingIn } = useSignIn({ password, formType, setShowDialog });
 
     const signInForm = useForm({
         defaultValues: {
@@ -100,6 +94,7 @@ export default memo(function signIn(bindings: Bindings) {
                                                     onChange={(e) => field.handleChange(e.target.value)}
                                                     placeholder={'Your name'}
                                                     autoFocus={formType === 'signUp' && true}
+                                                    disabled={signingIn}
                                                 />
                                             </InputGroup>
                                         </>
@@ -128,6 +123,7 @@ export default memo(function signIn(bindings: Bindings) {
                                                     onChange={(e) => { field.handleChange(e.target.value); }}
                                                     placeholder={'you@example.com'}
                                                     autoFocus={formType === 'signIn' && true}
+                                                    disabled={signingIn}
                                                 />
                                             </InputGroup>
                                         </>
@@ -160,6 +156,7 @@ export default memo(function signIn(bindings: Bindings) {
                                                         if (formType === 'signUp') { setPassword(e.target.value) }
                                                     }}
                                                     placeholder={'Enter Password'}
+                                                    disabled={signingIn}
                                                 />
 
                                                 <InputGroupAddon
@@ -216,8 +213,9 @@ export default memo(function signIn(bindings: Bindings) {
                                 {([canSubmit, isSubmitting]) => (
                                     <Button
                                         type="submit"
-                                        disabled={!signInForm.state.isValid || !canSubmit || isSubmitting}
+                                        disabled={!signInForm.state.isValid || !canSubmit || isSubmitting || signingIn}
                                     >
+                                        {signingIn && <Spinner className="size-4" />}
                                         Sign {formType === 'signIn' ? 'in' : 'up'}
                                     </Button>
                                 )}

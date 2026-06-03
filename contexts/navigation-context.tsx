@@ -1,10 +1,10 @@
 "use client";
 
+import { createContext, useContext, ReactNode, useOptimistic, useMemo, startTransition, useEffect } from "react";
 import { usePathname } from "next/navigation";
-import { createContext, useContext, ReactNode, useOptimistic, useMemo, startTransition, } from "react";
+import { useLoading } from '@/contexts/loading.context';
 
 type OptimisticNavigationContextType = {
-    isNavigating: boolean;
     optimisticPathname: string;
     navigateOptimistically: (pathname: string) => void;
 };
@@ -19,6 +19,7 @@ export const OptimisticNavigationContextProvider = ({ children,
 }: OptimisticNavigationContextProviderProps) => {
     const pathname = usePathname();
     const [optimisticPathname, setOptimisticPathname] = useOptimistic(pathname);
+    const { setIsLoading } = useLoading();
 
     const navigateOptimistically = (nextPathname: string) => {
         startTransition(() => {
@@ -27,10 +28,14 @@ export const OptimisticNavigationContextProvider = ({ children,
     };
 
     const value = useMemo(() => ({
-        isNavigating: pathname !== optimisticPathname,
         optimisticPathname,
         navigateOptimistically,
     }), [pathname, optimisticPathname]);
+
+    useEffect(() => {
+        setIsLoading(false);
+        if (pathname !== optimisticPathname) setIsLoading(true);
+    }, [pathname, optimisticPathname])
 
     return (
         <OptimisticNavigationContext.Provider value={value}>

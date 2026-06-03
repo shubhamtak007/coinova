@@ -1,31 +1,26 @@
-import axios, { AxiosInstance, AxiosError } from 'axios';
+import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from 'axios';
 import { toast } from 'sonner';
 
 export const setupInterceptors = (client: AxiosInstance) => {
-    if (client.defaults.baseURL?.includes('coinova-backend')) {
-        client.interceptors.request.use((config) => {
-            const accessToken = localStorage.getItem("xat");
-            if (accessToken) {
-                config.headers.Authorization = `Bearer ${accessToken}`;
-            }
-
-            return config;
-        })
-    }
-
     client.interceptors.response.use(
         (response) => {
-            if (client.defaults.baseURL?.includes('coinova-backend')) {
-                console.log(response.headers);
-                const at = response.headers['x-access-token'];
-                if (at) {
-                    localStorage.setItem("xat", at);
-                }
-            }
             return response;
-        },
-        (error: AxiosError) => {
-            if (error.response?.status === 429) {
+
+        }, async (error: AxiosError | any) => {
+            const originalRequest = error.config as InternalAxiosRequestConfig & {
+                retry?: boolean;
+            };
+
+            if (error.response?.status === 401) {
+                if (originalRequest?.url === 'v0/user/profile' && !originalRequest.retry &&
+                    error.response.data && (error.response.data.message === 'Invalid or expired token' ||
+                        error.response.data.message === 'Access token missing')
+                ) {
+                    originalRequest.retry = true;
+                    await client.post('v0/auth/refresh-token');
+                    return client(originalRequest);
+                }
+            } else if (error.response?.status === 429) {
 
             } else if (error.code === 'ERR_NETWORK') {
 

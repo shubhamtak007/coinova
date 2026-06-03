@@ -1,16 +1,23 @@
 'use client';
 
 import { z } from 'zod';
+import { SetStateAction, Dispatch } from 'react';
+import { useUser } from '@/contexts/user.context';
+import { useLoading } from '@/contexts/loading.context';
 import { useState } from 'react';
 import AuthenticationService from '@/services/authentication.service';
+import UserService from '@/services/user.service';
 
 type Bindings = {
     password: string,
-    formType: string
+    formType: string,
+    setShowDialog: Dispatch<SetStateAction<boolean>>
 }
 
-export default function useSignIn({ password, formType }: Bindings) {
-    const [authenticatingUser, setAuthenticatingUser] = useState<boolean>(false);
+export default function useSignIn({ password, formType, setShowDialog }: Bindings) {
+    const { setUser } = useUser();
+    const { setIsLoading } = useLoading();
+    const [signingIn, setSigningIn] = useState<boolean>(false);
 
     const passwordCriteriaList = {
         uppercase: /[A-Z]/.test(password),
@@ -32,23 +39,40 @@ export default function useSignIn({ password, formType }: Bindings) {
 
     async function authenticateUser(formType: string, userDetails: { fullName: string, email: string, password: string }) {
         try {
-            const serverUser = {
-                name: userDetails.fullName,
-                email: userDetails.email,
-                password: userDetails.password
-            };
+            setSigningIn(true);
+            let response;
+            const serverUser = { email: userDetails.email, password: userDetails.password };
 
-            const promise = formType === 'signIn' ? AuthenticationService.signIn({ email: userDetails.email, password: userDetails.password }) :
-                formType === 'signUp' ? AuthenticationService.signUp(serverUser) : null;
-            const response = await promise;
+            switch (formType) {
+                case 'signIn': response = await AuthenticationService.signIn(serverUser); break;
+                case 'signUp': response = await AuthenticationService.signUp({ name: userDetails.fullName, ...serverUser }); break;
+                default: throw new Error('Invalid form type');
+            }
+
+            if (response.status === 200) {
+                fetchProfile();
+                setShowDialog(false);
+            }
         } catch (error) {
 
         } finally {
+            setSigningIn(false);
+        }
+    }
 
+    async function fetchProfile() {
+        try {
+            setIsLoading(true);
+            const response = await UserService.retrieveProfile();
+            if (response.data.data.id) setUser(response.data.data);
+        } catch (error) {
+
+        } finally {
+            setIsLoading(false);
         }
     }
 
     return {
-        passwordCriteriaList, userFormSchema, authenticateUser
+        passwordCriteriaList, userFormSchema, authenticateUser, signingIn
     }
 }

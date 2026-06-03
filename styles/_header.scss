@@ -29,5 +29,17 @@
             font-weight: 700;
             margin-right: 12px;
         }
+
+        .profile-container {
+            place-items: end;
+
+            .user-icon {
+                text-align: center;
+                border: 1px solid var(--border-color);
+                border-radius: var(--border-radius);
+                width: 30px;
+                cursor: pointer;
+            }
+        }
     }
 }
