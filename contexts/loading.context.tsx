@@ -8,7 +8,7 @@ type LoadingContextProviderProps = {
 
 type LoadingContextType = {
     isLoading: boolean,
-    setIsLoading: Dispatch<SetStateAction<boolean | true>>;
+    setIsLoading: Dispatch<SetStateAction<boolean>>;
 }
 
 const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
@@ -27,7 +27,7 @@ const useLoading = (): LoadingContextType => {
     const context = useContext(LoadingContext);
 
     if (!context) {
-        throw new Error('useUser must be in LoadingContextProvider');
+        throw new Error('useLoading must be in LoadingContextProvider');
     }
 
     return context;
