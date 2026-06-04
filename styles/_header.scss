@@ -32,15 +32,27 @@
             margin-right: 12px;
         }
 
-        .profile-container {
-            place-items: end;
+        .account-container {
+            width: 130px;
+            display: flex;
+            justify-content: end;
 
             .user-icon {
                 text-align: center;
-                border: 1px solid var(--border-color);
-                border-radius: var(--border-radius);
+                // border: 1px solid var(--border-color);
+                // border-radius: var(--border-radius);
                 width: 30px;
                 cursor: pointer;
+            }
+
+            .sign-in-btn {
+                background-color: #ededed;
+                color: var(--black-text-color);
+
+                &:hover {
+                    background-color: #ededed;
+                    color: var(--black-text-color);
+                }
             }
         }
     }

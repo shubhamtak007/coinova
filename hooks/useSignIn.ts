@@ -5,6 +5,7 @@ import { SetStateAction, Dispatch } from 'react';
 import { useUser } from '@/contexts/user.context';
 import { useLoading } from '@/contexts/loading.context';
 import { useState } from 'react';
+import { toast } from 'sonner';
 import AuthenticationService from '@/services/authentication.service';
 import UserService from '@/services/user.service';
 
@@ -17,7 +18,7 @@ type Bindings = {
 export default function useSignIn({ password, formType, setShowDialog }: Bindings) {
     const { setUser } = useUser();
     const { setIsLoading } = useLoading();
-    const [signingIn, setSigningIn] = useState<boolean>(false);
+    const [signingIn, setSigningIn] = useState<boolean | false>(false);
 
     const passwordCriteriaList = {
         uppercase: /[A-Z]/.test(password),
@@ -50,6 +51,7 @@ export default function useSignIn({ password, formType, setShowDialog }: Binding
             }
 
             if (response.status === 200) {
+                toast.success(`${formType === 'signIn' ? 'Welcome back!' : 'Welcome to coinova!'}`, { className: 'success-toast' });
                 fetchProfile();
                 setShowDialog(false);
             }

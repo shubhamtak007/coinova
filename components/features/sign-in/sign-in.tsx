@@ -20,6 +20,13 @@ export default memo(function signIn(bindings: Bindings) {
     const [password, setPassword] = useState('');
     const { passwordCriteriaList, userFormSchema, authenticateUser, signingIn } = useSignIn({ password, formType, setShowDialog });
 
+    useEffect(() => {
+        if (showDialog === false) {
+            setFormType('signIn');
+            resetForm();
+        }
+    }, [showDialog])
+
     const signInForm = useForm({
         defaultValues: {
             fullName: '',
@@ -48,10 +55,6 @@ export default memo(function signIn(bindings: Bindings) {
             open={showDialog}
             onOpenChange={(showDialog) => {
                 setShowDialog(showDialog);
-                if (!showDialog) {
-                    setFormType('signIn');
-                    resetForm();
-                }
             }}
         >
             <DialogContent>
