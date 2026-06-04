@@ -25,8 +25,8 @@
             a {
                 min-width: 36px;
                 max-width: max-content;
-                font-weight: 600;
                 place-items: center;
+                color: var(--black-text-color-2);
 
                 &:hover {
                     background-color: var(--main-color-2);
