@@ -1,7 +1,10 @@
 "use client";
 
-import { createContext, useContext, ReactNode, useState, SetStateAction, Dispatch } from 'react';
+import { createContext, useContext, ReactNode, useState, SetStateAction, Dispatch, useEffect } from 'react';
 import { User } from '@/interfaces/user.interface';
+import { useLoading } from './loading.context';
+import UserService from '@/services/user.service';
+
 
 type UserContextProviderProps = {
     children: ReactNode
@@ -16,6 +19,24 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 
 const UserContextProvider = ({ children, }: UserContextProviderProps) => {
     const [user, setUser] = useState<User | null>(null);
+    const { setIsLoading } = useLoading();
+
+    useEffect(() => {
+        fetchProfile();
+    }, []);
+
+    async function fetchProfile() {
+        setIsLoading(true);
+
+        try {
+            const response = await UserService.retrieveProfile();
+            setUser(response.data.data);
+        } catch (error) {
+
+        } finally {
+            setIsLoading(false);
+        }
+    }
 
     return (
         <UserContext.Provider value={{ user, setUser }}>

@@ -54,7 +54,7 @@ function DataTable<TData,>(bindings: DataTableBindings<TData>) {
                 (props.fetchingList === true)
                 &&
                 <div className="place-items-center m-[20px]">
-                    <Spinner className="size-6" />
+                    <Spinner className="size-8" />
                 </div>
             }
         </>

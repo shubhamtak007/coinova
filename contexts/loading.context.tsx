@@ -8,13 +8,13 @@ type LoadingContextProviderProps = {
 
 type LoadingContextType = {
     isLoading: boolean,
-    setIsLoading: Dispatch<SetStateAction<boolean | false>>;
+    setIsLoading: Dispatch<SetStateAction<boolean | true>>;
 }
 
 const LoadingContext = createContext<LoadingContextType | undefined>(undefined);
 
 const LoadingContextProvider = ({ children, }: LoadingContextProviderProps) => {
-    const [isLoading, setIsLoading] = useState<boolean | false>(false);
+    const [isLoading, setIsLoading] = useState<boolean>(true);
 
     return (
         <LoadingContext.Provider value={{ isLoading, setIsLoading }}>

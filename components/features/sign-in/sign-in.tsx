@@ -55,7 +55,7 @@ export default memo(function signIn(bindings: Bindings) {
             }}
         >
             <DialogContent>
-                <DialogHeader>
+                <DialogHeader disableCloseButton={signingIn}>
                     <DialogTitle>
                         {formType === 'signIn' ? 'Sign in your account' : 'Get Started - Create a new account'}
 

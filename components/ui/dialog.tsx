@@ -94,9 +94,11 @@ function DialogHeader({
     className,
     children,
     showCloseButton = true,
+    disableCloseButton = false,
     ...props
 }: React.ComponentProps<"div"> & {
-    showCloseButton?: boolean
+    showCloseButton?: boolean,
+    disableCloseButton?: boolean
 }) {
     return (
         <div
@@ -111,6 +113,7 @@ function DialogHeader({
             {showCloseButton && (
                 <DialogPrimitive.Close
                     data-slot="dialog-close"
+                    disabled={disableCloseButton}
                     className={`data-[state=open]:bg-accent p-[4px] h-[max-content] rounded-[var(--border-radius)]
                                 bg-[hsl(from_var(--main-color)_h_s_calc(l_+_3))] data-[state=open]:text-muted-foreground opacity-70 cursor-pointer outline-[var(--main-color)]
                                 transition-opacity hover:opacity-100 disabled:pointer-events-none

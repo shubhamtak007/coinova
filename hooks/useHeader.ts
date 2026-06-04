@@ -12,8 +12,6 @@ type Bindings = {
 
 export default function useHeader(bindings: Bindings) {
     const { setScrolled, setShowBottomTabBar } = bindings;
-    const { user, setUser } = useUser();
-    const { isLoading, setIsLoading } = useLoading();
 
     useEffect(() => {
         if (window.innerWidth > 1080) setShowBottomTabBar(true);
@@ -43,23 +41,5 @@ export default function useHeader(bindings: Bindings) {
         }
     }, []);
 
-    useEffect(() => {
-        fetchProfile();
-    }, []);
-
-    async function fetchProfile() {
-        try {
-            setIsLoading(true);
-            const response = await UserService.retrieveProfile();
-            setUser(response.data.data);
-        } catch (error) {
-
-        } finally {
-            setIsLoading(false);
-        }
-    }
-
-    return {
-        user, isLoading
-    }
+    return {};
 }

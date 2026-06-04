@@ -10,7 +10,7 @@ import AccountContainer from '@/components/features/account-container/account-co
 function Header() {
     const [scrolled, setScrolled] = useState<boolean>(false);
     const [showBottomTabBar, setShowBottomTabBar] = useState<boolean>(false);
-    const { user, isLoading } = useHeader({ setShowBottomTabBar, setScrolled });
+    const { } = useHeader({ setShowBottomTabBar, setScrolled });
 
     return (
         <>
