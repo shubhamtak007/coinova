@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig } from 'axios';
+import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig, isAxiosError } from 'axios';
 import { toast } from 'sonner';
 
 export const setupInterceptors = (client: AxiosInstance) => {
@@ -6,13 +6,15 @@ export const setupInterceptors = (client: AxiosInstance) => {
         (response) => {
             return response;
 
-        }, async (error: AxiosError | any) => {
+        }, async (error: unknown) => {
+            if (!isAxiosError(error)) throw new Error(JSON.stringify(error));
+
             const originalRequest = error.config as InternalAxiosRequestConfig & {
                 retry?: boolean;
             };
 
             if (error.response?.status === 401) {
-                if (originalRequest?.url === 'v0/user/profile' && !originalRequest.retry &&
+                if (originalRequest && originalRequest?.url === 'v0/user/profile' && !originalRequest.retry &&
                     error.response.data && (error.response.data.message === 'Invalid or expired token' ||
                         error.response.data.message === 'Access token missing')
                 ) {

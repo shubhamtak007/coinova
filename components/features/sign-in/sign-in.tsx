@@ -227,7 +227,7 @@ export default memo(function signIn(bindings: Bindings) {
                     </form>
 
                     <div
-                        className="text-center text-[12px]"
+                        className={`text-center text-[12px] ${signingIn && 'disable-element'}`}
                     >
                         {formType === 'signIn' ? 'Don’t have an account?' : 'Have an account?'}
                         <a

@@ -28,12 +28,21 @@
     color: #fafafa !important;
     font-size: 15px !important;
     background-color: var(--color-red-800) !important;
+    border-color: var(--color-red-800) !important;
 }
 
 .success-toast {
     color: #fafafa !important;
     font-size: 15px !important;
     background-color: var(--color-green-800) !important;
+    border-color: var(--color-green-800) !important;
+}
+
+.disable-element {
+    pointer-events: none !important;
+    color: gray !important;
+    cursor: not-allowed !important;
+    text-decoration: none !important;
 }
 
 .coin-symbol-image {

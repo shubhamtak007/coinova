@@ -8,6 +8,7 @@ import { useState } from 'react';
 import { toast } from 'sonner';
 import AuthenticationService from '@/services/authentication.service';
 import UserService from '@/services/user.service';
+import axios, { isAxiosError } from 'axios';
 
 type Bindings = {
     password: string,
@@ -55,8 +56,9 @@ export default function useSignIn({ password, formType, setShowDialog }: Binding
                 fetchProfile();
                 setShowDialog(false);
             }
-        } catch (error) {
-
+        } catch (error: unknown) {
+            if (!isAxiosError(error)) throw new Error(JSON.stringify(error));
+            toast.error(error.response?.data.message, { className: 'error-toast' });
         } finally {
             setSigningIn(false);
         }
