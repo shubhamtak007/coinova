@@ -1,13 +1,12 @@
 import { coinovaClientV2 } from '@/lib/api-client';
-import { sign } from 'crypto';
 
-type SignUpApiBodyType = {
+type SignUpApiBody = {
     name: string,
     email: string,
     password: string
 }
 
-async function signUp(apiBody: SignUpApiBodyType) {
+async function signUp(apiBody: SignUpApiBody) {
     try {
         const response = await coinovaClientV2.post(`v0/auth/sign-up`, apiBody);
         return response;

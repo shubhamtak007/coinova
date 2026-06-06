@@ -4,10 +4,10 @@ import { useLoading } from '@/contexts/loading.context';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuGroup, DropdownMenuLabel, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuSubContent } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import SignIn from '@/components/features/sign-in/sign-in';
-import AuthenticationService from '@/services/authentication.service';
 import { CircleUserRound } from 'lucide-react';
 import { toast } from 'sonner';
+import SignIn from '@/components/features/sign-in/sign-in';
+import AuthenticationService from '@/services/authentication.service';
 
 type PdBindings = {
     setShowSignInDialog: Dispatch<SetStateAction<boolean>>
@@ -71,7 +71,7 @@ function ProfileDropdown(pdBindings: PdBindings) {
 
                         <DropdownMenuContent
                             align="center"
-                            className="m-[16px_6px_30px_10px]"
+                            className="m-[16px_5px_30px_10px]"
                         >
                             <DropdownMenuGroup>
                                 <DropdownMenuItem onClick={() => { return; }}>
