@@ -52,7 +52,11 @@ export default function useSignIn({ password, formType, setShowDialog }: Binding
             }
 
             if (response.status === 200) {
-                toast.success(`${formType === 'signIn' ? 'Welcome back!' : 'Welcome to coinova!'}`, { className: 'success-toast' });
+                toast.success(
+                    `${formType === 'signIn' ? `Welcome back! Glad to see you again.` :
+                        'Welcome to Coinova! Your account is ready.'}`,
+                    { className: 'success-toast' }
+                );
                 fetchProfile();
                 setShowDialog(false);
             }

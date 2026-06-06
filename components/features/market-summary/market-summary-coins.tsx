@@ -104,15 +104,13 @@ export default function MarketSummaryCoins({ noOfCoins, marketSummaryItem }: Bin
                 </tbody>
             </table>
 
-            {
-                <CoinDetailsDialog
-                    key={crypto.randomUUID()}
-                    coin={clickedCoinRef.current}
-                    showDialog={showCoinDetailsDialog}
-                    setShowDialog={setShowCoinDetailsDialog}
-                    dialogNumber={noOfCoins > 3 ? 2 : 1}
-                />
-            }
+            <CoinDetailsDialog
+                key={crypto.randomUUID()}
+                coin={clickedCoinRef.current}
+                showDialog={showCoinDetailsDialog}
+                setShowDialog={setShowCoinDetailsDialog}
+                dialogNumber={noOfCoins > 3 ? 2 : 1}
+            />
         </>
     )
 }

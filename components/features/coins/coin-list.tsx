@@ -113,14 +113,12 @@ function CoinList() {
                 </div>
             </div>
 
-            {
-                (showCoinDetailsDialog === true) && <CoinDetailsDialog
-                    key={crypto.randomUUID()}
-                    coin={clickedCoinRef.current}
-                    showDialog={showCoinDetailsDialog}
-                    setShowDialog={setShowCoinDetailsDialog}
-                />
-            }
+            <CoinDetailsDialog
+                key={crypto.randomUUID()}
+                coin={clickedCoinRef.current}
+                showDialog={showCoinDetailsDialog}
+                setShowDialog={setShowCoinDetailsDialog}
+            />
         </>
     )
 }

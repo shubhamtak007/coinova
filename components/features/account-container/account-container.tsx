@@ -45,7 +45,7 @@ function ProfileDropdown(pdBindings: PdBindings) {
             setIsLoading(true);
             const response = await AuthenticationService.signOut();
             if (response.status === 200) {
-                toast.success(`You are now logged out. Have a great day!`, { className: 'success-toast' });
+                toast.success(`You have been logged out. Have a great day!`, { className: 'success-toast' });
                 setUser(null);
             }
         } catch (error) {
@@ -70,20 +70,14 @@ function ProfileDropdown(pdBindings: PdBindings) {
                         </DropdownMenuTrigger>
 
                         <DropdownMenuContent
-                            align="start"
-                            className="m-[14px_6px_30px_10px]"
+                            align="center"
+                            className="m-[16px_6px_30px_10px]"
                         >
                             <DropdownMenuGroup>
-                                <DropdownMenuLabel>{user.email}</DropdownMenuLabel>
+                                <DropdownMenuItem onClick={() => { return; }}>
+                                    Profile
+                                </DropdownMenuItem>
 
-                                {/* <DropdownMenuItem>
-                                Details
-                            </DropdownMenuItem> */}
-                            </DropdownMenuGroup>
-
-                            <DropdownMenuSeparator />
-
-                            <DropdownMenuGroup>
                                 <DropdownMenuItem onClick={() => { logoutUser() }}>
                                     Log out
                                 </DropdownMenuItem>

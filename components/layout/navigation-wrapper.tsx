@@ -9,11 +9,15 @@ const NavigationWrapper = ({ className, ...props }: React.ComponentProps<"div">)
 
     return (
         <>
-            {isLoading && (
-                <div className="!fixed hz-and-vert-center z-40"><Spinner className="size-15" /></div>
-            )}
+            {isLoading && <>
+                <div className="!fixed hz-and-vert-center z-[202]">
+                    <Spinner className="size-10" strokeWidth={3} />
+                </div>
+
+                <div className={cn({ "spinner-overlay": isLoading }, className)}></div>
+            </>}
             <div
-                className={cn({ "spinner-overlay": isLoading }, className)}
+                className={`${isLoading && 'pointer-events-none select-none'}`}
                 {...props}
             >
                 {props.children}

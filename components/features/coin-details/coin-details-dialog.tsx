@@ -15,7 +15,6 @@ type Bindings = {
 }
 
 function CoinDetailsDialog(bindings: Bindings) {
-    if (!bindings.coin) return;
     const { showDialog, setShowDialog, coin, dialogNumber } = bindings;
 
     return (
@@ -26,7 +25,7 @@ function CoinDetailsDialog(bindings: Bindings) {
             <DialogContent dialogNumber={dialogNumber}>
                 <DialogHeader>
                     <DialogTitle>
-                        <div className="flex items-center">
+                        {coin && <div className="flex items-center">
                             {
                                 coin.image ?
                                     <Image
@@ -43,20 +42,20 @@ function CoinDetailsDialog(bindings: Bindings) {
                             }
 
                             <span className="ml-[6px]">{coin.name}</span>
-                        </div>
+                        </div>}
 
                         <DialogDescription
                             className="text-[11px] m-[4px_0px] sr-only"
                         >
-                            {coin.name} details dialog
+                            {coin && coin.name} details dialog
                         </DialogDescription>
                     </DialogTitle>
                 </DialogHeader>
 
                 <DialogBody>
-                    <CoinDetailsBlock
+                    {coin && <CoinDetailsBlock
                         coinId={coin.id}
-                    />
+                    />}
                 </DialogBody>
             </DialogContent>
         </Dialog>
