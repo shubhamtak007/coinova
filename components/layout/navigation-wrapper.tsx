@@ -17,7 +17,7 @@ const NavigationWrapper = ({ className, ...props }: React.ComponentProps<"div">)
                 <div className={cn({ "spinner-overlay": isLoading }, className)}></div>
             </>}
             <div
-                className={`${isLoading && 'pointer-events-auto select-none'}`}
+                className={`${isLoading && 'pointer-events-none select-none'}`}
                 {...props}
             >
                 {props.children}
