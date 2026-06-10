@@ -66,10 +66,10 @@ function TrendingCoinsCategoriesAndNftsTable(bindings: Bindings) {
                                             </div>
                                         }
 
-                                        <>
+                                        <div className="w-[100px]">
                                             {
                                                 (type === 'categories' || type === 'nfts') &&
-                                                <div className="whitespace-pre w-[inherit] overflow-hidden text-ellipsis">
+                                                <div className="whitespace-pre overflow-hidden text-ellipsis">
                                                     {coinCategoryOrNft.name}
                                                 </div>
                                             }
@@ -79,7 +79,7 @@ function TrendingCoinsCategoriesAndNftsTable(bindings: Bindings) {
                                                     {coinCategoryOrNft.symbol}
                                                 </div>
                                             }
-                                        </>
+                                        </div>
                                     </div>
                                 </td>
 
