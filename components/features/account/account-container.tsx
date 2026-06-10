@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { CircleUserRound } from 'lucide-react';
 import { toast } from 'sonner';
+import ProfileDialog from './profile-dialog';
 import SignIn from '@/components/features/sign-in/sign-in';
 import AuthenticationService from '@/services/authentication.service';
 
@@ -39,6 +40,7 @@ function ProfileDropdown(pdBindings: PdBindings) {
     const { setShowSignInDialog } = pdBindings;
     const { setIsLoading } = useLoading();
     const { user, setUser } = useUser();
+    const [openProfileDialog, setOpenProfileDialog] = useState<boolean>(false);
 
     async function logoutUser() {
         try {
@@ -74,7 +76,7 @@ function ProfileDropdown(pdBindings: PdBindings) {
                             className="m-[16px_5px_30px_10px]"
                         >
                             <DropdownMenuGroup>
-                                <DropdownMenuItem onClick={() => { return; }}>
+                                <DropdownMenuItem onClick={() => { setOpenProfileDialog(true) }}>
                                     Profile
                                 </DropdownMenuItem>
 
@@ -90,6 +92,13 @@ function ProfileDropdown(pdBindings: PdBindings) {
                     >
                         Sign in
                     </Button>
+            }
+
+            {
+                <ProfileDialog
+                    openDialog={openProfileDialog}
+                    setOpenDialog={setOpenProfileDialog}
+                />
             }
         </div>
     )

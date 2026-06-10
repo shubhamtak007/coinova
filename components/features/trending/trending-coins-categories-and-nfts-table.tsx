@@ -12,14 +12,16 @@ function TrendingCoinsCategoriesAndNftsTable(bindings: Bindings) {
     const { list, type } = bindings;
 
     return (
-        <table className="cn-table">
+        <table className="cnv-borderless-table">
             <thead>
                 <tr>
                     <th className="text-center">#</th>
 
-                    <th className="text-left w-[40%]">
+                    <th className="text-left">
                         Name
                     </th>
+
+                    {type === 'categories' && <th className="text-left">Top Gainers</th>}
 
                     <th className="text-left">
                         {
@@ -45,7 +47,8 @@ function TrendingCoinsCategoriesAndNftsTable(bindings: Bindings) {
 
                                 <td>
                                     <div className="flex items-center">
-                                        {(type === 'coins' || type === 'nfts') &&
+                                        {
+                                            (type === 'coins' || type === 'nfts') &&
                                             <div className="pr-[8px] min-w-[30px]">
                                                 {
                                                     coinCategoryOrNft.image ? <Image
@@ -54,16 +57,14 @@ function TrendingCoinsCategoriesAndNftsTable(bindings: Bindings) {
                                                         height={coinSymbolImageSize.height}
                                                         alt={`Image of ${coinCategoryOrNft.name}`}
                                                         src={coinCategoryOrNft.image}
-                                                    /> :
-                                                        <div className="coin-letter-mark cursor-pointer">
-                                                            {coinCategoryOrNft.symbol && coinCategoryOrNft.symbol[0]}
-                                                        </div>
+                                                    />
+                                                        : coinCategoryOrNft.symbol ?
+                                                            <div className="coin-letter-mark cursor-pointer">
+                                                                {coinCategoryOrNft.symbol[0]}
+                                                            </div> : ''
                                                 }
-                                            </div>}
-
-                                        {type === 'coins' && <div className="crypto-symbol cursor-pointer">
-                                            {coinCategoryOrNft.symbol}
-                                        </div>}
+                                            </div>
+                                        }
 
                                         {
                                             (type === 'categories' || type === 'nfts') &&
@@ -71,8 +72,35 @@ function TrendingCoinsCategoriesAndNftsTable(bindings: Bindings) {
                                                 {coinCategoryOrNft.name}
                                             </div>
                                         }
+
+                                        {
+                                            type === 'coins' && <div className="crypto-symbol cursor-pointer">
+                                                {coinCategoryOrNft.symbol}
+                                            </div>
+                                        }
                                     </div>
                                 </td>
+
+                                {
+                                    (type === 'categories' && coinCategoryOrNft.topThreeCoinImages &&
+                                        coinCategoryOrNft.topThreeCoinImages.length > 0) &&
+                                    <td>
+                                        <div className="flex flex-wrap gap-2 mr-[6px]">
+                                            {coinCategoryOrNft.topThreeCoinImages.map((coinImage, index) => {
+                                                return (
+                                                    <Image
+                                                        key={`topThreeCoinImage-${index}`}
+                                                        className="coin-symbol-image"
+                                                        width={coinSymbolImageSize.width}
+                                                        height={coinSymbolImageSize.height}
+                                                        alt={`Image of one of top three coin`}
+                                                        src={coinImage}
+                                                    />
+                                                )
+                                            })}
+                                        </div>
+                                    </td>
+                                }
 
                                 <td className={`text-left`}>
                                     <span className="break-all">

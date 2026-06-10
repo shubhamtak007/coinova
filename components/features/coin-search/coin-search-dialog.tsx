@@ -82,7 +82,7 @@ function CoinSearchDialog(bindings: Bindings) {
                                     Search Results
                                 </div>
 
-                                <table className="coins-table">
+                                <table className="cnv-borderless-table">
                                     <tbody>
                                         {
                                             coins.map((coin, index) => {

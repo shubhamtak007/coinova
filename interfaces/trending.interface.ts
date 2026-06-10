@@ -21,6 +21,7 @@ interface Category {
     market_cap_1h_change: number,
     name: string,
     slug: string,
+    top_3_coins_images: string[],
     data: {
         market_cap: number,
         market_cap_change_percentage_24h: {
@@ -45,13 +46,14 @@ interface TrendingCoinsCategoriesAndNftsClient {
 
 interface CoinCategoryOrNft {
     id: string,
-    symbol: string | null,
     name: string,
-    image: string | null,
-    price: number | string | null,
-    priceChangePercentIn24hr: number | null,
-    marketCap: number | null,
-    marketCapChangePercentIn24hr: number | null
+    symbol?: string,
+    image?: string,
+    price?: number | string,
+    priceChangePercentIn24hr?: number,
+    marketCap?: number,
+    marketCapChangePercentIn24hr?: number,
+    topThreeCoinImages?: string[]
 }
 
 export type {

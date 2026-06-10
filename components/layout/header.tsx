@@ -5,7 +5,7 @@ import { Coins } from 'lucide-react';
 import Link from 'next/link';
 import BottomTabBar from '@/components/layout/bottom-tab-bar';
 import useHeader from '@/hooks/useHeader';
-import AccountContainer from '@/components/features/account-container/account-container';
+import AccountContainer from '@/components/features/account/account-container';
 
 function Header() {
     const [scrolled, setScrolled] = useState<boolean>(false);

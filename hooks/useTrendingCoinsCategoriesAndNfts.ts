@@ -38,9 +38,7 @@ function useTrendingCoinsCategoriesAndNfts() {
                         name: coin.item.id,
                         image: coin.item.large,
                         price: coin.item.data.price,
-                        priceChangePercentIn24hr: coin.item.data.price_change_percentage_24h.usd,
-                        marketCap: null,
-                        marketCapChangePercentIn24hr: null
+                        priceChangePercentIn24hr: coin.item.data.price_change_percentage_24h.usd
                     }
                 })
             }, {
@@ -50,13 +48,10 @@ function useTrendingCoinsCategoriesAndNfts() {
                 list: serverResponse.nfts.slice(0, 5).map((nft) => {
                     return {
                         id: nft.id,
-                        symbol: null,
                         name: nft.name,
                         image: nft.thumb,
                         price: nft.data.floor_price,
-                        priceChangePercentIn24hr: Number(nft.data.floor_price_in_usd_24h_percentage_change),
-                        marketCap: null,
-                        marketCapChangePercentIn24hr: null
+                        priceChangePercentIn24hr: Number(nft.data.floor_price_in_usd_24h_percentage_change)
                     }
                 })
             }, {
@@ -66,13 +61,10 @@ function useTrendingCoinsCategoriesAndNfts() {
                 list: serverResponse.categories.slice(0, 5).map((category) => {
                     return {
                         id: String(category.id),
-                        symbol: null,
                         name: category.name,
-                        image: null,
-                        price: null,
-                        priceChangePercentIn24hr: null,
                         marketCap: category.data.market_cap,
                         marketCapChangePercentIn24hr: Number(category.data.market_cap_change_percentage_24h.usd),
+                        topThreeCoinImages: category.top_3_coins_images
                     }
                 })
             }

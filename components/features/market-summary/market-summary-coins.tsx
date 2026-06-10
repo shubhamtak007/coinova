@@ -17,7 +17,7 @@ export default function MarketSummaryCoins({ noOfCoins, marketSummaryItem }: Bin
 
     return (
         <>
-            <table className="coins-table">
+            <table className="cnv-borderless-table">
                 {noOfCoins > 3 && <thead>
                     <tr>
                         <th className="w-[35px]">#</th>
