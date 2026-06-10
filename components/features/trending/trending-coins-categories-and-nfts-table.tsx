@@ -107,8 +107,8 @@ function TrendingCoinsCategoriesAndNftsTable(bindings: Bindings) {
                                 <td className={`text-left`}>
                                     <span className="break-all">
                                         {type === 'coins' && formatValueInUsdCompact(Number(coinCategoryOrNft.price), 2)}
-                                        {type === 'categories' && coinCategoryOrNft.marketCap}
                                         {type === 'nfts' && <span>{coinCategoryOrNft.price}</span>}
+                                        {type === 'categories' && formatValueInUsdCompact(Number(coinCategoryOrNft.marketCap), 2, true)}
                                     </span>
                                 </td>
 
