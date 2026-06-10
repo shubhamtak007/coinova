@@ -66,18 +66,20 @@ function TrendingCoinsCategoriesAndNftsTable(bindings: Bindings) {
                                             </div>
                                         }
 
-                                        {
-                                            (type === 'categories' || type === 'nfts') &&
-                                            <div className="whitespace-pre w-[inherit] overflow-hidden text-ellipsis">
-                                                {coinCategoryOrNft.name}
-                                            </div>
-                                        }
+                                        <>
+                                            {
+                                                (type === 'categories' || type === 'nfts') &&
+                                                <div className="whitespace-pre w-[inherit] overflow-hidden text-ellipsis">
+                                                    {coinCategoryOrNft.name}
+                                                </div>
+                                            }
 
-                                        {
-                                            type === 'coins' && <div className="crypto-symbol cursor-pointer">
-                                                {coinCategoryOrNft.symbol}
-                                            </div>
-                                        }
+                                            {
+                                                type === 'coins' && <div className="crypto-symbol cursor-pointer">
+                                                    {coinCategoryOrNft.symbol}
+                                                </div>
+                                            }
+                                        </>
                                     </div>
                                 </td>
 
@@ -104,12 +106,9 @@ function TrendingCoinsCategoriesAndNftsTable(bindings: Bindings) {
 
                                 <td className={`text-left`}>
                                     <span className="break-all">
-                                        {
-                                            type === 'coins' ? formatValueInUsdCompact(Number(coinCategoryOrNft.price), 2) :
-                                                type === 'nfts' ? <span>{coinCategoryOrNft.price}</span> :
-                                                    (type === 'categories' && coinCategoryOrNft.marketCap) ?
-                                                        formatValueInUsdCompact(Number(coinCategoryOrNft.marketCap), 2) : ''
-                                        }
+                                        {type === 'coins' && formatValueInUsdCompact(Number(coinCategoryOrNft.price), 2)}
+                                        {type === 'categories' && coinCategoryOrNft.marketCap}
+                                        {type === 'nfts' && <span>{coinCategoryOrNft.price}</span>}
                                     </span>
                                 </td>
 
