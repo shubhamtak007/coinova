@@ -131,7 +131,7 @@ function useCoinList() {
             const route = getUiRoute('coinAnalysis', row.original);
 
             if (route) {
-                const rootScope = globalThis ? globalThis : window ? window : null;
+                const rootScope = globalThis ?? window ?? null;
                 rootScope?.open(route, '_blank', 'noopener,noreferrer');
             }
         } else if (contextMenu.name === 'View Details') {

@@ -13,8 +13,11 @@ function useBottomTabBar() {
     const [showCoinSearchDialog, setShowCoinSearchDialog] = useState<boolean>(false);
 
     useEffect(() => {
+        router.prefetch('/trending');
+        const rootScope = globalThis ?? window ?? null;
+
         function handleScroll() {
-            const { innerHeight, scrollY } = globalThis;
+            const { innerHeight, scrollY } = rootScope;
             const { offsetHeight } = document.body;
 
             if ((innerHeight + Math.round(scrollY)) >= offsetHeight) {
@@ -24,9 +27,9 @@ function useBottomTabBar() {
             }
         }
 
-        globalThis.addEventListener('scroll', handleScroll);
+        rootScope.addEventListener('scroll', handleScroll);
 
-        return () => { globalThis.removeEventListener('scroll', handleScroll) }
+        return () => { rootScope.removeEventListener('scroll', handleScroll) }
     }, [])
 
     useEffect(() => {
