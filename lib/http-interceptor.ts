@@ -14,7 +14,7 @@ export const setupInterceptors = (client: AxiosInstance) => {
             };
 
             if (error.response?.status === 401) {
-                if (originalRequest && originalRequest?.url === 'v0/user/profile' && !originalRequest.retry &&
+                if (originalRequest && originalRequest?.url === 'v0/users/me' && !originalRequest.retry &&
                     error.response.data && (error.response.data.message === 'Invalid or expired token' ||
                         error.response.data.message === 'Access token missing')
                 ) {
