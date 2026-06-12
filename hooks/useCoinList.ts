@@ -129,8 +129,11 @@ function useCoinList() {
     function onContextMenuItemClicked(row: Row<CoingeckoCrypto>, contextMenu: MenuItem, event: Event) {
         if (contextMenu.name === 'Analyze Coin') {
             const route = getUiRoute('coinAnalysis', row.original);
-            if (route) globalThis?.open(route, '_blank', 'noopener,noreferrer');
 
+            if (route) {
+                const rootScope = globalThis ? globalThis : window ? window : null;
+                rootScope?.open(route, '_blank', 'noopener,noreferrer');
+            }
         } else if (contextMenu.name === 'View Details') {
             clickedCoinRef.current = row.original;
             setShowCoinDetailsDialog(true);

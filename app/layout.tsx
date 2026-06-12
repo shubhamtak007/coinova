@@ -31,8 +31,8 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
                 <div className="body-wrapper">
                     <LoadingContextProvider>
                         <UserContextProvider>
-                            <OptimisticNavigationContextProvider>
-                                <NavigationWrapper>
+                            <NavigationWrapper>
+                                <OptimisticNavigationContextProvider>
                                     <Header />
 
                                     <main className="main-content">
@@ -44,8 +44,8 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
                                     </main>
 
                                     <Footer />
-                                </NavigationWrapper>
-                            </OptimisticNavigationContextProvider>
+                                </OptimisticNavigationContextProvider>
+                            </NavigationWrapper>
                         </UserContextProvider>
                     </LoadingContextProvider>
                 </div>
