@@ -22,8 +22,8 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: color-mix(in oklab, #fff 45%, transparent);
-    backdrop-filter: blur(2px);
+    background-color: var(--loading-overlay-backdrop-bgColor);
+    backdrop-filter: blur(1px);
     z-index: 200;
     cursor: pointer;
 }

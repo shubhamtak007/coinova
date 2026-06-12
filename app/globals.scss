@@ -90,9 +90,8 @@
     --main-color-2: #2663eb;
     --main-color-3: #0e2c72;
     --main-bg-color: #ffffff;
-    --border-radius: 6px;
     --border-color: #ebeef5;
-    --container-width: 1280px;
+    --loading-overlay-backdrop-bgColor: #c8d1da66;
     --overview-section-th-color: #9c9c9c;
     --overlay-color: #58667e99;
     --text-color: #fafafa;
@@ -102,6 +101,8 @@
     --box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     --top-box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.08);
     --bottom-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    --border-radius: 6px;
+    --container-width: 1280px;
 }
 
 .dark {
