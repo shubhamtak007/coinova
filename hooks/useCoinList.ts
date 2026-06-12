@@ -131,8 +131,11 @@ function useCoinList() {
             const route = getUiRoute('coinAnalysis', row.original);
 
             if (route) {
-                const rootScope = globalThis ?? window ?? null;
-                rootScope?.open(route, '_blank', 'noopener,noreferrer');
+                Object.assign(document.createElement('a'), {
+                    href: route,
+                    target: '_blank',
+                    rel: 'noopener noreferrer'
+                }).click();
             }
         } else if (contextMenu.name === 'View Details') {
             clickedCoinRef.current = row.original;
