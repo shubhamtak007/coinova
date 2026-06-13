@@ -4,7 +4,8 @@ import { Fragment } from 'react';
 import useBottomTabBar from '@/hooks/useBottomTabBar';
 import { Tabs, TabsTrigger, TabsList } from '@/components/ui/tabs';
 import { House } from 'lucide-react';
-import { FiGithub } from "react-icons/fi";
+import { GoHomeFill } from "react-icons/go";
+import { FaGithub } from "react-icons/fa";
 import { bottomBarTabList } from '@/constants/coin.constants';
 import CoinSearchDialog from '@/components/features/coin-search/coin-search-dialog'
 
@@ -31,18 +32,19 @@ function BottomTabBar() {
                                                 href="https://github.com/shubhamtak007/coinova"
                                                 target="_blank"
                                                 rel="noopener noreferrer"
+                                                className={`max-h-[38px] max-w-[33px]`}
                                             >
-                                                <FiGithub className="size-4" strokeWidth={2.5} />
+                                                <FaGithub
+                                                    className="size-5"
+                                                />
                                             </a>
                                             :
                                             <TabsTrigger
                                                 value={tab.value}
                                                 onClick={(event) => { onTabClick(event, tab.value) }}
                                             >
-                                                {tab.name === 'Home' ? <House
-                                                    className="size-4"
-                                                    absoluteStrokeWidth={true}
-                                                    strokeWidth={2.5}
+                                                {tab.name === 'Home' ? <GoHomeFill
+                                                    className="size-5"
                                                 /> :
                                                     tab.name}
                                             </TabsTrigger>

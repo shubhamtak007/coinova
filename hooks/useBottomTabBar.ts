@@ -14,6 +14,7 @@ function useBottomTabBar() {
 
     useEffect(() => {
         router.prefetch('/trending');
+        router.prefetch('/');
         const rootScope = globalThis ?? window ?? null;
 
         function handleScroll() {

@@ -4,7 +4,7 @@ import { useLoading } from '@/contexts/loading.context';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuGroup, DropdownMenuLabel, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuSubContent } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { CircleUserRound } from 'lucide-react';
+import { FaUserAlt } from "react-icons/fa";
 import { toast } from 'sonner';
 import ProfileDialog from './profile-dialog';
 import SignIn from '@/components/features/sign-in/sign-in';
@@ -64,9 +64,9 @@ function ProfileDropdown(pdBindings: PdBindings) {
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <div className="user-icon">
-                                <CircleUserRound
+                                <FaUserAlt
                                     style={{ color: 'var(--black-text-color-2)' }}
-                                    className="size-5"
+                                    className="size-4"
                                 />
                             </div>
                         </DropdownMenuTrigger>
