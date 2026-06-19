@@ -6,10 +6,11 @@ import { OptimisticNavigationContextProvider } from '@/contexts/navigation-conte
 import { UserContextProvider } from "@/contexts/user.context";
 import { LoadingContextProvider } from '@/contexts/loading.context';
 import { Toaster } from '@/components/ui/sonner';
+import { cookies } from "next/headers";
 import NavigationWrapper from '@/components/layout/navigation-wrapper';
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
-import UserService from "@/services/user.service";
+import axios from "axios";
 
 const inter = Inter({
     weight: ['400', '500', '600', '700', '800', '900'],
@@ -25,9 +26,16 @@ export const metadata: Metadata = {
     }
 };
 
-async function fetchProfile() {
+const fetchProfile = async () => {
+    const cookieStore = await cookies();
+    const cookieString = cookieStore.toString();
+
     try {
-        const response = await UserService.retrieveProfile();
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}v0/users/me`, {
+            headers: {
+                'Cookie': cookieString
+            }
+        });
         return response.data.data;
     } catch (error) {
 
