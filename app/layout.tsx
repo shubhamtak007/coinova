@@ -10,7 +10,6 @@ import { cookies } from "next/headers";
 import NavigationWrapper from '@/components/layout/navigation-wrapper';
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
-import axios from "axios";
 
 const inter = Inter({
     weight: ['400', '500', '600', '700', '800', '900'],
