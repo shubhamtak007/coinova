@@ -10,6 +10,7 @@ import { cookies } from "next/headers";
 import NavigationWrapper from '@/components/layout/navigation-wrapper';
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import axios from "axios";
 
 const inter = Inter({
     weight: ['400', '500', '600', '700', '800', '900'],
@@ -28,18 +29,16 @@ export const metadata: Metadata = {
 const fetchProfile = async () => {
     const cookieStore = await cookies();
 
-    const response = await fetch(
+    const response = await axios.get(
         `${process.env.NEXT_PUBLIC_API_URL}v0/users/me`,
         {
-            method: "GET",
             headers: {
                 Cookie: cookieStore.toString(),
             },
         }
     );
 
-    const jsonData = await response.json();
-    return jsonData.data;
+    return response.data.data;
 };
 
 export default async function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
