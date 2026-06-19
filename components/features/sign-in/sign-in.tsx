@@ -6,46 +6,57 @@ import { Button } from '@/components/ui/button';
 import { EyeOff, Eye, Circle } from 'lucide-react';
 import { FaCheckCircle } from "react-icons/fa";
 import { Spinner } from '@/components/ui/spinner';
+import type { FormTypes } from '@/interfaces/account-centre.interface';
 import useSignIn from '@/hooks/useSignIn';
+import authenticationFormSchemaMap from '@/schemas/authentication-form.schema';
 
 type Bindings = {
     showDialog: boolean,
     setShowDialog: Dispatch<SetStateAction<boolean>>;
 }
 
+const defaultFormType = 'signIn';
+
 export default memo(function signIn(bindings: Bindings) {
     const { showDialog, setShowDialog } = bindings;
-    const [formType, setFormType] = useState<'signIn' | 'signUp'>('signIn');
+    const [formType, setFormType] = useState<typeof FormTypes>(defaultFormType);
     const [showEyeIcon, setShowEyeIcon] = useState<boolean>(true);
-    const [password, setPassword] = useState('');
-    const { passwordCriteriaList, userFormSchema, authenticateUser, signingIn } = useSignIn({ password, formType, setShowDialog });
-
-    useEffect(() => {
-        if (showDialog === false) {
-            setFormType('signIn');
-            resetForm();
-        }
-    }, [showDialog])
+    const { passwordCriteriaList, onFormSubmit, submittingData, emailRef } = useSignIn({ formType, setShowDialog, setFormType });
 
     const signInForm = useForm({
         defaultValues: {
-            fullName: '',
+            name: '',
             email: '',
-            password: ''
+            password: '',
+            code: ''
         },
 
         validators: {
-            onChange: userFormSchema as any,
-            onMount: userFormSchema as any
+            onChange: authenticationFormSchemaMap[formType] as any,
+            onMount: authenticationFormSchemaMap[formType] as any
         },
 
         onSubmit: async ({ value }) => {
-            authenticateUser(formType, value);
+            onFormSubmit(value);
         },
     });
 
+    useEffect(() => {
+        if (!showDialog) return;
+
+        resetForm();
+        setFormType(defaultFormType);
+    }, [showDialog]);
+
+    useEffect(() => {
+        resetForm();
+
+        if (['verifyResetCode'].includes(formType) && emailRef.current) {
+            signInForm.setFieldValue('email', emailRef.current);
+        }
+    }, [formType])
+
     function resetForm() {
-        setPassword('');
         signInForm.reset();
         signInForm.mount();
     }
@@ -58,12 +69,23 @@ export default memo(function signIn(bindings: Bindings) {
             }}
         >
             <DialogContent>
-                <DialogHeader disableCloseButton={signingIn}>
+                <DialogHeader disableCloseButton={submittingData}>
                     <DialogTitle>
-                        {formType === 'signIn' ? 'Sign in your account' : 'Get Started - Create a new account'}
+                        {formType === 'signUp' && 'Get Started - Create a new account'}
+                        {formType === 'signIn' && 'Sign in your account'}
+                        {(formType === 'forgotPassword' || formType === 'verifyResetCode') && 'Forgot your password?'}
+                        {formType === 'changePassword' && 'Change your password'}
+
+                        {(formType === 'forgotPassword' || formType === 'verifyResetCode') && <div className="text-[11px] text-[#858585]">
+                            Enter your email and we'll send you a code to reset the password
+                        </div>}
+
+                        {formType === 'changePassword' && <div className="text-[11px] text-[#858585]">
+                            Welcome back! Choose a new strong password and save it to proceed
+                        </div>}
 
                         <DialogDescription className="sr-only">
-                            sign-{formType === 'signIn' ? 'in' : 'up'} dialog
+                            {formType} dialog
                         </DialogDescription>
                     </DialogTitle>
                 </DialogHeader>
@@ -71,15 +93,22 @@ export default memo(function signIn(bindings: Bindings) {
                 <DialogBody>
                     <form
                         className="sign-in-form"
+                        key={formType}
                         onSubmit={(event) => {
                             event.preventDefault();
                             event.stopPropagation();
                             signInForm.handleSubmit();
                         }}
+                        onChange={(event) => {
+                            console.log(signInForm.state)
+                        }}
+                        onBlur={(event) => {
+                            console.log(signInForm.state)
+                        }}
                     >
-                        {formType === 'signUp' && <div className="form-group">
+                        {(formType === 'signUp') && <div className="form-group">
                             <signInForm.Field
-                                name="fullName"
+                                name="name"
                                 validators={{}}
                                 children={(field) => {
                                     return (
@@ -97,7 +126,7 @@ export default memo(function signIn(bindings: Bindings) {
                                                     onChange={(e) => field.handleChange(e.target.value)}
                                                     placeholder={'Your name'}
                                                     autoFocus={formType === 'signUp' && true}
-                                                    disabled={signingIn}
+                                                    disabled={submittingData}
                                                 />
                                             </InputGroup>
                                         </>
@@ -106,108 +135,141 @@ export default memo(function signIn(bindings: Bindings) {
                             />
                         </div>}
 
-                        <div className="form-group">
-                            <signInForm.Field
-                                name="email"
-                                validators={{}}
-                                children={(field) => {
-                                    return (
-                                        <>
-                                            <label htmlFor={field.name}>
-                                                Email<span className="required">*</span>
-                                            </label>
-                                            <InputGroup>
-                                                <InputGroupInput
-                                                    id={field.name}
-                                                    required={true}
-                                                    name={field.name}
-                                                    value={field.state.value}
-                                                    onBlur={field.handleBlur}
-                                                    onChange={(e) => { field.handleChange(e.target.value); }}
-                                                    placeholder={'you@example.com'}
-                                                    autoFocus={formType === 'signIn' && true}
-                                                    disabled={signingIn}
-                                                />
-                                            </InputGroup>
-                                        </>
-                                    )
-                                }}
-                            />
-                        </div>
+                        {(formType === 'signIn' || formType === 'signUp' ||
+                            formType === 'forgotPassword' || formType === 'verifyResetCode'
+                        ) && <div className="form-group">
+                                <signInForm.Field
+                                    name="email"
+                                    validators={{}}
+                                    children={(field) => {
+                                        return (
+                                            <>
+                                                <label htmlFor={field.name}>
+                                                    Email<span className="required">*</span>
+                                                </label>
+                                                <InputGroup>
+                                                    <InputGroupInput
+                                                        id={field.name}
+                                                        required={true}
+                                                        name={field.name}
+                                                        value={field.state.value}
+                                                        onBlur={field.handleBlur}
+                                                        onChange={(e) => { field.handleChange(e.target.value); }}
+                                                        placeholder={'you@example.com'}
+                                                        autoFocus={(formType === 'signIn' || formType === 'forgotPassword') && true}
+                                                        disabled={submittingData || (formType === 'verifyResetCode')}
+                                                    />
+                                                </InputGroup>
+                                            </>
+                                        )
+                                    }}
+                                />
+                            </div>
+                        }
 
-                        <div className="form-group">
-                            <signInForm.Field
-                                name="password"
-                                validators={{}}
-                                children={(field) => {
-                                    return (
-                                        <>
-                                            <label htmlFor={field.name}>
-                                                Password<span className="required">*</span>
-                                            </label>
+                        {
+                            (formType === 'verifyResetCode') &&
+                            <div className="form-group">
+                                <signInForm.Field
+                                    name="code"
+                                    children={(field) => {
+                                        return (
+                                            <>
+                                                <label htmlFor={field.name}>
+                                                    Code<span className="required">*</span>
+                                                </label>
+                                                <InputGroup>
+                                                    <InputGroupInput
+                                                        type="string"
+                                                        id={field.name}
+                                                        required={true}
+                                                        name={field.name}
+                                                        value={field.state.value}
+                                                        onBlur={field.handleBlur}
+                                                        onChange={(e) => { field.handleChange(e.target.value); }}
+                                                        placeholder={'123456'}
+                                                        disabled={submittingData}
+                                                        autoFocus={(formType === 'verifyResetCode') && true}
+                                                    />
+                                                </InputGroup>
+                                            </>
+                                        )
+                                    }}
+                                />
+                            </div>
+                        }
 
-                                            <InputGroup>
-                                                <InputGroupInput
-                                                    type={`${showEyeIcon === true ? 'password' : 'text'}`}
-                                                    id={field.name}
-                                                    required={true}
-                                                    name={field.name}
-                                                    value={field.state.value}
-                                                    onBlur={field.handleBlur}
-                                                    onChange={(e) => {
-                                                        field.handleChange(e.target.value);
-                                                        if (formType === 'signUp') { setPassword(e.target.value) }
-                                                    }}
-                                                    placeholder={'Enter Password'}
-                                                    disabled={signingIn}
-                                                />
-
-                                                <InputGroupAddon
-                                                    align={'inline-end'}
-                                                    onClick={() => { setShowEyeIcon(!showEyeIcon); }}
-                                                >
-                                                    {showEyeIcon === true ? <Eye /> : <EyeOff />}
-                                                </InputGroupAddon>
-                                            </InputGroup>
-
-                                            {formType === 'signUp' &&
-                                                <div
-                                                    className="password-criteria-container"
-                                                >
-                                                    <div>
-                                                        {passwordCriteriaList.uppercase ? <FaCheckCircle /> : <Circle />}
-                                                        <div>Uppercase letter</div>
-                                                    </div>
-
-                                                    <div>
-                                                        {passwordCriteriaList.lowercase ? <FaCheckCircle /> : <Circle />}
+                        {(formType === 'signIn' || formType === 'signUp' || formType === 'changePassword') &&
+                            <div className="form-group">
+                                <signInForm.Field
+                                    name="password"
+                                    validators={{}}
+                                    children={(field) => {
+                                        return (
+                                            <>
+                                                <label className="w-full" htmlFor={field.name}>
+                                                    <div className="flex justify-between items-center">
                                                         <div>
-                                                            Lowercase letter
+                                                            Password<span className="required">*</span>
                                                         </div>
-                                                    </div>
 
-                                                    <div>
-                                                        {passwordCriteriaList.number ? <FaCheckCircle /> : <Circle />}
-                                                        <div>
-                                                            Number
-                                                        </div>
+                                                        {formType === 'signIn' && <a
+                                                            className="text-[#858585] cursor-pointer"
+                                                            onClick={() => {
+                                                                setFormType('forgotPassword');
+                                                            }}
+                                                        >
+                                                            Forgot password?
+                                                        </a>}
                                                     </div>
+                                                </label>
 
-                                                    <div>
-                                                        {passwordCriteriaList.special ? <FaCheckCircle /> : <Circle />}
-                                                        <div>Special character (e.g. !?&lt;&gt;@#$%)</div>
-                                                    </div>
+                                                <InputGroup>
+                                                    <InputGroupInput
+                                                        type={`${showEyeIcon === true ? 'password' : 'text'}`}
+                                                        id={field.name}
+                                                        required={true}
+                                                        name={field.name}
+                                                        value={field.state.value}
+                                                        onBlur={field.handleBlur}
+                                                        onChange={(e) => {
+                                                            field.handleChange(e.target.value);
+                                                        }}
+                                                        placeholder={'Enter Password'}
+                                                        disabled={submittingData}
+                                                        autoFocus={(formType === 'changePassword') && true}
+                                                    />
 
-                                                    <div>
-                                                        {passwordCriteriaList.length ? <FaCheckCircle /> : <Circle />}
-                                                        <div>8 characters or more</div>
+                                                    <InputGroupAddon
+                                                        align={'inline-end'}
+                                                        onClick={() => { setShowEyeIcon(!showEyeIcon); }}
+                                                    >
+                                                        {showEyeIcon === true ? <Eye /> : <EyeOff />}
+                                                    </InputGroupAddon>
+                                                </InputGroup>
+
+                                                {
+                                                    (formType === 'signUp' || formType === 'changePassword') &&
+                                                    <div
+                                                        className="password-criteria-container"
+                                                    >
+                                                        {
+                                                            passwordCriteriaList?.current.map((passwordCriteria) => {
+                                                                return (
+                                                                    <div key={passwordCriteria.name}>
+                                                                        {passwordCriteria.criteria.test(field.state.value) ? <FaCheckCircle /> : <Circle />}
+                                                                        <div>{passwordCriteria.name}</div>
+                                                                    </div>
+                                                                )
+                                                            })
+                                                        }
                                                     </div>
-                                                </div>}
-                                        </>
-                                    )
-                                }}
-                            />
-                        </div>
+                                                }
+                                            </>
+                                        )
+                                    }}
+                                />
+                            </div>}
 
                         <div className="text-center">
                             <signInForm.Subscribe
@@ -216,10 +278,14 @@ export default memo(function signIn(bindings: Bindings) {
                                 {([canSubmit, isSubmitting]) => (
                                     <Button
                                         type="submit"
-                                        disabled={!signInForm.state.isValid || !canSubmit || isSubmitting || signingIn}
+                                        disabled={!signInForm.state.isValid || !canSubmit || isSubmitting || submittingData}
                                     >
-                                        {signingIn && <Spinner className="size-4" />}
-                                        Sign {formType === 'signIn' ? 'in' : 'up'}
+                                        {submittingData && <Spinner className="size-4" />}
+                                        {formType === 'signIn' && 'Sign in'}
+                                        {formType === 'signUp' && 'Sign up'}
+                                        {formType === 'forgotPassword' && `Send reset code`}
+                                        {formType === 'verifyResetCode' && `Confirm reset code`}
+                                        {formType === 'changePassword' && 'Save new password'}
                                     </Button>
                                 )}
                             </signInForm.Subscribe>
@@ -227,9 +293,14 @@ export default memo(function signIn(bindings: Bindings) {
                     </form>
 
                     <div
-                        className={`text-center text-[12px] ${signingIn && 'disable-element'}`}
+                        className={`text-center text-[12px] ${submittingData && 'disable-element'}`}
                     >
-                        {formType === 'signIn' ? 'Don’t have an account?' : 'Have an account?'}
+                        {formType === 'signIn' && 'Don’t have an account?'}
+                        {
+                            (['signUp', 'forgotPassword', 'changePassword', 'verifyResetCode'].includes(formType))
+                            && 'Already have an account?'
+                        }
+
                         <a
                             className="underline cursor-pointer ml-[3px]"
                             onClick={() => {
@@ -237,13 +308,12 @@ export default memo(function signIn(bindings: Bindings) {
                                 resetForm();
                             }}
                         >
-                            {formType === 'signIn' ? 'Sign up' : 'Sign in'}
+                            {formType === 'signIn' && 'Sign up'}
+                            {(['signUp', 'forgotPassword', 'changePassword', 'verifyResetCode'].includes(formType)) && 'Sign in'}
                         </a>
                     </div>
                 </DialogBody>
             </DialogContent>
         </Dialog>
     )
-})
-
-
+});

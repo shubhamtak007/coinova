@@ -21,23 +21,6 @@ const UserContextProvider = ({ children, }: UserContextProviderProps) => {
     const [user, setUser] = useState<User | null>(null);
     const { setIsLoading } = useLoading();
 
-    useEffect(() => {
-        fetchProfile();
-    }, []);
-
-    async function fetchProfile() {
-        setIsLoading(true);
-
-        try {
-            const response = await UserService.retrieveProfile();
-            setUser(response.data.data);
-        } catch (error) {
-
-        } finally {
-            setIsLoading(false);
-        }
-    }
-
     return (
         <UserContext.Provider value={{ user, setUser }}>
             {children}

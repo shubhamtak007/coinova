@@ -3,7 +3,6 @@
 import { Fragment } from 'react';
 import useBottomTabBar from '@/hooks/useBottomTabBar';
 import { Tabs, TabsTrigger, TabsList } from '@/components/ui/tabs';
-import { House } from 'lucide-react';
 import { GoHomeFill } from "react-icons/go";
 import { FaGithub } from "react-icons/fa";
 import { bottomBarTabList } from '@/constants/coin.constants';
@@ -42,6 +41,7 @@ function BottomTabBar() {
                                             <TabsTrigger
                                                 value={tab.value}
                                                 onClick={(event) => { onTabClick(event, tab.value) }}
+                                                style={{ 'paddingInline': '7px' }}
                                             >
                                                 {tab.name === 'Home' ? <GoHomeFill
                                                     className="size-5"

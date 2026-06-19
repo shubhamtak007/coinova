@@ -1,70 +1,75 @@
 'use client';
 
-import { z } from 'zod';
-import { SetStateAction, Dispatch } from 'react';
+import { email, z } from 'zod';
+import { SetStateAction, Dispatch, useEffect, useState, useRef } from 'react';
 import { useUser } from '@/contexts/user.context';
 import { useLoading } from '@/contexts/loading.context';
-import { useState } from 'react';
 import { toast } from 'sonner';
+import { isAxiosError } from 'axios';
+import type { UserFormData, FormTypes } from '@/interfaces/account-centre.interface';
 import AuthenticationService from '@/services/authentication.service';
 import UserService from '@/services/user.service';
-import axios, { isAxiosError } from 'axios';
+import schemaMap from '@/schemas/authentication-form.schema';
 
 type Bindings = {
-    password: string,
     formType: string,
-    setShowDialog: Dispatch<SetStateAction<boolean>>
+    setShowDialog: Dispatch<SetStateAction<boolean>>,
+    setFormType: Dispatch<SetStateAction<typeof FormTypes>>
 }
 
-export default function useSignIn({ password, formType, setShowDialog }: Bindings) {
+export default function useSignIn(bindings: Bindings) {
+    const { formType, setShowDialog, setFormType } = bindings;
     const { setUser } = useUser();
     const { setIsLoading } = useLoading();
-    const [signingIn, setSigningIn] = useState<boolean | false>(false);
+    const [submittingData, setSubmittingData] = useState<boolean>(false);
+    let emailRef = useRef<string>(null);
+    let passwordCriteriaList = useRef<{ name: string; criteria: RegExp; }[]>([]);
 
-    const passwordCriteriaList = {
-        uppercase: /[A-Z]/.test(password),
-        lowercase: /[a-z]/.test(password),
-        number: /[0-9]/.test(password),
-        special: /[!?<>@#$%]/.test(password),
-        length: password.length >= 8,
-    };
+    useEffect(() => {
+        passwordCriteriaList.current = [
+            { name: 'Uppercase letter', criteria: /[A-Z]/ },
+            { name: 'Lowercase letter', criteria: /[a-z]/ },
+            { name: 'Number', criteria: /[0-9]/ },
+            { name: 'Special character (e.g. !?&lt;&gt;@#$%)', criteria: /[!?<>@#$%]/ },
+            { name: '8 characters or more', criteria: /^\S{9,}$/ }
+        ]
+    }, []);
 
-    const userFormSchema = z.object({
-        fullName: formType === 'signUp' ? z.string().min(2) : z.string().nullable(),
-        email: z.email().min(5),
-        password: z.string().min(8, 'Password must be at least 8 characters')
-            .regex(/[A-Z]/, 'Must contain an uppercase letter')
-            .regex(/[a-z]/, 'Must contain a lowercase letter')
-            .regex(/[0-9]/, 'Must contain a number')
-            .regex(/[!?<>@#$%]/, 'Must contain a special character'),
-    })
-
-    async function authenticateUser(formType: string, userDetails: { fullName: string, email: string, password: string }) {
+    async function authenticateUser(userDetails: UserFormData) {
         try {
-            setSigningIn(true);
+            setSubmittingData(true);
             let response;
-            const serverUser = { email: userDetails.email, password: userDetails.password };
 
             switch (formType) {
-                case 'signIn': response = await AuthenticationService.signIn(serverUser); break;
-                case 'signUp': response = await AuthenticationService.signUp({ name: userDetails.fullName, ...serverUser }); break;
+                case 'signIn': {
+                    const serverData = {
+                        email: userDetails.email,
+                        password: userDetails.password
+                    }
+                    response = await AuthenticationService.signIn(serverData);
+                };
+                    break;
+                case 'signUp': {
+                    const serverData = {
+                        name: userDetails.name,
+                        email: userDetails.email,
+                        password: userDetails.password
+                    }
+                    response = await AuthenticationService.signUp(serverData);
+                };
+                    break;
                 default: throw new Error('Invalid form type');
             }
 
             if (response.status === 200) {
-                toast.success(
-                    `${formType === 'signIn' ? `Welcome back! Glad to see you again.` :
-                        'Welcome to Coinova! Your account is ready.'}`,
-                    { className: 'success-toast' }
-                );
+                displaySuccessNotification(response);
                 fetchProfile();
                 setShowDialog(false);
             }
         } catch (error: unknown) {
-            if (!isAxiosError(error)) throw new Error(JSON.stringify(error));
-            toast.error(error.response?.data.message, { className: 'error-toast' });
+            throwError(error);
         } finally {
-            setSigningIn(false);
+            setSubmittingData(false);
         }
     }
 
@@ -74,13 +79,80 @@ export default function useSignIn({ password, formType, setShowDialog }: Binding
             const response = await UserService.retrieveProfile();
             if (response.data.data.id) setUser(response.data.data);
         } catch (error) {
-
+            throwError(error);
         } finally {
             setIsLoading(false);
         }
     }
 
+    function onFormSubmit(userDetails: UserFormData) {
+        switch (formType) {
+            case 'signIn': authenticateUser(userDetails); break;
+            case 'signUp': authenticateUser(userDetails); break;
+            case 'forgotPassword': getResetCode(userDetails); break;
+            case 'verifyResetCode': resetCodeVerification(userDetails); break;
+            case 'changePassword': updatePassword(userDetails); break;
+            default: return;
+        }
+    }
+
+    async function getResetCode(userDetails: UserFormData) {
+        emailRef.current = userDetails.email;
+
+        try {
+            setSubmittingData(true);
+            const response = await AuthenticationService.retrieveResetCode({ email: userDetails.email });
+            displaySuccessNotification(response);
+            setFormType('verifyResetCode');
+        } catch (error) {
+            throwError(error);
+        } finally {
+            setSubmittingData(false);
+        }
+    }
+
+    async function resetCodeVerification(userDetails: UserFormData) {
+        try {
+            setSubmittingData(true);
+            const serverData = {
+                email: userDetails.email,
+                resetCode: userDetails.code
+            }
+
+            const response = await AuthenticationService.verifyResetCode(serverData);
+            displaySuccessNotification(response);
+            setFormType('changePassword');
+        } catch (error) {
+            throwError(error);
+        } finally {
+            setSubmittingData(false);
+        }
+    }
+
+    async function updatePassword(userDetails: UserFormData) {
+        try {
+            setSubmittingData(true);
+            const response = await AuthenticationService.changePassword({ password: userDetails.password });
+            displaySuccessNotification(response);
+            setFormType('signIn');
+        } catch (error) {
+            throwError(error);
+        } finally {
+            setSubmittingData(false);
+        }
+    }
+
+    const displaySuccessNotification = (response: { status: number, data: { message: string } }) => {
+        if (!response || response.status !== 200) return;
+        toast.success(`${response.data.message}`, { className: 'success-toast' });
+    }
+
+    function throwError(error: unknown) {
+        if (!isAxiosError(error)) throw new Error(JSON.stringify(error));
+        toast.error(error.response?.data.message, { className: 'error-toast' });
+    }
+
     return {
-        passwordCriteriaList, userFormSchema, authenticateUser, signingIn
+        passwordCriteriaList, onFormSubmit, submittingData, emailRef
     }
 }

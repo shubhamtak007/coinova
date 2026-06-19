@@ -9,6 +9,7 @@ import { Toaster } from '@/components/ui/sonner';
 import NavigationWrapper from '@/components/layout/navigation-wrapper';
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import UserService from "@/services/user.service";
 
 const inter = Inter({
     weight: ['400', '500', '600', '700', '800', '900'],
@@ -24,7 +25,20 @@ export const metadata: Metadata = {
     }
 };
 
-export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
+async function fetchProfile() {
+    try {
+        const response = await UserService.retrieveProfile();
+        return response.data.data;
+    } catch (error) {
+
+    } finally {
+
+    }
+}
+
+export default async function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
+    const profileData = await fetchProfile();
+
     return (
         <html lang="en">
             <body className={`${inter.className}`}>
@@ -33,7 +47,7 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
                         <UserContextProvider>
                             <NavigationWrapper>
                                 <OptimisticNavigationContextProvider>
-                                    <Header />
+                                    <Header profileData={profileData} />
 
                                     <main className="main-content">
                                         <div className="container">

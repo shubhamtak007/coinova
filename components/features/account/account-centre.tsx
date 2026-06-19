@@ -14,7 +14,7 @@ type PdBindings = {
     setShowSignInDialog: Dispatch<SetStateAction<boolean>>
 }
 
-function AccountContainer() {
+function AccountCentre() {
     const [showSignInDialog, setShowSignInDialog] = useState(false);
     const { isLoading } = useLoading();
 
@@ -104,4 +104,4 @@ function ProfileDropdown(pdBindings: PdBindings) {
     )
 }
 
-export default AccountContainer;
+export default AccountCentre;

@@ -42,6 +42,33 @@ async function refreshToken() {
     }
 };
 
-const AuthenticationService = { signUp, signIn, refreshToken, signOut };
+async function retrieveResetCode(jsonData: object) {
+    try {
+        const response = await coinovaClientV2.post(`v0/auth/forgot-password`, jsonData);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function verifyResetCode(jsonData: object) {
+    try {
+        const response = await coinovaClientV2.post(`v0/auth/verify-reset-code`, jsonData);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+async function changePassword(jsonData: object) {
+    try {
+        const response = await coinovaClientV2.patch(`v0/auth/change-password`, jsonData);
+        return response;
+    } catch (error) {
+        throw error;
+    }
+}
+
+const AuthenticationService = { signUp, signIn, refreshToken, signOut, retrieveResetCode, verifyResetCode, changePassword };
 
 export default AuthenticationService;
