@@ -100,10 +100,10 @@ export default memo(function signIn(bindings: Bindings) {
                             signInForm.handleSubmit();
                         }}
                         onChange={(event) => {
-                            console.log(signInForm.state)
+
                         }}
                         onBlur={(event) => {
-                            console.log(signInForm.state)
+
                         }}
                     >
                         {(formType === 'signUp') && <div className="form-group">
