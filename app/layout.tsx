@@ -10,7 +10,7 @@ import { cookies } from "next/headers";
 import NavigationWrapper from '@/components/layout/navigation-wrapper';
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
-import axios from "axios";
+import axios, { InternalAxiosRequestConfig, isAxiosError } from "axios";
 
 const inter = Inter({
     weight: ['400', '500', '600', '700', '800', '900'],
@@ -36,9 +36,20 @@ const fetchProfile = async () => {
                 'Cookie': cookieString
             }
         });
+
         return response.data.data;
     } catch (error) {
+        try {
+            const response = await axios.post(`${process.env.NEXT_PUBLIC_API_URL}v0/auth/refresh-token`, {}, {
+                headers: {
+                    'Cookie': cookieString
+                }
+            });
 
+            return fetchProfile();
+        } catch (error) {
+
+        }
     } finally {
 
     }
