@@ -28,32 +28,20 @@ export const metadata: Metadata = {
 
 const fetchProfile = async () => {
     const cookieStore = await cookies();
-    const cookieString = cookieStore.toString();
 
-    try {
-        const response = await axios.get(`${process.env.NEXT_PUBLIC_API_URL}v0/users/me`, {
+    const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}v0/users/me`,
+        {
+            method: "GET",
             headers: {
-                'Cookie': cookieString
-            }
-        });
-
-        return response.data.data;
-    } catch (error) {
-        try {
-            await axios.post(`${process.env.NEXT_PUBLIC_API_URL}v0/auth/refresh-token`, {}, {
-                headers: {
-                    'Cookie': cookieString
-                }
-            });
-
-            return fetchProfile();
-        } catch (error) {
-
+                Cookie: cookieStore.toString(),
+            },
         }
-    } finally {
+    );
 
-    }
-}
+    const jsonData = await response.json();
+    return jsonData.data;
+};
 
 export default async function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
     const profileData = await fetchProfile();
