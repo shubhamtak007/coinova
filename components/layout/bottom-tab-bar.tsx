@@ -3,10 +3,10 @@
 import { Fragment } from 'react';
 import useBottomTabBar from '@/hooks/useBottomTabBar';
 import { Tabs, TabsTrigger, TabsList } from '@/components/ui/tabs';
-import { GoHomeFill } from "react-icons/go";
-import { FaGithub } from "react-icons/fa";
+import { FiGithub } from "react-icons/fi";
 import { bottomBarTabList } from '@/constants/coin.constants';
 import CoinSearchDialog from '@/components/features/coin-search/coin-search-dialog'
+import { Home } from 'lucide-react';
 
 function BottomTabBar() {
     const { scrollEnded, activeTab, onTabClick, showCoinSearchDialog, setShowCoinSearchDialog } = useBottomTabBar();
@@ -33,8 +33,8 @@ function BottomTabBar() {
                                                 rel="noopener noreferrer"
                                                 className={`max-h-[38px] max-w-[33px]`}
                                             >
-                                                <FaGithub
-                                                    className="size-5"
+                                                <FiGithub
+                                                    className="size-4"
                                                 />
                                             </a>
                                             :
@@ -43,8 +43,8 @@ function BottomTabBar() {
                                                 onClick={(event) => { onTabClick(event, tab.value) }}
                                                 style={{ 'paddingInline': '7px' }}
                                             >
-                                                {tab.name === 'Home' ? <GoHomeFill
-                                                    className="size-5"
+                                                {tab.name === 'Home' ? <Home
+                                                    className="size-4"
                                                 /> :
                                                     tab.name}
                                             </TabsTrigger>

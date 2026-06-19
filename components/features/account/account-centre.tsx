@@ -9,6 +9,7 @@ import { toast } from 'sonner';
 import ProfileDialog from './profile-dialog';
 import SignIn from '@/components/features/sign-in/sign-in';
 import AuthenticationService from '@/services/authentication.service';
+import { UserRound } from 'lucide-react';
 
 type PdBindings = {
     setShowSignInDialog: Dispatch<SetStateAction<boolean>>
@@ -64,9 +65,9 @@ function ProfileDropdown(pdBindings: PdBindings) {
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
                             <div className="user-icon">
-                                <FaUserAlt
+                                <UserRound
                                     style={{ color: 'var(--black-text-color-2)' }}
-                                    className="size-4"
+                                    className="size-4.5"
                                 />
                             </div>
                         </DropdownMenuTrigger>
