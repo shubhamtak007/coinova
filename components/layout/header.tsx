@@ -44,7 +44,7 @@ function Header(bindings: Bindings) {
                         <BottomTabBar />
                     </div>}
 
-                    <AccountCentre />
+                    {/* <AccountCentre /> */}
                 </div>
             </div>
         </>
