@@ -214,7 +214,7 @@ export default memo(function signIn(bindings: Bindings) {
                                                         </div>
 
                                                         {formType === 'signIn' && <a
-                                                            className="text-[#858585] cursor-pointer"
+                                                            className={`text-[#858585] cursor-pointer ${submittingData && 'disable-element'}`}
                                                             onClick={() => {
                                                                 setFormType('forgotPassword');
                                                             }}
