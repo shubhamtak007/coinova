@@ -10,19 +10,14 @@ import { useUser } from '@/contexts/user.context';
 import { User } from '@/interfaces/user.interface';
 
 type Bindings = {
-    profileData: User
+
 }
 
 function Header(bindings: Bindings) {
-    const { profileData } = bindings;
     const [scrolled, setScrolled] = useState<boolean>(false);
     const [showBottomTabBar, setShowBottomTabBar] = useState<boolean>(false);
     const { user, setUser } = useUser();
     const { } = useHeader({ setShowBottomTabBar, setScrolled });
-
-    useEffect(() => {
-        if (profileData && profileData.id) setUser(profileData);
-    }, [profileData]);
 
     return (
         <>

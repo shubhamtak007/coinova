@@ -26,32 +26,7 @@ export const metadata: Metadata = {
     }
 };
 
-const fetchProfile = async () => {
-    const cookieStore = await cookies();
-
-    try {
-        const response = await axios.get(
-            `${process.env.NEXT_PUBLIC_API_URL}v0/users/me`,
-            {
-                headers: {
-                    Cookie: cookieStore.toString(),
-                },
-            }
-        );
-
-        return response.data.data;
-    } catch (error) {
-        if (axios.isAxiosError(error) && error.response?.status === 401) {
-            return null;
-        }
-
-        throw error;
-    }
-};
-
 export default async function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
-    const profileData = await fetchProfile();
-
     return (
         <html lang="en">
             <body className={`${inter.className}`}>
@@ -60,7 +35,7 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
                         <UserContextProvider>
                             <NavigationWrapper>
                                 <OptimisticNavigationContextProvider>
-                                    <Header profileData={profileData} />
+                                    <Header />
 
                                     <main className="main-content">
                                         <div className="container">
