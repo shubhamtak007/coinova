@@ -16,7 +16,7 @@ export async function proxy(request: NextRequest) {
                 }
             );
         } catch (error) {
-            throw new Error('Failed!!');
+            console.error("Refresh token request failed:", error);
         }
     }
 
