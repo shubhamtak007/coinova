@@ -31,8 +31,8 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
         <html lang="en">
             <body className={`${inter.className}`}>
                 <div className="body-wrapper">
-                    <LoadingContextProvider>
-                        <UserContextProvider>
+                    <UserContextProvider>
+                        <LoadingContextProvider>
                             <NavigationWrapper>
                                 <OptimisticNavigationContextProvider>
                                     <Header />
@@ -48,8 +48,8 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
                                     <Footer />
                                 </OptimisticNavigationContextProvider>
                             </NavigationWrapper>
-                        </UserContextProvider>
-                    </LoadingContextProvider>
+                        </LoadingContextProvider>
+                    </UserContextProvider>
                 </div>
             </body>
         </html>
