@@ -6,7 +6,7 @@ export async function proxy(request: NextRequest) {
 
     if (!accessToken && refreshToken) {
         try {
-            await fetch(
+            const response = await fetch(
                 `${process.env.NEXT_PUBLIC_API_URL}v0/auth/refresh-token`,
                 {
                     method: "POST",
@@ -15,6 +15,18 @@ export async function proxy(request: NextRequest) {
                     },
                 }
             );
+
+            const redirectResponse = NextResponse.redirect(request.nextUrl);
+            const setCookies = response.headers.getSetCookie();
+
+            setCookies.forEach((cookie) => {
+                redirectResponse.headers.append(
+                    "set-cookie",
+                    cookie
+                );
+            });
+
+            return redirectResponse;
         } catch (error) {
             console.error("Refresh token request failed:", error);
         }
