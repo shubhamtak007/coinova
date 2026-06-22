@@ -3,13 +3,18 @@ import { setupInterceptors } from "./http-interceptor";
 
 const coinovaClientV2 = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
-    withCredentials: true
+    withCredentials: true,
+    headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'x-cn-api-key': process.env.NEXT_PUBLIC_COINOVA_API_KEY
+    }
 })
 
 const coinovaClient = axios.create({
     baseURL: `${globalThis.location?.origin}/api/`,
     headers: {
-        'accept': 'application/json',
+        'Accept': 'application/json',
         'Content-Type': 'application/json'
     }
 })
@@ -17,7 +22,7 @@ const coinovaClient = axios.create({
 const coinGeckoClient = axios.create({
     baseURL: 'https://api.coingecko.com/api/',
     headers: {
-        'accept': 'application/json',
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
         'x-cg-demo-api-key': process.env.COIN_GECKO_API_KEY
     }
@@ -26,7 +31,7 @@ const coinGeckoClient = axios.create({
 const binanceClient = axios.create({
     baseURL: 'https://api.binance.com/api/',
     headers: {
-        'accept': 'application/json',
+        'Accept': 'application/json',
         'Content-Type': 'application/json'
     }
 })
@@ -35,7 +40,7 @@ const binanceClient = axios.create({
 const coinRankingClient = axios.create({
     baseURL: 'https://api.coinranking.com/',
     headers: {
-        'accept': 'application/json',
+        'Accept': 'application/json',
         'Content-Type': 'application/json',
         'x-access-token': process.env.COIN_RANKING_API_KEY
     }
