@@ -47,8 +47,6 @@ export default memo(function signIn(bindings: Bindings) {
         },
 
         onSubmit: async ({ value }) => {
-            const captchaResponse = await captchaRef.current?.execute({ async: true });
-            if (captchaResponse) setCaptchaToken(captchaResponse.response);
             onFormSubmit(value);
         },
     });
@@ -283,6 +281,8 @@ export default memo(function signIn(bindings: Bindings) {
                             size={`invisible`}
                             sitekey={`25c209b8-9de8-464c-83fe-317e4a241aca`}
                             onExpire={() => { captchaRef.current?.resetCaptcha() }}
+                            onLoad={() => { captchaRef.current?.execute(); }}
+                            onVerify={(token) => { setCaptchaToken(token) }}
                         />
 
                         <div className="text-center">
