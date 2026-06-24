@@ -94,6 +94,16 @@ export default memo(function signIn(bindings: Bindings) {
                 </DialogHeader>
 
                 <DialogBody>
+                    <HCaptcha
+                        ref={captchaRef}
+                        id="invisible-hcaptcha"
+                        size="invisible"
+                        sitekey={`25c209b8-9de8-464c-83fe-317e4a241aca`}
+                        onExpire={() => { captchaRef.current?.resetCaptcha() }}
+                        onLoad={() => { captchaRef.current?.execute(); }}
+                        onVerify={(token) => { setCaptchaToken(token) }}
+                    />
+
                     <form
                         className="sign-in-form"
                         key={formType}
@@ -274,16 +284,6 @@ export default memo(function signIn(bindings: Bindings) {
                                 />
                             </div>
                         }
-
-                        <HCaptcha
-                            ref={captchaRef}
-                            id={`invisible-hcaptcha`}
-                            size={`invisible`}
-                            sitekey={`25c209b8-9de8-464c-83fe-317e4a241aca`}
-                            onExpire={() => { captchaRef.current?.resetCaptcha() }}
-                            onLoad={() => { captchaRef.current?.execute(); }}
-                            onVerify={(token) => { setCaptchaToken(token) }}
-                        />
 
                         <div className="text-center">
                             <signInForm.Subscribe
