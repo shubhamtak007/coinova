@@ -6,8 +6,7 @@ const coinovaClientV2 = axios.create({
     withCredentials: true,
     headers: {
         'Accept': 'application/json',
-        'Content-Type': 'application/json',
-        'x-cn-api-key': process.env.NEXT_PUBLIC_COINOVA_API_KEY
+        'Content-Type': 'application/json'
     }
 })
 
