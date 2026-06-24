@@ -36,7 +36,7 @@ export default function useSignIn(bindings: Bindings) {
 
     async function authenticateUser(userDetails: UserFormData) {
         try {
-            setSubmittingData(true);
+
             let response;
 
             switch (formType) {
@@ -101,7 +101,6 @@ export default function useSignIn(bindings: Bindings) {
         emailRef.current = userDetails.email;
 
         try {
-            setSubmittingData(true);
             const response = await AuthenticationService.retrieveResetCode({ email: userDetails.email });
             displaySuccessNotification(response);
             setFormType('verifyResetCode');
@@ -114,7 +113,6 @@ export default function useSignIn(bindings: Bindings) {
 
     async function resetCodeVerification(userDetails: UserFormData) {
         try {
-            setSubmittingData(true);
             const serverData = {
                 email: userDetails.email,
                 resetCode: userDetails.code
@@ -132,7 +130,6 @@ export default function useSignIn(bindings: Bindings) {
 
     async function updatePassword(userDetails: UserFormData) {
         try {
-            setSubmittingData(true);
             const response = await AuthenticationService.changePassword({ password: userDetails.password });
             displaySuccessNotification(response);
             setFormType('signIn');
@@ -154,6 +151,6 @@ export default function useSignIn(bindings: Bindings) {
     }
 
     return {
-        passwordCriteriaList, onFormSubmit, submittingData, emailRef
+        passwordCriteriaList, onFormSubmit, setSubmittingData, submittingData, emailRef
     }
 }

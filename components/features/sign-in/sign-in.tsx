@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { EyeOff, Eye, Circle } from 'lucide-react';
 import { FaCheckCircle } from "react-icons/fa";
 import { Spinner } from '@/components/ui/spinner';
-import type { FormTypes } from '@/interfaces/account-centre.interface';
+import { FormTypes, UserFormData } from '@/interfaces/account-centre.interface';
 import useSignIn from '@/hooks/useSignIn';
 import authenticationFormSchemaMap from '@/schemas/authentication-form.schema';
 import HCaptcha, { ExecuteResponse } from '@hcaptcha/react-hcaptcha';
@@ -23,7 +23,8 @@ export default memo(function signIn(bindings: Bindings) {
     const { showDialog, setShowDialog } = bindings;
     const [formType, setFormType] = useState<typeof FormTypes>(defaultFormType);
     const [showEyeIcon, setShowEyeIcon] = useState<boolean>(true);
-    const { passwordCriteriaList, onFormSubmit, submittingData, emailRef } = useSignIn({ formType, setShowDialog, setFormType, captchaToken });
+    const { passwordCriteriaList, onFormSubmit, setSubmittingData, submittingData, emailRef } = useSignIn({ formType, setShowDialog, setFormType, captchaToken });
+    const formData = useRef<UserFormData | null>(null);
     const captchaRef = useRef<HCaptcha | null>(null);
 
     useEffect(() => {
@@ -32,6 +33,10 @@ export default memo(function signIn(bindings: Bindings) {
         resetForm();
         setFormType(defaultFormType);
     }, [showDialog]);
+
+    function verifyCaptcha(token: string) {
+        setCaptchaToken(token);
+    }
 
     const signInForm = useForm({
         defaultValues: {
@@ -47,9 +52,20 @@ export default memo(function signIn(bindings: Bindings) {
         },
 
         onSubmit: async ({ value }) => {
-            onFormSubmit(value);
-        },
+            setSubmittingData(true);
+            formData.current = value;
+
+            if (['signIn', 'signUp'].includes(formType)) {
+                captchaRef.current?.execute();
+            } else {
+                onFormSubmit(formData?.current);
+            }
+        }
     });
+
+    useEffect(() => {
+        if (captchaToken && formData.current) onFormSubmit(formData.current);
+    }, [captchaToken])
 
     useEffect(() => {
         resetForm();
@@ -94,15 +110,16 @@ export default memo(function signIn(bindings: Bindings) {
                 </DialogHeader>
 
                 <DialogBody>
-                    <HCaptcha
+                    {['signIn', 'signUp'].includes(formType) && <HCaptcha
                         ref={captchaRef}
                         id="invisible-hcaptcha"
                         size="invisible"
                         sitekey={`25c209b8-9de8-464c-83fe-317e4a241aca`}
-                        onExpire={() => { captchaRef.current?.resetCaptcha() }}
-                        onLoad={() => { captchaRef.current?.execute(); }}
-                        onVerify={(token) => { setCaptchaToken(token) }}
-                    />
+                        onExpire={() => { captchaRef.current?.resetCaptcha(); }}
+                        // onLoad={() => { captchaRef.current?.execute(); }}
+                        onVerify={(token) => { verifyCaptcha(token) }}
+                        onError={() => { captchaRef.current?.execute(); }}
+                    />}
 
                     <form
                         className="sign-in-form"
