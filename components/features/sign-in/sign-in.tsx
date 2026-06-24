@@ -1,5 +1,5 @@
 import { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogBody, DialogContent } from '@/components/ui/dialog';
-import { useState, useEffect, Dispatch, SetStateAction, memo } from 'react';
+import { useState, useEffect, Dispatch, SetStateAction, memo, useRef } from 'react';
 import { useForm } from '@tanstack/react-form';
 import { InputGroup, InputGroupInput, InputGroupAddon } from '@/components/ui/input-group';
 import { Button } from '@/components/ui/button';
@@ -9,6 +9,7 @@ import { Spinner } from '@/components/ui/spinner';
 import type { FormTypes } from '@/interfaces/account-centre.interface';
 import useSignIn from '@/hooks/useSignIn';
 import authenticationFormSchemaMap from '@/schemas/authentication-form.schema';
+import HCaptcha, { ExecuteResponse } from '@hcaptcha/react-hcaptcha';
 
 type Bindings = {
     showDialog: boolean,
@@ -18,10 +19,19 @@ type Bindings = {
 const defaultFormType = 'signIn';
 
 export default memo(function signIn(bindings: Bindings) {
+    const [captchaToken, setCaptchaToken] = useState<string | null>(null);
     const { showDialog, setShowDialog } = bindings;
     const [formType, setFormType] = useState<typeof FormTypes>(defaultFormType);
     const [showEyeIcon, setShowEyeIcon] = useState<boolean>(true);
-    const { passwordCriteriaList, onFormSubmit, submittingData, emailRef } = useSignIn({ formType, setShowDialog, setFormType });
+    const { passwordCriteriaList, onFormSubmit, submittingData, emailRef } = useSignIn({ formType, setShowDialog, setFormType, captchaToken });
+    const captchaRef = useRef<HCaptcha | null>(null);
+
+    useEffect(() => {
+        if (!showDialog) return;
+
+        resetForm();
+        setFormType(defaultFormType);
+    }, [showDialog]);
 
     const signInForm = useForm({
         defaultValues: {
@@ -37,16 +47,11 @@ export default memo(function signIn(bindings: Bindings) {
         },
 
         onSubmit: async ({ value }) => {
+            const captchaResponse = await captchaRef.current?.execute({ async: true });
+            if (captchaResponse) setCaptchaToken(captchaResponse.response);
             onFormSubmit(value);
         },
     });
-
-    useEffect(() => {
-        if (!showDialog) return;
-
-        resetForm();
-        setFormType(defaultFormType);
-    }, [showDialog]);
 
     useEffect(() => {
         resetForm();
@@ -269,24 +274,35 @@ export default memo(function signIn(bindings: Bindings) {
                                         )
                                     }}
                                 />
-                            </div>}
+                            </div>
+                        }
+
+                        <HCaptcha
+                            ref={captchaRef}
+                            id={`invisible-hcaptcha`}
+                            size={`invisible`}
+                            sitekey={`25c209b8-9de8-464c-83fe-317e4a241aca`}
+                            onExpire={() => { captchaRef.current?.resetCaptcha() }}
+                        />
 
                         <div className="text-center">
                             <signInForm.Subscribe
                                 selector={(state) => [state.canSubmit, state.isSubmitting]}
                             >
                                 {([canSubmit, isSubmitting]) => (
-                                    <Button
-                                        type="submit"
-                                        disabled={!signInForm.state.isValid || !canSubmit || isSubmitting || submittingData}
-                                    >
-                                        {submittingData && <Spinner className="size-4" />}
-                                        {formType === 'signIn' && 'Sign in'}
-                                        {formType === 'signUp' && 'Sign up'}
-                                        {formType === 'forgotPassword' && `Send reset code`}
-                                        {formType === 'verifyResetCode' && `Confirm reset code`}
-                                        {formType === 'changePassword' && 'Save new password'}
-                                    </Button>
+                                    <>
+                                        <Button
+                                            type="submit"
+                                            disabled={!signInForm.state.isValid || !canSubmit || isSubmitting || submittingData}
+                                        >
+                                            {submittingData && <Spinner className="size-4" />}
+                                            {formType === 'signIn' && 'Sign in'}
+                                            {formType === 'signUp' && 'Sign up'}
+                                            {formType === 'forgotPassword' && `Send reset code`}
+                                            {formType === 'verifyResetCode' && `Confirm reset code`}
+                                            {formType === 'changePassword' && 'Save new password'}
+                                        </Button>
+                                    </>
                                 )}
                             </signInForm.Subscribe>
                         </div>

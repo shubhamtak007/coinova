@@ -1,6 +1,5 @@
 'use client';
 
-import { email, z } from 'zod';
 import { SetStateAction, Dispatch, useEffect, useState, useRef } from 'react';
 import { useUser } from '@/contexts/user.context';
 import { useLoading } from '@/contexts/loading.context';
@@ -9,16 +8,16 @@ import { isAxiosError } from 'axios';
 import type { UserFormData, FormTypes } from '@/interfaces/account-centre.interface';
 import AuthenticationService from '@/services/authentication.service';
 import UserService from '@/services/user.service';
-import schemaMap from '@/schemas/authentication-form.schema';
 
 type Bindings = {
     formType: string,
     setShowDialog: Dispatch<SetStateAction<boolean>>,
-    setFormType: Dispatch<SetStateAction<typeof FormTypes>>
+    setFormType: Dispatch<SetStateAction<typeof FormTypes>>,
+    captchaToken: string | null
 }
 
 export default function useSignIn(bindings: Bindings) {
-    const { formType, setShowDialog, setFormType } = bindings;
+    const { formType, setShowDialog, setFormType, captchaToken } = bindings;
     const { setUser } = useUser();
     const { setIsLoading } = useLoading();
     const [submittingData, setSubmittingData] = useState<boolean>(false);
@@ -44,7 +43,8 @@ export default function useSignIn(bindings: Bindings) {
                 case 'signIn': {
                     const serverData = {
                         email: userDetails.email,
-                        password: userDetails.password
+                        password: userDetails.password,
+                        captchaToken: captchaToken
                     }
                     response = await AuthenticationService.signIn(serverData);
                 };
@@ -53,7 +53,8 @@ export default function useSignIn(bindings: Bindings) {
                     const serverData = {
                         name: userDetails.name,
                         email: userDetails.email,
-                        password: userDetails.password
+                        password: userDetails.password,
+                        captchaToken: captchaToken
                     }
                     response = await AuthenticationService.signUp(serverData);
                 };
