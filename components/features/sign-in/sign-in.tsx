@@ -34,10 +34,6 @@ export default memo(function signIn(bindings: Bindings) {
         setFormType(defaultFormType);
     }, [showDialog]);
 
-    function verifyCaptcha(token: string) {
-        setCaptchaToken(token);
-    }
-
     const signInForm = useForm({
         defaultValues: {
             name: '',
@@ -65,7 +61,7 @@ export default memo(function signIn(bindings: Bindings) {
 
     useEffect(() => {
         if (captchaToken && formData.current) onFormSubmit(formData.current);
-    }, [captchaToken])
+    }, [captchaToken]);
 
     useEffect(() => {
         resetForm();
@@ -73,12 +69,16 @@ export default memo(function signIn(bindings: Bindings) {
         if (['verifyResetCode'].includes(formType) && emailRef.current) {
             signInForm.setFieldValue('email', emailRef.current);
         }
-    }, [formType])
+    }, [formType]);
+
+    function verifyCaptcha(token: string) {
+        setCaptchaToken(token);
+    };
 
     function resetForm() {
         signInForm.reset();
         signInForm.mount();
-    }
+    };
 
     return (
         <Dialog
@@ -118,7 +118,7 @@ export default memo(function signIn(bindings: Bindings) {
                         onExpire={() => { captchaRef.current?.resetCaptcha(); }}
                         // onLoad={() => { captchaRef.current?.execute(); }}
                         onVerify={(token) => { verifyCaptcha(token) }}
-                        onError={() => { captchaRef.current?.execute(); }}
+                        onError={() => { captchaRef.current?.resetCaptcha(); }}
                     />}
 
                     <form
