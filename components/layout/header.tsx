@@ -1,13 +1,11 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { Coins } from 'lucide-react';
 import Link from 'next/link';
 import BottomTabBar from '@/components/layout/bottom-tab-bar';
 import useHeader from '@/hooks/useHeader';
 import AccountCentre from '@/components/features/account/account-centre';
-import { useUser } from '@/contexts/user.context';
-import { User } from '@/interfaces/user.interface';
 
 type Bindings = {
 
@@ -16,7 +14,6 @@ type Bindings = {
 function Header(bindings: Bindings) {
     const [scrolled, setScrolled] = useState<boolean>(false);
     const [showBottomTabBar, setShowBottomTabBar] = useState<boolean>(false);
-    const { user, setUser } = useUser();
     const { } = useHeader({ setShowBottomTabBar, setScrolled });
 
     return (
