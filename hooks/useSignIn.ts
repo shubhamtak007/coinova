@@ -31,13 +31,6 @@ export default function useSignIn(bindings: Bindings) {
     let emailRef = useRef<string>(null);
     let passwordCriteriaList = useRef<{ name: string; criteria: RegExp; }[]>([]);
 
-    useEffect(() => {
-        if (!showDialog) return;
-
-        resetForm();
-        setFormType(defaultFormType);
-    }, [showDialog]);
-
     const signInForm = useForm({
         defaultValues: {
             name: '',
@@ -62,6 +55,14 @@ export default function useSignIn(bindings: Bindings) {
             }
         }
     });
+
+    useEffect(() => {
+        if (!showDialog) return;
+
+        resetForm();
+        setFormType(defaultFormType);
+    }, [showDialog]);
+
 
     useEffect(() => {
         if (captchaToken && formData.current) onFormSubmit(formData.current);
