@@ -17,29 +17,27 @@ function Header(bindings: Bindings) {
     const { } = useHeader({ setShowBottomTabBar, setScrolled });
 
     return (
-        <>
-            <div className={`header-container ${scrolled ? 'with-shadow' : ''}`}>
-                <div className="navbar max-w-[calc(var(--container-width)_-_20px)] mx-auto">
-                    <Link href="/" className="logo uppercase flex items-center">
-                        <Coins
-                            strokeWidth={2}
-                            size={30}
-                            className="pr-[4px]"
-                        />
+        <div className={`header-container ${scrolled ? 'with-shadow' : ''}`}>
+            <div className="navbar max-w-[calc(var(--container-width)_-_20px)] mx-auto">
+                <Link href="/" className="logo uppercase flex items-center">
+                    <Coins
+                        strokeWidth={2}
+                        size={30}
+                        className="pr-[4px]"
+                    />
 
-                        <div className="tracking-[1px]">
-                            Coinova
-                        </div>
-                    </Link>
+                    <div className="tracking-[1px]">
+                        Coinova
+                    </div>
+                </Link>
 
-                    {showBottomTabBar === true && <div className="m-auto">
-                        <BottomTabBar />
-                    </div>}
+                {showBottomTabBar === true && <div className="m-auto">
+                    <BottomTabBar />
+                </div>}
 
-                    {<AccountCentre />}
-                </div>
+                <AccountCentre />
             </div>
-        </>
+        </div>
     )
 }
 
