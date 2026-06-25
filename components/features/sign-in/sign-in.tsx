@@ -1,15 +1,13 @@
 import { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogBody, DialogContent } from '@/components/ui/dialog';
-import { useState, useEffect, Dispatch, SetStateAction, memo, useRef } from 'react';
-import { useForm } from '@tanstack/react-form';
+import { useState, Dispatch, SetStateAction, memo } from 'react';
 import { InputGroup, InputGroupInput, InputGroupAddon } from '@/components/ui/input-group';
 import { Button } from '@/components/ui/button';
 import { EyeOff, Eye, Circle } from 'lucide-react';
 import { FaCheckCircle } from "react-icons/fa";
 import { Spinner } from '@/components/ui/spinner';
-import { FormTypes, UserFormData } from '@/interfaces/account-centre.interface';
+import { FormTypes } from '@/interfaces/account-centre.interface';
 import useSignIn from '@/hooks/useSignIn';
-import authenticationFormSchemaMap from '@/schemas/authentication-form.schema';
-import HCaptcha, { ExecuteResponse } from '@hcaptcha/react-hcaptcha';
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 
 type Bindings = {
     showDialog: boolean,
@@ -19,66 +17,11 @@ type Bindings = {
 const defaultFormType = 'signIn';
 
 export default memo(function signIn(bindings: Bindings) {
-    const [captchaToken, setCaptchaToken] = useState<string | null>(null);
     const { showDialog, setShowDialog } = bindings;
-    const [formType, setFormType] = useState<typeof FormTypes>(defaultFormType);
     const [showEyeIcon, setShowEyeIcon] = useState<boolean>(true);
-    const { passwordCriteriaList, onFormSubmit, setSubmittingData, submittingData, emailRef } = useSignIn({ formType, setShowDialog, setFormType, captchaToken });
-    const formData = useRef<UserFormData | null>(null);
-    const captchaRef = useRef<HCaptcha | null>(null);
-
-    useEffect(() => {
-        if (!showDialog) return;
-
-        resetForm();
-        setFormType(defaultFormType);
-    }, [showDialog]);
-
-    const signInForm = useForm({
-        defaultValues: {
-            name: '',
-            email: '',
-            password: '',
-            code: ''
-        },
-
-        validators: {
-            onChange: authenticationFormSchemaMap[formType] as any,
-            onMount: authenticationFormSchemaMap[formType] as any
-        },
-
-        onSubmit: async ({ value }) => {
-            setSubmittingData(true);
-            formData.current = value;
-
-            if (['signIn', 'signUp'].includes(formType)) {
-                captchaRef.current?.execute();
-            } else {
-                onFormSubmit(formData?.current);
-            }
-        }
-    });
-
-    useEffect(() => {
-        if (captchaToken && formData.current) onFormSubmit(formData.current);
-    }, [captchaToken]);
-
-    useEffect(() => {
-        resetForm();
-
-        if (['verifyResetCode'].includes(formType) && emailRef.current) {
-            signInForm.setFieldValue('email', emailRef.current);
-        }
-    }, [formType]);
-
-    function verifyCaptcha(token: string) {
-        setCaptchaToken(token);
-    };
-
-    function resetForm() {
-        signInForm.reset();
-        signInForm.mount();
-    };
+    const [formType, setFormType] = useState<typeof FormTypes>(defaultFormType);
+    const { signInForm, passwordCriteriaList, submittingData, resetForm, captchaRef, verifyCaptcha } =
+        useSignIn({ defaultFormType, formType, setFormType, setShowDialog, showDialog });
 
     return (
         <Dialog

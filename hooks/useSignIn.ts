@@ -5,24 +5,84 @@ import { useUser } from '@/contexts/user.context';
 import { useLoading } from '@/contexts/loading.context';
 import { toast } from 'sonner';
 import { isAxiosError } from 'axios';
+import { useForm } from '@tanstack/react-form';
 import type { UserFormData, FormTypes } from '@/interfaces/account-centre.interface';
 import AuthenticationService from '@/services/authentication.service';
 import UserService from '@/services/user.service';
+import authenticationFormSchemaMap from '@/schemas/authentication-form.schema';
+import HCaptcha from '@hcaptcha/react-hcaptcha';
 
 type Bindings = {
+    defaultFormType: typeof FormTypes,
     formType: string,
-    setShowDialog: Dispatch<SetStateAction<boolean>>,
     setFormType: Dispatch<SetStateAction<typeof FormTypes>>,
-    captchaToken: string | null
+    showDialog: boolean,
+    setShowDialog: Dispatch<SetStateAction<boolean>>
 }
 
 export default function useSignIn(bindings: Bindings) {
-    const { formType, setShowDialog, setFormType, captchaToken } = bindings;
+    const { formType, setShowDialog, showDialog, setFormType, defaultFormType } = bindings;
+    const [submittingData, setSubmittingData] = useState<boolean>(false);
+    const [captchaToken, setCaptchaToken] = useState<string | null>(null);
     const { setUser } = useUser();
     const { setIsLoading } = useLoading();
-    const [submittingData, setSubmittingData] = useState<boolean>(false);
+    const formData = useRef<UserFormData | null>(null);
+    const captchaRef = useRef<HCaptcha | null>(null);
     let emailRef = useRef<string>(null);
     let passwordCriteriaList = useRef<{ name: string; criteria: RegExp; }[]>([]);
+
+    useEffect(() => {
+        if (!showDialog) return;
+
+        resetForm();
+        setFormType(defaultFormType);
+    }, [showDialog]);
+
+    const signInForm = useForm({
+        defaultValues: {
+            name: '',
+            email: '',
+            password: '',
+            code: ''
+        },
+
+        validators: {
+            onChange: authenticationFormSchemaMap[formType] as any,
+            onMount: authenticationFormSchemaMap[formType] as any
+        },
+
+        onSubmit: async ({ value }) => {
+            setSubmittingData(true);
+            formData.current = value;
+
+            if (['signIn', 'signUp'].includes(formType)) {
+                captchaRef.current?.execute();
+            } else {
+                onFormSubmit(formData?.current);
+            }
+        }
+    });
+
+    useEffect(() => {
+        if (captchaToken && formData.current) onFormSubmit(formData.current);
+    }, [captchaToken]);
+
+    useEffect(() => {
+        resetForm();
+
+        if (['verifyResetCode'].includes(formType) && emailRef.current) {
+            signInForm.setFieldValue('email', emailRef.current);
+        }
+    }, [formType]);
+
+    function verifyCaptcha(token: string) {
+        setCaptchaToken(token);
+    };
+
+    function resetForm() {
+        signInForm.reset();
+        signInForm.mount();
+    };
 
     useEffect(() => {
         passwordCriteriaList.current = [
@@ -36,7 +96,6 @@ export default function useSignIn(bindings: Bindings) {
 
     async function authenticateUser(userDetails: UserFormData) {
         try {
-
             let response;
 
             switch (formType) {
@@ -47,8 +106,8 @@ export default function useSignIn(bindings: Bindings) {
                         captchaToken: captchaToken
                     }
                     response = await AuthenticationService.signIn(serverData);
-                };
-                    break;
+                }; break;
+
                 case 'signUp': {
                     const serverData = {
                         name: userDetails.name,
@@ -57,8 +116,8 @@ export default function useSignIn(bindings: Bindings) {
                         captchaToken: captchaToken
                     }
                     response = await AuthenticationService.signUp(serverData);
-                };
-                    break;
+                }; break;
+
                 default: throw new Error('Invalid form type');
             }
 
@@ -151,6 +210,6 @@ export default function useSignIn(bindings: Bindings) {
     }
 
     return {
-        passwordCriteriaList, onFormSubmit, setSubmittingData, submittingData, emailRef
+        signInForm, passwordCriteriaList, submittingData, resetForm, captchaRef, verifyCaptcha
     }
 }
