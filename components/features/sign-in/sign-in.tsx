@@ -35,10 +35,10 @@ export default memo(function signIn(bindings: Bindings) {
                     <DialogTitle>
                         {formType === 'signUp' && 'Get Started - Create a new account'}
                         {formType === 'signIn' && 'Sign in your account'}
-                        {(formType === 'forgotPassword' || formType === 'verifyResetCode') && 'Forgot your password?'}
+                        {['forgotPassword', 'verifyResetCode'].includes(formType) && 'Forgot your password?'}
                         {formType === 'changePassword' && 'Change your password'}
 
-                        {(formType === 'forgotPassword' || formType === 'verifyResetCode') && <div className="text-[11px] text-[#858585]">
+                        {['forgotPassword', 'verifyResetCode'].includes(formType) && <div className="text-[11px] text-[#858585]">
                             Enter your email and we'll send you a code to reset the password
                         </div>}
 
