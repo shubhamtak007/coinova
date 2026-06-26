@@ -1,15 +1,16 @@
 'use client';
 
-import { Fragment } from 'react';
 import useBottomTabBar from '@/hooks/useBottomTabBar';
+import CoinSearchDialog from '@/components/features/coin-search/coin-search-dialog';
+import NewsDialog from '@/components/features/news/news-dialog';
+import { Fragment } from 'react';
 import { Tabs, TabsTrigger, TabsList } from '@/components/ui/tabs';
 import { FiGithub } from "react-icons/fi";
 import { bottomBarTabList } from '@/constants/coin.constants';
-import CoinSearchDialog from '@/components/features/coin-search/coin-search-dialog'
 import { Home } from 'lucide-react';
 
 function BottomTabBar() {
-    const { scrollEnded, activeTab, onTabClick, showCoinSearchDialog, setShowCoinSearchDialog } = useBottomTabBar();
+    const { scrollEnded, activeTab, onTabClick, dialogType, showDialog, setShowDialog } = useBottomTabBar();
 
     return (
         <div
@@ -57,10 +58,18 @@ function BottomTabBar() {
             </Tabs>
 
             {
-                showCoinSearchDialog === true &&
+                (dialogType === 'coinSearch') &&
                 <CoinSearchDialog
-                    showDialog={showCoinSearchDialog}
-                    setShowDialog={setShowCoinSearchDialog}
+                    showDialog={showDialog}
+                    setShowDialog={setShowDialog}
+                />
+            }
+
+            {
+                (dialogType === 'news') &&
+                <NewsDialog
+                    showDialog={showDialog}
+                    setShowDialog={setShowDialog}
                 />
             }
         </div>

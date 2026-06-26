@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useOptimisticNavigation } from '@/contexts/navigation-context';
 
@@ -10,7 +10,8 @@ function useBottomTabBar() {
     const { navigateOptimistically } = useOptimisticNavigation();
     const [activeTab, setActiveTab] = useState<string>('home');
     const [scrollEnded, setScrollEnded] = useState<boolean>(false);
-    const [showCoinSearchDialog, setShowCoinSearchDialog] = useState<boolean>(false);
+    const [dialogType, setDialogType] = useState<string | null>(null);
+    const [showDialog, setShowDialog] = useState<boolean>(false);
 
     useEffect(() => {
         router.prefetch('/trending');
@@ -34,13 +35,14 @@ function useBottomTabBar() {
     }, [])
 
     useEffect(() => {
-        if (pathName === '/') {
-            setActiveTab('home');
-        } else if (pathName.includes('coin-analysis')) {
-            setActiveTab('analyzeCoin');
-        } else {
-            const route = pathName.split('/')[1];
-            setActiveTab(route);
+        if (pathName.includes('coin-analysis')) { setActiveTab('analyzeCoin'); return; }
+
+        switch (pathName) {
+            case '/': setActiveTab('home'); break;
+            default: {
+                const route = pathName.split('/')[1];
+                setActiveTab(route);
+            };
         }
     }, [pathName]);
 
@@ -49,7 +51,8 @@ function useBottomTabBar() {
 
         switch (value) {
             case 'home': route = '/'; break;
-            case 'analyzeCoin': setShowCoinSearchDialog(true); break;
+            case 'analyzeCoin': setDialogType('coinSearch'); setShowDialog(true); break;
+            case 'news': setDialogType('news'); setShowDialog(true); break;
             case 'trending': route = 'trending'; break;
             default: route = '/'; break;
         }
@@ -60,7 +63,7 @@ function useBottomTabBar() {
         }
     }
 
-    return { scrollEnded, activeTab, onTabClick, showCoinSearchDialog, setShowCoinSearchDialog }
+    return { scrollEnded, activeTab, onTabClick, dialogType, showDialog, setShowDialog }
 }
 
 export default useBottomTabBar;

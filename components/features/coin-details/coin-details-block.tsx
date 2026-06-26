@@ -30,7 +30,7 @@ export default function CoinDetailsBlock({ coinId }: Bindings) {
                                     {coinDetails.description}
                                 </div>}
 
-                                <table className="coin-details-table">
+                                <table className="cnv-table">
                                     <tbody>
                                         <tr>
                                             <td>Website</td>

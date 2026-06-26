@@ -7,4 +7,10 @@ type UserFormData = {
     code: string
 };
 
-export type { FormTypes, UserFormData };
+type User = {
+    id: string,
+    name: string,
+    email: string
+}
+
+export type { FormTypes, UserFormData, User };

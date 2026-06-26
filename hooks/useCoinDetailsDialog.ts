@@ -21,7 +21,7 @@ export default function useCoinDetailsDialog({ coinId }: Bindings) {
 
         try {
             const response = await CoinService.retrieveCoinDetailsByCoinId(coinId);
-            const coinProperties = createCoinProperties(response.data);
+            const coinProperties = await createCoinProperties(response.data);
             if (coinProperties) setCoinDetails(coinProperties);
         } catch (error) {
 
@@ -30,7 +30,7 @@ export default function useCoinDetailsDialog({ coinId }: Bindings) {
         }
     }
 
-    function createCoinProperties(serverCoinProperties: CoinDetailsServerResponse) {
+    async function createCoinProperties(serverCoinProperties: CoinDetailsServerResponse) {
         if (!serverCoinProperties) return null;
 
         const properties = {
@@ -38,7 +38,7 @@ export default function useCoinDetailsDialog({ coinId }: Bindings) {
             name: serverCoinProperties.name,
             symbol: serverCoinProperties.symbol,
             description: serverCoinProperties.description.en.length > 0 ?
-                summarizeDescription(serverCoinProperties.description.en) : null,
+                await summarizeDescription(serverCoinProperties.description.en) : null,
             imageUrl: serverCoinProperties.image.large,
             websiteUrl: serverCoinProperties.links.homepage[0],
             socialLinks: [

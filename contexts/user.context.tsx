@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, ReactNode, useState, SetStateAction, Dispatch, useEffect } from 'react';
-import { User } from '@/interfaces/user.interface';
+import { User } from '@/interfaces/account-centre.interface';
 import { Spinner } from '@/components/ui/spinner';
 import UserService from '@/services/user.service';
 
@@ -36,16 +36,14 @@ const UserContextProvider = ({ children, currentUser }: UserContextProviderProps
         fetchUserDetails();
     }, []);
 
-    if (fetchingDetails) return (
-        <div className="hz-and-vert-center">
-            <Spinner className="size-20" />
-        </div>
-    )
-
     return (
-        <UserContext.Provider value={{ user, setUser }}>
-            {children}
-        </UserContext.Provider>
+        fetchingDetails ?
+            <div className="hz-and-vert-center">
+                <Spinner className="size-20" />
+            </div> :
+            <UserContext.Provider value={{ user, setUser }}>
+                {children}
+            </UserContext.Provider>
     )
 }
 
