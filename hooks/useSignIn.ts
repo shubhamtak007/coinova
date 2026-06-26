@@ -206,8 +206,10 @@ export default function useSignIn(bindings: Bindings) {
     }
 
     function throwError(error: unknown) {
-        if (!isAxiosError(error)) throw new Error(JSON.stringify(error));
-        toast.error(error.response?.data.message, { className: 'error-toast' });
+        let errorMessage;
+        if (error instanceof Error) errorMessage = error.message;
+        if (isAxiosError(error)) errorMessage = error.response?.data.message;
+        toast.error(errorMessage, { className: 'error-toast' });
     }
 
     return {
