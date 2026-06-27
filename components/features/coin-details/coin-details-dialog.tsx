@@ -5,7 +5,7 @@ import type { CoinDetailsDialogCoin } from '@/interfaces/coin.interface';
 import React from 'react';
 import Image from 'next/image';
 import CoinDetailsBlock from '@/components/features/coin-details/coin-details-block';
-import { coinSymbolImageSize } from '@/constants/coin.constants';
+import { coinSymbolImageSize } from '@/constants/app.constants';
 
 type Bindings = {
     showDialog: boolean,

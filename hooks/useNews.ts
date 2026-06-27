@@ -1,9 +1,18 @@
 import { useEffect, useState } from "react";
 import NewsService from "@/services/news.service";
+import type { NewsArticle } from "@/interfaces/news.interface";
 
-export default function useNews() {
-    const [articles, setArticles] = useState<Record<string, string | object>[] | null>(null);
+type Bindings = {
+    showDialog: boolean
+}
+
+export default function useNews({ showDialog }: Bindings) {
+    const [articles, setArticles] = useState<NewsArticle[] | null>(null);
     const [fetchingLatestNews, setFetchingLatestNews] = useState<boolean>(false);
+
+    useEffect(() => {
+        if (!showDialog) return;
+    }, [showDialog])
 
     useEffect(() => {
         fetchLatestNews();
@@ -13,7 +22,7 @@ export default function useNews() {
         try {
             setFetchingLatestNews(true);
             const response = await NewsService.retrieveLatestNews();
-            setArticles(response?.data);
+            setArticles(response?.data.data);
         } catch (error) {
 
         } finally {

@@ -2,7 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { formatValueInUsdCompact } from '@/services/utils.service';
-import { timeFrameList, chartViewList } from '@/constants/coin.constants';
+import { timeFrameList, chartViewList } from '@/constants/app.constants';
 import { useCoinAnalysisContext } from '@/contexts/coin-analysis-context';
 import { type ChartConfig } from '@/components/ui/chart';
 

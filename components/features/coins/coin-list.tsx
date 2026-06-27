@@ -6,7 +6,7 @@ import { Button } from '@/components/ui/button';
 import { columns } from '@/components/features/coins/columns';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { getRowsPerPageDefaultValue } from '@/services/utils.service';
-import { coinsTableContextMenuList } from '@/constants/coin.constants';
+import { coinsTableContextMenuList } from '@/constants/app.constants';
 import useCoinList from '@/hooks/useCoinList';
 import DataTable from '@/components/features/coins/data-table';
 import CoinDetailsDialog from '@/components/features/coin-details/coin-details-dialog';

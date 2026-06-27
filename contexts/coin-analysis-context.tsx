@@ -1,7 +1,7 @@
 "use client";
 
 import { createContext, useContext, ReactNode, useState } from 'react';
-import { timeFrameList } from '@/constants/coin.constants';
+import { timeFrameList } from '@/constants/app.constants';
 
 type TimeFrame = {
     name: string,

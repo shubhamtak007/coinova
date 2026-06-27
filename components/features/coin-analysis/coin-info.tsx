@@ -7,7 +7,7 @@ import { useCoinAnalysisContext } from '@/contexts/coin-analysis-context';
 import { FaCaretUp, FaCaretDown } from 'react-icons/fa';
 import { Info } from "lucide-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { coinKeyList } from '@/constants/coin.constants';
+import { coinKeyList } from '@/constants/app.constants';
 import type { CoinAnalysis } from '@/interfaces/coin-analysis.interface';
 import type { CoingeckoCrypto } from '@/interfaces/coin.interface';
 import useCoinInfo from '@/hooks/useCoinInfo';
