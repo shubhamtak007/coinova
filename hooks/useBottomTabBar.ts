@@ -35,8 +35,6 @@ function useBottomTabBar() {
     }, [])
 
     useEffect(() => {
-        if (pathName.includes('coin-analysis')) { setActiveTab('analyzeCoin'); return; }
-
         switch (pathName) {
             case '/': setActiveTab('home'); break;
             default: {
@@ -51,7 +49,7 @@ function useBottomTabBar() {
 
         switch (value) {
             case 'home': route = '/'; break;
-            case 'analyzeCoin': setDialogType('coinSearch'); setShowDialog(true); break;
+            case 'searchCoin': setDialogType('coinSearch'); setShowDialog(true); break;
             case 'news': setDialogType('news'); setShowDialog(true); break;
             case 'trending': route = 'trending'; break;
             default: route = '/'; break;

@@ -38,7 +38,7 @@ function CoinSearchDialog(bindings: Bindings) {
                                     <InputGroupInput
                                         type="text"
                                         tabIndex={0}
-                                        placeholder="Search for the coin you want to analyze"
+                                        placeholder="Search coin"
                                         className="!text-[13px] h-[inherit]"
                                         value={searchValue}
                                         onChange={(event) => { onSearchValueChange(event) }}
