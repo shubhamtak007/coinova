@@ -1,15 +1,15 @@
 interface NewsArticle {
-    author: string,
-    content: string,
+    id: string,
+    title: string,
     description: string,
     publishedAt: string,
+    url: string,
+    imageUrl: string,
     source: {
         id: string,
-        name: string
+        name: string,
+        icon: string
     }
-    title: string
-    url: string,
-    urlToImage: string
 }
 
 export type { NewsArticle };

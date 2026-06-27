@@ -41,19 +41,24 @@ export default memo(function NewsDialog(bindings: Bindings) {
                                         href={article.url}
                                         target="_blank"
                                     >
-                                        <div>
-                                            <div className="text-[12px] font-bold">
-                                                {article.source.name}
+                                        <div className="details">
+                                            <div className="source-info text-[13px]">
+                                                <img
+                                                    className="icon"
+                                                    src={article.source.icon}
+                                                />
+
+                                                <span className="name">{article.source.name}</span>
                                             </div>
 
-                                            <div className="text-[13px] width-[100%]">
+                                            <div className="text-[13px]">
                                                 {article.description}
                                             </div>
                                         </div>
 
                                         <div className="article-image">
                                             <img
-                                                src={article.urlToImage}
+                                                src={article.imageUrl}
                                             />
                                         </div>
                                     </a>
