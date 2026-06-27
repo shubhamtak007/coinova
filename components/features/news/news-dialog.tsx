@@ -35,12 +35,11 @@ export default memo(function NewsDialog(bindings: Bindings) {
                         (articles && articles.length > 0) ? <div className="article-list">
                             {articles.map((article: NewsArticle, index) => {
                                 return (
-                                    <article
+                                    <a
                                         key={article.publishedAt}
                                         className="article"
-                                        onClick={() => {
-                                            window.open(article.url, '_blank')
-                                        }}
+                                        href={article.url}
+                                        target="_blank"
                                     >
                                         <div>
                                             <div className="text-[12px] font-bold">
@@ -57,7 +56,7 @@ export default memo(function NewsDialog(bindings: Bindings) {
                                                 src={article.urlToImage}
                                             />
                                         </div>
-                                    </article>
+                                    </a>
                                 )
                             })}
                         </div> : <div className="no-value-text">No articles</div>
