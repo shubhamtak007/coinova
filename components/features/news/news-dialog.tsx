@@ -52,7 +52,7 @@ export default memo(function NewsDialog(bindings: Bindings) {
                                             </div>
 
                                             <div className="text-[13px]">
-                                                {article.description}
+                                                {article.title}
                                             </div>
                                         </div>
 
@@ -64,7 +64,7 @@ export default memo(function NewsDialog(bindings: Bindings) {
                                     </a>
                                 )
                             })}
-                        </div> : <div className="no-value-text">No articles</div>
+                        </div> : <div className="no-value-text !text-center">No articles</div>
                     }
                 </DialogBody>
             </DialogContent>

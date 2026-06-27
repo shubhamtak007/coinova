@@ -7,7 +7,7 @@ import { Dispatch, Fragment, SetStateAction } from 'react';
 import { Tabs, TabsTrigger, TabsList } from '@/components/ui/tabs';
 import { FiGithub } from "react-icons/fi";
 import { bottomBarTabList } from '@/constants/app.constants';
-import { Home } from 'lucide-react';
+import { Home, Search } from 'lucide-react';
 
 type SharedBindings = {
     showDialog: boolean,
@@ -49,10 +49,8 @@ function BottomTabBar() {
                                                 onClick={(event) => { onTabClick(event, tab.value) }}
                                                 style={{ 'paddingInline': '7px' }}
                                             >
-                                                {tab.name === 'Home' ? <Home
-                                                    className="size-4"
-                                                /> :
-                                                    tab.name}
+                                                {tab.name === 'Home' && <Home className="size-4" />}
+                                                {!['Home'].includes(tab.name) && tab.name}
                                             </TabsTrigger>
                                     }
                                 </Fragment>

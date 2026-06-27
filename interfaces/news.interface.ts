@@ -5,6 +5,7 @@ interface NewsArticle {
     publishedAt: string,
     url: string,
     imageUrl: string,
+    author: string,
     source: {
         id: string,
         name: string,
