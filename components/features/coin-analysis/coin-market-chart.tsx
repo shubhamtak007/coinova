@@ -5,7 +5,7 @@ import { AreaChart, XAxis, YAxis, Area, CartesianGrid } from 'recharts';
 import { Spinner } from '@/components/ui/spinner';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useCoinAnalysisContext } from '@/contexts/coin-analysis-context';
-import { timeFrameList, chartViewList } from '@/constants/coin.constants';
+import { timeFrameList, chartViewList } from '@/constants/app.constants';
 import useCoinMarketChartData from '@/hooks/useCoinMarketChartData';
 import useCoinChart from '@/hooks/useCoinChart';
 import type { CoinAnalysis } from '@/interfaces/coin-analysis.interface';

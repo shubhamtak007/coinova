@@ -1,5 +1,7 @@
 import { Dialog, DialogBody, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Dispatch, memo, SetStateAction } from "react";
+import { Spinner } from "@/components/ui/spinner";
+import { NewsArticle } from "@/interfaces/news.interface";
 import useNews from "@/hooks/useNews";
 
 type Bindings = {
@@ -9,7 +11,7 @@ type Bindings = {
 
 export default memo(function NewsDialog(bindings: Bindings) {
     const { showDialog, setShowDialog } = bindings;
-    const { articles, fetchingLatestNews } = useNews();
+    const { articles, fetchingLatestNews } = useNews({ showDialog });
 
     return (
         <Dialog
@@ -28,7 +30,42 @@ export default memo(function NewsDialog(bindings: Bindings) {
                 </DialogHeader>
 
                 <DialogBody>
+                    {(fetchingLatestNews === true) ?
+                        <Spinner className="size-15 m-[10px_auto]" /> :
+                        (articles && articles.length > 0) ? <div className="article-list">
+                            {articles.map((article: NewsArticle, index) => {
+                                return (
+                                    <a
+                                        key={article.publishedAt}
+                                        className="article"
+                                        href={article.url}
+                                        target="_blank"
+                                    >
+                                        <div className="details">
+                                            <div className="source-info text-[13px]">
+                                                <img
+                                                    className="icon"
+                                                    src={article.source.icon}
+                                                />
 
+                                                <span className="name">{article.source.name}</span>
+                                            </div>
+
+                                            <div className="text-[13px]">
+                                                {article.description}
+                                            </div>
+                                        </div>
+
+                                        <div className="article-image">
+                                            <img
+                                                src={article.imageUrl}
+                                            />
+                                        </div>
+                                    </a>
+                                )
+                            })}
+                        </div> : <div className="no-value-text">No articles</div>
+                    }
                 </DialogBody>
             </DialogContent>
         </Dialog>

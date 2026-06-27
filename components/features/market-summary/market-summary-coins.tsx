@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { formatValueInUsdCompact } from "@/services/utils.service";
-import { coinSymbolImageSize } from '@/constants/coin.constants';
+import { coinSymbolImageSize } from '@/constants/app.constants';
 import CoinDetailsDialog from '@/components/features/coin-details/coin-details-dialog';
 import type { MarketSummaryItem } from '@/interfaces/market-summary.interface';
 import type { CoinDetailsDialogCoin } from '@/interfaces/coin.interface';

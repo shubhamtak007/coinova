@@ -1,6 +1,6 @@
 import Image from 'next/image';
 import { CoinCategoryOrNft } from '@/interfaces/trending.interface';
-import { coinSymbolImageSize } from '@/constants/coin.constants';
+import { coinSymbolImageSize } from '@/constants/app.constants';
 import { formatValueInUsdCompact } from '@/services/utils.service';
 
 type Bindings = {

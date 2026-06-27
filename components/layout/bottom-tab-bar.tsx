@@ -3,11 +3,16 @@
 import useBottomTabBar from '@/hooks/useBottomTabBar';
 import CoinSearchDialog from '@/components/features/coin-search/coin-search-dialog';
 import NewsDialog from '@/components/features/news/news-dialog';
-import { Fragment } from 'react';
+import { Dispatch, Fragment, SetStateAction } from 'react';
 import { Tabs, TabsTrigger, TabsList } from '@/components/ui/tabs';
 import { FiGithub } from "react-icons/fi";
-import { bottomBarTabList } from '@/constants/coin.constants';
+import { bottomBarTabList } from '@/constants/app.constants';
 import { Home } from 'lucide-react';
+
+type SharedBindings = {
+    showDialog: boolean,
+    setShowDialog: Dispatch<SetStateAction<boolean>>
+}
 
 function BottomTabBar() {
     const { scrollEnded, activeTab, onTabClick, dialogType, showDialog, setShowDialog } = useBottomTabBar();
@@ -57,22 +62,31 @@ function BottomTabBar() {
                 </TabsList>
             </Tabs>
 
-            {
-                (dialogType === 'coinSearch') &&
-                <CoinSearchDialog
-                    showDialog={showDialog}
-                    setShowDialog={setShowDialog}
-                />
-            }
-
-            {
-                (dialogType === 'news') &&
-                <NewsDialog
-                    showDialog={showDialog}
-                    setShowDialog={setShowDialog}
-                />
+            {(showDialog === true) &&
+                <>
+                    {(dialogType === 'coinSearch') && showCoinSearchDialog({ showDialog, setShowDialog })}
+                    {(dialogType === 'news') && showNewsDialog({ showDialog, setShowDialog })}
+                </>
             }
         </div>
+    )
+}
+
+function showCoinSearchDialog({ showDialog, setShowDialog }: SharedBindings) {
+    return (
+        <CoinSearchDialog
+            showDialog={showDialog}
+            setShowDialog={setShowDialog}
+        />
+    )
+}
+
+function showNewsDialog({ showDialog, setShowDialog }: SharedBindings) {
+    return (
+        <NewsDialog
+            showDialog={showDialog}
+            setShowDialog={setShowDialog}
+        />
     )
 }
 
