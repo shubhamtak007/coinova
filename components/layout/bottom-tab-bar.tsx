@@ -40,7 +40,7 @@ function BottomTabBar() {
                                                 className={`max-h-[38px] max-w-[33px]`}
                                             >
                                                 <FiGithub
-                                                    className="size-4"
+                                                    className="size-4 m-auto"
                                                 />
                                             </a>
                                             :
