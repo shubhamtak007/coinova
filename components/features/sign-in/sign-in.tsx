@@ -59,7 +59,6 @@ export default memo(function signIn(bindings: Bindings) {
                         size="invisible"
                         sitekey={`25c209b8-9de8-464c-83fe-317e4a241aca`}
                         onExpire={() => { captchaRef.current?.resetCaptcha(); }}
-                        // onLoad={() => { captchaRef.current?.execute(); }}
                         onVerify={(token) => { verifyCaptcha(token) }}
                         onError={() => { captchaRef.current?.resetCaptcha(); }}
                     />}
