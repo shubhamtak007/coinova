@@ -64,10 +64,7 @@ const coinsTableContextMenuList: MenuItem[] = ['View Details', 'Analyze Coin'].m
 const bottomBarTabList = [
     { name: 'Home', value: 'home' },
     { name: 'Trending', value: 'trending' },
-    { name: 'News', value: 'news' },
-    { name: 'Search', value: 'searchCoin' },
-    // { name: 'Categories', value: 'categories' },
-    { name: 'Github', value: 'github' }
+    { name: 'News', value: 'news' }
 ].map((tab) => {
     return {
         id: crypto.randomUUID(),
