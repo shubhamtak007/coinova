@@ -32,26 +32,32 @@
             margin-right: 12px;
         }
 
-        .account-container {
-            width: 130px;
+        .header-right-side-container {
+            min-width: 130px;
             display: flex;
             justify-content: end;
+            align-items: center;
+            gap: 16px;
 
-            .user-icon {
-                text-align: center;
-                // border: 1px solid var(--border-color);
-                // border-radius: var(--border-radius);
-                cursor: pointer;
-            }
+            .account-container {
+                max-width: 80px;
 
-            .sign-in-btn {
-                background-color: #ededed;
-                color: var(--black-text-color);
-                border: 1px solid #e6e6e6;
+                .user-icon {
+                    text-align: center;
+                    // border: 1px solid var(--border-color);
+                    // border-radius: var(--border-radius);
+                    cursor: pointer;
+                }
 
-                &:hover {
+                .sign-in-btn {
                     background-color: #ededed;
                     color: var(--black-text-color);
+                    border: 1px solid #e6e6e6;
+
+                    &:hover {
+                        background-color: #ededed;
+                        color: var(--black-text-color);
+                    }
                 }
             }
         }
