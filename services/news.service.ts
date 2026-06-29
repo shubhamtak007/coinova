@@ -1,9 +1,9 @@
 import { coinovaClientV2 } from "@/lib/api-client";
 import { isAxiosError } from "axios";
 
-const retrieveLatestNews = async (params: Record<string, string | null | undefined>) => {
+const retrieveLatestNews = async () => {
     try {
-        const response = await coinovaClientV2.get('v0/news/latest', { params });
+        const response = await coinovaClientV2.get('v0/news/latest');
         return response;
     } catch (error) {
         if (error instanceof Error) throw new Error(error.message);
