@@ -3,6 +3,7 @@ import { Dispatch, memo, SetStateAction } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { NewsArticle } from "@/interfaces/news.interface";
 import useNews from "@/hooks/useNews";
+import Captcha from "@/components/shared/captcha/captcha";
 
 type Bindings = {
     showDialog: boolean,
@@ -11,13 +12,17 @@ type Bindings = {
 
 export default memo(function NewsDialog(bindings: Bindings) {
     const { showDialog, setShowDialog } = bindings;
-    const { articles, fetchingLatestNews } = useNews({ showDialog });
+    const { articles, fetchingLatestNews, handleCaptchaData } = useNews({ showDialog });
 
     return (
         <Dialog
             open={showDialog}
             onOpenChange={setShowDialog}
         >
+            <Captcha
+                sendCaptchaDataToParent={handleCaptchaData}
+            />
+
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>

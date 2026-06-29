@@ -10,7 +10,7 @@ import type { UserFormData, FormTypes } from '@/interfaces/account-centre.interf
 import AuthenticationService from '@/services/authentication.service';
 import UserService from '@/services/user.service';
 import authenticationFormSchemaMap from '@/schemas/authentication-form.schema';
-import HCaptcha from '@hcaptcha/react-hcaptcha';
+import { CaptchaData } from '@/interfaces/captcha.interface';
 
 type Bindings = {
     defaultFormType: typeof FormTypes,
@@ -23,13 +23,16 @@ type Bindings = {
 export default function useSignIn(bindings: Bindings) {
     const { formType, setShowDialog, showDialog, setFormType, defaultFormType } = bindings;
     const [submittingData, setSubmittingData] = useState<boolean>(false);
-    const [captchaToken, setCaptchaToken] = useState<string | null>(null);
+    const [captchaData, setCaptchaData] = useState<CaptchaData | null>(null);
     const { setUser } = useUser();
     const { setIsLoading } = useLoading();
     const formData = useRef<UserFormData | null>(null);
-    const captchaRef = useRef<HCaptcha | null>(null);
     let emailRef = useRef<string>(null);
     let passwordCriteriaList = useRef<{ name: string; criteria: RegExp; }[]>([]);
+
+    function handleCaptchaData(childCaptchaData: CaptchaData) {
+        setCaptchaData(childCaptchaData);
+    }
 
     const signInForm = useForm({
         defaultValues: {
@@ -49,7 +52,7 @@ export default function useSignIn(bindings: Bindings) {
             formData.current = value;
 
             if (['signIn', 'signUp'].includes(formType)) {
-                captchaRef.current?.execute();
+                captchaData?.ref.current?.execute();
             } else {
                 onFormSubmit(formData?.current);
             }
@@ -65,8 +68,8 @@ export default function useSignIn(bindings: Bindings) {
 
 
     useEffect(() => {
-        if (captchaToken && formData.current) onFormSubmit(formData.current);
-    }, [captchaToken]);
+        if (captchaData?.token && formData.current) onFormSubmit(formData.current);
+    }, [captchaData?.token]);
 
     useEffect(() => {
         resetForm();
@@ -75,10 +78,6 @@ export default function useSignIn(bindings: Bindings) {
             signInForm.setFieldValue('email', emailRef.current);
         }
     }, [formType]);
-
-    function verifyCaptcha(token: string) {
-        setCaptchaToken(token);
-    };
 
     function resetForm() {
         signInForm.reset();
@@ -104,7 +103,7 @@ export default function useSignIn(bindings: Bindings) {
                     const serverData = {
                         email: userDetails.email,
                         password: userDetails.password,
-                        captchaToken: captchaToken
+                        captchaToken: captchaData?.token
                     }
                     response = await AuthenticationService.signIn(serverData);
                 }; break;
@@ -114,7 +113,7 @@ export default function useSignIn(bindings: Bindings) {
                         name: userDetails.name,
                         email: userDetails.email,
                         password: userDetails.password,
-                        captchaToken: captchaToken
+                        captchaToken: captchaData?.token
                     }
                     response = await AuthenticationService.signUp(serverData);
                 }; break;
@@ -213,6 +212,6 @@ export default function useSignIn(bindings: Bindings) {
     }
 
     return {
-        signInForm, passwordCriteriaList, submittingData, resetForm, captchaRef, verifyCaptcha
+        signInForm, passwordCriteriaList, submittingData, resetForm, handleCaptchaData
     }
 }

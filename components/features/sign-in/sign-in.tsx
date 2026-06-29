@@ -7,7 +7,7 @@ import { FaCheckCircle } from "react-icons/fa";
 import { Spinner } from '@/components/ui/spinner';
 import { FormTypes } from '@/interfaces/account-centre.interface';
 import useSignIn from '@/hooks/useSignIn';
-import HCaptcha from '@hcaptcha/react-hcaptcha';
+import Captcha from '@/components/shared/captcha/captcha';
 
 type Bindings = {
     showDialog: boolean,
@@ -20,7 +20,7 @@ export default memo(function signIn(bindings: Bindings) {
     const { showDialog, setShowDialog } = bindings;
     const [showEyeIcon, setShowEyeIcon] = useState<boolean>(true);
     const [formType, setFormType] = useState<typeof FormTypes>(defaultFormType);
-    const { signInForm, passwordCriteriaList, submittingData, resetForm, captchaRef, verifyCaptcha } =
+    const { signInForm, passwordCriteriaList, submittingData, resetForm, handleCaptchaData } =
         useSignIn({ defaultFormType, formType, setFormType, setShowDialog, showDialog });
 
     return (
@@ -53,16 +53,11 @@ export default memo(function signIn(bindings: Bindings) {
                 </DialogHeader>
 
                 <DialogBody>
-                    {['signIn', 'signUp'].includes(formType) && <HCaptcha
-                        ref={captchaRef}
-                        id="invisible-hcaptcha"
-                        size="invisible"
-                        sitekey={`25c209b8-9de8-464c-83fe-317e4a241aca`}
-                        onExpire={() => { captchaRef.current?.resetCaptcha(); }}
-                        // onLoad={() => { captchaRef.current?.execute(); }}
-                        onVerify={(token) => { verifyCaptcha(token) }}
-                        onError={() => { captchaRef.current?.resetCaptcha(); }}
-                    />}
+                    {['signIn', 'signUp'].includes(formType) &&
+                        <Captcha
+                            sendCaptchaDataToParent={handleCaptchaData}
+                        />
+                    }
 
                     <form
                         className="sign-in-form"
