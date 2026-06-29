@@ -21,13 +21,16 @@ export default function useNews({ showDialog }: Bindings) {
     }, [showDialog])
 
     useEffect(() => {
+        if (captchaData?.ref) { setFetchingLatestNews(true); captchaData.ref.current?.execute(); }
+    }, [captchaData?.ref]);
+
+    useEffect(() => {
         if (captchaData?.token) fetchLatestNews();
     }, [captchaData?.token]);
 
     async function fetchLatestNews() {
         try {
-            setFetchingLatestNews(true);
-            const response = await NewsService.retrieveLatestNews({ token: captchaData?.token });
+            const response = await NewsService.retrieveLatestNews({ captchaToken: captchaData?.token });
             setArticles(response?.data.data);
         } catch (error) {
 
