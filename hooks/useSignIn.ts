@@ -24,9 +24,9 @@ export default function useSignIn(bindings: Bindings) {
     const { formType, setShowDialog, showDialog, setFormType, defaultFormType } = bindings;
     const [submittingData, setSubmittingData] = useState<boolean>(false);
     const [captchaData, setCaptchaData] = useState<CaptchaData | null>(null);
+    const formData = useRef<UserFormData | null>(null);
     const { setUser } = useUser();
     const { setIsLoading } = useLoading();
-    const formData = useRef<UserFormData | null>(null);
     let emailRef = useRef<string>(null);
     let passwordCriteriaList = useRef<{ name: string; criteria: RegExp; }[]>([]);
 
@@ -50,12 +50,7 @@ export default function useSignIn(bindings: Bindings) {
         onSubmit: async ({ value }) => {
             setSubmittingData(true);
             formData.current = value;
-
-            if (['signIn', 'signUp'].includes(formType)) {
-                captchaData?.ref.current?.execute();
-            } else {
-                onFormSubmit(formData?.current);
-            }
+            onFormSubmit(formData.current);
         }
     });
 
@@ -65,11 +60,6 @@ export default function useSignIn(bindings: Bindings) {
         resetForm();
         setFormType(defaultFormType);
     }, [showDialog]);
-
-
-    useEffect(() => {
-        if (captchaData?.token && formData.current) onFormSubmit(formData.current);
-    }, [captchaData?.token]);
 
     useEffect(() => {
         resetForm();
