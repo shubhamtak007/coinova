@@ -65,6 +65,7 @@ const bottomBarTabList = [
     { name: 'Home', value: 'home' },
     { name: 'Trending', value: 'trending' },
     { name: 'News', value: 'news' }
+    // { name: 'Watchlist', value: 'watchList' }
 ].map((tab) => {
     return {
         id: crypto.randomUUID(),
