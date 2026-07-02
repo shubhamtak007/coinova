@@ -60,9 +60,6 @@ cd coinova
 # Install dependencies
 npm install
 
-# Create a .env.local file in the root directory
-touch .env.local
-
 # Add your API key to .env.local
 COIN_GECKO_API_KEY=your_api_key_here
 
