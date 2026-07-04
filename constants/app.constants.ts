@@ -1,5 +1,3 @@
-import type { MenuItem } from '@/interfaces/data-table.interface';
-
 const coinKeyList = [
     {
         name: 'Market Cap.',
@@ -57,15 +55,15 @@ const chartViewList = [
     { name: 'Market Capital', value: 'marketCapital' }
 ]
 
-const coinsTableContextMenuList: MenuItem[] = ['View Details', 'Analyze Coin'].map((name) => {
+const coinsTableContextMenuList: Record<string, string>[] = ['View Details', 'Analyze Coin'].map((name) => {
     return { id: crypto.randomUUID(), name }
 })
 
-const bottomBarTabList = [
+const navigationBarTabList = [
     { name: 'Home', value: 'home' },
     { name: 'Trending', value: 'trending' },
     { name: 'News', value: 'news' },
-    { name: 'Watchlist', value: 'watchList' }
+    { name: 'Watchlist', value: 'watchlist' }
 ].map((tab) => {
     return {
         id: crypto.randomUUID(),
@@ -79,7 +77,9 @@ const coinSymbolImageSize = {
     height: 22
 }
 
+const userScreenWidth = 820;
+
 export {
     coinKeyList, timeFrameList, chartViewList, coinsTableContextMenuList,
-    bottomBarTabList, coinSymbolImageSize
+    navigationBarTabList, coinSymbolImageSize, userScreenWidth
 };

@@ -91,7 +91,7 @@ function CoinSearchDialog(bindings: Bindings) {
                                                         tabIndex={0}
                                                         key={coin.id}
                                                         className={`cursor-pointer hover:bg-[#f2f3f8]
-                                                                outline-[#2663eb] rounded-[var(--border-radius)]
+                                                                outline-[var(--main-color-2)] rounded-[var(--border-radius)]
                                                             `}
                                                         onClick={(event) => { onCoinClick(event, coin); }}
                                                         onKeyDown={(event) => {

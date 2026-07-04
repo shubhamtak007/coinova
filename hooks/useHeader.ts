@@ -1,26 +1,21 @@
 'use client';
 
-import { useEffect, Dispatch, SetStateAction, } from 'react';
-import { useUser } from '@/contexts/user.context';
-import { useLoading } from '@/contexts/loading.context';
-import UserService from '@/services/user.service';
+import { useEffect, useState } from 'react';
+import { userScreenWidth } from '@/constants/app.constants';
 
-type Bindings = {
-    setShowBottomTabBar: Dispatch<SetStateAction<boolean>>;
-    setScrolled: Dispatch<SetStateAction<boolean>>;
-}
-
-export default function useHeader(bindings: Bindings) {
-    const { setScrolled, setShowBottomTabBar } = bindings;
+export default function useHeader() {
+    const [scrolled, setScrolled] = useState<boolean>(false);
+    const [showTabBar, setShowTabBar] = useState<boolean>(false);
+    const [showSearchDialog, setShowSearchDialog] = useState<boolean>(false);
 
     useEffect(() => {
-        if (window.innerWidth > 1080) setShowBottomTabBar(true);
+        if (window.innerWidth > userScreenWidth) setShowTabBar(true);
 
         const handleWindowSize = () => {
-            if (window.innerWidth > 1080) {
-                setShowBottomTabBar(true);
+            if (window.innerWidth > userScreenWidth) {
+                setShowTabBar(true);
             } else {
-                setShowBottomTabBar(false);
+                setShowTabBar(false);
             }
         }
 
@@ -41,5 +36,5 @@ export default function useHeader(bindings: Bindings) {
         }
     }, []);
 
-    return {};
+    return { scrolled, setScrolled, showTabBar, setShowTabBar, showSearchDialog, setShowSearchDialog };
 }

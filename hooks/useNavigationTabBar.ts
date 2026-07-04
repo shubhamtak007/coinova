@@ -4,7 +4,7 @@ import { useState, useEffect, useReducer } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useOptimisticNavigation } from '@/contexts/navigation-context';
 
-function useBottomTabBar() {
+export default function useNavigationTabBar() {
     const router = useRouter();
     const pathName = usePathname();
     const { navigateOptimistically } = useOptimisticNavigation();
@@ -50,6 +50,7 @@ function useBottomTabBar() {
         switch (value) {
             case 'home': route = '/'; break;
             case 'news': setDialogType('news'); setShowDialog(true); break;
+            case 'watchlist': setDialogType('watchlist'); setShowDialog(true); break;
             case 'trending': route = 'trending'; break;
             default: route = '/'; break;
         }
@@ -62,5 +63,3 @@ function useBottomTabBar() {
 
     return { scrollEnded, activeTab, onTabClick, dialogType, showDialog, setShowDialog }
 }
-
-export default useBottomTabBar;

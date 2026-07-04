@@ -7,7 +7,6 @@ import { getUiRoute, getRowsPerPageDefaultValue } from '@/services/utils.service
 import { CoinListApiParams } from '@/interfaces/coin-list.interface';
 import { Row } from '@tanstack/react-table';
 import { useOptimisticNavigation } from '@/contexts/navigation-context';
-import type { MenuItem } from '@/interfaces/data-table.interface';
 import type { CoingeckoCrypto } from '@/interfaces/coin.interface';
 
 function useCoinList() {
@@ -126,7 +125,7 @@ function useCoinList() {
         }
     }
 
-    function onContextMenuItemClicked(row: Row<CoingeckoCrypto>, contextMenu: MenuItem, event: Event) {
+    function onContextMenuItemClicked(row: Row<CoingeckoCrypto>, contextMenu: Record<string, string>, event: Event) {
         if (contextMenu.name === 'Analyze Coin') {
             const route = getUiRoute('coinAnalysis', row.original);
 

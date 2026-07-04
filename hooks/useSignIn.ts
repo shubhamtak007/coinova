@@ -11,6 +11,7 @@ import AuthenticationService from '@/services/authentication.service';
 import UserService from '@/services/user.service';
 import authenticationFormSchemaMap from '@/schemas/authentication-form.schema';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
+import ErrorService from '@/services/error.service';
 
 type Bindings = {
     defaultFormType: typeof FormTypes,
@@ -206,13 +207,11 @@ export default function useSignIn(bindings: Bindings) {
     }
 
     function throwError(error: unknown) {
-        let errorMessage;
-        if (error instanceof Error) errorMessage = error.message;
-        if (isAxiosError(error)) errorMessage = error.response?.data.message;
-        toast.error(errorMessage, { className: 'error-toast' });
+        const errorMessage = ErrorService.handleError(error);
+        toast.error(`${errorMessage}`, { className: 'error-toast' });
     }
 
     return {
-        signInForm, passwordCriteriaList, submittingData, resetForm, captchaRef, verifyCaptcha
+        signInForm, passwordCriteriaList, submittingData, setSubmittingData, resetForm, captchaRef, verifyCaptcha
     }
 }

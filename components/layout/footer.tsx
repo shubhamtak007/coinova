@@ -1,20 +1,21 @@
 'use client';
 
 import GlobalMarketStats from "@/components/features/global-market/global-market-stats";
-import BottomTabBar from "./bottom-tab-bar";
+import BottomTabBar from "./navigation-tab-bar";
 import { useState, useEffect } from 'react';
+import { userScreenWidth } from "@/constants/app.constants";
 
 function Footer() {
-    const [showBottomTabBar, setShowBottomTabBar] = useState<boolean>(false);
+    const [showTabBar, setShowTabBar] = useState<boolean>(false);
 
     useEffect(() => {
-        if (window.innerWidth <= 1080) setShowBottomTabBar(true);
+        if (window.innerWidth <= userScreenWidth) setShowTabBar(true);
 
         const handleWindowSize = () => {
-            if (window.innerWidth <= 1080) {
-                setShowBottomTabBar(true);
+            if (window.innerWidth <= userScreenWidth) {
+                setShowTabBar(true);
             } else {
-                setShowBottomTabBar(false);
+                setShowTabBar(false);
             }
         }
 
@@ -25,7 +26,7 @@ function Footer() {
     return (
         <footer>
             <div className="bottom-sticky-container">
-                {showBottomTabBar === true && <BottomTabBar />}
+                {showTabBar === true && <BottomTabBar />}
                 <div className="m-[6px]"></div>
                 <GlobalMarketStats />
             </div>

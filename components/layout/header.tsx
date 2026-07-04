@@ -3,7 +3,7 @@
 import { Dispatch, SetStateAction, useState } from 'react';
 import { Coins } from 'lucide-react';
 import Link from 'next/link';
-import BottomTabBar from '@/components/layout/bottom-tab-bar';
+import NavigationTabBar from '@/components/layout/navigation-tab-bar';
 import useHeader from '@/hooks/useHeader';
 import AccountCentre from '@/components/features/account/account-centre';
 import { Search } from 'lucide-react';
@@ -15,15 +15,8 @@ type SearchDialogBindings = {
     setShowSearchDialog: Dispatch<SetStateAction<boolean>>
 }
 
-type Bindings = {
-
-}
-
-function Header(bindings: Bindings) {
-    const [scrolled, setScrolled] = useState<boolean>(false);
-    const [showBottomTabBar, setShowBottomTabBar] = useState<boolean>(false);
-    const [showSearchDialog, setShowSearchDialog] = useState<boolean>(false);
-    const { } = useHeader({ setShowBottomTabBar, setScrolled });
+function Header() {
+    const { scrolled, showTabBar, showSearchDialog, setShowSearchDialog } = useHeader();
 
     return (
         <div className={`header-container ${scrolled ? 'with-shadow' : ''}`}>
@@ -40,8 +33,8 @@ function Header(bindings: Bindings) {
                     </div>
                 </Link>
 
-                {showBottomTabBar === true && <div className="m-auto">
-                    <BottomTabBar />
+                {showTabBar === true && <div className="m-auto">
+                    <NavigationTabBar />
                 </div>}
 
                 <div className="header-right-side-container">
@@ -49,7 +42,7 @@ function Header(bindings: Bindings) {
                         className="hover:cursor-pointer"
                         onClick={() => { setShowSearchDialog(true); }}
                     >
-                        <Search className="size-5" />
+                        <Search className="size-5" strokeWidth={2.5} />
                         {(showSearchDialog === true) && showCoinSearchDialog({ showSearchDialog, setShowSearchDialog })}
                     </div>
 
@@ -63,6 +56,7 @@ function Header(bindings: Bindings) {
                     >
                         <FiGithub
                             className="size-4 m-auto"
+                            strokeWidth={2.5}
                         />
                     </a>
                 </div>

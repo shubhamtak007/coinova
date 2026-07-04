@@ -68,7 +68,7 @@ function TabsTrigger({
                 hover:cursor-pointer rounded-[var(--border-radius)] border border-transparent px-2 py-1
                 text-sm font-medium whitespace-nowrap text-foreground/60 transition-all
                 group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start
-                hover:text-[var(--black-text-color)] hover:bg-[#fff] focus-visible:border-ring focus-visible:ring-[3px]
+                hover:text-[var(--text-color)] hover:bg-[#fff] focus-visible:border-ring focus-visible:ring-[3px]
                 focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring
                 disabled:pointer-events-none disabled:opacity-50
                 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-sm

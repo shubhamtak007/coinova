@@ -65,8 +65,9 @@ function ProfileDropdown(pdBindings: PdBindings) {
                         <DropdownMenuTrigger asChild>
                             <div className="user-icon">
                                 <CircleUserRound
-                                    style={{ color: 'var(--black-text-color-2)' }}
+                                    style={{ color: 'var(--text-color)' }}
                                     className="size-5"
+                                    strokeWidth={2.5}
                                 />
                             </div>
                         </DropdownMenuTrigger>
