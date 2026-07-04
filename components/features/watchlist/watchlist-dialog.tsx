@@ -95,7 +95,7 @@ function mountWatchlists(props: any) {
                                                 </TabsTrigger>
                                             </ContextMenuTrigger>
 
-                                            <ContextMenuContent className="!z-[201]">
+                                            <ContextMenuContent className="z-[201]">
                                                 <ContextMenuGroup>
                                                     {
                                                         watchlistContextMenuList.map((menu: Record<string, string>) => {
