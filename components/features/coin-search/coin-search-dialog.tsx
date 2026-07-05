@@ -30,10 +30,9 @@ function CoinSearchDialog(bindings: Bindings) {
                 onOpenChange={setShowDialog}
             >
                 <DialogContent
-                    // style={{ '--dialog-body-height': '60vh' } as React.CSSProperties}
                     closeOnOutsideClick={true}
-                // onCloseAutoFocus={onDialogClose}
-                // dialogNumber={dialogNumber}
+                    onCloseAutoFocus={onDialogClose}
+                    dialogNumber={dialogNumber}
                 >
                     <DialogHeader
                         showCloseButton={false}
