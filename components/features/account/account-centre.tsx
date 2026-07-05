@@ -47,7 +47,6 @@ function ProfileDropdown(pdBindings: PdBindings) {
             setIsLoading(true);
             const response = await AuthenticationService.signOut();
             if (response.status === 200) {
-                toast.success(`You have been logged out. Have a great day!`, { className: 'success-toast' });
                 setUser(null);
             }
         } catch (error) {

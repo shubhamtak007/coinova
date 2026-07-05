@@ -7,11 +7,12 @@ import { DialogProps } from "@/interfaces/global.interface";
 import { Textarea } from "@/components/ui/textarea";
 
 type Bindings = {
-    onDialogClose(): void
+    onDialogClose(): void,
+    dialogNumber?: number
 } & DialogProps;
 
 export default function WatchlistFormDialog(bindings: Bindings) {
-    const { showDialog, setShowDialog, onDialogClose } = bindings;
+    const { showDialog, setShowDialog, onDialogClose, dialogNumber } = bindings;
     const { watchlistForm, submittingData } = useWatchlistForm({ setShowDialog });
 
     return (
@@ -21,7 +22,10 @@ export default function WatchlistFormDialog(bindings: Bindings) {
                 setShowDialog(showDialog);
             }}
         >
-            <DialogContent onCloseAutoFocus={onDialogClose}>
+            <DialogContent
+                onCloseAutoFocus={onDialogClose}
+                dialogNumber={dialogNumber}
+            >
                 <DialogHeader>
                     <DialogTitle>
                         Create Watchlist

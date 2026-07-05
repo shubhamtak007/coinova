@@ -40,7 +40,6 @@ export default function useWatchlistForm(bindings: Bindings) {
             const response = await WatchlistService.addWatchlist(formData.current);
 
             if (response.data.data.id) {
-                toast.success(`${response.data.message}`, { className: 'success-toast' });
                 setShowDialog(false);
             }
         } catch (error) {

@@ -124,7 +124,6 @@ export default function useSignIn(bindings: Bindings) {
             }
 
             if (response.status === 200) {
-                displaySuccessNotification(response);
                 fetchProfile();
                 setShowDialog(false);
             }
@@ -163,7 +162,6 @@ export default function useSignIn(bindings: Bindings) {
 
         try {
             const response = await AuthenticationService.retrieveResetCode({ email: userDetails.email });
-            displaySuccessNotification(response);
             setFormType('verifyResetCode');
         } catch (error) {
             throwError(error);
@@ -180,7 +178,6 @@ export default function useSignIn(bindings: Bindings) {
             }
 
             const response = await AuthenticationService.verifyResetCode(serverData);
-            displaySuccessNotification(response);
             setFormType('changePassword');
         } catch (error) {
             throwError(error);
@@ -192,18 +189,12 @@ export default function useSignIn(bindings: Bindings) {
     async function updatePassword(userDetails: UserFormData) {
         try {
             const response = await AuthenticationService.changePassword({ password: userDetails.password });
-            displaySuccessNotification(response);
             setFormType('signIn');
         } catch (error) {
             throwError(error);
         } finally {
             setSubmittingData(false);
         }
-    }
-
-    const displaySuccessNotification = (response: { status: number, data: { message: string } }) => {
-        if (!response || response.status !== 200) return;
-        toast.success(`${response.data.message}`, { className: 'success-toast' });
     }
 
     function throwError(error: unknown) {

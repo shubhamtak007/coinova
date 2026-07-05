@@ -4,7 +4,7 @@ import WatchlistService from "@/services/watchlist.service";
 import WatchlistCoinService from "@/services/watchlist-coin.service";
 import { useState, useEffect } from "react"
 
-const watchlistContextMenuList = ['Edit', 'View Details', 'Delete'].map((name) => {
+const watchlistContextMenuList = ['Delete'].map((name) => {
     return { id: crypto.randomUUID(), name }
 })
 
@@ -15,31 +15,48 @@ export default function useWatchlistDialog() {
     const [watchlistCoins, setWatchlistCoins] = useState<Record<string, string>[]>([]);
     const [activeWatchlist, setActiveWatchlist] = useState<Record<string, string> | null>(null);
     const [showCreateWatchlistDialog, setShowCreateWatchlistDialog] = useState<boolean>(false);
+    const [showCoinSearchDialog, setShowCoinSearchDialog] = useState<boolean>(false);
+    const [deletingWatchlist, setDeletingWatchlist] = useState<boolean>(false);
+    const [showWatchlistDeleteDialog, setShowWatchlistDeleteDialog] = useState<boolean>(false);
+    const [rightClickedWatchlist, setRightClickedWatchlist] = useState<Record<string, string> | null>(null);
 
     useEffect(() => {
         fetchWatchlists();
     }, []);
 
     useEffect(() => {
-        fetchWatchlistCoins();
+        if (activeWatchlist?.id) fetchWatchlistCoins();
     }, [activeWatchlist?.id])
 
     function onCreateWatchlistDialogClose() {
         fetchWatchlists();
     }
 
+    function onDeleteDialogClose() {
+        fetchWatchlists();
+    }
+
+    function onCoinSearchDialogClose() {
+        fetchWatchlists();
+    }
+
     function onWatchlistClick(event: React.MouseEvent<HTMLButtonElement>, watchlist: Record<string, string>) {
         setActiveWatchlist(watchlist);
-        fetchWatchlistCoins();
     }
 
     async function fetchWatchlists() {
         try {
+            const localActiveWatchlist = activeWatchlist;
+            setActiveWatchlist(null);
+
             setFetchingWatchlists(true);
             const response = await WatchlistService.retrieveWatchlists();
             setWatchlists(response.data.data);
 
-            if (response.data.data.length > 0) {
+            if (localActiveWatchlist) {
+                setActiveWatchlist(localActiveWatchlist);
+
+            } else if (response.data.data.length > 0) {
                 setActiveWatchlist(response.data.data[0]);
             }
         } catch (error) {
@@ -64,12 +81,36 @@ export default function useWatchlistDialog() {
     }
 
     function onContextMenuItemClicked(watchlist: Record<string, string>, contextMenuItem: Record<string, string>, event: Event) {
+        setRightClickedWatchlist(watchlist);
 
+        switch (contextMenuItem.name) {
+            case 'Edit': break;
+            case 'View Details': break;
+            case 'Delete': setShowWatchlistDeleteDialog(true); break;
+            default: return;
+        }
+    }
+
+    async function deleteWatchlist() {
+        if (!rightClickedWatchlist) return;
+
+        try {
+            setDeletingWatchlist(true);
+            const response = await WatchlistService.deleteWatchlist(rightClickedWatchlist.id);
+            if (response.status === 200) setShowWatchlistDeleteDialog(false);
+        } catch (error) {
+
+        } finally {
+            setDeletingWatchlist(false);
+        }
     }
 
     return {
         fetchingWatchlists, watchlists, fetchingWatchlistCoins, watchlistCoins,
         onWatchlistClick, activeWatchlist, showCreateWatchlistDialog, setShowCreateWatchlistDialog,
-        onCreateWatchlistDialogClose, watchlistContextMenuList, onContextMenuItemClicked
+        onCreateWatchlistDialogClose, watchlistContextMenuList, onContextMenuItemClicked,
+        showCoinSearchDialog, setShowCoinSearchDialog, onCoinSearchDialogClose,
+        showWatchlistDeleteDialog, setShowWatchlistDeleteDialog, deleteWatchlist,
+        deletingWatchlist, setDeletingWatchlist, onDeleteDialogClose
     };
 }

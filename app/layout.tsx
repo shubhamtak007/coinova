@@ -31,8 +31,8 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
                 <div className="body-wrapper">
                     <UserContextProvider>
                         <LoadingContextProvider>
-                            <NavigationWrapper>
-                                <OptimisticNavigationContextProvider>
+                            <OptimisticNavigationContextProvider>
+                                <NavigationWrapper>
                                     <Header />
 
                                     <main className="main-content">
@@ -44,8 +44,8 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
                                     </main>
 
                                     <Footer />
-                                </OptimisticNavigationContextProvider>
-                            </NavigationWrapper>
+                                </NavigationWrapper>
+                            </OptimisticNavigationContextProvider>
                         </LoadingContextProvider>
                     </UserContextProvider>
                 </div>
