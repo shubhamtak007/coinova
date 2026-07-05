@@ -149,62 +149,66 @@ function mountWatchlistCoins(props: any) {
     return (
         ((watchlists.length > 0) && (fetchingWatchlists) === false) &&
         <>
-            {(fetchingWatchlistCoins === true) && <div className="m-auto w-max">
-                <Spinner className="size-8" />
-            </div>}
-
             {
-                (!fetchingWatchlistCoins) &&
-                <div>
-                    {
-                        (watchlistCoins.length > 0) &&
-                        <table className="cnv-table watchlist-coins-table">
-                            <tbody>
-                                {
-                                    watchlistCoins.map((watchlistCoin: Record<string, string>, index: number) => {
-                                        return (
-                                            <tr key={watchlistCoin.id}>
-                                                <td className="!w-[30px] text-center">{index + 1}</td>
-
-                                                <td>
-                                                    <div className="flex items-center">
-                                                        <div className="pr-[8px]">
-                                                            {
-                                                                watchlistCoin.imageUrl ? <Image
-                                                                    className="object-cover"
-                                                                    width={21}
-                                                                    height={21}
-                                                                    alt={`Image of ${watchlistCoin.name}`}
-                                                                    src={watchlistCoin.imageUrl}
-                                                                /> :
-                                                                    <div className="coin-letter-mark cursor-pointer">
-                                                                        {watchlistCoin.symbol[0]}
-                                                                    </div>
-                                                            }
-                                                        </div>
-
-                                                        <div>
-                                                            {watchlistCoin.name}
-                                                        </div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        )
-                                    })
-                                }
-                            </tbody>
-                        </table>
-                    }
-
+                (fetchingWatchlistCoins === true) ?
                     <div className="m-auto w-max">
-                        <Button
-                            variant={"secondary"}
-                            onClick={() => { setShowCoinSearchDialog(true); }}
-                        >
-                            <CirclePlus /> Add Coins
-                        </Button>
+                        <Spinner className="size-8" />
                     </div>
-                </div>
+                    :
+                    <>
+                        {
+                            (watchlistCoins.length > 0) ?
+                                <table className="cnv-table watchlist-coins-table">
+                                    <tbody>
+                                        {
+                                            watchlistCoins.map((watchlistCoin: Record<string, string>, index: number) => {
+                                                return (
+                                                    <tr key={watchlistCoin.id}>
+                                                        <td className="!w-[30px] text-center">{index + 1}</td>
+
+                                                        <td>
+                                                            <div className="flex items-center">
+                                                                <div className="pr-[8px]">
+                                                                    {
+                                                                        watchlistCoin.imageUrl ? <Image
+                                                                            className="object-cover"
+                                                                            width={21}
+                                                                            height={21}
+                                                                            alt={`Image of ${watchlistCoin.name}`}
+                                                                            src={watchlistCoin.imageUrl}
+                                                                        /> :
+                                                                            <div className="coin-letter-mark cursor-pointer">
+                                                                                {watchlistCoin.symbol[0]}
+                                                                            </div>
+                                                                    }
+                                                                </div>
+
+                                                                <div>
+                                                                    {watchlistCoin.name}
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })
+                                        }
+                                    </tbody>
+                                </table>
+                                :
+                                <div className="no-value-text !text-center mb-[12px]">
+                                    No coins added
+                                </div>
+                        }
+
+                        <div className="m-auto w-max">
+                            <Button
+                                variant={"secondary"}
+                                onClick={() => { setShowCoinSearchDialog(true); }}
+                            >
+                                <CirclePlus /> Add Coins
+                            </Button>
+                        </div>
+                    </>
             }
 
             {
