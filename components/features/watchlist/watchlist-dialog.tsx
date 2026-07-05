@@ -92,7 +92,7 @@ function mountWatchlists(props: any) {
                     <Tabs
                         defaultValue={watchlists[0].name}
                         value={activeWatchlist?.name}
-                        className="!mx-[unset] !items-start"
+                        className="!mx-[unset] !items-start [&::-webkit-scrollbar]:!h-[0px]"
                     >
                         <TabsList>
                             {
