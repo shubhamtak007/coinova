@@ -1,7 +1,7 @@
 import { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogBody, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { DialogProps } from "@/interfaces/global.interface";
 import { Button } from "@/components/ui/button";
-import { CirclePlus, TrashIcon } from "lucide-react";
+import { CirclePlus } from "lucide-react";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
@@ -20,8 +20,9 @@ export default function WatchlistDialog(bindings: Bindings) {
     const {
         showCreateWatchlistDialog, setShowCreateWatchlistDialog, fetchingWatchlists, watchlists, onWatchlistClick,
         activeWatchlist, fetchingWatchlistCoins, watchlistCoins, onCreateWatchlistDialogClose, watchlistContextMenuList,
-        onContextMenuItemClicked, showCoinSearchDialog, setShowCoinSearchDialog, onCoinSearchDialogClose, showWatchlistDeleteDialog,
-        setShowWatchlistDeleteDialog, deleteWatchlist, deletingWatchlist, setDeletingWatchlist, onDeleteDialogClose, fetchingMarketData
+        onContextMenuItemClicked, showCoinSearchDialog, setShowCoinSearchDialog, onCoinSearchDialogClose, showDeleteDialog,
+        setShowDeleteDialog, onDeleteBtnClicked, deletingItem, onDeleteDialogClose, fetchingMarketData,
+        watchlistCoinContextMenuList, rightClickedItem, deleteDialogType
     } = useWatchlistDialog();
 
     return (
@@ -43,7 +44,11 @@ export default function WatchlistDialog(bindings: Bindings) {
 
                     <DialogBody>
                         {mountWatchlists({ fetchingWatchlists, watchlists, onWatchlistClick, activeWatchlist, watchlistContextMenuList, onContextMenuItemClicked })}
-                        {mountWatchlistCoins({ fetchingWatchlists, watchlists, fetchingWatchlistCoins, watchlistCoins, showCoinSearchDialog, setShowCoinSearchDialog, activeWatchlist, onCoinSearchDialogClose, fetchingMarketData })}
+                        {mountWatchlistCoins({
+                            fetchingWatchlists, watchlists, fetchingWatchlistCoins, watchlistCoins, showCoinSearchDialog,
+                            setShowCoinSearchDialog, activeWatchlist, onCoinSearchDialogClose, fetchingMarketData,
+                            watchlistCoinContextMenuList, onContextMenuItemClicked
+                        })}
                     </DialogBody>
 
                     <DialogFooter className="justify-center">
@@ -68,10 +73,10 @@ export default function WatchlistDialog(bindings: Bindings) {
                 </WatchlistFormDialog>
             }
 
-            {(showWatchlistDeleteDialog === true) &&
-                createWatchlistDeleteDialog({
-                    showWatchlistDeleteDialog, setShowWatchlistDeleteDialog, deleteWatchlist, deletingWatchlist,
-                    onDeleteDialogClose
+            {(showDeleteDialog === true) &&
+                createDeleteDialog({
+                    showDeleteDialog, setShowDeleteDialog, onDeleteBtnClicked, deletingItem,
+                    onDeleteDialogClose, rightClickedItem, deleteDialogType
                 })
             }
         </>
@@ -113,15 +118,15 @@ function mountWatchlists(props: any) {
                                             <ContextMenuContent className="z-[201]">
                                                 <ContextMenuGroup>
                                                     {
-                                                        watchlistContextMenuList.map((menu: Record<string, string>) => {
+                                                        watchlistContextMenuList.map((contextMenuItem: Record<string, string>) => {
                                                             return (
                                                                 <ContextMenuItem
-                                                                    variant={`${(menu.name === 'Delete') ? 'destructive' : 'default'}`}
-                                                                    key={menu.id}
-                                                                    onSelect={(event) => onContextMenuItemClicked(watchlist, menu, event)}
+                                                                    variant={`${(contextMenuItem.name === 'Delete') ? 'destructive' : 'default'}`}
+                                                                    key={contextMenuItem.id}
+                                                                    onSelect={(event) => onContextMenuItemClicked(watchlist, contextMenuItem, event, 'watchlist')}
                                                                     disabled={(activeWatchlist.id === watchlist.id) && true}
                                                                 >
-                                                                    {menu.name}
+                                                                    {contextMenuItem.name}
                                                                 </ContextMenuItem>
                                                             )
                                                         })
@@ -141,8 +146,9 @@ function mountWatchlists(props: any) {
 
 function mountWatchlistCoins(props: any) {
     const {
-        fetchingWatchlists, watchlists, fetchingWatchlistCoins, watchlistCoins,
-        showCoinSearchDialog, setShowCoinSearchDialog, activeWatchlist, onCoinSearchDialogClose, fetchingMarketData
+        fetchingWatchlists, watchlists, fetchingWatchlistCoins, watchlistCoins, showCoinSearchDialog,
+        setShowCoinSearchDialog, activeWatchlist, onCoinSearchDialogClose, fetchingMarketData,
+        watchlistCoinContextMenuList, onContextMenuItemClicked
     } = props;
 
     return (
@@ -166,42 +172,66 @@ function mountWatchlistCoins(props: any) {
                                         {
                                             watchlistCoins.map((watchlistCoin: WatchlistCoin, index: number) => {
                                                 return (
-                                                    <tr key={watchlistCoin.id}>
-                                                        <td className="!w-[30px] text-center">{index + 1}</td>
+                                                    <ContextMenu
+                                                        key={watchlistCoin.id}
+                                                    >
+                                                        <ContextMenuTrigger asChild>
+                                                            <tr>
+                                                                <td className="!w-[30px] text-center">{index + 1}</td>
 
-                                                        <td>
-                                                            <div className="flex items-center">
-                                                                <div className="pr-[8px]">
-                                                                    {
-                                                                        watchlistCoin.imageUrl ? <Image
-                                                                            className="object-cover"
-                                                                            width={21}
-                                                                            height={21}
-                                                                            alt={`Image of ${watchlistCoin.name}`}
-                                                                            src={String(watchlistCoin.imageUrl)}
-                                                                        /> :
-                                                                            <div className="coin-letter-mark cursor-pointer">
-                                                                                {String(watchlistCoin.symbol)[0]}
-                                                                            </div>
+                                                                <td>
+                                                                    <div className="flex items-center">
+                                                                        <div className="pr-[8px]">
+                                                                            {
+                                                                                watchlistCoin.imageUrl ? <Image
+                                                                                    className="object-cover"
+                                                                                    width={21}
+                                                                                    height={21}
+                                                                                    alt={`Image of ${watchlistCoin.name}`}
+                                                                                    src={String(watchlistCoin.imageUrl)}
+                                                                                /> :
+                                                                                    <div className="coin-letter-mark cursor-pointer">
+                                                                                        {String(watchlistCoin.symbol)[0]}
+                                                                                    </div>
+                                                                            }
+                                                                        </div>
+
+                                                                        <div>
+                                                                            {watchlistCoin.name}
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+
+                                                                <td className="text-right">
+                                                                    {(fetchingMarketData === true) ?
+                                                                        <Skeleton className="h-[21px] w-[60px] float-right" /> :
+                                                                        watchlistCoin.marketData &&
+                                                                        <span>
+                                                                            ${watchlistCoin.marketData.current_price}
+                                                                        </span>
                                                                     }
-                                                                </div>
+                                                                </td>
+                                                            </tr>
+                                                        </ContextMenuTrigger>
 
-                                                                <div>
-                                                                    {watchlistCoin.name}
-                                                                </div>
-                                                            </div>
-                                                        </td>
-
-                                                        <td className="text-right">
-                                                            {(fetchingMarketData === true) ?
-                                                                <Skeleton className="h-[21px] w-[60px] float-right" /> :
-                                                                watchlistCoin.marketData &&
-                                                                <span>
-                                                                    ${watchlistCoin.marketData.current_price}
-                                                                </span>
+                                                        <ContextMenuContent className="z-[201]">
+                                                            {
+                                                                watchlistCoinContextMenuList.map((contextMenuItem: Record<string, string>) => {
+                                                                    return (
+                                                                        <ContextMenuItem
+                                                                            variant={`${(contextMenuItem.name === 'Delete') ? 'destructive' : 'default'}`}
+                                                                            key={contextMenuItem.id}
+                                                                            onSelect={(event) => {
+                                                                                onContextMenuItemClicked(watchlistCoin, contextMenuItem, event, 'watchlistCoin')
+                                                                            }}
+                                                                        >
+                                                                            {contextMenuItem.name}
+                                                                        </ContextMenuItem>
+                                                                    )
+                                                                })
                                                             }
-                                                        </td>
-                                                    </tr>
+                                                        </ContextMenuContent>
+                                                    </ContextMenu>
                                                 )
                                             })
                                         }
@@ -239,39 +269,53 @@ function mountWatchlistCoins(props: any) {
     )
 }
 
-function createWatchlistDeleteDialog(props: any) {
-    const { showWatchlistDeleteDialog, setShowWatchlistDeleteDialog, deleteWatchlist, deletingWatchlist, onDeleteDialogClose } = props;
+function createDeleteDialog(props: any) {
+    const {
+        showDeleteDialog, setShowDeleteDialog, onDeleteBtnClicked,
+        deletingItem, onDeleteDialogClose, rightClickedItem, deleteDialogType
+    } = props;
 
     return (
         <Dialog
-            open={showWatchlistDeleteDialog}
-            onOpenChange={setShowWatchlistDeleteDialog}
+            open={showDeleteDialog}
+            onOpenChange={setShowDeleteDialog}
         >
             <DialogContent
                 dialogNumber={2}
                 onCloseAutoFocus={onDeleteDialogClose}
             >
-                <DialogHeader disableCloseButton={deletingWatchlist}>
+                <DialogHeader disableCloseButton={deletingItem}>
                     <DialogTitle>
-                        Delete Watchlist
+                        {(deleteDialogType.current === 'watchlist') && 'Delete Watchlist'}
+                        {(deleteDialogType.current === 'watchlistCoin') && 'Remove Coin'}
 
                         <DialogDescription className="sr-only">watchlist delete dialog</DialogDescription>
                     </DialogTitle>
                 </DialogHeader>
 
                 <DialogBody>
-                    <h3>
-                        Are you sure you want to delete this watchlist?
-                    </h3>
+                    <h2>
+                        {(deleteDialogType.current === 'watchlist') && 'Are you sure you want to delete this watchlist?'}
+                        {
+                            (deleteDialogType.current === 'watchlistCoin') &&
+                            <div>
+                                Are you sure you want to remove this
+                                <b className="mx-[4px]">{rightClickedItem.name}</b>
+                                from watchlist?
+                            </div>
+                        }
+                    </h2>
                 </DialogBody>
 
                 <DialogFooter className="justify-center">
                     <Button
                         variant={'destructive'}
-                        onClick={() => { deleteWatchlist() }}
-                        disabled={deletingWatchlist}
+                        onClick={() => { onDeleteBtnClicked() }}
+                        disabled={deletingItem}
                     >
-                        {deletingWatchlist && <Spinner />} Delete
+                        {deletingItem && <Spinner />}
+                        {(deleteDialogType.current === 'watchlist') && 'Delete'}
+                        {(deleteDialogType.current === 'watchlistCoin') && 'Remove'}
                     </Button>
                 </DialogFooter>
             </DialogContent>

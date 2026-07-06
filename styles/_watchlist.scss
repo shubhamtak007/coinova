@@ -6,7 +6,7 @@
 
     .header {
         font-size: 12px;
-        margin-bottom: 10px;
+        margin-bottom: 4px;
     }
 
     .cnv-borderless-table.watchlist-coins-table {
@@ -14,8 +14,24 @@
 
         tbody {
             tr {
+                &:hover {
+                    background-color: var(--row-hover-color);
+                    cursor: pointer;
+                }
+
                 td {
                     color: unset;
+                    padding: 8px 8px;
+
+                    &:first-child {
+                        border-top-left-radius: var(--border-radius);
+                        border-bottom-left-radius: var(--border-radius);
+                    }
+
+                    &:last-child {
+                        border-top-right-radius: var(--border-radius);
+                        border-bottom-right-radius: var(--border-radius);
+                    }
                 }
             }
         }

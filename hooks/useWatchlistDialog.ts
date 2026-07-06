@@ -1,12 +1,16 @@
 'use client';
 
+import { useState, useEffect, useRef } from "react"
 import WatchlistService from "@/services/watchlist.service";
 import WatchlistCoinService from "@/services/watchlist-coin.service";
-import { useState, useEffect } from "react"
 import CoinService from "@/services/coin.service";
 import { CoingeckoCrypto } from "@/interfaces/coin.interface";
 
 const watchlistContextMenuList = ['Delete'].map((name) => {
+    return { id: crypto.randomUUID(), name }
+})
+
+const watchlistCoinContextMenuList = ['Delete'].map((name) => {
     return { id: crypto.randomUUID(), name }
 })
 
@@ -18,10 +22,11 @@ export default function useWatchlistDialog() {
     const [activeWatchlist, setActiveWatchlist] = useState<Record<string, string> | null>(null);
     const [showCreateWatchlistDialog, setShowCreateWatchlistDialog] = useState<boolean>(false);
     const [showCoinSearchDialog, setShowCoinSearchDialog] = useState<boolean>(false);
-    const [deletingWatchlist, setDeletingWatchlist] = useState<boolean>(false);
-    const [showWatchlistDeleteDialog, setShowWatchlistDeleteDialog] = useState<boolean>(false);
-    const [rightClickedWatchlist, setRightClickedWatchlist] = useState<Record<string, string> | null>(null);
+    const [deletingItem, setDeletingItem] = useState<boolean>(false);
+    const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false);
+    const [rightClickedItem, setRightClickedItem] = useState<Record<string, string> | null>(null);
     const [fetchingMarketData, setFetchingMarketData] = useState<boolean>(false);
+    let deleteDialogType = useRef<string | null>(null);
 
     useEffect(() => {
         fetchWatchlists();
@@ -114,28 +119,50 @@ export default function useWatchlistDialog() {
         }
     }
 
-    function onContextMenuItemClicked(watchlist: Record<string, string>, contextMenuItem: Record<string, string>, event: Event) {
-        setRightClickedWatchlist(watchlist);
+    function onContextMenuItemClicked(watchlist: Record<string, string>, contextMenuItem: Record<string, string>, event: Event, context: string) {
+        setRightClickedItem(watchlist);
 
         switch (contextMenuItem.name) {
             case 'Edit': break;
             case 'View Details': break;
-            case 'Delete': setShowWatchlistDeleteDialog(true); break;
+            case 'Delete': {
+                deleteDialogType.current = context;
+                setShowDeleteDialog(true);
+            }
+                break;
             default: return;
         }
     }
 
+    function onDeleteBtnClicked() {
+        deleteWatchlist();
+    }
+
     async function deleteWatchlist() {
-        if (!rightClickedWatchlist) return;
+        if (!rightClickedItem) return;
 
         try {
-            setDeletingWatchlist(true);
-            const response = await WatchlistService.deleteWatchlist(rightClickedWatchlist.id);
-            if (response.status === 200) setShowWatchlistDeleteDialog(false);
+            setDeletingItem(true);
+
+            let response;
+
+            switch (deleteDialogType.current) {
+                case 'watchlist': {
+                    response = await WatchlistService.deleteWatchlist(rightClickedItem.id);
+
+                }; break;
+
+                case 'watchlistCoin': {
+                    response = await WatchlistCoinService.deleteWatchlistCoin(rightClickedItem.id);
+
+                }; break;
+            }
+
+            if (response.status === 200) setShowDeleteDialog(false);
         } catch (error) {
 
         } finally {
-            setDeletingWatchlist(false);
+            setDeletingItem(false);
         }
     }
 
@@ -144,7 +171,8 @@ export default function useWatchlistDialog() {
         onWatchlistClick, activeWatchlist, showCreateWatchlistDialog, setShowCreateWatchlistDialog,
         onCreateWatchlistDialogClose, watchlistContextMenuList, onContextMenuItemClicked,
         showCoinSearchDialog, setShowCoinSearchDialog, onCoinSearchDialogClose,
-        showWatchlistDeleteDialog, setShowWatchlistDeleteDialog, deleteWatchlist,
-        deletingWatchlist, setDeletingWatchlist, onDeleteDialogClose, fetchingMarketData
+        showDeleteDialog, setShowDeleteDialog, onDeleteBtnClicked,
+        deletingItem, setDeletingItem, onDeleteDialogClose, fetchingMarketData,
+        watchlistCoinContextMenuList, rightClickedItem, deleteDialogType
     };
 }
