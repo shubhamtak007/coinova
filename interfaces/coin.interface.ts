@@ -71,7 +71,8 @@ interface SearchApiCoin {
     market_cap_rank: string,
     name: string,
     symbol: string,
-    thumb: string
+    thumb: string,
+    loading: boolean
 }
 
 export type {

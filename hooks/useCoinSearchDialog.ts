@@ -21,7 +21,6 @@ export default function useCoinSearchDialog(bindings: Bindings) {
     const [searchValue, setSearchValue] = useState<string>('');
     const [searchingCoins, setSearchingCoins] = useState<boolean>(false);
     const [coins, setCoins] = useState<SearchApiCoin[]>([]);
-    const [addingCoinToWatchlist, setAddingCoinToWatchlist] = useState<Record<string, boolean>>({});
 
     useEffect(() => {
         let debounceHandler: ReturnType<typeof setTimeout>;
@@ -87,9 +86,8 @@ export default function useCoinSearchDialog(bindings: Bindings) {
 
     async function addCoinToActiveWatchlist(coin: SearchApiCoin) {
         try {
-            setAddingCoinToWatchlist((previousCoins) => ({
-                ...previousCoins, [coin.id]: true
-            }))
+            coin.loading = true;
+            updateLoadingValue(coin);
 
             const data = {
                 watchlistId: contextProperties?.id,
@@ -99,18 +97,25 @@ export default function useCoinSearchDialog(bindings: Bindings) {
                 imageUrl: coin.large
             }
 
-            const response = await WatchlistCoinService.addWatchlistCoin(data);
+            await WatchlistCoinService.addWatchlistCoin(data);
         } catch (error) {
 
         } finally {
-            setAddingCoinToWatchlist((previousCoins) => ({
-                ...previousCoins, [coin.id]: false
-            }))
+            coin.loading = false;
+            updateLoadingValue(coin);
         }
+    }
+
+    function updateLoadingValue(coin: SearchApiCoin) {
+        setCoins((previousCoins) => {
+            return previousCoins.map((previousCoin) => {
+                return (previousCoin.id === coin.id) ? coin : previousCoin
+            })
+        })
     }
 
     return {
         searchValue, setSearchValue, onSearchValueChange,
-        searchingCoins, coins, onCoinClick, addCoinToActiveWatchlist, addingCoinToWatchlist
+        searchingCoins, coins, onCoinClick, addCoinToActiveWatchlist
     };
 }

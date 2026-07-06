@@ -20,7 +20,7 @@ function CoinSearchDialog(bindings: Bindings) {
     let { showDialog, setShowDialog, context, contextProperties, onDialogClose, dialogNumber } = bindings;
     const {
         searchValue, setSearchValue, onSearchValueChange,
-        searchingCoins, coins, onCoinClick, addCoinToActiveWatchlist, addingCoinToWatchlist
+        searchingCoins, coins, onCoinClick, addCoinToActiveWatchlist
     } = useCoinSearchDialog({ setShowDialog, contextProperties, context });
 
     return (
@@ -139,7 +139,7 @@ function CoinSearchDialog(bindings: Bindings) {
                                                                 }}
                                                             >
                                                                 {
-                                                                    (addingCoinToWatchlist[coin.id] === true) ? <Spinner className="size-5" /> :
+                                                                    (coin.loading === true) ? <Spinner className="size-5" /> :
                                                                         <CirclePlus className="size-5" />
                                                                 }
                                                             </td>

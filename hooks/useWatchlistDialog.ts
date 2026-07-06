@@ -3,6 +3,8 @@
 import WatchlistService from "@/services/watchlist.service";
 import WatchlistCoinService from "@/services/watchlist-coin.service";
 import { useState, useEffect } from "react"
+import CoinService from "@/services/coin.service";
+import { CoingeckoCrypto } from "@/interfaces/coin.interface";
 
 const watchlistContextMenuList = ['Delete'].map((name) => {
     return { id: crypto.randomUUID(), name }
@@ -12,13 +14,14 @@ export default function useWatchlistDialog() {
     const [fetchingWatchlists, setFetchingWatchlists] = useState<boolean>(true);
     const [fetchingWatchlistCoins, setFetchingWatchlistCoins] = useState<boolean>(false);
     const [watchlists, setWatchlists] = useState<Record<string, string>[]>([]);
-    const [watchlistCoins, setWatchlistCoins] = useState<Record<string, string>[]>([]);
+    const [watchlistCoins, setWatchlistCoins] = useState<Record<string, string | boolean | CoingeckoCrypto>[]>([]);
     const [activeWatchlist, setActiveWatchlist] = useState<Record<string, string> | null>(null);
     const [showCreateWatchlistDialog, setShowCreateWatchlistDialog] = useState<boolean>(false);
     const [showCoinSearchDialog, setShowCoinSearchDialog] = useState<boolean>(false);
     const [deletingWatchlist, setDeletingWatchlist] = useState<boolean>(false);
     const [showWatchlistDeleteDialog, setShowWatchlistDeleteDialog] = useState<boolean>(false);
     const [rightClickedWatchlist, setRightClickedWatchlist] = useState<Record<string, string> | null>(null);
+    const [fetchingMarketData, setFetchingMarketData] = useState<boolean>(false);
 
     useEffect(() => {
         fetchWatchlists();
@@ -27,6 +30,10 @@ export default function useWatchlistDialog() {
     useEffect(() => {
         if (activeWatchlist?.id) fetchWatchlistCoins();
     }, [activeWatchlist?.id])
+
+    useEffect(() => {
+        if (watchlistCoins.length > 0) fetchCoinsMarketData();
+    }, [watchlistCoins])
 
     function onCreateWatchlistDialogClose() {
         fetchWatchlists();
@@ -80,6 +87,33 @@ export default function useWatchlistDialog() {
         }
     }
 
+    async function fetchCoinsMarketData() {
+        try {
+            setFetchingMarketData(true);
+
+            const params = {
+                symbols: (watchlistCoins.map((watchlistCoin) => {
+                    return String(watchlistCoin.symbol).toLowerCase()
+                })).toString()
+            }
+
+            const marketDataList = (await CoinService.retrieveCoinList(params)).data;
+
+            watchlistCoins.map((watchlistCoin) => {
+                const foundMarketData = marketDataList.find((marketData: CoingeckoCrypto) => {
+                    return watchlistCoin.coinId === marketData.id
+                })
+
+                watchlistCoin.marketData = foundMarketData;
+                return watchlistCoin;
+            })
+        } catch (error) {
+
+        } finally {
+            setFetchingMarketData(false);
+        }
+    }
+
     function onContextMenuItemClicked(watchlist: Record<string, string>, contextMenuItem: Record<string, string>, event: Event) {
         setRightClickedWatchlist(watchlist);
 
@@ -111,6 +145,6 @@ export default function useWatchlistDialog() {
         onCreateWatchlistDialogClose, watchlistContextMenuList, onContextMenuItemClicked,
         showCoinSearchDialog, setShowCoinSearchDialog, onCoinSearchDialogClose,
         showWatchlistDeleteDialog, setShowWatchlistDeleteDialog, deleteWatchlist,
-        deletingWatchlist, setDeletingWatchlist, onDeleteDialogClose
+        deletingWatchlist, setDeletingWatchlist, onDeleteDialogClose, fetchingMarketData
     };
 }

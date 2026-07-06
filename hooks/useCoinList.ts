@@ -69,12 +69,12 @@ function useCoinList() {
                 params.symbols = searchedCoinsSymbolsRef.current;
             }
 
-            const coinGeckoApiResponse = await CoinService.retrieveCoinList(params, signal);
+            const coinMarketDataList = await CoinService.retrieveCoinList(params, signal);
 
             if (requestId !== requestIdRef.current) return;
 
-            prefetchCoinDetailsPageRoutes(coinGeckoApiResponse.data);
-            setCoinList((coinGeckoApiResponse && coinGeckoApiResponse.data) ? coinGeckoApiResponse.data : []);
+            prefetchCoinDetailsPageRoutes(coinMarketDataList.data);
+            setCoinList((coinMarketDataList && coinMarketDataList.data) ? coinMarketDataList.data : []);
 
         } catch (error) {
             if (error instanceof DOMException && error.name === 'AbortError') return;

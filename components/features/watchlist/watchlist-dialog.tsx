@@ -10,6 +10,7 @@ import Image from "next/image";
 import useWatchlistDialog from "@/hooks/useWatchlistDialog";
 import WatchlistFormDialog from "./watchlist-form-dialog";
 import CoinSearchDialog from "@/components/features/coin-search/coin-search-dialog";
+import { WatchlistCoin } from "@/interfaces/watchlist.interface";
 
 type SharedBindings = DialogProps;
 type Bindings = {} & SharedBindings;
@@ -17,12 +18,10 @@ type Bindings = {} & SharedBindings;
 export default function WatchlistDialog(bindings: Bindings) {
     const { showDialog, setShowDialog } = bindings;
     const {
-        showCreateWatchlistDialog, setShowCreateWatchlistDialog, fetchingWatchlists,
-        watchlists, onWatchlistClick, activeWatchlist, fetchingWatchlistCoins, watchlistCoins,
-        onCreateWatchlistDialogClose, watchlistContextMenuList, onContextMenuItemClicked,
-        showCoinSearchDialog, setShowCoinSearchDialog, onCoinSearchDialogClose,
-        showWatchlistDeleteDialog, setShowWatchlistDeleteDialog, deleteWatchlist,
-        deletingWatchlist, setDeletingWatchlist, onDeleteDialogClose
+        showCreateWatchlistDialog, setShowCreateWatchlistDialog, fetchingWatchlists, watchlists, onWatchlistClick,
+        activeWatchlist, fetchingWatchlistCoins, watchlistCoins, onCreateWatchlistDialogClose, watchlistContextMenuList,
+        onContextMenuItemClicked, showCoinSearchDialog, setShowCoinSearchDialog, onCoinSearchDialogClose, showWatchlistDeleteDialog,
+        setShowWatchlistDeleteDialog, deleteWatchlist, deletingWatchlist, setDeletingWatchlist, onDeleteDialogClose, fetchingMarketData
     } = useWatchlistDialog();
 
     return (
@@ -44,7 +43,7 @@ export default function WatchlistDialog(bindings: Bindings) {
 
                     <DialogBody>
                         {mountWatchlists({ fetchingWatchlists, watchlists, onWatchlistClick, activeWatchlist, watchlistContextMenuList, onContextMenuItemClicked })}
-                        {mountWatchlistCoins({ fetchingWatchlists, watchlists, fetchingWatchlistCoins, watchlistCoins, showCoinSearchDialog, setShowCoinSearchDialog, activeWatchlist, onCoinSearchDialogClose })}
+                        {mountWatchlistCoins({ fetchingWatchlists, watchlists, fetchingWatchlistCoins, watchlistCoins, showCoinSearchDialog, setShowCoinSearchDialog, activeWatchlist, onCoinSearchDialogClose, fetchingMarketData })}
                     </DialogBody>
 
                     <DialogFooter className="justify-center">
@@ -143,7 +142,7 @@ function mountWatchlists(props: any) {
 function mountWatchlistCoins(props: any) {
     const {
         fetchingWatchlists, watchlists, fetchingWatchlistCoins, watchlistCoins,
-        showCoinSearchDialog, setShowCoinSearchDialog, activeWatchlist, onCoinSearchDialogClose
+        showCoinSearchDialog, setShowCoinSearchDialog, activeWatchlist, onCoinSearchDialogClose, fetchingMarketData
     } = props;
 
     return (
@@ -155,13 +154,17 @@ function mountWatchlistCoins(props: any) {
                         <Spinner className="size-8" />
                     </div>
                     :
-                    <>
+                    <div className="watchlist-coins-container">
+                        <div className="header">
+                            Coins
+                        </div>
+
                         {
                             (watchlistCoins.length > 0) ?
-                                <table className="cnv-table watchlist-coins-table">
+                                <table className="cnv-borderless-table watchlist-coins-table">
                                     <tbody>
                                         {
-                                            watchlistCoins.map((watchlistCoin: Record<string, string>, index: number) => {
+                                            watchlistCoins.map((watchlistCoin: WatchlistCoin, index: number) => {
                                                 return (
                                                     <tr key={watchlistCoin.id}>
                                                         <td className="!w-[30px] text-center">{index + 1}</td>
@@ -175,10 +178,10 @@ function mountWatchlistCoins(props: any) {
                                                                             width={21}
                                                                             height={21}
                                                                             alt={`Image of ${watchlistCoin.name}`}
-                                                                            src={watchlistCoin.imageUrl}
+                                                                            src={String(watchlistCoin.imageUrl)}
                                                                         /> :
                                                                             <div className="coin-letter-mark cursor-pointer">
-                                                                                {watchlistCoin.symbol[0]}
+                                                                                {String(watchlistCoin.symbol)[0]}
                                                                             </div>
                                                                     }
                                                                 </div>
@@ -187,6 +190,16 @@ function mountWatchlistCoins(props: any) {
                                                                     {watchlistCoin.name}
                                                                 </div>
                                                             </div>
+                                                        </td>
+
+                                                        <td className="text-right">
+                                                            {(fetchingMarketData === true) ?
+                                                                <Skeleton className="h-[21px] w-[60px] float-right" /> :
+                                                                watchlistCoin.marketData &&
+                                                                <span>
+                                                                    ${watchlistCoin.marketData.current_price}
+                                                                </span>
+                                                            }
                                                         </td>
                                                     </tr>
                                                 )
@@ -208,7 +221,7 @@ function mountWatchlistCoins(props: any) {
                                 <CirclePlus /> Add Coins
                             </Button>
                         </div>
-                    </>
+                    </div>
             }
 
             {
