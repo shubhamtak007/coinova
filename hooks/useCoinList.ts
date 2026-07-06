@@ -7,7 +7,6 @@ import { getUiRoute, getRowsPerPageDefaultValue } from '@/services/utils.service
 import { CoinListApiParams } from '@/interfaces/coin-list.interface';
 import { Row } from '@tanstack/react-table';
 import { useOptimisticNavigation } from '@/contexts/navigation-context';
-import type { MenuItem } from '@/interfaces/data-table.interface';
 import type { CoingeckoCrypto } from '@/interfaces/coin.interface';
 
 function useCoinList() {
@@ -70,12 +69,12 @@ function useCoinList() {
                 params.symbols = searchedCoinsSymbolsRef.current;
             }
 
-            const coinGeckoApiResponse = await CoinService.retrieveCoinList(params, signal);
+            const coinMarketDataList = await CoinService.retrieveCoinList(params, signal);
 
             if (requestId !== requestIdRef.current) return;
 
-            prefetchCoinDetailsPageRoutes(coinGeckoApiResponse.data);
-            setCoinList((coinGeckoApiResponse && coinGeckoApiResponse.data) ? coinGeckoApiResponse.data : []);
+            prefetchCoinDetailsPageRoutes(coinMarketDataList.data);
+            setCoinList((coinMarketDataList && coinMarketDataList.data) ? coinMarketDataList.data : []);
 
         } catch (error) {
             if (error instanceof DOMException && error.name === 'AbortError') return;
@@ -126,7 +125,7 @@ function useCoinList() {
         }
     }
 
-    function onContextMenuItemClicked(row: Row<CoingeckoCrypto>, contextMenu: MenuItem, event: Event) {
+    function onContextMenuItemClicked(row: Row<CoingeckoCrypto>, contextMenu: Record<string, string>, event: Event) {
         if (contextMenu.name === 'Analyze Coin') {
             const route = getUiRoute('coinAnalysis', row.original);
 

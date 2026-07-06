@@ -22,7 +22,7 @@ function CoinDetailsDialog(bindings: Bindings) {
             open={showDialog}
             onOpenChange={setShowDialog}
         >
-            <DialogContent dialogNumber={dialogNumber}>
+            <DialogContent dialogNumber={dialogNumber} size="sm">
                 <DialogHeader>
                     <DialogTitle>
                         {coin && <div className="flex items-center">

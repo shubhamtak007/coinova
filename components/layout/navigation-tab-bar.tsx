@@ -1,23 +1,24 @@
 'use client';
 
-import useBottomTabBar from '@/hooks/useBottomTabBar';
+import useNavigationTabBar from '@/hooks/useNavigationTabBar';
 import NewsDialog from '@/components/features/news/news-dialog';
-import { Dispatch, Fragment, SetStateAction } from 'react';
+import WatchlistDialog from '@/components/features/watchlist/watchlist-dialog';
+import { Fragment } from 'react';
 import { Tabs, TabsTrigger, TabsList } from '@/components/ui/tabs';
-import { bottomBarTabList } from '@/constants/app.constants';
+import { navigationBarTabList } from '@/constants/app.constants';
 import { Home } from 'lucide-react';
+import { useUser } from '@/contexts/user.context';
+import { DialogProps } from "@/interfaces/global.interface";
 
-type SharedBindings = {
-    showDialog: boolean,
-    setShowDialog: Dispatch<SetStateAction<boolean>>
-}
+type SharedBindings = DialogProps;
 
-function BottomTabBar() {
-    const { scrollEnded, activeTab, onTabClick, dialogType, showDialog, setShowDialog } = useBottomTabBar();
+export default function NavigationTabBar() {
+    const { scrollEnded, activeTab, onTabClick, dialogType, showDialog, setShowDialog } = useNavigationTabBar();
+    const { user } = useUser();
 
     return (
         <div
-            className={`bottom-tab-bar`}
+            className={`navigation-tab-bar`}
         >
             <Tabs
                 className={`${scrollEnded === true && 'remove-shadow'}`}
@@ -26,16 +27,17 @@ function BottomTabBar() {
             >
                 <TabsList>
                     {
-                        bottomBarTabList.map((tab: { id: string, name: string, value: string }) => {
+                        navigationBarTabList.map((tab: { id: string, name: string, value: string }) => {
                             return (
                                 <Fragment key={tab.id}>
                                     {
                                         <TabsTrigger
+                                            disabled={((!user || !user.id) && (tab.value === 'watchlist')) && true}
                                             value={tab.value}
                                             onClick={(event) => { onTabClick(event, tab.value) }}
                                             style={{ 'paddingInline': '7px' }}
                                         >
-                                            {tab.name === 'Home' && <Home className="size-4" />}
+                                            {tab.name === 'Home' && <Home strokeWidth={2.5} className="size-4" />}
                                             {!['Home'].includes(tab.name) && tab.name}
                                         </TabsTrigger>
                                     }
@@ -49,9 +51,19 @@ function BottomTabBar() {
             {(showDialog === true) &&
                 <>
                     {(dialogType === 'news') && showNewsDialog({ showDialog, setShowDialog })}
+                    {(dialogType === 'watchlist') && showWatchlistDialog({ showDialog, setShowDialog })}
                 </>
             }
         </div>
+    )
+}
+
+function showWatchlistDialog({ showDialog, setShowDialog }: SharedBindings) {
+    return (
+        <WatchlistDialog
+            showDialog={showDialog}
+            setShowDialog={setShowDialog}
+        />
     )
 }
 
@@ -64,4 +76,3 @@ function showNewsDialog({ showDialog, setShowDialog }: SharedBindings) {
     )
 }
 
-export default BottomTabBar;

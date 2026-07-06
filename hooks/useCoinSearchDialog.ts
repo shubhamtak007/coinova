@@ -1,17 +1,21 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, SetStateAction, Dispatch } from 'react';
 import CoinService from '@/services/coin.service';
 import { getUiRoute } from '@/services/utils.service';
 import { SearchApiCoin } from '@/interfaces/coin.interface';
 import { useRouter } from 'next/navigation';
 import { useOptimisticNavigation } from '@/contexts/navigation-context';
+import WatchlistCoinService from '@/services/watchlist-coin.service';
 
-type bindings = {
-    setShowDialog: (value: boolean) => void;
+type Bindings = {
+    setShowDialog: Dispatch<SetStateAction<boolean>>,
+    context?: string,
+    contextProperties?: Record<string, string>
 }
 
-export default function useCoinSearchDialog({ setShowDialog }: bindings) {
+export default function useCoinSearchDialog(bindings: Bindings) {
+    const { setShowDialog, contextProperties, context } = bindings;
     const router = useRouter();
     const { navigateOptimistically } = useOptimisticNavigation();
     const [searchValue, setSearchValue] = useState<string>('');
@@ -58,16 +62,60 @@ export default function useCoinSearchDialog({ setShowDialog }: bindings) {
     }
 
     function onCoinClick(event: React.SyntheticEvent, coin: SearchApiCoin) {
+        // setShowDialog(false);
+        // const route = getUiRoute('coinAnalysis', coin);
+        // if (route) {
+        //     navigateOptimistically(route);
+        //     router.push(route);
+        // }
+
+
         const route = getUiRoute('coinAnalysis', coin);
-        setShowDialog(false);
+
         if (route) {
-            navigateOptimistically(route);
-            router.push(route);
+            const externalLink = document.createElement('a')
+            Object.assign(externalLink, {
+                href: route,
+                target: '_blank',
+                rel: 'noopener noreferrer'
+            }).click();
+
+            externalLink.remove();
         }
+    }
+
+    async function addCoinToActiveWatchlist(coin: SearchApiCoin) {
+        try {
+            coin.loading = true;
+            updateLoadingValue(coin);
+
+            const data = {
+                watchlistId: contextProperties?.id,
+                coinId: coin.id,
+                name: coin.name,
+                symbol: coin.symbol,
+                imageUrl: coin.large
+            }
+
+            await WatchlistCoinService.addWatchlistCoin(data);
+        } catch (error) {
+
+        } finally {
+            coin.loading = false;
+            updateLoadingValue(coin);
+        }
+    }
+
+    function updateLoadingValue(coin: SearchApiCoin) {
+        setCoins((previousCoins) => {
+            return previousCoins.map((previousCoin) => {
+                return (previousCoin.id === coin.id) ? coin : previousCoin
+            })
+        })
     }
 
     return {
         searchValue, setSearchValue, onSearchValueChange,
-        searchingCoins, coins, onCoinClick
+        searchingCoins, coins, onCoinClick, addCoinToActiveWatchlist
     };
 }

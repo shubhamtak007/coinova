@@ -1,9 +1,22 @@
+import ErrorService from '@/services/error.service';
 import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig, isAxiosError } from 'axios';
 import { toast } from 'sonner';
+
+const endpoints = {
+    getUser: 'v0/users/me',
+    getRefreshToken: 'v0/auth/refresh-token'
+}
 
 export const setupInterceptors = (client: AxiosInstance) => {
     client.interceptors.response.use(
         (response) => {
+            if ((response.status === 200) && response.data.message &&
+                response.config.method && ['post', 'put', 'patch', 'delete'].includes(response.config.method)
+                && (response.config.url !== endpoints.getRefreshToken)
+            ) {
+                toast.success(`${response.data.message}`, { className: 'success-toast' });
+            }
+
             return response;
 
         }, async (error: unknown) => {
@@ -14,12 +27,11 @@ export const setupInterceptors = (client: AxiosInstance) => {
             };
 
             if (error.response?.status === 401) {
-                if (originalRequest && originalRequest?.url === 'v0/users/me' && !originalRequest.retry &&
-                    error.response.data && (error.response.data.message === 'Invalid or expired token' ||
-                        error.response.data.message === 'Access token missing')
+                if (error.response.data && (error.response.data.message === 'Invalid or expired token' ||
+                    error.response.data.message === 'Access token missing')
                 ) {
                     originalRequest.retry = true;
-                    await client.post('v0/auth/refresh-token');
+                    await client.post(endpoints.getRefreshToken);
                     return client(originalRequest);
                 }
             } else if (error.response?.status === 429) {

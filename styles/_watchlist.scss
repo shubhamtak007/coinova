@@ -1,0 +1,23 @@
+.watchlist-coins-container {
+    margin-bottom: 12px;
+    border: 1px solid var(--main-color);
+    border-radius: var(--border-radius);
+    padding: 8px 12px;
+
+    .header {
+        font-size: 12px;
+        margin-bottom: 10px;
+    }
+
+    .cnv-borderless-table.watchlist-coins-table {
+        margin-bottom: 12px;
+
+        tbody {
+            tr {
+                td {
+                    color: unset;
+                }
+            }
+        }
+    }
+}

@@ -3,20 +3,25 @@ import useCoinSearchDialog from '@/hooks/useCoinSearchDialog';
 import { coinSymbolImageSize } from '@/constants/app.constants';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogBody, DialogContent, DialogFooter, DialogOverlay } from '@/components/ui/dialog';
-import { Search, X } from 'lucide-react';
+import { CirclePlus, Search, X } from 'lucide-react';
 import { Spinner } from '@/components/ui/spinner';
+import { Dispatch, SetStateAction } from 'react';
 
 type Bindings = {
     showDialog: boolean,
-    setShowDialog: (value: boolean) => void
+    setShowDialog: Dispatch<SetStateAction<boolean>>,
+    context?: string,
+    contextProperties?: Record<string, string>,
+    onDialogClose?: () => void,
+    dialogNumber?: number
 }
 
 function CoinSearchDialog(bindings: Bindings) {
-    const { showDialog, setShowDialog } = bindings;
+    let { showDialog, setShowDialog, context, contextProperties, onDialogClose, dialogNumber } = bindings;
     const {
         searchValue, setSearchValue, onSearchValueChange,
-        searchingCoins, coins, onCoinClick
-    } = useCoinSearchDialog({ setShowDialog });
+        searchingCoins, coins, onCoinClick, addCoinToActiveWatchlist
+    } = useCoinSearchDialog({ setShowDialog, contextProperties, context });
 
     return (
         <div>
@@ -25,8 +30,9 @@ function CoinSearchDialog(bindings: Bindings) {
                 onOpenChange={setShowDialog}
             >
                 <DialogContent
-                    style={{ '--dialog-body-height': '60vh' } as React.CSSProperties}
                     closeOnOutsideClick={true}
+                    onCloseAutoFocus={onDialogClose}
+                    dialogNumber={dialogNumber}
                 >
                     <DialogHeader
                         showCloseButton={false}
@@ -82,7 +88,7 @@ function CoinSearchDialog(bindings: Bindings) {
                                     Search Results
                                 </div>
 
-                                <table className="cnv-borderless-table">
+                                <table className="cnv-borderless-table coin-search-table">
                                     <tbody>
                                         {
                                             coins.map((coin, index) => {
@@ -90,9 +96,6 @@ function CoinSearchDialog(bindings: Bindings) {
                                                     <tr
                                                         tabIndex={0}
                                                         key={coin.id}
-                                                        className={`cursor-pointer hover:bg-[#f2f3f8]
-                                                                outline-[#2663eb] rounded-[var(--border-radius)]
-                                                            `}
                                                         onClick={(event) => { onCoinClick(event, coin); }}
                                                         onKeyDown={(event) => {
                                                             if (event.key === 'Enter') {
@@ -100,9 +103,7 @@ function CoinSearchDialog(bindings: Bindings) {
                                                             }
                                                         }}
                                                     >
-                                                        <td className={`!p-[8px_10px] mb-[4px]
-                                                                        rounded-[var(--border-radius)]`}
-                                                        >
+                                                        <td>
                                                             <div className="flex items-center">
                                                                 <div className="pr-[8px]">
                                                                     {
@@ -126,6 +127,23 @@ function CoinSearchDialog(bindings: Bindings) {
                                                                 </div>
                                                             </div>
                                                         </td>
+
+                                                        {
+                                                            (context === 'watchlist') &&
+                                                            <td
+                                                                className="place-items-end"
+                                                                onClick={(event) => {
+                                                                    event?.stopPropagation();
+                                                                    event?.preventDefault();
+                                                                    addCoinToActiveWatchlist(coin);
+                                                                }}
+                                                            >
+                                                                {
+                                                                    (coin.loading === true) ? <Spinner className="size-5" /> :
+                                                                        <CirclePlus className="size-5" />
+                                                                }
+                                                            </td>
+                                                        }
                                                     </tr>
                                                 )
                                             })

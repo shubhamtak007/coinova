@@ -1,0 +1,16 @@
+.cnv-borderless-table.coin-search-table {
+    tbody {
+        tr {
+            &:hover {
+                cursor: pointer !important;
+                background-color: #f2f3f8 !important;
+                outline: var(--main-color-2) !important;
+                border-radius: var(--border-radius) !important;
+            }
+
+            td {
+                padding: 8px 10px !important;
+            }
+        }
+    }
+}

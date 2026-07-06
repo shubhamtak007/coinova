@@ -47,7 +47,6 @@ function ProfileDropdown(pdBindings: PdBindings) {
             setIsLoading(true);
             const response = await AuthenticationService.signOut();
             if (response.status === 200) {
-                toast.success(`You have been logged out. Have a great day!`, { className: 'success-toast' });
                 setUser(null);
             }
         } catch (error) {
@@ -65,8 +64,9 @@ function ProfileDropdown(pdBindings: PdBindings) {
                         <DropdownMenuTrigger asChild>
                             <div className="user-icon">
                                 <CircleUserRound
-                                    style={{ color: 'var(--black-text-color-2)' }}
+                                    style={{ color: 'var(--text-color)' }}
                                     className="size-5"
+                                    strokeWidth={2.5}
                                 />
                             </div>
                         </DropdownMenuTrigger>
