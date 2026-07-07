@@ -92,11 +92,10 @@ function mountWatchlists(props: any) {
     return (
         (fetchingWatchlists === true) ? <Skeleton className="h-[34px] w-full" /> :
             (watchlists && watchlists.length > 0) ?
-                <div className={`navigation-tab-bar mb-[12px]`}>
+                <div className={`navigation-tab-bar watchlist-tab-bar`}>
                     <Tabs
                         defaultValue={watchlists[0].name}
                         value={activeWatchlist?.name}
-                        className="!mx-[unset] !items-start [&::-webkit-scrollbar]:!h-[0px]"
                     >
                         <TabsList>
                             {

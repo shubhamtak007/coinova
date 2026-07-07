@@ -1,3 +1,18 @@
+.navigation-tab-bar.watchlist-tab-bar {
+    margin-bottom: 12px;
+
+    [data-slot="tabs"] {
+        margin-inline: unset !important;
+        align-items: start !important;
+        box-shadow: unset !important;
+        border: unset !important;
+
+        &::-webkit-scrollbar {
+            height: 0px !important;
+        }
+    }
+}
+
 .watchlist-coins-container {
     margin-bottom: 12px;
     border: 1px solid var(--main-color);
