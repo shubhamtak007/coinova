@@ -8,11 +8,11 @@ import { Textarea } from "@/components/ui/textarea";
 
 type Bindings = {
     onDialogClose(): void,
-    dialogNumber?: number
+    dialogLevel?: number
 } & DialogProps;
 
 export default function WatchlistFormDialog(bindings: Bindings) {
-    const { showDialog, setShowDialog, onDialogClose, dialogNumber } = bindings;
+    const { showDialog, setShowDialog, onDialogClose, dialogLevel } = bindings;
     const { watchlistForm, submittingData } = useWatchlistForm({ setShowDialog });
 
     return (
@@ -24,7 +24,7 @@ export default function WatchlistFormDialog(bindings: Bindings) {
         >
             <DialogContent
                 onCloseAutoFocus={onDialogClose}
-                dialogNumber={dialogNumber}
+                dialogLevel={dialogLevel}
             >
                 <DialogHeader>
                     <DialogTitle>

@@ -65,7 +65,7 @@ export default function WatchlistDialog(bindings: Bindings) {
 
             {(showCreateWatchlistDialog === true) &&
                 <WatchlistFormDialog
-                    dialogNumber={2}
+                    dialogLevel={2}
                     showDialog={showCreateWatchlistDialog}
                     setShowDialog={setShowCreateWatchlistDialog}
                     onDialogClose={onCreateWatchlistDialogClose}
@@ -256,7 +256,7 @@ function mountWatchlistCoins(props: any) {
             {
                 (showCoinSearchDialog === true) &&
                 <CoinSearchDialog
-                    dialogNumber={2}
+                    dialogLevel={2}
                     showDialog={showCoinSearchDialog}
                     setShowDialog={setShowCoinSearchDialog}
                     context={'watchlist'}
@@ -280,7 +280,7 @@ function createDeleteDialog(props: any) {
             onOpenChange={setShowDeleteDialog}
         >
             <DialogContent
-                dialogNumber={2}
+                dialogLevel={2}
                 onCloseAutoFocus={onDeleteDialogClose}
             >
                 <DialogHeader disableCloseButton={deletingItem}>

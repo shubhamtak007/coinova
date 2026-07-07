@@ -13,11 +13,11 @@ type Bindings = {
     context?: string,
     contextProperties?: Record<string, string>,
     onDialogClose?: () => void,
-    dialogNumber?: number
+    dialogLevel?: number
 }
 
 function CoinSearchDialog(bindings: Bindings) {
-    let { showDialog, setShowDialog, context, contextProperties, onDialogClose, dialogNumber } = bindings;
+    let { showDialog, setShowDialog, context, contextProperties, onDialogClose, dialogLevel } = bindings;
     const {
         searchValue, setSearchValue, onSearchValueChange,
         searchingCoins, coins, onCoinClick, addCoinToActiveWatchlist
@@ -32,7 +32,7 @@ function CoinSearchDialog(bindings: Bindings) {
                 <DialogContent
                     closeOnOutsideClick={true}
                     onCloseAutoFocus={onDialogClose}
-                    dialogNumber={dialogNumber}
+                    dialogLevel={dialogLevel}
                 >
                     <DialogHeader
                         showCloseButton={false}

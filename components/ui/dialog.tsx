@@ -33,13 +33,13 @@ function DialogClose({
 
 function DialogOverlay({
     className,
-    dialogNumber,
+    dialogLevel,
     ...props
-}: React.ComponentProps<typeof DialogPrimitive.Overlay> & { dialogNumber: number }) {
+}: React.ComponentProps<typeof DialogPrimitive.Overlay> & { dialogLevel: number }) {
     return (
         <DialogPrimitive.Overlay
             style={{
-                '--dialog-number': `${dialogNumber}`
+                '--dialog-number': `${dialogLevel}`
             } as React.CSSProperties}
             data-slot="dialog-overlay"
             className={cn(
@@ -57,17 +57,17 @@ function DialogContent({
     className,
     children,
     closeOnOutsideClick = false,
-    dialogNumber = 1,
+    dialogLevel = 1,
     size = 'sm',
     ...props
 }: React.ComponentProps<typeof DialogPrimitive.Content> & {
     closeOnOutsideClick?: boolean,
     size?: string,
-    dialogNumber?: number
+    dialogLevel?: number
 }) {
     return (
         <DialogPortal data-slot="dialog-portal">
-            <DialogOverlay dialogNumber={dialogNumber} />
+            <DialogOverlay dialogLevel={dialogLevel} />
             <DialogPrimitive.Content
                 onInteractOutside={(event) => { (closeOnOutsideClick === false) && event.preventDefault() }}
                 data-slot="dialog-content"

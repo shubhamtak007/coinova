@@ -109,7 +109,7 @@ export default function MarketSummaryCoins({ noOfCoins, marketSummaryItem }: Bin
                 coin={clickedCoinRef.current}
                 showDialog={showCoinDetailsDialog}
                 setShowDialog={setShowCoinDetailsDialog}
-                dialogNumber={noOfCoins > 3 ? 2 : 1}
+                dialogLevel={noOfCoins > 3 ? 2 : 1}
             />
         </>
     )
