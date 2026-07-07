@@ -34,6 +34,10 @@
                     color: var(--text-color);
                     padding: 8.5px;
                 }
+
+                &:disabled {
+                    background-color: unset;
+                }
             }
 
             a:hover {

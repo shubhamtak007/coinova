@@ -50,7 +50,7 @@ function TabsList({
         <TabsPrimitive.List
             data-slot="tabs-list"
             data-variant={variant}
-            className={cn(tabsListVariants({ variant }), `gap-1`, className)}
+            className={cn(tabsListVariants({ variant }), `gap-1 disabled:pointer-events-none`, className)}
             {...props}
         />
     )
@@ -70,7 +70,7 @@ function TabsTrigger({
                 group-data-[orientation=vertical]/tabs:w-full group-data-[orientation=vertical]/tabs:justify-start
                 hover:text-[var(--text-color)] hover:bg-[#fff] focus-visible:border-ring focus-visible:ring-[3px]
                 focus-visible:ring-ring/50 focus-visible:outline-1 focus-visible:outline-ring
-                disabled:pointer-events-none disabled:opacity-50
+                 disabled:opacity-50 disabled:cursor-not-allowed
                 group-data-[variant=default]/tabs-list:data-[state=active]:shadow-sm
                 group-data-[variant=line]/tabs-list:data-[state=active]:shadow-none dark:text-muted-foreground
                 dark:hover:text-foreground [&_svg]:pointer-events-none [&_svg]:shrink-0
