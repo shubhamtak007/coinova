@@ -62,6 +62,9 @@ export default function useCoinSearchDialog(bindings: Bindings) {
     }
 
     function onCoinClick(event: React.SyntheticEvent, coin: SearchApiCoin) {
+        event.preventDefault();
+        event.stopPropagation();
+
         // setShowDialog(false);
         // const route = getUiRoute('coinAnalysis', coin);
         // if (route) {
