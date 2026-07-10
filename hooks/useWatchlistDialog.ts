@@ -5,6 +5,7 @@ import { retrieveWatchlists, deleteWatchlist } from "@/services/watchlist.servic
 import { retrieveWatchlistCoinsByWatchlistId, deleteWatchlistCoin } from "@/services/watchlist-coin.service";
 import { retrieveCoinList } from "@/services/coin.service";
 import { CoingeckoCrypto } from "@/interfaces/coin.interface";
+import { Watchlist } from "@/interfaces/watchlist.interface";
 
 const watchlistContextMenuList = ['Edit', 'Delete'].map((name) => {
     return { id: crypto.randomUUID(), name }
@@ -17,7 +18,7 @@ const watchlistCoinContextMenuList = ['Delete'].map((name) => {
 export default function useWatchlistDialog() {
     const [fetchingWatchlists, setFetchingWatchlists] = useState<boolean>(true);
     const [fetchingWatchlistCoins, setFetchingWatchlistCoins] = useState<boolean>(false);
-    const [watchlists, setWatchlists] = useState<Record<string, string>[]>([]);
+    const [watchlists, setWatchlists] = useState<Watchlist[]>([]);
     const [watchlistCoins, setWatchlistCoins] = useState<Record<string, string | boolean | CoingeckoCrypto>[]>([]);
     const [activeWatchlist, setActiveWatchlist] = useState<Record<string, string> | null>(null);
     const [showWatchlistFormDialog, setShowWatchlistFormDialog] = useState<boolean>(false);
@@ -26,8 +27,8 @@ export default function useWatchlistDialog() {
     const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false);
     const [rightClickedItem, setRightClickedItem] = useState<Record<string, string> | null>(null);
     const [fetchingMarketData, setFetchingMarketData] = useState<boolean>(false);
-    let deleteDialogType = useRef<string | null>(null);
-    let selectedWatchlist = useRef<Record<string, string>>(null);
+    const deleteDialogType = useRef<string | null>(null);
+    const selectedWatchlist = useRef<Record<string, string>>(null);
 
     useEffect(() => {
         fetchWatchlists();
@@ -41,7 +42,8 @@ export default function useWatchlistDialog() {
         if (watchlistCoins.length > 0) fetchCoinsMarketData();
     }, [watchlistCoins])
 
-    function onCreateWatchlistDialogClose() {
+    function onWatchlistFormDialogClose() {
+        selectedWatchlist.current = null;
         fetchWatchlists();
     }
 
@@ -171,7 +173,7 @@ export default function useWatchlistDialog() {
     return {
         fetchingWatchlists, watchlists, fetchingWatchlistCoins, watchlistCoins,
         onWatchlistClick, activeWatchlist, showWatchlistFormDialog, setShowWatchlistFormDialog,
-        onCreateWatchlistDialogClose, watchlistContextMenuList, onContextMenuItemClicked,
+        onWatchlistFormDialogClose, watchlistContextMenuList, onContextMenuItemClicked,
         showCoinSearchDialog, setShowCoinSearchDialog, onCoinSearchDialogClose,
         showDeleteDialog, setShowDeleteDialog, onDeleteBtnClicked,
         deletingItem, setDeletingItem, onDeleteDialogClose, fetchingMarketData,

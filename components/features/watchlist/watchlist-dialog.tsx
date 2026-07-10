@@ -19,7 +19,7 @@ export default function WatchlistDialog(bindings: Bindings) {
     const { showDialog, setShowDialog } = bindings;
     const {
         showWatchlistFormDialog, setShowWatchlistFormDialog, fetchingWatchlists, watchlists, onWatchlistClick,
-        activeWatchlist, fetchingWatchlistCoins, watchlistCoins, onCreateWatchlistDialogClose, watchlistContextMenuList,
+        activeWatchlist, fetchingWatchlistCoins, watchlistCoins, onWatchlistFormDialogClose, watchlistContextMenuList,
         onContextMenuItemClicked, showCoinSearchDialog, setShowCoinSearchDialog, onCoinSearchDialogClose, showDeleteDialog,
         setShowDeleteDialog, onDeleteBtnClicked, deletingItem, onDeleteDialogClose, fetchingMarketData,
         watchlistCoinContextMenuList, rightClickedItem, deleteDialogType, selectedWatchlist
@@ -68,7 +68,7 @@ export default function WatchlistDialog(bindings: Bindings) {
                     dialogLevel={2}
                     showDialog={showWatchlistFormDialog}
                     setShowDialog={setShowWatchlistFormDialog}
-                    onDialogClose={onCreateWatchlistDialogClose}
+                    onDialogClose={onWatchlistFormDialogClose}
                     watchlist={selectedWatchlist.current}
                 >
                 </WatchlistFormDialog>

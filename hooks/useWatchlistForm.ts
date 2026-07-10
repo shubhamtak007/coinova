@@ -1,7 +1,7 @@
 'use client';
 
 import { useForm } from "@tanstack/react-form";
-import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
+import { Dispatch, RefObject, SetStateAction, useEffect, useRef, useState } from "react";
 import { watchlistSchema } from "@/schemas/watchlist.schema";
 import { addWatchlist, updateWatchlist } from "@/services/watchlist.service";
 import { handleError } from "@/services/error.service";
@@ -9,14 +9,16 @@ import { toast } from "sonner";
 import { Watchlist } from "@/interfaces/watchlist.interface";
 
 type Bindings = {
+    showDialog: boolean,
     setShowDialog: Dispatch<SetStateAction<boolean>>,
     watchlist: Record<string, string> | null
 }
 
 export default function useWatchlistForm(bindings: Bindings) {
-    const { setShowDialog, watchlist } = bindings;
+    const { showDialog, setShowDialog, watchlist } = bindings;
     const [submittingData, setSubmittingData] = useState<boolean>(false);
     const formData = useRef<Watchlist>(null);
+    const inputWatchlistNameRef = useRef<HTMLInputElement>(null);
 
     const watchlistForm = useForm({
         defaultValues: {
@@ -31,8 +33,8 @@ export default function useWatchlistForm(bindings: Bindings) {
 
         onSubmit: async ({ value }: { value: Watchlist }) => {
             setSubmittingData(true);
-            if (value?.description?.length === 0) value.description = null;
             formData.current = value;
+            if (formData?.current?.description?.length === 0) formData.current.description = null;
 
             if (watchlist?.id) {
                 updateWatchlistEntry();
@@ -43,11 +45,26 @@ export default function useWatchlistForm(bindings: Bindings) {
     });
 
     useEffect(() => {
-        if (watchlist) {
+        const focusHandler: ReturnType<typeof setTimeout> = setTimeout(() => {
+            if (inputWatchlistNameRef?.current) inputWatchlistNameRef.current.focus();
+        });
+
+        return () => {
+            clearTimeout(focusHandler);
+        }
+    }, [inputWatchlistNameRef]);
+
+    useEffect(() => {
+        if (!showDialog) return;
+
+        watchlistForm.reset();
+        watchlistForm.mount();
+
+        if (watchlist?.id) {
             watchlistForm.setFieldValue('name', watchlist.name);
             watchlistForm.setFieldValue('description', watchlist.description ? watchlist.description : '');
         }
-    }, [watchlist]);
+    }, [showDialog])
 
     async function createWatchlist() {
         try {
@@ -91,5 +108,5 @@ export default function useWatchlistForm(bindings: Bindings) {
         }
     }
 
-    return { watchlistForm, submittingData }
+    return { watchlistForm, submittingData, inputWatchlistNameRef }
 }
