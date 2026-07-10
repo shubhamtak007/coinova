@@ -10,7 +10,7 @@ const NavigationWrapper = ({ className, ...props }: React.ComponentProps<"div">)
     return (
         <>
             {isLoading && <>
-                <div className="!fixed hz-and-vert-center z-[202]">
+                <div className="!fixed hz-and-vert-center z-[302]">
                     <Spinner className="size-10" strokeWidth={3} />
                 </div>
 
