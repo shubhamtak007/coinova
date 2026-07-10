@@ -1,5 +1,11 @@
 import { CoingeckoCrypto } from "./coin.interface";
 
+interface Watchlist {
+    id?: string,
+    name: string,
+    description?: string | null
+}
+
 interface WatchlistCoin {
     id: string,
     coinId: string,
@@ -10,4 +16,4 @@ interface WatchlistCoin {
     marketData: CoingeckoCrypto
 }
 
-export type { WatchlistCoin }
+export type { Watchlist, WatchlistCoin };

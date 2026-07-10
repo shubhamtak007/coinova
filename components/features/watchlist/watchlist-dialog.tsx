@@ -18,11 +18,11 @@ type Bindings = {} & SharedBindings;
 export default function WatchlistDialog(bindings: Bindings) {
     const { showDialog, setShowDialog } = bindings;
     const {
-        showCreateWatchlistDialog, setShowCreateWatchlistDialog, fetchingWatchlists, watchlists, onWatchlistClick,
+        showWatchlistFormDialog, setShowWatchlistFormDialog, fetchingWatchlists, watchlists, onWatchlistClick,
         activeWatchlist, fetchingWatchlistCoins, watchlistCoins, onCreateWatchlistDialogClose, watchlistContextMenuList,
         onContextMenuItemClicked, showCoinSearchDialog, setShowCoinSearchDialog, onCoinSearchDialogClose, showDeleteDialog,
         setShowDeleteDialog, onDeleteBtnClicked, deletingItem, onDeleteDialogClose, fetchingMarketData,
-        watchlistCoinContextMenuList, rightClickedItem, deleteDialogType
+        watchlistCoinContextMenuList, rightClickedItem, deleteDialogType, selectedWatchlist
     } = useWatchlistDialog();
 
     return (
@@ -54,7 +54,7 @@ export default function WatchlistDialog(bindings: Bindings) {
                     <DialogFooter className="justify-center">
                         <Button
                             variant={"secondary"}
-                            onClick={() => { setShowCreateWatchlistDialog(true) }}
+                            onClick={() => { setShowWatchlistFormDialog(true); }}
                             disabled={fetchingWatchlists}
                         >
                             <CirclePlus />Create Watchlist
@@ -63,12 +63,13 @@ export default function WatchlistDialog(bindings: Bindings) {
                 </DialogContent>
             </Dialog>
 
-            {(showCreateWatchlistDialog === true) &&
+            {(showWatchlistFormDialog === true) &&
                 <WatchlistFormDialog
                     dialogLevel={2}
-                    showDialog={showCreateWatchlistDialog}
-                    setShowDialog={setShowCreateWatchlistDialog}
+                    showDialog={showWatchlistFormDialog}
+                    setShowDialog={setShowWatchlistFormDialog}
                     onDialogClose={onCreateWatchlistDialogClose}
+                    watchlist={selectedWatchlist.current}
                 >
                 </WatchlistFormDialog>
             }
@@ -123,7 +124,7 @@ function mountWatchlists(props: any) {
                                                                     variant={`${(contextMenuItem.name === 'Delete') ? 'destructive' : 'default'}`}
                                                                     key={contextMenuItem.id}
                                                                     onSelect={(event) => onContextMenuItemClicked(watchlist, contextMenuItem, event, 'watchlist')}
-                                                                    disabled={(activeWatchlist.id === watchlist.id) && true}
+                                                                    disabled={(activeWatchlist.id === watchlist.id) && contextMenuItem.name === 'Delete' && true}
                                                                 >
                                                                     {contextMenuItem.name}
                                                                 </ContextMenuItem>

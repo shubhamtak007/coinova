@@ -6,7 +6,7 @@ import { retrieveWatchlistCoinsByWatchlistId, deleteWatchlistCoin } from "@/serv
 import { retrieveCoinList } from "@/services/coin.service";
 import { CoingeckoCrypto } from "@/interfaces/coin.interface";
 
-const watchlistContextMenuList = ['Delete'].map((name) => {
+const watchlistContextMenuList = ['Edit', 'Delete'].map((name) => {
     return { id: crypto.randomUUID(), name }
 })
 
@@ -20,13 +20,14 @@ export default function useWatchlistDialog() {
     const [watchlists, setWatchlists] = useState<Record<string, string>[]>([]);
     const [watchlistCoins, setWatchlistCoins] = useState<Record<string, string | boolean | CoingeckoCrypto>[]>([]);
     const [activeWatchlist, setActiveWatchlist] = useState<Record<string, string> | null>(null);
-    const [showCreateWatchlistDialog, setShowCreateWatchlistDialog] = useState<boolean>(false);
+    const [showWatchlistFormDialog, setShowWatchlistFormDialog] = useState<boolean>(false);
     const [showCoinSearchDialog, setShowCoinSearchDialog] = useState<boolean>(false);
     const [deletingItem, setDeletingItem] = useState<boolean>(false);
     const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false);
     const [rightClickedItem, setRightClickedItem] = useState<Record<string, string> | null>(null);
     const [fetchingMarketData, setFetchingMarketData] = useState<boolean>(false);
     let deleteDialogType = useRef<string | null>(null);
+    let selectedWatchlist = useRef<Record<string, string>>(null);
 
     useEffect(() => {
         fetchWatchlists();
@@ -123,7 +124,10 @@ export default function useWatchlistDialog() {
         setRightClickedItem(watchlist);
 
         switch (contextMenuItem.name) {
-            case 'Edit': break;
+            case 'Edit': {
+                selectedWatchlist.current = watchlist;
+                setShowWatchlistFormDialog(true);
+            }; break;
             case 'View Details': break;
             case 'Delete': {
                 deleteDialogType.current = context;
@@ -166,11 +170,11 @@ export default function useWatchlistDialog() {
 
     return {
         fetchingWatchlists, watchlists, fetchingWatchlistCoins, watchlistCoins,
-        onWatchlistClick, activeWatchlist, showCreateWatchlistDialog, setShowCreateWatchlistDialog,
+        onWatchlistClick, activeWatchlist, showWatchlistFormDialog, setShowWatchlistFormDialog,
         onCreateWatchlistDialogClose, watchlistContextMenuList, onContextMenuItemClicked,
         showCoinSearchDialog, setShowCoinSearchDialog, onCoinSearchDialogClose,
         showDeleteDialog, setShowDeleteDialog, onDeleteBtnClicked,
         deletingItem, setDeletingItem, onDeleteDialogClose, fetchingMarketData,
-        watchlistCoinContextMenuList, rightClickedItem, deleteDialogType
+        watchlistCoinContextMenuList, rightClickedItem, deleteDialogType, selectedWatchlist
     };
 }

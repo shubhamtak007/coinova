@@ -8,17 +8,19 @@ import { Textarea } from "@/components/ui/textarea";
 
 type Bindings = {
     onDialogClose(): void,
-    dialogLevel?: number
+    dialogLevel?: number,
+    watchlist: Record<string, string> | null
 } & DialogProps;
 
 export default function WatchlistFormDialog(bindings: Bindings) {
-    const { showDialog, setShowDialog, onDialogClose, dialogLevel } = bindings;
-    const { watchlistForm, submittingData } = useWatchlistForm({ setShowDialog });
+    const { showDialog, setShowDialog, onDialogClose, dialogLevel, watchlist } = bindings;
+    const { watchlistForm, submittingData } = useWatchlistForm({ setShowDialog, watchlist });
 
     return (
         <Dialog
             open={showDialog}
             onOpenChange={(showDialog) => {
+                if (showDialog === false) watchlistForm.reset(); watchlistForm.mount();
                 setShowDialog(showDialog);
             }}
         >
@@ -116,7 +118,7 @@ export default function WatchlistFormDialog(bindings: Bindings) {
                                             disabled={!watchlistForm.state.isValid || !canSubmit || isSubmitting || submittingData}
                                         >
                                             {submittingData && <Spinner className="size-4" />}
-                                            Create
+                                            {(watchlist && watchlist.id) ? 'Update' : 'Create'}
                                         </Button>
                                     </>
                                 )}

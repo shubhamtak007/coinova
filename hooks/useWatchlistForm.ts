@@ -1,20 +1,22 @@
 'use client';
 
 import { useForm } from "@tanstack/react-form";
-import { Dispatch, SetStateAction, useRef, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useRef, useState } from "react";
 import { watchlistSchema } from "@/schemas/watchlist.schema";
-import { addWatchlist } from "@/services/watchlist.service";
+import { addWatchlist, updateWatchlist } from "@/services/watchlist.service";
 import { handleError } from "@/services/error.service";
 import { toast } from "sonner";
+import { Watchlist } from "@/interfaces/watchlist.interface";
 
 type Bindings = {
-    setShowDialog: Dispatch<SetStateAction<boolean>>
+    setShowDialog: Dispatch<SetStateAction<boolean>>,
+    watchlist: Record<string, string> | null
 }
 
 export default function useWatchlistForm(bindings: Bindings) {
-    const { setShowDialog } = bindings;
+    const { setShowDialog, watchlist } = bindings;
     const [submittingData, setSubmittingData] = useState<boolean>(false);
-    const formData = useRef<Record<string, string>>({});
+    const formData = useRef<Watchlist>(null);
 
     const watchlistForm = useForm({
         defaultValues: {
@@ -27,17 +29,36 @@ export default function useWatchlistForm(bindings: Bindings) {
             onMount: watchlistSchema as any
         },
 
-        onSubmit: async ({ value }) => {
+        onSubmit: async ({ value }: { value: Watchlist }) => {
             setSubmittingData(true);
+            if (value?.description?.length === 0) value.description = null;
             formData.current = value;
-            createWatchlist();
+
+            if (watchlist?.id) {
+                updateWatchlistEntry();
+            } else {
+                createWatchlist();
+            }
         }
     });
+
+    useEffect(() => {
+        if (watchlist) {
+            watchlistForm.setFieldValue('name', watchlist.name);
+            watchlistForm.setFieldValue('description', watchlist.description ? watchlist.description : '');
+        }
+    }, [watchlist]);
 
     async function createWatchlist() {
         try {
             setSubmittingData(true);
-            const response = await addWatchlist(formData.current);
+
+            const serverWatchlist: any = {
+                name: formData.current?.name,
+                description: formData.current?.description
+            }
+
+            const response = await addWatchlist(serverWatchlist);
 
             if (response.data.data.id) {
                 setShowDialog(false);
@@ -45,6 +66,26 @@ export default function useWatchlistForm(bindings: Bindings) {
         } catch (error) {
             const message = handleError(error);
             toast.error(message, { className: 'error-toast' });
+        } finally {
+            setSubmittingData(false);
+        }
+    }
+
+    async function updateWatchlistEntry() {
+        if (!watchlist || !watchlist.id) { throw new Error('watchlistId is required!!!'); }
+
+        try {
+            setSubmittingData(true);
+
+            const serverWatchlist: any = {
+                name: formData.current?.name,
+                description: formData.current?.description
+            }
+
+            const updatedEntry = await updateWatchlist(watchlist.id, serverWatchlist);
+            if (updatedEntry.id) setShowDialog(false);
+        } catch (error) {
+
         } finally {
             setSubmittingData(false);
         }
