@@ -72,7 +72,6 @@ export default function WatchlistFormDialog(bindings: Bindings) {
                                                     onBlur={field.handleBlur}
                                                     onChange={(e) => field.handleChange(e.target.value)}
                                                     placeholder={'Watchlist Name'}
-                                                    autoFocus={inputWatchlistNameRef?.current?.autofocus}
                                                     disabled={submittingData}
                                                 />
                                             </InputGroup>
