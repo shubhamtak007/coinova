@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { EyeOff, Eye, Circle } from 'lucide-react';
 import { FaCheckCircle } from "react-icons/fa";
 import { Spinner } from '@/components/ui/spinner';
-import { FormTypes } from '@/interfaces/account-centre.interface';
+import { FormType } from '@/interfaces/account-centre.interface';
 import useSignIn from '@/hooks/useSignIn';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 
@@ -19,7 +19,7 @@ const defaultFormType = 'signIn';
 export default memo(function signIn(bindings: Bindings) {
     const { showDialog, setShowDialog } = bindings;
     const [showEyeIcon, setShowEyeIcon] = useState<boolean>(true);
-    const [formType, setFormType] = useState<typeof FormTypes>(defaultFormType);
+    const [formType, setFormType] = useState<FormType>(defaultFormType);
     const { signInForm, passwordCriteriaList, submittingData, setSubmittingData, resetForm, captchaRef, verifyCaptcha } =
         useSignIn({ defaultFormType, formType, setFormType, setShowDialog, showDialog });
 

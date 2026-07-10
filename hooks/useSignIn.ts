@@ -4,9 +4,8 @@ import { SetStateAction, Dispatch, useEffect, useState, useRef } from 'react';
 import { useUser } from '@/contexts/user.context';
 import { useLoading } from '@/contexts/loading.context';
 import { toast } from 'sonner';
-import { isAxiosError } from 'axios';
 import { useForm } from '@tanstack/react-form';
-import type { UserFormData, FormTypes } from '@/interfaces/account-centre.interface';
+import type { UserFormData, FormType } from '@/interfaces/account-centre.interface';
 import AuthenticationService from '@/services/authentication.service';
 import UserService from '@/services/user.service';
 import authenticationFormSchemaMap from '@/schemas/authentication-form.schema';
@@ -14,9 +13,9 @@ import HCaptcha from '@hcaptcha/react-hcaptcha';
 import ErrorService from '@/services/error.service';
 
 type Bindings = {
-    defaultFormType: typeof FormTypes,
+    defaultFormType: FormType,
     formType: string,
-    setFormType: Dispatch<SetStateAction<typeof FormTypes>>,
+    setFormType: Dispatch<SetStateAction<FormType>>,
     showDialog: boolean,
     setShowDialog: Dispatch<SetStateAction<boolean>>
 }

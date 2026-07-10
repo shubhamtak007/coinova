@@ -1,4 +1,4 @@
-let FormTypes: 'signIn' | 'signUp' | 'forgotPassword' | 'verifyResetCode' | 'changePassword';
+type FormType = 'signIn' | 'signUp' | 'forgotPassword' | 'verifyResetCode' | 'changePassword';
 
 type UserFormData = {
     name: string,
@@ -13,4 +13,4 @@ type User = {
     email: string
 }
 
-export type { FormTypes, UserFormData, User };
+export type { FormType, UserFormData, User };
