@@ -11,6 +11,4 @@ const retrieveLatestNews = async () => {
     }
 }
 
-const NewsService = { retrieveLatestNews };
-
-export default NewsService;
+export { retrieveLatestNews };

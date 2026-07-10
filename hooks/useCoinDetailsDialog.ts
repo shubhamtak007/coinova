@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import { CoinDetailsServerResponse, ClientCoinProperties } from '@/interfaces/coin-details.interface';
-import CoinService from '@/services/coin.service';
+import { retrieveCoinDetailsByCoinId } from '@/services/coin.service';
 
 type Bindings = {
     coinId: string
@@ -20,7 +20,7 @@ export default function useCoinDetailsDialog({ coinId }: Bindings) {
         setFetchingCoinDetails(true);
 
         try {
-            const response = await CoinService.retrieveCoinDetailsByCoinId(coinId);
+            const response = await retrieveCoinDetailsByCoinId(coinId);
             const coinProperties = await createCoinProperties(response.data);
             if (coinProperties) setCoinDetails(coinProperties);
         } catch (error) {

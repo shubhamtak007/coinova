@@ -131,9 +131,7 @@ function createCryptoCurrencyList(masterSymbolList: MasterSymbol[], cryptoPriceL
     return cryptoCurrencyList;
 }
 
-const CoinService = {
+export {
     retrieveAllCoins, retrieveCoinDetailsByCoinId, retrieveCoinList, retrieveCoinMarketChartData,
     retrieveGlobalMarketData, retrieveTrendingCoins, retrieveTrendingCoinsCategoriesAndNfts, search
-}
-
-export default CoinService;
+};

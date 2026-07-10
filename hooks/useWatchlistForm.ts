@@ -3,8 +3,8 @@
 import { useForm } from "@tanstack/react-form";
 import { Dispatch, SetStateAction, useRef, useState } from "react";
 import { watchlistSchema } from "@/schemas/watchlist.schema";
-import WatchlistService from "@/services/watchlist.service";
-import ErrorService from "@/services/error.service";
+import { addWatchlist } from "@/services/watchlist.service";
+import { handleError } from "@/services/error.service";
 import { toast } from "sonner";
 
 type Bindings = {
@@ -37,13 +37,13 @@ export default function useWatchlistForm(bindings: Bindings) {
     async function createWatchlist() {
         try {
             setSubmittingData(true);
-            const response = await WatchlistService.addWatchlist(formData.current);
+            const response = await addWatchlist(formData.current);
 
             if (response.data.data.id) {
                 setShowDialog(false);
             }
         } catch (error) {
-            const message = ErrorService.handleError(error);
+            const message = handleError(error);
             toast.error(message, { className: 'error-toast' });
         } finally {
             setSubmittingData(false);

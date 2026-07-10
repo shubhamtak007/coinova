@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react';
-import CoinService from '@/services/coin.service';
+import { retrieveCoinMarketChartData } from '@/services/coin.service';
 import type { CoinAnalysis } from '@/interfaces/coin-analysis.interface';
 
 type DataPoint = { date: number, value: number };
@@ -44,7 +44,7 @@ export default function useCoinMarketChartData({ coinProperties, days, currentCh
         setMarketDataPointList([]);
 
         try {
-            const response = await CoinService.retrieveCoinMarketChartData(coinProperties.id, params);
+            const response = await retrieveCoinMarketChartData(coinProperties.id, params);
             marketDataRef.current = { priceList: [], marketCapitalList: [], volumeList: [] };
 
             for (const priceDataPoint of response.data.prices) {

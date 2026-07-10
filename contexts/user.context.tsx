@@ -3,7 +3,7 @@
 import { createContext, useContext, ReactNode, useState, SetStateAction, Dispatch, useEffect } from 'react';
 import { User } from '@/interfaces/account-centre.interface';
 import { Spinner } from '@/components/ui/spinner';
-import UserService from '@/services/user.service';
+import { retrieveProfile } from '@/services/user.service';
 
 type UserContextProviderProps = {
     children: ReactNode,
@@ -24,7 +24,7 @@ const UserContextProvider = ({ children, currentUser }: UserContextProviderProps
     useEffect(() => {
         async function fetchUserDetails() {
             try {
-                const response = await UserService.retrieveProfile();
+                const response = await retrieveProfile();
                 setUser(response.data.data);
             } catch (error) {
 

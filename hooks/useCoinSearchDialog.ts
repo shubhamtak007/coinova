@@ -1,12 +1,12 @@
 'use client';
 
 import { useState, useEffect, SetStateAction, Dispatch } from 'react';
-import CoinService from '@/services/coin.service';
+import { search } from '@/services/coin.service';
 import { getUiRoute } from '@/services/utils.service';
 import { SearchApiCoin } from '@/interfaces/coin.interface';
 import { useRouter } from 'next/navigation';
 import { useOptimisticNavigation } from '@/contexts/navigation-context';
-import WatchlistCoinService from '@/services/watchlist-coin.service';
+import { addWatchlistCoin } from '@/services/watchlist-coin.service';
 
 type Bindings = {
     setShowDialog: Dispatch<SetStateAction<boolean>>,
@@ -44,7 +44,7 @@ export default function useCoinSearchDialog(bindings: Bindings) {
         setSearchingCoins(true);
 
         try {
-            const response = await CoinService.search({ query: searchValue })
+            const response = await search({ query: searchValue })
             prefetchCoinAnalysisRoutes(response.data.coins);
             setCoins(response.data.coins);
         } catch (error) {
@@ -100,7 +100,7 @@ export default function useCoinSearchDialog(bindings: Bindings) {
                 imageUrl: coin.large
             }
 
-            await WatchlistCoinService.addWatchlistCoin(data);
+            await addWatchlistCoin(data);
         } catch (error) {
 
         } finally {

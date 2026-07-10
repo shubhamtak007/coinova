@@ -69,6 +69,4 @@ async function changePassword(jsonData: object) {
     }
 }
 
-const AuthenticationService = { signUp, signIn, refreshToken, signOut, retrieveResetCode, verifyResetCode, changePassword };
-
-export default AuthenticationService;
+export { signUp, signIn, refreshToken, signOut, retrieveResetCode, verifyResetCode, changePassword };

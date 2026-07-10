@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import CoinService from '@/services/coin.service';
+import { retrieveGlobalMarketData } from '@/services/coin.service';
 import type { GlobalMarketStats } from '@/interfaces/global-market-stats.interface';
 
 function useGlobalMarketStats() {
@@ -32,7 +32,7 @@ function useGlobalMarketStats() {
 
     async function fetchGlobalMarketData() {
         try {
-            const response = await CoinService.retrieveGlobalMarketData();
+            const response = await retrieveGlobalMarketData();
             if (response) setGlobalMarketStats(response);
         } catch (error) {
 

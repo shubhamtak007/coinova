@@ -8,7 +8,7 @@ import { toast } from 'sonner';
 import { CircleUserRound } from 'lucide-react';
 import ProfileDialog from './profile-dialog';
 import SignIn from '@/components/features/sign-in/sign-in';
-import AuthenticationService from '@/services/authentication.service';
+import { signOut } from '@/services/authentication.service';
 
 type PdBindings = {
     setShowSignInDialog: Dispatch<SetStateAction<boolean>>
@@ -45,7 +45,7 @@ function ProfileDropdown(pdBindings: PdBindings) {
     async function logoutUser() {
         try {
             setIsLoading(true);
-            const response = await AuthenticationService.signOut();
+            const response = await signOut();
             if (response.status === 200) {
                 setUser(null);
             }

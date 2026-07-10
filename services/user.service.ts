@@ -9,6 +9,4 @@ async function retrieveProfile() {
     }
 };
 
-const UserService = { retrieveProfile };
-
-export default UserService;
+export { retrieveProfile };

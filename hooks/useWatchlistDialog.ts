@@ -1,9 +1,9 @@
 'use client';
 
 import { useState, useEffect, useRef } from "react"
-import WatchlistService from "@/services/watchlist.service";
-import WatchlistCoinService from "@/services/watchlist-coin.service";
-import CoinService from "@/services/coin.service";
+import { retrieveWatchlists, deleteWatchlist } from "@/services/watchlist.service";
+import { retrieveWatchlistCoinsByWatchlistId, deleteWatchlistCoin } from "@/services/watchlist-coin.service";
+import { retrieveCoinList } from "@/services/coin.service";
 import { CoingeckoCrypto } from "@/interfaces/coin.interface";
 
 const watchlistContextMenuList = ['Delete'].map((name) => {
@@ -62,7 +62,7 @@ export default function useWatchlistDialog() {
             setActiveWatchlist(null);
 
             setFetchingWatchlists(true);
-            const response = await WatchlistService.retrieveWatchlists();
+            const response = await retrieveWatchlists();
             setWatchlists(response.data.data);
 
             if (localActiveWatchlist) {
@@ -83,7 +83,7 @@ export default function useWatchlistDialog() {
 
         try {
             setFetchingWatchlistCoins(true);
-            const response = await WatchlistCoinService.retrieveWatchlistCoinsByWatchlistId({ watchlistId: activeWatchlist?.id });
+            const response = await retrieveWatchlistCoinsByWatchlistId({ watchlistId: activeWatchlist?.id });
             setWatchlistCoins(response.data.data);
         } catch (error) {
 
@@ -102,7 +102,7 @@ export default function useWatchlistDialog() {
                 })).toString()
             }
 
-            const marketDataList = (await CoinService.retrieveCoinList(params)).data;
+            const marketDataList = (await retrieveCoinList(params)).data;
 
             watchlistCoins.map((watchlistCoin) => {
                 const foundMarketData = marketDataList.find((marketData: CoingeckoCrypto) => {
@@ -135,10 +135,10 @@ export default function useWatchlistDialog() {
     }
 
     function onDeleteBtnClicked() {
-        deleteWatchlist();
+        deleteWatchlistEntry();
     }
 
-    async function deleteWatchlist() {
+    async function deleteWatchlistEntry() {
         if (!rightClickedItem) return;
 
         try {
@@ -148,13 +148,11 @@ export default function useWatchlistDialog() {
 
             switch (deleteDialogType.current) {
                 case 'watchlist': {
-                    response = await WatchlistService.deleteWatchlist(rightClickedItem.id);
-
+                    response = await deleteWatchlist(rightClickedItem.id);
                 }; break;
 
                 case 'watchlistCoin': {
-                    response = await WatchlistCoinService.deleteWatchlistCoin(rightClickedItem.id);
-
+                    response = await deleteWatchlistCoin(rightClickedItem.id);
                 }; break;
             }
 

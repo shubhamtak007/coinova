@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import NewsService from "@/services/news.service";
+import { retrieveLatestNews } from "@/services/news.service";
 import type { NewsArticle } from "@/interfaces/news.interface";
 
 type Bindings = {
@@ -21,7 +21,7 @@ export default function useNews({ showDialog }: Bindings) {
     async function fetchLatestNews() {
         try {
             setFetchingLatestNews(true);
-            const response = await NewsService.retrieveLatestNews();
+            const response = await retrieveLatestNews();
             setArticles(response?.data.data);
         } catch (error) {
 

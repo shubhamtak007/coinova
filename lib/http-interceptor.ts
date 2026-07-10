@@ -1,4 +1,4 @@
-import ErrorService from '@/services/error.service';
+import { handleError } from '@/services/error.service';
 import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig, isAxiosError } from 'axios';
 import { toast } from 'sonner';
 

@@ -45,4 +45,4 @@ const getUiRoute = (pageName: string, properties: { id: string }) => {
 export {
     roundOffNumber, formatValueInUsdCompact, formatValueIntoCommaSeparated,
     getRowsPerPageDefaultValue, getUiRoute
-}
+};

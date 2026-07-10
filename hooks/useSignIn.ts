@@ -5,12 +5,12 @@ import { useUser } from '@/contexts/user.context';
 import { useLoading } from '@/contexts/loading.context';
 import { toast } from 'sonner';
 import { useForm } from '@tanstack/react-form';
+import { changePassword, retrieveResetCode, signIn, verifyResetCode, signUp } from '@/services/authentication.service';
+import { retrieveProfile } from '@/services/user.service';
+import { handleError } from '@/services/error.service';
 import type { UserFormData, FormType } from '@/interfaces/account-centre.interface';
-import AuthenticationService from '@/services/authentication.service';
-import UserService from '@/services/user.service';
 import authenticationFormSchemaMap from '@/schemas/authentication-form.schema';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
-import ErrorService from '@/services/error.service';
 
 type Bindings = {
     defaultFormType: FormType,
@@ -106,7 +106,7 @@ export default function useSignIn(bindings: Bindings) {
                         password: userDetails.password,
                         captchaToken: captchaToken
                     }
-                    response = await AuthenticationService.signIn(serverData);
+                    response = await signIn(serverData);
                 }; break;
 
                 case 'signUp': {
@@ -116,7 +116,7 @@ export default function useSignIn(bindings: Bindings) {
                         password: userDetails.password,
                         captchaToken: captchaToken
                     }
-                    response = await AuthenticationService.signUp(serverData);
+                    response = await signUp(serverData);
                 }; break;
 
                 default: throw new Error('Invalid form type');
@@ -136,7 +136,7 @@ export default function useSignIn(bindings: Bindings) {
     async function fetchProfile() {
         try {
             setIsLoading(true);
-            const response = await UserService.retrieveProfile();
+            const response = await retrieveProfile();
             if (response.data.data.id) setUser(response.data.data);
         } catch (error) {
             throwError(error);
@@ -160,7 +160,7 @@ export default function useSignIn(bindings: Bindings) {
         emailRef.current = userDetails.email;
 
         try {
-            const response = await AuthenticationService.retrieveResetCode({ email: userDetails.email });
+            const response = await retrieveResetCode({ email: userDetails.email });
             setFormType('verifyResetCode');
         } catch (error) {
             throwError(error);
@@ -176,7 +176,7 @@ export default function useSignIn(bindings: Bindings) {
                 resetCode: userDetails.code
             }
 
-            const response = await AuthenticationService.verifyResetCode(serverData);
+            const response = await verifyResetCode(serverData);
             setFormType('changePassword');
         } catch (error) {
             throwError(error);
@@ -187,7 +187,7 @@ export default function useSignIn(bindings: Bindings) {
 
     async function updatePassword(userDetails: UserFormData) {
         try {
-            const response = await AuthenticationService.changePassword({ password: userDetails.password });
+            const response = await changePassword({ password: userDetails.password });
             setFormType('signIn');
         } catch (error) {
             throwError(error);
@@ -197,7 +197,7 @@ export default function useSignIn(bindings: Bindings) {
     }
 
     function throwError(error: unknown) {
-        const errorMessage = ErrorService.handleError(error);
+        const errorMessage = handleError(error);
         toast.error(`${errorMessage}`, { className: 'error-toast' });
     }
 

@@ -9,6 +9,4 @@ function handleError(error: unknown) {
     return message;
 }
 
-const ErrorService = { handleError };
-
-export default ErrorService;
+export { handleError };
