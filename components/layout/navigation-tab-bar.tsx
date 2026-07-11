@@ -42,7 +42,7 @@ export default function NavigationTabBar() {
                                             {
                                                 ((tab.name === 'Watchlist') && tab.disabled) &&
                                                 <Tooltip>
-                                                    <TooltipTrigger>
+                                                    <TooltipTrigger asChild>
                                                         <Lock strokeWidth={2.5} className="size-3" />
                                                     </TooltipTrigger>
 

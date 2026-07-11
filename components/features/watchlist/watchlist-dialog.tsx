@@ -43,12 +43,28 @@ export default function WatchlistDialog(bindings: Bindings) {
                     </DialogHeader>
 
                     <DialogBody>
-                        {mountWatchlists({ fetchingWatchlists, watchlists, onWatchlistClick, activeWatchlist, watchlistContextMenuList, onContextMenuItemClicked })}
-                        {mountWatchlistCoins({
-                            fetchingWatchlists, watchlists, fetchingWatchlistCoins, watchlistCoins, showCoinSearchDialog,
-                            setShowCoinSearchDialog, activeWatchlist, onCoinSearchDialogClose, fetchingMarketData,
-                            watchlistCoinContextMenuList, onContextMenuItemClicked
-                        })}
+                        <Watchlists
+                            fetchingWatchlists={fetchingWatchlists}
+                            watchlists={watchlists}
+                            onWatchlistClick={onWatchlistClick}
+                            activeWatchlist={activeWatchlist}
+                            watchlistContextMenuList={watchlistContextMenuList}
+                            onContextMenuItemClicked={onContextMenuItemClicked}
+                        />
+
+                        <WatchlistCoinList
+                            fetchingWatchlists={fetchingWatchlists}
+                            watchlists={watchlists}
+                            fetchingWatchlistCoins={fetchingWatchlistCoins}
+                            watchlistCoins={watchlistCoins}
+                            showCoinSearchDialog={showCoinSearchDialog}
+                            setShowCoinSearchDialog={setShowCoinSearchDialog}
+                            activeWatchlist={activeWatchlist}
+                            onCoinSearchDialogClose={onCoinSearchDialogClose}
+                            fetchingMarketData={fetchingMarketData}
+                            watchlistCoinContextMenuList={watchlistCoinContextMenuList}
+                            onContextMenuItemClicked={onContextMenuItemClicked}
+                        />
                     </DialogBody>
 
                     <DialogFooter className="justify-center">
@@ -75,16 +91,21 @@ export default function WatchlistDialog(bindings: Bindings) {
             }
 
             {(showDeleteDialog === true) &&
-                createDeleteDialog({
-                    showDeleteDialog, setShowDeleteDialog, onDeleteBtnClicked, deletingItem,
-                    onDeleteDialogClose, rightClickedItem, deleteDialogType
-                })
+                <DeleteDialog
+                    showDeleteDialog={showDeleteDialog}
+                    setShowDeleteDialog={setShowDeleteDialog}
+                    onDeleteBtnClicked={onDeleteBtnClicked}
+                    deletingItem={deletingItem}
+                    onDeleteDialogClose={onDeleteDialogClose}
+                    rightClickedItem={rightClickedItem}
+                    deleteDialogType={deleteDialogType}
+                />
             }
         </>
     )
 }
 
-function mountWatchlists(props: any) {
+function Watchlists(props: any) {
     const {
         fetchingWatchlists, watchlists, onWatchlistClick, activeWatchlist,
         watchlistContextMenuList, onContextMenuItemClicked
@@ -144,7 +165,7 @@ function mountWatchlists(props: any) {
     )
 }
 
-function mountWatchlistCoins(props: any) {
+function WatchlistCoinList(props: any) {
     const {
         fetchingWatchlists, watchlists, fetchingWatchlistCoins, watchlistCoins, showCoinSearchDialog,
         setShowCoinSearchDialog, activeWatchlist, onCoinSearchDialogClose, fetchingMarketData,
@@ -269,7 +290,7 @@ function mountWatchlistCoins(props: any) {
     )
 }
 
-function createDeleteDialog(props: any) {
+function DeleteDialog(props: any) {
     const {
         showDeleteDialog, setShowDeleteDialog, onDeleteBtnClicked,
         deletingItem, onDeleteDialogClose, rightClickedItem, deleteDialogType

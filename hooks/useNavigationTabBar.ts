@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, SetStateAction } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useOptimisticNavigation } from '@/contexts/navigation-context';
 import { navigationBarTabList } from '@/constants/app.constants';
@@ -15,19 +15,26 @@ export default function useNavigationTabBar() {
     const [scrollEnded, setScrollEnded] = useState<boolean>(false);
     const [dialogType, setDialogType] = useState<string | null>(null);
     const [showDialog, setShowDialog] = useState<boolean>(false);
-    const [tabList, setTabList] = useState<NavigationBarTab[]>([])
+    const [tabList, setTabList] = useState<NavigationBarTab[]>([]);
     const { user } = useUser();
 
     useEffect(() => {
         if (navigationBarTabList && navigationBarTabList.length > 0) {
             for (const tab of navigationBarTabList) {
+                tab.disabled = false;
+
                 if ((!user || !user.id) && (tab.value === 'watchlist')) {
                     tab.disabled = true;
                 }
             }
-        }
 
-        setTabList(navigationBarTabList);
+            setTabList((previousTabList: NavigationBarTab[]) => {
+                return (previousTabList.length > 0) ? previousTabList.map((previousTab: NavigationBarTab) => {
+                    const foundTab = navigationBarTabList.find((currentTab) => previousTab.id === currentTab.id)
+                    return { ...previousTab, disabled: foundTab?.disabled };
+                }) : navigationBarTabList
+            });
+        }
     }, [navigationBarTabList, user]);
 
     useEffect(() => {

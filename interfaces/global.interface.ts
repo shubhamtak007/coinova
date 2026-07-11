@@ -1,4 +1,3 @@
-import { LucideIcon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 
 type DialogProps = {
