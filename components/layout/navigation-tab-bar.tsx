@@ -38,7 +38,7 @@ export default function NavigationTabBar() {
                                             onClick={(event) => { onTabClick(event, tab.value) }}
                                             style={{ 'paddingInline': '7px' }}
                                         >
-                                            {tab.name === 'Home' && <Home strokeWidth={2.5} className="size-4" />}
+                                            {(tab.name === 'Home') && <Home strokeWidth={2.5} className="size-4" />}
                                             {
                                                 ((tab.name === 'Watchlist') && tab.disabled) &&
                                                 <Tooltip>
@@ -54,7 +54,7 @@ export default function NavigationTabBar() {
                                                     </TooltipContent>
                                                 </Tooltip>
                                             }
-                                            {!['Home'].includes(tab.name) && tab.name}
+                                            {(tab.value !== 'home') && tab.name}
                                         </TabsTrigger>
                                     }
                                 </Fragment>
