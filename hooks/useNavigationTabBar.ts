@@ -1,8 +1,11 @@
 'use client';
 
-import { useState, useEffect, useReducer } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useOptimisticNavigation } from '@/contexts/navigation-context';
+import { navigationBarTabList } from '@/constants/app.constants';
+import { useUser } from '@/contexts/user.context';
+import { NavigationBarTab } from '@/interfaces/global.interface';
 
 export default function useNavigationTabBar() {
     const router = useRouter();
@@ -12,6 +15,20 @@ export default function useNavigationTabBar() {
     const [scrollEnded, setScrollEnded] = useState<boolean>(false);
     const [dialogType, setDialogType] = useState<string | null>(null);
     const [showDialog, setShowDialog] = useState<boolean>(false);
+    const [tabList, setTabList] = useState<NavigationBarTab[]>([])
+    const { user } = useUser();
+
+    useEffect(() => {
+        if (navigationBarTabList && navigationBarTabList.length > 0) {
+            for (const tab of navigationBarTabList) {
+                if ((!user || !user.id) && (tab.value === 'watchlist')) {
+                    tab.disabled = true;
+                }
+            }
+        }
+
+        setTabList(navigationBarTabList);
+    }, [navigationBarTabList, user]);
 
     useEffect(() => {
         router.prefetch('/trending');
@@ -61,5 +78,5 @@ export default function useNavigationTabBar() {
         }
     }
 
-    return { scrollEnded, activeTab, onTabClick, dialogType, showDialog, setShowDialog }
+    return { scrollEnded, activeTab, onTabClick, dialogType, showDialog, setShowDialog, tabList }
 }

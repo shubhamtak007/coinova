@@ -1,8 +1,16 @@
+import { LucideIcon } from "lucide-react";
 import { Dispatch, SetStateAction } from "react";
 
-interface DialogProps {
+type DialogProps = {
     showDialog: boolean,
     setShowDialog: Dispatch<SetStateAction<boolean>>
 }
 
-export type { DialogProps };
+type NavigationBarTab = {
+    id: string,
+    name: string,
+    value: string,
+    disabled?: boolean
+}
+
+export type { DialogProps, NavigationBarTab };

@@ -68,7 +68,8 @@ const navigationBarTabList = [
     return {
         id: crypto.randomUUID(),
         name: tab.name,
-        value: tab.value
+        value: tab.value,
+        disabled: false
     }
 })
 

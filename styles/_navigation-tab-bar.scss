@@ -21,6 +21,15 @@
                 color: var(--text-color);
             }
 
+            [data-slot="tooltip-trigger"] {
+                min-width: unset;
+
+                &:hover {
+                    padding: 0;
+                    background-color: unset;
+                }
+            }
+
             button,
             a {
                 min-width: 36px;
