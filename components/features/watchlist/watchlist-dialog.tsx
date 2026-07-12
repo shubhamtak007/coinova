@@ -107,7 +107,7 @@ export default function WatchlistDialog(bindings: Bindings) {
                 <WatchlistDetailsDialog
                     showWatchlistDetailsDialog={showWatchlistDetailsDialog}
                     setShowWatchlistDetailsDialog={setShowWatchlistDetailsDialog}
-                    selectedWatchlist={rightClickedItem}
+                    watchlist={rightClickedItem}
                 />
             }
         </>
@@ -354,14 +354,17 @@ function DeleteDialog(props: any) {
 }
 
 function WatchlistDetailsDialog(props: any) {
-    const { showWatchlistDetailsDialog, setShowWatchlistDetailsDialog, selectedWatchlist } = props;
+    const { showWatchlistDetailsDialog, setShowWatchlistDetailsDialog, watchlist } = props;
 
     return (
         <Dialog
             open={showWatchlistDetailsDialog}
             onOpenChange={setShowWatchlistDetailsDialog}
         >
-            <DialogContent dialogLevel={2}>
+            <DialogContent
+                dialogLevel={2}
+                closeOnOutsideClick={true}
+            >
                 <DialogHeader>
                     <DialogTitle>
                         Details
@@ -379,7 +382,7 @@ function WatchlistDetailsDialog(props: any) {
                                 </td>
 
                                 <td>
-                                    {selectedWatchlist.name}
+                                    {watchlist.name}
                                 </td>
                             </tr>
 
@@ -389,7 +392,7 @@ function WatchlistDetailsDialog(props: any) {
                                 </td>
 
                                 <td>
-                                    {selectedWatchlist.description}
+                                    {watchlist.description ?? <span className="no-value-text">No Description</span>}
                                 </td>
                             </tr>
                         </tbody>
