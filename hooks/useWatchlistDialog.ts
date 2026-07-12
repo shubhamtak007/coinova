@@ -7,7 +7,7 @@ import { retrieveCoinList } from "@/services/coin.service";
 import { CoingeckoCrypto } from "@/interfaces/coin.interface";
 import { Watchlist } from "@/interfaces/watchlist.interface";
 
-const watchlistContextMenuList = ['Edit', 'Delete'].map((name) => {
+const watchlistContextMenuList = ['Edit', 'View Details', 'Delete'].map((name) => {
     return { id: crypto.randomUUID(), name }
 })
 
@@ -27,6 +27,7 @@ export default function useWatchlistDialog() {
     const [showDeleteDialog, setShowDeleteDialog] = useState<boolean>(false);
     const [rightClickedItem, setRightClickedItem] = useState<Record<string, string> | null>(null);
     const [fetchingMarketData, setFetchingMarketData] = useState<boolean>(false);
+    const [showWatchlistDetailsDialog, setShowWatchlistDetailsDialog] = useState<boolean>(false);
     const deleteDialogType = useRef<string | null>(null);
     const selectedWatchlist = useRef<Record<string, string>>(null);
 
@@ -130,7 +131,9 @@ export default function useWatchlistDialog() {
                 selectedWatchlist.current = watchlist;
                 setShowWatchlistFormDialog(true);
             }; break;
-            case 'View Details': break;
+            case 'View Details': {
+                setShowWatchlistDetailsDialog(true);
+            }; break;
             case 'Delete': {
                 deleteDialogType.current = context;
                 setShowDeleteDialog(true);
@@ -177,6 +180,7 @@ export default function useWatchlistDialog() {
         showCoinSearchDialog, setShowCoinSearchDialog, onCoinSearchDialogClose,
         showDeleteDialog, setShowDeleteDialog, onDeleteBtnClicked,
         deletingItem, setDeletingItem, onDeleteDialogClose, fetchingMarketData,
-        watchlistCoinContextMenuList, rightClickedItem, deleteDialogType, selectedWatchlist
+        watchlistCoinContextMenuList, rightClickedItem, deleteDialogType, selectedWatchlist,
+        showWatchlistDetailsDialog, setShowWatchlistDetailsDialog
     };
 }

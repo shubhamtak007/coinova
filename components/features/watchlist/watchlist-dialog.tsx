@@ -22,7 +22,8 @@ export default function WatchlistDialog(bindings: Bindings) {
         activeWatchlist, fetchingWatchlistCoins, watchlistCoins, onWatchlistFormDialogClose, watchlistContextMenuList,
         onContextMenuItemClicked, showCoinSearchDialog, setShowCoinSearchDialog, onCoinSearchDialogClose, showDeleteDialog,
         setShowDeleteDialog, onDeleteBtnClicked, deletingItem, onDeleteDialogClose, fetchingMarketData,
-        watchlistCoinContextMenuList, rightClickedItem, deleteDialogType, selectedWatchlist
+        watchlistCoinContextMenuList, rightClickedItem, deleteDialogType, selectedWatchlist,
+        showWatchlistDetailsDialog, setShowWatchlistDetailsDialog
     } = useWatchlistDialog();
 
     return (
@@ -99,6 +100,14 @@ export default function WatchlistDialog(bindings: Bindings) {
                     onDeleteDialogClose={onDeleteDialogClose}
                     rightClickedItem={rightClickedItem}
                     deleteDialogType={deleteDialogType}
+                />
+            }
+
+            {(showWatchlistDetailsDialog === true) &&
+                <WatchlistDetailsDialog
+                    showWatchlistDetailsDialog={showWatchlistDetailsDialog}
+                    setShowWatchlistDetailsDialog={setShowWatchlistDetailsDialog}
+                    selectedWatchlist={rightClickedItem}
                 />
             }
         </>
@@ -339,6 +348,53 @@ function DeleteDialog(props: any) {
                         {(deleteDialogType.current === 'watchlistCoin') && 'Remove'}
                     </Button>
                 </DialogFooter>
+            </DialogContent>
+        </Dialog>
+    )
+}
+
+function WatchlistDetailsDialog(props: any) {
+    const { showWatchlistDetailsDialog, setShowWatchlistDetailsDialog, selectedWatchlist } = props;
+
+    return (
+        <Dialog
+            open={showWatchlistDetailsDialog}
+            onOpenChange={setShowWatchlistDetailsDialog}
+        >
+            <DialogContent dialogLevel={2}>
+                <DialogHeader>
+                    <DialogTitle>
+                        Details
+
+                        <DialogDescription className="sr-only">watchlist details dialog</DialogDescription>
+                    </DialogTitle>
+                </DialogHeader>
+
+                <DialogBody>
+                    <table className="cnv-table">
+                        <tbody>
+                            <tr>
+                                <td>
+                                    Name
+                                </td>
+
+                                <td>
+                                    {selectedWatchlist.name}
+                                </td>
+                            </tr>
+
+                            <tr>
+                                <td>
+                                    Description
+                                </td>
+
+                                <td>
+                                    {selectedWatchlist.description}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </DialogBody>
             </DialogContent>
         </Dialog>
     )
