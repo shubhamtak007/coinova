@@ -1,6 +1,5 @@
-import { handleError } from '@/services/error.service';
-import axios, { AxiosInstance, AxiosError, InternalAxiosRequestConfig, isAxiosError } from 'axios';
 import { toast } from 'sonner';
+import { AxiosInstance, InternalAxiosRequestConfig, isAxiosError } from 'axios';
 
 const endpoints = {
     getUser: 'v0/users/me',
@@ -26,31 +25,22 @@ export const setupInterceptors = (client: AxiosInstance) => {
                 retry?: boolean;
             };
 
-            if (error.response?.status === 401) {
-                if (error.response.data && (error.response.data.message === 'Invalid or expired token' ||
-                    error.response.data.message === 'Access token missing')
-                ) {
+            if (error.response?.data && error.response.data.message) {
+                if (['Access token missing', 'Invalid or expired token'].includes(error.response.data.message)) {
                     originalRequest.retry = true;
                     await client.post(endpoints.getRefreshToken);
                     return client(originalRequest);
+
+                } else {
+                    toast.error(error.response.data.message, { className: 'error-toast' });
                 }
-            } else if (error.response?.status === 429) {
-
-            } else if (error.code === 'ERR_NETWORK') {
-
+            } else {
+                throw new Error(error.message);
             }
 
-            showError(error);
-            // toast.error(error.message, { className: 'error-toast' });
             return Promise.reject(error);
         }
     )
-}
-
-function showError(error: AxiosError) {
-    if (axios.isAxiosError(error) && error.message) {
-        console.error(error.message);
-    }
 }
 
 

@@ -7,7 +7,6 @@ import { toast } from 'sonner';
 import { useForm } from '@tanstack/react-form';
 import { changePassword, retrieveResetCode, signIn, verifyResetCode, signUp } from '@/services/authentication.service';
 import { retrieveProfile } from '@/services/user.service';
-import { handleError } from '@/services/error.service';
 import type { UserFormData, FormType } from '@/interfaces/account-centre.interface';
 import authenticationFormSchemaMap from '@/schemas/authentication-form.schema';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
@@ -127,7 +126,7 @@ export default function useSignIn(bindings: Bindings) {
                 setShowDialog(false);
             }
         } catch (error: unknown) {
-            throwError(error);
+
         } finally {
             setSubmittingData(false);
         }
@@ -139,7 +138,7 @@ export default function useSignIn(bindings: Bindings) {
             const response = await retrieveProfile();
             if (response.data.data.id) setUser(response.data.data);
         } catch (error) {
-            throwError(error);
+
         } finally {
             setIsLoading(false);
         }
@@ -163,7 +162,7 @@ export default function useSignIn(bindings: Bindings) {
             const response = await retrieveResetCode({ email: userDetails.email });
             setFormType('verifyResetCode');
         } catch (error) {
-            throwError(error);
+
         } finally {
             setSubmittingData(false);
         }
@@ -179,7 +178,7 @@ export default function useSignIn(bindings: Bindings) {
             const response = await verifyResetCode(serverData);
             setFormType('changePassword');
         } catch (error) {
-            throwError(error);
+
         } finally {
             setSubmittingData(false);
         }
@@ -190,15 +189,10 @@ export default function useSignIn(bindings: Bindings) {
             const response = await changePassword({ password: userDetails.password });
             setFormType('signIn');
         } catch (error) {
-            throwError(error);
+
         } finally {
             setSubmittingData(false);
         }
-    }
-
-    function throwError(error: unknown) {
-        const errorMessage = handleError(error);
-        toast.error(`${errorMessage}`, { className: 'error-toast' });
     }
 
     return {

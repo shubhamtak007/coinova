@@ -4,8 +4,6 @@ import { useForm } from "@tanstack/react-form";
 import { Dispatch, RefObject, SetStateAction, useEffect, useRef, useState } from "react";
 import { watchlistSchema } from "@/schemas/watchlist.schema";
 import { addWatchlist, updateWatchlist } from "@/services/watchlist.service";
-import { handleError } from "@/services/error.service";
-import { toast } from "sonner";
 import { Watchlist } from "@/interfaces/watchlist.interface";
 
 type Bindings = {
@@ -81,8 +79,7 @@ export default function useWatchlistForm(bindings: Bindings) {
                 setShowDialog(false);
             }
         } catch (error) {
-            const message = handleError(error);
-            toast.error(message, { className: 'error-toast' });
+
         } finally {
             setSubmittingData(false);
         }
