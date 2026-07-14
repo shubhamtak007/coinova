@@ -9,6 +9,7 @@ import { CircleUserRound } from 'lucide-react';
 import ProfileDialog from './profile-dialog';
 import SignIn from '@/components/features/sign-in/sign-in';
 import { signOut } from '@/services/authentication.service';
+import { cnvIconStrokeWidth } from '@/constants/app.constants';
 
 type PdBindings = {
     setShowSignInDialog: Dispatch<SetStateAction<boolean>>
@@ -66,7 +67,7 @@ function ProfileDropdown(pdBindings: PdBindings) {
                                 <CircleUserRound
                                     style={{ color: 'var(--text-color)' }}
                                     className="size-5"
-                                    strokeWidth={2.5}
+                                    strokeWidth={cnvIconStrokeWidth}
                                 />
                             </div>
                         </DropdownMenuTrigger>

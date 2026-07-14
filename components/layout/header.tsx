@@ -6,8 +6,9 @@ import Link from 'next/link';
 import NavigationTabBar from '@/components/layout/navigation-tab-bar';
 import useHeader from '@/hooks/useHeader';
 import AccountCentre from '@/components/features/account/account-centre';
-import { Search } from 'lucide-react';
 import CoinSearchDialog from '@/components/features/coin-search/coin-search-dialog';
+import { cnvIconStrokeWidth } from '@/constants/app.constants';
+import { Search } from 'lucide-react';
 import { FiGithub } from 'react-icons/fi';
 
 type SearchDialogBindings = {
@@ -23,7 +24,7 @@ function Header() {
             <div className="navbar max-w-[calc(var(--container-width)_-_20px)] mx-auto">
                 <Link href="/" className="logo uppercase flex items-center">
                     <Coins
-                        strokeWidth={2}
+                        strokeWidth={cnvIconStrokeWidth}
                         size={30}
                         className="pr-[4px]"
                     />
@@ -42,7 +43,7 @@ function Header() {
                         className="hover:cursor-pointer"
                         onClick={() => { setShowSearchDialog(true); }}
                     >
-                        <Search className="size-5" strokeWidth={2.5} />
+                        <Search className="size-5" strokeWidth={cnvIconStrokeWidth} />
                         {(showSearchDialog === true) && showCoinSearchDialog({ showSearchDialog, setShowSearchDialog })}
                     </div>
 
@@ -56,7 +57,7 @@ function Header() {
                     >
                         <FiGithub
                             className="size-4 m-auto"
-                            strokeWidth={2.5}
+                            strokeWidth={cnvIconStrokeWidth}
                         />
                     </a>
                 </div>

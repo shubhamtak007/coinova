@@ -8,6 +8,7 @@ import { Tabs, TabsTrigger, TabsList } from '@/components/ui/tabs';
 import { Home, Lock } from 'lucide-react';
 import { DialogProps } from "@/interfaces/global.interface";
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { cnvIconStrokeWidth } from '@/constants/app.constants';
 
 type SharedBindings = DialogProps;
 
@@ -38,18 +39,17 @@ export default function NavigationTabBar() {
                                             onClick={(event) => { onTabClick(event, tab.value) }}
                                             style={{ 'paddingInline': '7px' }}
                                         >
-                                            {(tab.name === 'Home') && <Home strokeWidth={2.5} className="size-4" />}
+                                            {(tab.name === 'Home') && <Home strokeWidth={cnvIconStrokeWidth} className="size-4" />}
                                             {
                                                 ((tab.name === 'Watchlist') && tab.disabled) &&
                                                 <Tooltip>
                                                     <TooltipTrigger asChild>
                                                         <div>
-                                                            <Lock strokeWidth={2.5} className="size-3" />
+                                                            <Lock strokeWidth={cnvIconStrokeWidth} className="size-3" />
                                                         </div>
                                                     </TooltipTrigger>
 
                                                     <TooltipContent
-                                                        side="top"
                                                         className="!z-60"
                                                     >
                                                         Please sign in to add coins to your watchlist.

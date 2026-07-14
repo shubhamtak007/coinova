@@ -31,8 +31,11 @@ export const setupInterceptors = (client: AxiosInstance) => {
                     await client.post(endpoints.getRefreshToken);
                     return client(originalRequest);
 
-                } else {
+                } else if (error.config?.baseURL?.includes('coinova-backend')) {
                     toast.error(error.response.data.message, { className: 'error-toast' });
+
+                } else {
+                    throw new Error(error.response.data.message);
                 }
             } else {
                 throw new Error(error.message);

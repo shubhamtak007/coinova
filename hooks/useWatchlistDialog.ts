@@ -11,7 +11,7 @@ const watchlistContextMenuList = ['Edit', 'View Details', 'Delete'].map((name) =
     return { id: crypto.randomUUID(), name }
 })
 
-const watchlistCoinContextMenuList = ['Delete'].map((name) => {
+const watchlistCoinContextMenuList = ['View Details', 'Delete'].map((name) => {
     return { id: crypto.randomUUID(), name }
 })
 
@@ -28,6 +28,7 @@ export default function useWatchlistDialog() {
     const [rightClickedItem, setRightClickedItem] = useState<Record<string, string> | null>(null);
     const [fetchingMarketData, setFetchingMarketData] = useState<boolean>(false);
     const [showWatchlistDetailsDialog, setShowWatchlistDetailsDialog] = useState<boolean>(false);
+    const [showCoinDetailsDialog, setShowCoinDetailsDialog] = useState<boolean>(false);
     const deleteDialogType = useRef<string | null>(null);
     const selectedWatchlist = useRef<Record<string, string>>(null);
 
@@ -132,7 +133,14 @@ export default function useWatchlistDialog() {
                 setShowWatchlistFormDialog(true);
             }; break;
             case 'View Details': {
-                setShowWatchlistDetailsDialog(true);
+                switch (context) {
+                    case 'watchlist': {
+                        setShowWatchlistDetailsDialog(true);
+                    }; break;
+                    case 'watchlistCoin': {
+                        setShowCoinDetailsDialog(true);
+                    }; break;
+                }
             }; break;
             case 'Delete': {
                 deleteDialogType.current = context;
@@ -174,13 +182,11 @@ export default function useWatchlistDialog() {
     }
 
     return {
-        fetchingWatchlists, watchlists, fetchingWatchlistCoins, watchlistCoins,
-        onWatchlistClick, activeWatchlist, showWatchlistFormDialog, setShowWatchlistFormDialog,
-        onWatchlistFormDialogClose, watchlistContextMenuList, onContextMenuItemClicked,
-        showCoinSearchDialog, setShowCoinSearchDialog, onCoinSearchDialogClose,
-        showDeleteDialog, setShowDeleteDialog, onDeleteBtnClicked,
-        deletingItem, setDeletingItem, onDeleteDialogClose, fetchingMarketData,
-        watchlistCoinContextMenuList, rightClickedItem, deleteDialogType, selectedWatchlist,
-        showWatchlistDetailsDialog, setShowWatchlistDetailsDialog
+        fetchingWatchlists, watchlists, fetchingWatchlistCoins, watchlistCoins, onWatchlistClick, activeWatchlist,
+        showWatchlistFormDialog, setShowWatchlistFormDialog, onWatchlistFormDialogClose, watchlistContextMenuList,
+        onContextMenuItemClicked, showCoinSearchDialog, setShowCoinSearchDialog, onCoinSearchDialogClose,
+        showDeleteDialog, setShowDeleteDialog, onDeleteBtnClicked, deletingItem, setDeletingItem, onDeleteDialogClose,
+        fetchingMarketData, watchlistCoinContextMenuList, rightClickedItem, deleteDialogType, selectedWatchlist,
+        showWatchlistDetailsDialog, setShowWatchlistDetailsDialog, showCoinDetailsDialog, setShowCoinDetailsDialog
     };
 }

@@ -11,6 +11,7 @@ import useWatchlistDialog from "@/hooks/useWatchlistDialog";
 import WatchlistFormDialog from "./watchlist-form-dialog";
 import CoinSearchDialog from "@/components/features/coin-search/coin-search-dialog";
 import { WatchlistCoin } from "@/interfaces/watchlist.interface";
+import CoinDetailsDialog from "../coin-details/coin-details-dialog";
 
 type SharedBindings = DialogProps;
 type Bindings = {} & SharedBindings;
@@ -18,12 +19,12 @@ type Bindings = {} & SharedBindings;
 export default function WatchlistDialog(bindings: Bindings) {
     const { showDialog, setShowDialog } = bindings;
     const {
-        showWatchlistFormDialog, setShowWatchlistFormDialog, fetchingWatchlists, watchlists, onWatchlistClick,
-        activeWatchlist, fetchingWatchlistCoins, watchlistCoins, onWatchlistFormDialogClose, watchlistContextMenuList,
-        onContextMenuItemClicked, showCoinSearchDialog, setShowCoinSearchDialog, onCoinSearchDialogClose, showDeleteDialog,
-        setShowDeleteDialog, onDeleteBtnClicked, deletingItem, onDeleteDialogClose, fetchingMarketData,
-        watchlistCoinContextMenuList, rightClickedItem, deleteDialogType, selectedWatchlist,
-        showWatchlistDetailsDialog, setShowWatchlistDetailsDialog
+        showWatchlistFormDialog, setShowWatchlistFormDialog, fetchingWatchlists, watchlists, onWatchlistClick, activeWatchlist,
+        fetchingWatchlistCoins, watchlistCoins, onWatchlistFormDialogClose, watchlistContextMenuList, onContextMenuItemClicked,
+        showCoinSearchDialog, setShowCoinSearchDialog, onCoinSearchDialogClose, showDeleteDialog, setShowDeleteDialog,
+        onDeleteBtnClicked, deletingItem, onDeleteDialogClose, fetchingMarketData, watchlistCoinContextMenuList,
+        rightClickedItem, deleteDialogType, selectedWatchlist, showWatchlistDetailsDialog, setShowWatchlistDetailsDialog,
+        showCoinDetailsDialog, setShowCoinDetailsDialog
     } = useWatchlistDialog();
 
     return (
@@ -108,6 +109,20 @@ export default function WatchlistDialog(bindings: Bindings) {
                     showWatchlistDetailsDialog={showWatchlistDetailsDialog}
                     setShowWatchlistDetailsDialog={setShowWatchlistDetailsDialog}
                     watchlist={rightClickedItem}
+                />
+            }
+
+            {(showCoinDetailsDialog === true && rightClickedItem) &&
+                <CoinDetailsDialog
+                    dialogLevel={2}
+                    showDialog={showCoinDetailsDialog}
+                    setShowDialog={setShowCoinDetailsDialog}
+                    coin={{
+                        id: rightClickedItem.coinId,
+                        name: rightClickedItem.name,
+                        symbol: rightClickedItem.symbol,
+                        image: rightClickedItem.imageUrl
+                    }}
                 />
             }
         </>

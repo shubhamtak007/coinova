@@ -177,7 +177,7 @@ function DataTableBody<TData,>({ rows, rowVirtualizer, dataTableBindings }: Data
                     <tr>
                         <td
                             colSpan={columns.length}
-                            className="no-value-text"
+                            className="no-value-text !text-center"
                         >
                             {listEmptyMessage ? listEmptyMessage : 'No results'}
                         </td>

@@ -11,6 +11,8 @@ import { ChevronsUpDown, ArrowUp, ArrowDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem } from '@/components/ui/dropdown-menu';
 
+const decimalPlaces = 2;
+
 export const columns: ColumnDef<CoingeckoCrypto>[] = [
     {
         id: 'indexNumber',
@@ -20,8 +22,7 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
             const currentPageNumber = table.options.meta?.currentPageNumber;
             const rowsPerPage = table.options.meta?.rowsPerPage ? table.options.meta?.rowsPerPage : 0;
             return (row.index + 1) + (currentPageNumber === 1 ? 0 : rowsPerPage)
-        },
-        meta: {
+        }, meta: {
             headerClassNames: 'min-w-[5%] text-center',
             cellClassNames: 'text-center'
         }
@@ -68,8 +69,7 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
                     </DropdownMenuContent>
                 </DropdownMenu>
             )
-        },
-        cell: ({ row }) => {
+        }, cell: ({ row }) => {
             const imageUrl: string = row.original['image'];
             const name: string = row.original['name'];
             const symbol: string = row.original['symbol'];
@@ -92,16 +92,15 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
                     }
                 </div>
 
-                <div className="text-left font-semibold mr-[6px]">
-                    {name}
+                <div className="text-left font-semibold mr-[6px] flex items-center gap-1">
+                    <div>{name}</div>
 
-                    <div className="text-[12px] text-gray-400">
+                    <div className="text-[12px] font-normal text-gray-400">
                         {symbol.toUpperCase()}
                     </div>
                 </div>
             </div>
-        },
-        meta: {
+        }, meta: {
             headerClassNames: 'w-[25%] text-left sticky',
             cellClassNames: 'text-center sticky'
         }
@@ -111,8 +110,7 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
         cell: ({ row }) => {
             const currentPrice: number = row.getValue('current_price');
             return currentPrice && formatValueIntoCommaSeparated(currentPrice, 5, true)
-        },
-        meta: {
+        }, meta: {
             headerClassNames: 'text-right',
             cellClassNames: 'text-right'
         }
@@ -127,10 +125,9 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
                     <span className="relative bottom-[1px]">
                         {(priceChangeIn1hInPercent > 0) ? <FaCaretUp /> : <FaCaretDown />}
                     </span>
-                    {roundOffNumber(priceChangeIn1hInPercent, 2) + '%'}
+                    {roundOffNumber(priceChangeIn1hInPercent, decimalPlaces).toFixed(decimalPlaces) + '%'}
                 </div> : <div className="no-value-text">No 1hr</div>
-        },
-        meta: {
+        }, meta: {
             headerClassNames: 'text-right',
             cellClassNames: 'text-right'
         }
@@ -145,10 +142,9 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
                     <span className="relative bottom-[1px]">
                         {(priceChangeIn24hInPercent > 0) ? <FaCaretUp /> : <FaCaretDown />}
                     </span>
-                    {roundOffNumber(priceChangeIn24hInPercent, 2) + '%'}
+                    {roundOffNumber(priceChangeIn24hInPercent, decimalPlaces).toFixed(decimalPlaces) + '%'}
                 </div> : <div className="no-value-text">No 24hr</div>
-        },
-        meta: {
+        }, meta: {
             headerClassNames: 'text-right',
             cellClassNames: 'text-right'
         }
@@ -164,10 +160,9 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
                         {(priceChangeIn7DaysInPercent > 0) ? <FaCaretUp /> : <FaCaretDown />}
                     </span>
 
-                    {roundOffNumber(priceChangeIn7DaysInPercent, 2) + '%'}
+                    {roundOffNumber(priceChangeIn7DaysInPercent, decimalPlaces).toFixed(decimalPlaces) + '%'}
                 </div> : <div className="no-value-text">No 7d</div>
-        },
-        meta: {
+        }, meta: {
             headerClassNames: 'text-right',
             cellClassNames: 'text-right'
         }
@@ -212,8 +207,7 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
                     </DropdownMenuContent>
                 </DropdownMenu>
             )
-        },
-        cell: ({ row }) => {
+        }, cell: ({ row }) => {
             const totalVolume: number = row.getValue('total_volume');
             return (
                 <div className="px-3">
@@ -224,15 +218,14 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
                                 {formatValueInUsdCompact(totalVolume, 2)}
                             </div>
 
-                            <div className="text-[grey] text-[12px]">
-                                {formatValueIntoCommaSeparated(totalVolume, 5, true)}
-                            </div>
+                            {/* <div className="text-[grey] text-[12px]">
+                                {formatValueIntoCommaSeparated(totalVolume, decimalPlaces, true)}
+                            </div> */}
                         </>
                     }
                 </div>
             )
-        },
-        meta: {
+        }, meta: {
             headerClassNames: 'text-right',
             cellClassNames: 'text-right'
         }
@@ -277,8 +270,7 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
                     </DropdownMenuContent>
                 </DropdownMenu>
             )
-        },
-        cell: ({ row }) => {
+        }, cell: ({ row }) => {
             const marketCapital: number = row.getValue('market_cap');
             return (
                 <div className="px-3">
@@ -288,15 +280,14 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
                                 {formatValueInUsdCompact(marketCapital, 2)}
                             </div>
 
-                            <div className="text-[grey] text-[12px]">
+                            {/* <div className="text-[grey] text-[12px]">
                                 {formatValueIntoCommaSeparated(marketCapital, 5, true)}
-                            </div>
+                            </div> */}
                         </>
                     }
                 </div>
             )
-        },
-        meta: {
+        }, meta: {
             headerClassNames: 'text-right',
             cellClassNames: 'text-right'
         }
@@ -325,26 +316,24 @@ export const columns: ColumnDef<CoingeckoCrypto>[] = [
                     </Tooltip>
                 </div>
             )
-        },
-        cell: ({ row }) => {
+        }, cell: ({ row }) => {
             const circulatingSupply: number = row.getValue('circulating_supply');
             return (
-                <div className="px-3">
+                <div className="pl-3">
                     {circulatingSupply &&
                         <>
                             <div>
                                 {formatValueInUsdCompact(circulatingSupply, 2)}
                             </div>
 
-                            <div className="text-[grey] text-[12px]">
-                                {formatValueIntoCommaSeparated(circulatingSupply, 2, true)}
-                            </div>
+                            {/* <div className="text-[grey] text-[12px]">
+                                {formatValueIntoCommaSeparated(circulatingSupply, decimalPlaces, true)}
+                            </div> */}
                         </>
                     }
                 </div>
             )
-        },
-        meta: {
+        }, meta: {
             headerClassNames: 'text-right !pr-[12px]',
             cellClassNames: 'text-right !pr-[12px]'
         }
