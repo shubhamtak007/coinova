@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, SetStateAction } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
 import { useOptimisticNavigation } from '@/contexts/navigation-context';
 import { navigationBarTabList } from '@/constants/app.constants';
