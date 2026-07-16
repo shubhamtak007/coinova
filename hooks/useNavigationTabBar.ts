@@ -75,7 +75,7 @@ export default function useNavigationTabBar() {
             case 'home': route = '/'; break;
             case 'news': setDialogType('news'); setShowDialog(true); break;
             case 'watchlist': setDialogType('watchlist'); setShowDialog(true); break;
-            case 'trending': route = 'trending'; break;
+            case 'trending': route = '/trending'; break;
             default: route = '/'; break;
         }
 

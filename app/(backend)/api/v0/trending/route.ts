@@ -3,7 +3,7 @@ import { coinGeckoClient } from '@/lib/api-client';
 import { NextRequest, NextResponse } from 'next/server';
 import { coinGeckoEndpoints } from '@/lib/endpoints';
 
-export async function GET(request: NextRequest) {
+export async function GET() {
     try {
         const apiResponse = await coinGeckoClient.get(coinGeckoEndpoints.coins.trending);
 
