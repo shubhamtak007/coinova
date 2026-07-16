@@ -22,8 +22,8 @@ interface GlobalMarketStats {
         value: number,
         marketCapShareList: Record<string, string>[]
     },
-    marketCapitalChangePercentage24hInUsd: number,
-    volumeChangePercentage24hInUsd: number,
+    marketCapitalChangePercentage24hUsd: number,
+    volumeChangePercentage24hUsd: number,
     totalVolume: number,
     lastUpdatedAt: number
 }

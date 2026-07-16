@@ -52,12 +52,12 @@ function GlobalMarketStats() {
                                     {formatValueInUsdCompact(globalMarketStats.totalMarketCapital.value, 3)}
 
                                     {
-                                        globalMarketStats.marketCapitalChange24hInUsd &&
-                                        <div className={`ml-[6px] flex items-center ${(globalMarketStats.marketCapitalChange24hInUsd > 0 ? 'success-text' : 'danger-text')}`}>
+                                        globalMarketStats.marketCapitalChangePercentage24hUsd &&
+                                        <div className={`ml-[6px] flex items-center ${(globalMarketStats.marketCapitalChangePercentage24hUsd > 0 ? 'success-text' : 'danger-text')}`}>
                                             <span className="relative bottom-[1px]">
-                                                {(globalMarketStats.marketCapitalChange24hInUsd > 0) ? <FaCaretUp /> : <FaCaretDown />}
+                                                {(globalMarketStats.marketCapitalChangePercentage24hUsd > 0) ? <FaCaretUp /> : <FaCaretDown />}
                                             </span>
-                                            {roundOffNumber(globalMarketStats.marketCapitalChange24hInUsd, 2) + '%'}
+                                            {roundOffNumber(globalMarketStats.marketCapitalChangePercentage24hUsd, 2) + '%'}
                                         </div>
                                     }
                                 </div>
@@ -71,8 +71,18 @@ function GlobalMarketStats() {
                                     24h Vol:
                                 </div>
 
-                                <div className="value">
+                                <div className="value flex items-center">
                                     {formatValueInUsdCompact(globalMarketStats.totalVolume, 3)}
+
+                                    {
+                                        globalMarketStats.volumeChangePercentage24hUsd &&
+                                        <div className={`ml-[6px] flex items-center ${(globalMarketStats.volumeChangePercentage24hUsd > 0 ? 'success-text' : 'danger-text')}`}>
+                                            <span className="relative bottom-[1px]">
+                                                {(globalMarketStats.volumeChangePercentage24hUsd > 0) ? <FaCaretUp /> : <FaCaretDown />}
+                                            </span>
+                                            {roundOffNumber(globalMarketStats.volumeChangePercentage24hUsd, 2) + '%'}
+                                        </div>
+                                    }
                                 </div>
                             </div>
                         }
