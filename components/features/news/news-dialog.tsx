@@ -31,7 +31,7 @@ export default memo(function NewsDialog(bindings: Bindings) {
 
                 <DialogBody>
                     {(fetchingLatestNews === true) ?
-                        <Spinner className="size-15 m-[10px_auto]" /> :
+                        <Spinner className="size-10 m-[10px_auto]" /> :
                         (articles && articles.length > 0) ? <div className="article-list">
                             {articles.map((article: NewsArticle, index) => {
                                 return (

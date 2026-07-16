@@ -1,9 +1,10 @@
 import { coinovaClientV2 } from "@/lib/api-client";
+import { coinovaEndpoints } from "@/lib/endpoints";
 import { handleError } from "@/services/error.service";
 
 async function retrieveWatchlists() {
     try {
-        const response = await coinovaClientV2.get('v0/watchlists');
+        const response = await coinovaClientV2.get(coinovaEndpoints.watchlists);
         return response;
     } catch (error: unknown) {
         return handleError(error);
@@ -12,7 +13,7 @@ async function retrieveWatchlists() {
 
 async function addWatchlist(apiBody: Record<string, string>) {
     try {
-        const response = await coinovaClientV2.post('v0/watchlists', apiBody);
+        const response = await coinovaClientV2.post(coinovaEndpoints.watchlists, apiBody);
         return response;
     } catch (error: unknown) {
         return handleError(error);
@@ -21,7 +22,7 @@ async function addWatchlist(apiBody: Record<string, string>) {
 
 async function updateWatchlist(watchlistId: string, apiBody: Record<string, string>) {
     try {
-        const response = await coinovaClientV2.patch(`v0/watchlists/${watchlistId}`, apiBody);
+        const response = await coinovaClientV2.patch(`${coinovaEndpoints.watchlists}/${watchlistId}`, apiBody);
         return response;
     } catch (error: unknown) {
         return handleError(error);
@@ -30,7 +31,7 @@ async function updateWatchlist(watchlistId: string, apiBody: Record<string, stri
 
 async function deleteWatchlist(watchlistId: string) {
     try {
-        const response = await coinovaClientV2.delete(`v0/watchlists/${watchlistId}`);
+        const response = await coinovaClientV2.delete(`${coinovaEndpoints.watchlists}/${watchlistId}`);
         return response;
     } catch (error: unknown) {
         return handleError(error);

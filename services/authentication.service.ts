@@ -1,4 +1,5 @@
 import { coinovaClientV2 } from '@/lib/api-client';
+import { coinovaEndpoints } from '@/lib/endpoints';
 
 type SignUpApiBody = {
     name: string,
@@ -8,7 +9,7 @@ type SignUpApiBody = {
 
 async function signUp(apiBody: SignUpApiBody) {
     try {
-        const response = await coinovaClientV2.post(`v0/auth/sign-up`, apiBody);
+        const response = await coinovaClientV2.post(coinovaEndpoints.auth.signUp, apiBody);
         return response;
     } catch (error) {
         throw error;
@@ -17,7 +18,7 @@ async function signUp(apiBody: SignUpApiBody) {
 
 async function signIn(apiBody: { email: string, password: string }) {
     try {
-        const response = await coinovaClientV2.post(`v0/auth/sign-in`, apiBody);
+        const response = await coinovaClientV2.post(coinovaEndpoints.auth.signIn, apiBody);
         return response;
     } catch (error) {
         throw error;
@@ -26,7 +27,7 @@ async function signIn(apiBody: { email: string, password: string }) {
 
 async function signOut() {
     try {
-        const response = await coinovaClientV2.post(`v0/auth/sign-out`);
+        const response = await coinovaClientV2.post(coinovaEndpoints.auth.signOut);
         return response;
     } catch (error) {
         throw error;
@@ -35,16 +36,16 @@ async function signOut() {
 
 async function refreshToken() {
     try {
-        const response = await coinovaClientV2.post(`v0/auth/refresh-token`);
+        const response = await coinovaClientV2.post(coinovaEndpoints.auth.refreshToken);
         return response;
     } catch (error) {
         throw error;
     }
 };
 
-async function retrieveResetCode(jsonData: object) {
+async function forgotPassword(jsonData: object) {
     try {
-        const response = await coinovaClientV2.post(`v0/auth/forgot-password`, jsonData);
+        const response = await coinovaClientV2.post(coinovaEndpoints.auth.forgotPassword, jsonData);
         return response;
     } catch (error) {
         throw error;
@@ -53,7 +54,7 @@ async function retrieveResetCode(jsonData: object) {
 
 async function verifyResetCode(jsonData: object) {
     try {
-        const response = await coinovaClientV2.post(`v0/auth/verify-reset-code`, jsonData);
+        const response = await coinovaClientV2.post(coinovaEndpoints.auth.verifyResetCode, jsonData);
         return response;
     } catch (error) {
         throw error;
@@ -62,11 +63,11 @@ async function verifyResetCode(jsonData: object) {
 
 async function changePassword(jsonData: object) {
     try {
-        const response = await coinovaClientV2.patch(`v0/auth/change-password`, jsonData);
+        const response = await coinovaClientV2.patch(coinovaEndpoints.auth.changePassword, jsonData);
         return response;
     } catch (error) {
         throw error;
     }
 }
 
-export { signUp, signIn, refreshToken, signOut, retrieveResetCode, verifyResetCode, changePassword };
+export { signUp, signIn, refreshToken, signOut, forgotPassword, verifyResetCode, changePassword };

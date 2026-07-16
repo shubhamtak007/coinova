@@ -3,6 +3,7 @@ import { getRowsPerPageDefaultValue } from '@/services/utils.service';
 import { CoinListApiParams } from '@/interfaces/coin-list.interface';
 import { coinGeckoClient } from '@/lib/api-client';
 import { NextRequest, NextResponse } from 'next/server';
+import { coinGeckoEndpoints } from '@/lib/endpoints';
 
 export async function GET(request: NextRequest) {
     const searchParams = request.nextUrl.searchParams;
@@ -20,13 +21,15 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        const coinsApiResponse = await coinGeckoClient.get('v3/coins/markets', { params: queryParams });
-        return NextResponse.json({
-            data: coinsApiResponse.data
-        }, {
-            status: 200
-        });
+        const apiResponse = await coinGeckoClient.get(coinGeckoEndpoints.coins.coinListWithMarketData, { params: queryParams });
 
+        if (apiResponse.data) {
+            return NextResponse.json({
+                data: apiResponse.data
+            }, {
+                status: 200
+            });
+        }
     } catch (error) {
         return handleApiError(error);
     }

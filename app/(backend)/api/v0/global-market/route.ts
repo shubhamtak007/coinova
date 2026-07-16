@@ -2,15 +2,19 @@ import { GlobalMarketDataCoinGecko } from '@/interfaces/global-market-stats.inte
 import { formatValueIntoCommaSeparated, roundOffNumber } from '@/services/utils.service';
 import { coinGeckoClient } from '@/lib/api-client';
 import { NextRequest, NextResponse } from 'next/server';
+import { coinGeckoEndpoints } from '@/lib/endpoints';
 
 export async function GET() {
     try {
-        const globalMarketApiResponse = await coinGeckoClient.get('v3/global');
-        return NextResponse.json({
-            data: createGlobalMarketStatistics(globalMarketApiResponse.data.data)
-        }, {
-            status: 200
-        })
+        const apiResponse = await coinGeckoClient.get(coinGeckoEndpoints.coins.globalMarket);
+
+        if (apiResponse.data && apiResponse.data.data) {
+            return NextResponse.json({
+                data: createGlobalMarketStatistics(apiResponse.data.data)
+            }, {
+                status: 200
+            })
+        }
     } catch (error) {
         if (error instanceof Error) {
             return NextResponse.json({

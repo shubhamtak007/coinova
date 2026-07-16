@@ -1,17 +1,12 @@
 import { CryptoCurrency } from '@/interfaces/coin.interface';
 import { roundOffNumber } from '@/services/utils.service';
-import { coinovaClient, binanceClient, coinGeckoClient, coinRankingClient } from '@/lib/api-client';
+import { coinovaClient, binanceClient, coinGeckoClient } from '@/lib/api-client';
 import { CoinListApiParams } from '@/interfaces/coin-list.interface';
-
-interface MasterSymbol {
-    symbol: string,
-    quoteAsset: string
-}
-
+import { coinGeckoEndpoints, binanceEndpoints, coinovaEndpoints } from '@/lib/endpoints';
 
 async function retrieveCoinList(params: CoinListApiParams, signal?: AbortSignal) {
     try {
-        const response = await coinovaClient.get('v1/coins', { params, signal });
+        const response = await coinovaClient.get(coinovaEndpoints.coins.coinList, { params, signal });
         return response.data.data;
     } catch (error) {
         throw error;
@@ -20,7 +15,7 @@ async function retrieveCoinList(params: CoinListApiParams, signal?: AbortSignal)
 
 async function retrieveTrendingCoins() {
     try {
-        const response = await coinovaClient.get('v1/trending');
+        const response = await coinovaClient.get(coinovaEndpoints.coins.trending);
         return response.data.data.coins;
     } catch (error) {
         throw error;
@@ -29,7 +24,7 @@ async function retrieveTrendingCoins() {
 
 async function retrieveTrendingCoinsCategoriesAndNfts() {
     try {
-        const response = await coinovaClient.get('v1/trending');
+        const response = await coinovaClient.get(coinovaEndpoints.coins.trending);
         return response.data.data;
     } catch (error) {
         throw error;
@@ -38,7 +33,7 @@ async function retrieveTrendingCoinsCategoriesAndNfts() {
 
 async function retrieveGlobalMarketData() {
     try {
-        const response = await coinovaClient.get(`v1/globalMarket`);
+        const response = await coinovaClient.get(coinovaEndpoints.coins.globalMarket);
         return response.data.data;
     } catch (error) {
         throw error;
@@ -52,12 +47,12 @@ async function retrieveAllCoins() {
 
     try {
         const promises = [
-            binanceClient.get('v3/exchangeInfo', { params: queryParameters }),
-            binanceClient.get('v3/ticker/24hr', { params: queryParameters })
+            binanceClient.get(binanceEndpoints.coins.exchangeInfo, { params: queryParameters }),
+            binanceClient.get(binanceEndpoints.coins['24hrPriceChangeStats'], { params: queryParameters })
         ]
 
         const responses = await Promise.all(promises);
-        const masterSymbolList = responses[0].data.symbols.filter((symbol: MasterSymbol) => {
+        const masterSymbolList = responses[0].data.symbols.filter((symbol: Record<string, string>) => {
             return symbol.quoteAsset === 'USDT' && !symbol.symbol.includes('WBTC')
         });
 
@@ -71,7 +66,7 @@ async function retrieveAllCoins() {
 
 async function retrieveCoinMarketChartData(coinUuid: string, params: unknown) {
     try {
-        const response = await coinGeckoClient.get(`v3/coins/${coinUuid}/market_chart`, { params });
+        const response = await coinGeckoClient.get(`${coinGeckoEndpoints.coins.coinDataById}/${coinUuid}/market_chart`, { params });
         return response;
     } catch (error) {
         throw error;
@@ -80,7 +75,7 @@ async function retrieveCoinMarketChartData(coinUuid: string, params: unknown) {
 
 async function retrieveCoinDetailsByCoinId(coinId: string) {
     try {
-        const response = await coinGeckoClient.get(`v3/coins/${coinId}`)
+        const response = await coinGeckoClient.get(`${coinGeckoEndpoints.coins.coinDataById}/${coinId}`)
         return response;
     } catch (error) {
         throw error;
@@ -89,7 +84,7 @@ async function retrieveCoinDetailsByCoinId(coinId: string) {
 
 async function search(params: { query: string }, signal?: AbortSignal) {
     try {
-        const response = await coinGeckoClient.get('v3/search', { params, signal })
+        const response = await coinGeckoClient.get(coinGeckoEndpoints.coins.search, { params, signal })
         return response;
     } catch (error) {
         throw error;
@@ -97,7 +92,7 @@ async function search(params: { query: string }, signal?: AbortSignal) {
 };
 
 
-function createCryptoCurrencyList(masterSymbolList: MasterSymbol[], cryptoPriceList: CryptoCurrency[]) {
+function createCryptoCurrencyList(masterSymbolList: Record<string, string>[], cryptoPriceList: CryptoCurrency[]) {
     let cryptoCurrencyList = [];
 
     for (const masterSymbol of masterSymbolList) {

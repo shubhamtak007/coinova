@@ -1,8 +1,9 @@
 import { coinovaClientV2 } from '@/lib/api-client';
+import { coinovaEndpoints } from '@/lib/endpoints';
 
 async function retrieveProfile() {
     try {
-        const response = await coinovaClientV2.get(`v0/users/me`);
+        const response = await coinovaClientV2.get(coinovaEndpoints.users.me);
         return response;
     } catch (error) {
         throw error;
