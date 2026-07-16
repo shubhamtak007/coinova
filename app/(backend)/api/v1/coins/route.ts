@@ -1,27 +1,13 @@
-import { NextResponse } from 'next/server';
 import axios from 'axios';
 import { getRowsPerPageDefaultValue } from '@/services/utils.service';
 import { CoinListApiParams } from '@/interfaces/coin-list.interface';
+import { coinGeckoClient } from '@/lib/api-client';
+import { NextRequest, NextResponse } from 'next/server';
 
-const coinGeckoApiProperties = axios.create({
-    baseURL: 'https://api.coingecko.com/api/',
-    headers: {
-        'accept': 'application/json',
-        'x-cg-demo-api-key': process.env.COIN_GECKO_API_KEY
-    }
-})
+export async function GET(request: NextRequest) {
+    const searchParams = request.nextUrl.searchParams;
 
-export async function GET(request: Request) {
-    const { searchParams } = new URL(request.url);
-
-    if (!process.env.COIN_GECKO_API_KEY) {
-        return NextResponse.json({
-            error: 'API key is missing',
-            status: 500
-        })
-    }
-
-    const queryParameters: CoinListApiParams = {
+    const queryParams: CoinListApiParams = {
         vs_currency: 'usd',
         precision: 3,
         symbols: searchParams.get('symbols') ? searchParams.get('symbols') : null,
@@ -34,8 +20,12 @@ export async function GET(request: Request) {
     }
 
     try {
-        const response = await coinGeckoApiProperties.get('v3/coins/markets', { params: queryParameters });
-        return NextResponse.json(response.data, { status: 200 });
+        const coinsApiResponse = await coinGeckoClient.get('v3/coins/markets', { params: queryParams });
+        return NextResponse.json({
+            data: coinsApiResponse.data
+        }, {
+            status: 200
+        });
 
     } catch (error) {
         return handleApiError(error);

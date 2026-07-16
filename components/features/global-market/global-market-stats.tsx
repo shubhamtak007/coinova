@@ -52,12 +52,12 @@ function GlobalMarketStats() {
                                     {formatValueInUsdCompact(globalMarketStats.totalMarketCapital.value, 3)}
 
                                     {
-                                        globalMarketStats.totalMarketCapitalChange24hInUsd &&
-                                        <div className={`ml-[6px] flex items-center ${(globalMarketStats.totalMarketCapitalChange24hInUsd > 0 ? 'success-text' : 'danger-text')}`}>
+                                        globalMarketStats.marketCapitalChange24hInUsd &&
+                                        <div className={`ml-[6px] flex items-center ${(globalMarketStats.marketCapitalChange24hInUsd > 0 ? 'success-text' : 'danger-text')}`}>
                                             <span className="relative bottom-[1px]">
-                                                {(globalMarketStats.totalMarketCapitalChange24hInUsd > 0) ? <FaCaretUp /> : <FaCaretDown />}
+                                                {(globalMarketStats.marketCapitalChange24hInUsd > 0) ? <FaCaretUp /> : <FaCaretDown />}
                                             </span>
-                                            {roundOffNumber(globalMarketStats.totalMarketCapitalChange24hInUsd, 2) + '%'}
+                                            {roundOffNumber(globalMarketStats.marketCapitalChange24hInUsd, 2) + '%'}
                                         </div>
                                     }
                                 </div>

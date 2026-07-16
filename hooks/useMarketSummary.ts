@@ -75,11 +75,11 @@ function useMarketSummary() {
         })
 
         try {
-            const response = await retrieveCoinList({ symbols: symbolsInLowerCase.join(',') });
+            const serverCoinList = await retrieveCoinList({ symbols: symbolsInLowerCase.join(',') });
 
-            if (response && response.data) {
+            if (serverCoinList) {
                 for (const crypto of coins) {
-                    const matchedCrypto = response.data.find((item: CoingeckoCrypto) => crypto.symbol.toLowerCase() === item.symbol);
+                    const matchedCrypto = serverCoinList.find((item: CoingeckoCrypto) => crypto.symbol.toLowerCase() === item.symbol);
 
                     if (matchedCrypto) {
                         const priceChangePercentRoundOffValue = roundOffNumber(matchedCrypto.price_change_percentage_24h,

@@ -73,8 +73,8 @@ function useCoinList() {
 
             if (requestId !== requestIdRef.current) return;
 
-            prefetchCoinDetailsPageRoutes(coinMarketDataList.data);
-            setCoinList((coinMarketDataList && coinMarketDataList.data) ? coinMarketDataList.data : []);
+            prefetchCoinDetailsPageRoutes(coinMarketDataList);
+            setCoinList(coinMarketDataList ? coinMarketDataList : []);
 
         } catch (error) {
             if (error instanceof DOMException && error.name === 'AbortError') return;

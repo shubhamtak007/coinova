@@ -11,6 +11,7 @@ interface GlobalMarketDataCoinGecko {
         [key: string]: number
     },
     market_cap_change_percentage_24h_usd: number,
+    volume_change_percentage_24h_usd: number,
     updated_at: number
 }
 
@@ -21,7 +22,8 @@ interface GlobalMarketStats {
         value: number,
         marketCapShareList: Record<string, string>[]
     },
-    totalMarketCapitalChange24hInUsd: number,
+    marketCapitalChangePercentage24hInUsd: number,
+    volumeChangePercentage24hInUsd: number,
     totalVolume: number,
     lastUpdatedAt: number
 }

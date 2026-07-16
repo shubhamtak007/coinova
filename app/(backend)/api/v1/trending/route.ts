@@ -1,25 +1,16 @@
-import { NextResponse } from 'next/server';
 import axios from 'axios';
 import { coinGeckoClient } from '@/lib/api-client';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET(request: Request) {
-    if (!process.env.COIN_GECKO_API_KEY) {
-        NextResponse.json({
-            error: 'API key is missing',
-            status: 500
-        })
-    }
-
-    const { searchParams } = new URL(request.url);
-
-    const queryParameters = {
-
-    }
-
+export async function GET(request: NextRequest) {
     try {
         const endPoint = 'v3/search/trending';
-        const response = await coinGeckoClient.get(endPoint, { params: queryParameters });
-        return NextResponse.json(response.data);
+        const trendingApiResponse = await coinGeckoClient.get(endPoint);
+        return NextResponse.json({
+            data: trendingApiResponse.data
+        }, {
+            status: 200
+        });
 
     } catch (error: unknown) {
         if (axios.isAxiosError(error)) {

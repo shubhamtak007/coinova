@@ -12,7 +12,7 @@ interface MasterSymbol {
 async function retrieveCoinList(params: CoinListApiParams, signal?: AbortSignal) {
     try {
         const response = await coinovaClient.get('v1/coins', { params, signal });
-        return response;
+        return response.data.data;
     } catch (error) {
         throw error;
     }
@@ -21,7 +21,7 @@ async function retrieveCoinList(params: CoinListApiParams, signal?: AbortSignal)
 async function retrieveTrendingCoins() {
     try {
         const response = await coinovaClient.get('v1/trending');
-        return response.data.coins;
+        return response.data.data.coins;
     } catch (error) {
         throw error;
     }
@@ -30,7 +30,7 @@ async function retrieveTrendingCoins() {
 async function retrieveTrendingCoinsCategoriesAndNfts() {
     try {
         const response = await coinovaClient.get('v1/trending');
-        return response.data;
+        return response.data.data;
     } catch (error) {
         throw error;
     }

@@ -20,11 +20,11 @@ function useCoinInfo({ coinProperties }: Bindings) {
         if (fetchingCoinInfo === false) setFetchingCoinInfo(true);
 
         try {
-            const response = await retrieveCoinList({ ids: coinProperties.id });
+            const coins = await retrieveCoinList({ ids: coinProperties.id });
 
-            if (response.data?.length > 0) {
-                formatValues(response.data);
-                setCoinInfo(response.data[0]);
+            if (coins.length > 0) {
+                formatValues(coins);
+                setCoinInfo(coins[0]);
             }
         } catch (error) {
 

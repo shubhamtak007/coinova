@@ -107,7 +107,7 @@ export default function useWatchlistDialog() {
                 })).toString()
             }
 
-            const marketDataList = (await retrieveCoinList(params)).data;
+            const marketDataList = await retrieveCoinList(params);
 
             watchlistCoins.map((watchlistCoin) => {
                 const foundMarketData = marketDataList.find((marketData: CoingeckoCrypto) => {
