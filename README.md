@@ -1,4 +1,6 @@
-# Coinova 🚀
+<div align="center">
+    <h1>Coinova</h1>
+</div>
 
 Coinova is a modern, real-time cryptocurrency app that helps users track market trends and major coins through a clean and responsive interface.
 
