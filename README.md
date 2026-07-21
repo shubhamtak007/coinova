@@ -16,12 +16,8 @@ A simple coin app with live prices, coin insights, watchlists, and news.
 - Fast and lightweight user experience
 - Watchlist and news
 
----
-
 ## Screenshot
 ![Screenshot](public/screen-one.png)
-
----
 
 ## Tech Stack
 - **Framework:** Next.js
@@ -32,15 +28,11 @@ A simple coin app with live prices, coin insights, watchlists, and news.
 - **DB & ORM:** NeonDB, PostgreSQL, Prisma
 - **Deployment:** Vercel, Render
 
----
-
 ## API's Used
 
 - <b>CoinGecko:</b> Used for trending and server side coin list, searching, coin details and for coin analysis.
 - <b>Binance:</b> Used for top gainers, losers and volume data.
 - <b>Coinova:</b> Used for news and watchlist.
-
----
 
 ## Installation & Setup
 
@@ -67,8 +59,7 @@ COIN_GECKO_API_KEY=your_api_key_here
 
 # Start the development server
 npm run dev
-```
----
+``
 
 ## License
 Coinova is [MIT licensed](./LICENSE).
