@@ -2,47 +2,58 @@
     <h1>Coinova</h1>
 </div>
 
-Coinova is a modern, real-time cryptocurrency app that helps users track market trends and major coins through a clean and responsive interface.
+## Getting Started
 
-## 🌐 Live Demo
-https://coinova-app.vercel.app/
+A simple coin app with live prices, coin insights, watchlists, and news.
 
----
+- Visit our app [Coinova](https://coinova-app.vercel.app).
 
-## 📌 Features
-- Market overview of major cryptocurrencies
-- Coins table displaying price, 24-hour change, volume, and market capitalization
+## Features
+- Market overview of major coins
+- Coin table displaying price, 24-hour price change, trading volume, and market capitalization
 - Real-time price updates
 - Fully responsive layout for desktop and mobile devices
 - Fast and lightweight user experience
+- Watchlist and news
 
 ---
 
-## 🖼 Screenshot
-![Dashboard Screenshot](public/screen-one.png)
+## Screenshot
+![Screenshot](public/screen-one.png)
 
 ---
 
-## 🛠 Tech Stack
+## Tech Stack
 - **Framework:** Next.js
 - **Library:** React
 - **Language:** Javascript, TypeScript
 - **Styling:** Tailwind CSS
-- **APIs:** CoinGecko, Binance
-- **Deployment:** Vercel
+- **API's:** CoinGecko, Binance, Coinova
+- **DB & ORM:** NeonDB, PostgreSQL, Prisma
+- **Deployment:** Vercel, Render
 
 ---
 
-## 🔗 APIs Used
-- **CoinGecko API**
-  Used for global market statistics, trending coins, and general cryptocurrency data.
+## API's Used
 
-- **Binance API**
-  Used for real-time price updates and volume-related market data.
+<div>
+    <b>CoinGecko API:</b>
+    Used for trending and server side coin list, searching, coin details and for coin analysis.
+</div>
+
+<div>
+    <b>Binance API:</b>
+    Used for top gainers, losers and volume data.
+</div>
+
+<div>
+    <b>Coinova API:</b>
+    Used for news and watchlist.
+</div>
 
 ---
 
-## ⚙️ Installation & Setup
+## Installation & Setup
 
 To run the project locally, follow these steps:
 
@@ -62,7 +73,7 @@ cd coinova
 # Install dependencies
 npm install
 
-# Add your API key to .env.local
+# Add your API key to .env.development and .env.production
 COIN_GECKO_API_KEY=your_api_key_here
 
 # Start the development server
