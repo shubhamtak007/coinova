@@ -105,7 +105,7 @@ function DialogHeader({
         <div
             data-slot="dialog-header"
             className={cn(`flex items-center justify-between gap-3 text-center sm:text-left min-w-[100%]
-                        p-[8px_12px] sticky top-[0px] bg-[#fff] border-b-[1px] border-[var(--border-color)]
+                        p-[8px_12px] sticky top-[0px] bg-[--main-bg-color] border-b-[1px] border-[var(--border-color)]
                         rounded-t-[var(--border-radius)]`, className)}
             {...props}
         >

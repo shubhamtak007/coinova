@@ -48,6 +48,6 @@
 }
 
 .required {
-    color: oklch(57.7% 0.245 27.325);
+    color: var(--required-color);
     margin-left: 2px;
 }

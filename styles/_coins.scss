@@ -109,14 +109,14 @@
             margin: 0px 12px 12px 12px;
 
             button {
-                color: #333;
+                color: var(--text-color);
                 cursor: pointer;
 
                 &:hover {
                     background-color: var(--main-color-2);
                     outline: 1px solid var(--main-color-2);
                     border-color: var(--main-color-2);
-                    color: #fff;
+                    color: var(--text-color-2);
                 }
 
                 &:focus-visible {
