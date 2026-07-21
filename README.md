@@ -36,17 +36,17 @@ A simple coin app with live prices, coin insights, watchlists, and news.
 
 ## API's Used
 
-<div>
+- <div>
     <b>CoinGecko API:</b>
     Used for trending and server side coin list, searching, coin details and for coin analysis.
 </div>
 
-<div>
+- <div>
     <b>Binance API:</b>
     Used for top gainers, losers and volume data.
 </div>
 
-<div>
+- <div>
     <b>Coinova API:</b>
     Used for news and watchlist.
 </div>
