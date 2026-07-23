@@ -216,7 +216,7 @@ function WatchlistCoinList(props: any) {
                                             <th className="text-center">#</th>
                                             <th className="text-left">Coin</th>
                                             <th className="text-right">Price</th>
-                                            <th className="text-right">1hr Change</th>
+                                            <th className="text-right !pr-[8px]">1hr Change</th>
                                         </tr>
                                     </thead>
 
@@ -264,7 +264,7 @@ function WatchlistCoinList(props: any) {
                                                                     }
                                                                 </td>
 
-                                                                <td className="text-right !pr-[unset]">
+                                                                <td className="text-right">
                                                                     {
                                                                         (fetchingMarketData === true) ?
                                                                             <Skeleton className="h-[21px] w-[60px] float-right" /> :
