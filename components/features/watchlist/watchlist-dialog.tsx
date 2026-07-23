@@ -12,6 +12,8 @@ import WatchlistFormDialog from "./watchlist-form-dialog";
 import CoinSearchDialog from "@/components/features/coin-search/coin-search-dialog";
 import { WatchlistCoin } from "@/interfaces/watchlist.interface";
 import CoinDetailsDialog from "../coin-details/coin-details-dialog";
+import { FaCaretDown, FaCaretUp } from "react-icons/fa";
+import { roundOffNumber } from "@/services/utils.service";
 
 type SharedBindings = DialogProps;
 type Bindings = {} & SharedBindings;
@@ -206,13 +208,18 @@ function WatchlistCoinList(props: any) {
                     </div>
                     :
                     <div className="watchlist-coins-container">
-                        <div className="header">
-                            Coins
-                        </div>
-
                         {
                             (watchlistCoins.length > 0) ?
                                 <table className="cnv-borderless-table watchlist-coins-table">
+                                    <thead>
+                                        <tr>
+                                            <th className="text-center">#</th>
+                                            <th className="text-left">Coin</th>
+                                            <th className="text-right">Price</th>
+                                            <th className="text-right">1hr Change</th>
+                                        </tr>
+                                    </thead>
+
                                     <tbody>
                                         {
                                             watchlistCoins.map((watchlistCoin: WatchlistCoin, index: number) => {
@@ -222,7 +229,7 @@ function WatchlistCoinList(props: any) {
                                                     >
                                                         <ContextMenuTrigger asChild>
                                                             <tr>
-                                                                <td className="!w-[30px] text-center">{index + 1}</td>
+                                                                <td className="!w-[30px] text-center !pl-[unset]">{index + 1}</td>
 
                                                                 <td>
                                                                     <div className="flex items-center">
@@ -251,9 +258,21 @@ function WatchlistCoinList(props: any) {
                                                                     {(fetchingMarketData === true) ?
                                                                         <Skeleton className="h-[21px] w-[60px] float-right" /> :
                                                                         watchlistCoin.marketData &&
-                                                                        <span>
+                                                                        <div className="mr-[2px]">
                                                                             ${watchlistCoin.marketData.current_price}
-                                                                        </span>
+                                                                        </div>
+                                                                    }
+                                                                </td>
+
+                                                                <td className="text-right !pr-[unset]">
+                                                                    {
+                                                                        (fetchingMarketData === true) ?
+                                                                            <Skeleton className="h-[21px] w-[60px] float-right" /> :
+                                                                            watchlistCoin?.marketData?.price_change_percentage_1h_in_currency &&
+                                                                            <span className={`flex items-center justify-end ${(watchlistCoin.marketData.price_change_percentage_1h_in_currency > 0 ? 'success-text' : 'danger-text')}`}>
+                                                                                {(watchlistCoin.marketData.price_change_percentage_1h_in_currency > 0) ? <FaCaretUp /> : <FaCaretDown />}
+                                                                                {roundOffNumber(watchlistCoin.marketData.price_change_percentage_1h_in_currency, 2).toFixed(2) + '%'}
+                                                                            </span>
                                                                     }
                                                                 </td>
                                                             </tr>

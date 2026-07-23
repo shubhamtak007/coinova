@@ -45,7 +45,7 @@
 
                 &:first-child {
                     width: 20%;
-                    color: var(--grey-color-1);
+                    color: var(--vrt-th-color);
                 }
 
                 .social-container {
@@ -85,7 +85,7 @@
     thead {
         th {
             font-size: 12px;
-            color: var(--overview-section-th-color);
+            color: var(--th-color);
             font-weight: unset;
             padding: 0px 8px 12px 8px;
 
