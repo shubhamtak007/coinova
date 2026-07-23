@@ -216,7 +216,7 @@ function WatchlistCoinList(props: any) {
                                             <th className="text-center">#</th>
                                             <th className="text-left">Coin</th>
                                             <th className="text-right">Price</th>
-                                            <th className="text-right !pr-[8px]">1hr Change</th>
+                                            <th className="text-right !pr-[8px]">1hr</th>
                                         </tr>
                                     </thead>
 
