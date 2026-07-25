@@ -21,7 +21,7 @@ function CoinSearchDialog(bindings: Bindings) {
     const {
         searchValue, setSearchValue, onSearchValueChange,
         searchingCoins, coins, onCoinClick, addCoinToActiveWatchlist
-    } = useCoinSearchDialog({ setShowDialog, contextProperties, context });
+    } = useCoinSearchDialog({ showDialog, setShowDialog, contextProperties, context });
 
     return (
         <div>
@@ -36,15 +36,15 @@ function CoinSearchDialog(bindings: Bindings) {
                 >
                     <DialogHeader
                         showCloseButton={false}
-                        className="p-[unset]"
+                        className="p-[12px]"
                     >
                         <DialogTitle className="font-normal">
                             <div>
-                                <InputGroup className="w-full h-[40px] m-[12px] w-[stretch]">
+                                <InputGroup className="w-full h-[40px] w-[stretch]">
                                     <InputGroupInput
                                         type="text"
                                         tabIndex={0}
-                                        placeholder="Search coin"
+                                        placeholder="Search by name..."
                                         className="!text-[13px] h-[inherit]"
                                         value={searchValue}
                                         onChange={(event) => { onSearchValueChange(event) }}
@@ -72,85 +72,79 @@ function CoinSearchDialog(bindings: Bindings) {
 
                     <DialogBody>
                         {
-                            searchingCoins === true &&
-                            <Spinner className="size-13 mx-auto" />
-                        }
+                            (searchingCoins === true) ?
+                                <Spinner className="size-13 mx-auto" /> :
+                                (coins.length > 0) ? <>
+                                    <div className="text-gray-500 text-[12px] mb-[8px]">
+                                        Search Results
+                                    </div>
 
-                        {
-                            (searchingCoins === false && coins.length === 0) &&
-                            <div className="no-value-text !text-center">No coins.</div>
-                        }
-
-                        {
-                            (searchingCoins === false && coins.length > 0) &&
-                            <>
-                                <div className="text-gray-500 text-[12px] mb-[8px]">
-                                    Search Results
-                                </div>
-
-                                <table className="cnv-borderless-table coin-search-table">
-                                    <tbody>
-                                        {
-                                            coins.map((coin, index) => {
-                                                return (
-                                                    <tr
-                                                        tabIndex={0}
-                                                        key={coin.id}
-                                                        onClick={(event) => { onCoinClick(event, coin); }}
-                                                        onKeyDown={(event) => {
-                                                            if (event.key === 'Enter') {
-                                                                onCoinClick(event, coin);
-                                                            }
-                                                        }}
-                                                    >
-                                                        <td>
-                                                            <div className="flex items-center">
-                                                                <div className="pr-[8px]">
-                                                                    {
-                                                                        coin.large ? <Image
-                                                                            className="coin-symbol-image"
-                                                                            width={coinSymbolImageSize.width}
-                                                                            height={coinSymbolImageSize.height}
-                                                                            alt={`Image of ${coin.name}`}
-                                                                            src={coin.large}
-                                                                        /> :
-                                                                            <div className="coin-letter-mark cursor-pointer">
-                                                                                {coin.symbol[0]}
-                                                                            </div>
-                                                                    }
-                                                                </div>
-
-                                                                <div
-                                                                    className="crypto-symbol cursor-pointer"
-                                                                >
-                                                                    {coin.name}
-                                                                </div>
-                                                            </div>
-                                                        </td>
-
-                                                        {
-                                                            (context === 'watchlist') &&
-                                                            <td
-                                                                className="place-items-end"
-                                                                onClick={(event) => {
-                                                                    event?.stopPropagation();
-                                                                    event?.preventDefault();
-                                                                    addCoinToActiveWatchlist(coin);
-                                                                }}
-                                                            >
-                                                                {
-                                                                    (coin.loading === true) ? <Spinner className="size-5" /> :
-                                                                        <CirclePlus className="size-5" />
+                                    <table className="cnv-borderless-table coin-search-table">
+                                        <tbody>
+                                            {
+                                                coins.map((coin, index) => {
+                                                    return (
+                                                        <tr
+                                                            tabIndex={0}
+                                                            key={coin.id}
+                                                            onClick={(event) => { onCoinClick(event, coin); }}
+                                                            onKeyDown={(event) => {
+                                                                if (event.key === 'Enter') {
+                                                                    onCoinClick(event, coin);
                                                                 }
+                                                            }}
+                                                        >
+                                                            <td>
+                                                                <div className="flex items-center">
+                                                                    <div className="pr-[8px]">
+                                                                        {
+                                                                            coin.large ? <Image
+                                                                                className="coin-symbol-image"
+                                                                                width={coinSymbolImageSize.width}
+                                                                                height={coinSymbolImageSize.height}
+                                                                                alt={`Image of ${coin.name}`}
+                                                                                src={coin.large}
+                                                                            /> :
+                                                                                <div className="coin-letter-mark cursor-pointer">
+                                                                                    {coin.symbol[0]}
+                                                                                </div>
+                                                                        }
+                                                                    </div>
+
+                                                                    <div
+                                                                        className="crypto-symbol cursor-pointer"
+                                                                    >
+                                                                        {coin.name}
+                                                                    </div>
+                                                                </div>
                                                             </td>
-                                                        }
-                                                    </tr>
-                                                )
-                                            })
-                                        }
-                                    </tbody>
-                                </table>
-                            </>
+
+                                                            {
+                                                                (context === 'watchlist') &&
+                                                                <td
+                                                                    className="place-items-end"
+                                                                    onClick={(event) => {
+                                                                        event?.stopPropagation();
+                                                                        event?.preventDefault();
+                                                                        addCoinToActiveWatchlist(coin);
+                                                                    }}
+                                                                >
+                                                                    {
+                                                                        (coin.loading === true) ? <Spinner className="size-5" /> :
+                                                                            <CirclePlus className="size-5" />
+                                                                    }
+                                                                </td>
+                                                            }
+                                                        </tr>
+                                                    )
+                                                })
+                                            }
+                                        </tbody>
+                                    </table>
+                                </> :
+                                    <div className="no-value-text !text-center">
+                                        {searchValue ? `No coins found.` : 'Search for a coin to get started.'}
+                                    </div>
                         }
                     </DialogBody>
 

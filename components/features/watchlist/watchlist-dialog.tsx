@@ -317,17 +317,14 @@ function WatchlistCoinList(props: any) {
                     </div>
             }
 
-            {
-                (showCoinSearchDialog === true) &&
-                <CoinSearchDialog
-                    dialogLevel={2}
-                    showDialog={showCoinSearchDialog}
-                    setShowDialog={setShowCoinSearchDialog}
-                    context={'watchlist'}
-                    contextProperties={activeWatchlist}
-                    onDialogClose={onCoinSearchDialogClose}
-                />
-            }
+            <CoinSearchDialog
+                dialogLevel={2}
+                showDialog={showCoinSearchDialog}
+                setShowDialog={setShowCoinSearchDialog}
+                context={'watchlist'}
+                contextProperties={activeWatchlist}
+                onDialogClose={onCoinSearchDialogClose}
+            />
         </>
     )
 }

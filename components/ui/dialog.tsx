@@ -112,7 +112,7 @@ function DialogHeader({
             {children}
 
             {showCloseButton && (
-                <div className="w-[40px] flex justify-end w-fit">
+                <div className="flex justify-end w-fit">
                     <DialogPrimitive.Close
                         data-slot="dialog-close"
                         disabled={disableCloseButton}

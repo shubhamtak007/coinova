@@ -40,7 +40,7 @@ export default function useWatchlistDialog(bindings: Bindings) {
         if (!showDialog) return;
 
         fetchWatchlists();
-    }, []);
+    }, [showDialog]);
 
     useEffect(() => {
         if (activeWatchlist?.id) fetchWatchlistCoins();
