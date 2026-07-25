@@ -26,7 +26,7 @@ function InputGroup({ className, ...props }: React.ComponentProps<"div">) {
                 // Focus state.
                 `has-[[data-slot=input-group-control]:focus-visible]:border-[var(--main-color-2)]
                  has-[[data-slot=input-group-control]:focus-visible]:outline-solid
-                 has-[[data-slot=input-group-control]:focus-visible]:outline-1
+                 has-[[data-slot=input-group-control]:focus-visible]:outline-0
                  has-[[data-slot=input-group-control]:focus-visible]:outline-[var(--main-color-2)]
                 `,
 

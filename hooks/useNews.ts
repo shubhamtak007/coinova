@@ -12,11 +12,9 @@ export default function useNews({ showDialog }: Bindings) {
 
     useEffect(() => {
         if (!showDialog) return;
-    }, [showDialog])
 
-    useEffect(() => {
         fetchLatestNews();
-    }, []);
+    }, [showDialog]);
 
     async function fetchLatestNews() {
         try {

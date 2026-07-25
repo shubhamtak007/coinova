@@ -10,8 +10,6 @@ import { DialogProps } from "@/interfaces/global.interface";
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 import { cnvIconStrokeWidth } from '@/constants/app.constants';
 
-type SharedBindings = DialogProps;
-
 export default function NavigationTabBar() {
     const {
         scrollEnded, activeTab, onTabClick, dialogType, showDialog,
@@ -66,17 +64,13 @@ export default function NavigationTabBar() {
                 </TabsList>
             </Tabs>
 
-            {(showDialog === true) &&
-                <>
-                    {(dialogType === 'news') && showNewsDialog({ showDialog, setShowDialog })}
-                    {(dialogType === 'watchlist') && showWatchlistDialog({ showDialog, setShowDialog })}
-                </>
-            }
+            {(dialogType === 'news') && showNewsDialog({ showDialog, setShowDialog })}
+            {(dialogType === 'watchlist') && showWatchlistDialog({ showDialog, setShowDialog })}
         </div>
     )
 }
 
-function showWatchlistDialog({ showDialog, setShowDialog }: SharedBindings) {
+function showWatchlistDialog({ showDialog, setShowDialog }: DialogProps) {
     return (
         <WatchlistDialog
             showDialog={showDialog}
@@ -85,7 +79,7 @@ function showWatchlistDialog({ showDialog, setShowDialog }: SharedBindings) {
     )
 }
 
-function showNewsDialog({ showDialog, setShowDialog }: SharedBindings) {
+function showNewsDialog({ showDialog, setShowDialog }: DialogProps) {
     return (
         <NewsDialog
             showDialog={showDialog}

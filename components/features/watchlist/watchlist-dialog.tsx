@@ -15,8 +15,7 @@ import CoinDetailsDialog from "../coin-details/coin-details-dialog";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 import { roundOffNumber } from "@/services/utils.service";
 
-type SharedBindings = DialogProps;
-type Bindings = {} & SharedBindings;
+type Bindings = DialogProps;
 
 export default function WatchlistDialog(bindings: Bindings) {
     const { showDialog, setShowDialog } = bindings;
@@ -27,7 +26,7 @@ export default function WatchlistDialog(bindings: Bindings) {
         onDeleteBtnClicked, deletingItem, onDeleteDialogClose, fetchingMarketData, watchlistCoinContextMenuList,
         rightClickedItem, deleteDialogType, selectedWatchlist, showWatchlistDetailsDialog, setShowWatchlistDetailsDialog,
         showCoinDetailsDialog, setShowCoinDetailsDialog
-    } = useWatchlistDialog();
+    } = useWatchlistDialog({ showDialog, setShowDialog });
 
     return (
         <>

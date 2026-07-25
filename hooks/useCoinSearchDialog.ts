@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, SetStateAction, Dispatch } from 'react';
+import { useState, useEffect, SetStateAction, Dispatch, use } from 'react';
 import { search } from '@/services/coin.service';
 import { getUiRoute } from '@/services/utils.service';
 import { SearchApiCoin } from '@/interfaces/coin.interface';
@@ -9,18 +9,23 @@ import { useOptimisticNavigation } from '@/contexts/navigation-context';
 import { addWatchlistCoin } from '@/services/watchlist-coin.service';
 
 type Bindings = {
+    showDialog: boolean,
     setShowDialog: Dispatch<SetStateAction<boolean>>,
     context?: string,
     contextProperties?: Record<string, string>
 }
 
 export default function useCoinSearchDialog(bindings: Bindings) {
-    const { setShowDialog, contextProperties, context } = bindings;
+    const { showDialog, setShowDialog, contextProperties, context } = bindings;
     const router = useRouter();
     const { navigateOptimistically } = useOptimisticNavigation();
     const [searchValue, setSearchValue] = useState<string>('');
     const [searchingCoins, setSearchingCoins] = useState<boolean>(false);
     const [coins, setCoins] = useState<SearchApiCoin[]>([]);
+
+    useEffect(() => {
+        if (!showDialog) return;
+    }, [showDialog])
 
     useEffect(() => {
         let debounceHandler: ReturnType<typeof setTimeout>;

@@ -44,7 +44,11 @@ function Header() {
                         onClick={() => { setShowSearchDialog(true); }}
                     >
                         <Search className="size-5" strokeWidth={cnvIconStrokeWidth} />
-                        {(showSearchDialog === true) && showCoinSearchDialog({ showSearchDialog, setShowSearchDialog })}
+                        <CoinSearchDialog
+                            key={crypto.randomUUID()}
+                            showDialog={showSearchDialog}
+                            setShowDialog={setShowSearchDialog}
+                        />
                     </div>
 
                     <AccountCentre />
@@ -63,15 +67,6 @@ function Header() {
                 </div>
             </div>
         </div>
-    )
-}
-
-function showCoinSearchDialog({ showSearchDialog, setShowSearchDialog }: SearchDialogBindings) {
-    return (
-        <CoinSearchDialog
-            showDialog={showSearchDialog}
-            setShowDialog={setShowSearchDialog}
-        />
     )
 }
 

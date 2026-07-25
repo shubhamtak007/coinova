@@ -6,6 +6,7 @@ import { retrieveWatchlistCoinsByWatchlistId, deleteWatchlistCoin } from "@/serv
 import { retrieveCoinList } from "@/services/coin.service";
 import { CoingeckoCrypto } from "@/interfaces/coin.interface";
 import { Watchlist } from "@/interfaces/watchlist.interface";
+import { DialogProps } from "@/interfaces/global.interface";
 
 const watchlistContextMenuList = ['Edit', 'View Details', 'Delete'].map((name) => {
     return { id: crypto.randomUUID(), name }
@@ -15,7 +16,10 @@ const watchlistCoinContextMenuList = ['View Details', 'Delete'].map((name) => {
     return { id: crypto.randomUUID(), name }
 })
 
-export default function useWatchlistDialog() {
+type Bindings = DialogProps;
+
+export default function useWatchlistDialog(bindings: Bindings) {
+    const { showDialog, setShowDialog } = bindings;
     const [fetchingWatchlists, setFetchingWatchlists] = useState<boolean>(true);
     const [fetchingWatchlistCoins, setFetchingWatchlistCoins] = useState<boolean>(false);
     const [watchlists, setWatchlists] = useState<Watchlist[]>([]);
@@ -33,6 +37,8 @@ export default function useWatchlistDialog() {
     const selectedWatchlist = useRef<Record<string, string>>(null);
 
     useEffect(() => {
+        if (!showDialog) return;
+
         fetchWatchlists();
     }, []);
 
