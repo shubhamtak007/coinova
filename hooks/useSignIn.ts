@@ -3,7 +3,6 @@
 import { SetStateAction, Dispatch, useEffect, useState, useRef } from 'react';
 import { useUser } from '@/contexts/user.context';
 import { useLoading } from '@/contexts/loading.context';
-import { toast } from 'sonner';
 import { useForm } from '@tanstack/react-form';
 import { changePassword, forgotPassword, signIn, verifyResetCode, signUp } from '@/services/authentication.service';
 import { retrieveProfile } from '@/services/user.service';
