@@ -1,6 +1,5 @@
 'use client';
 
-import { Dispatch, SetStateAction, useState } from 'react';
 import { Coins } from 'lucide-react';
 import Link from 'next/link';
 import NavigationTabBar from '@/components/layout/navigation-tab-bar';

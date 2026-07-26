@@ -4,12 +4,11 @@ import { useLoading } from '@/contexts/loading.context';
 import { DropdownMenu, DropdownMenuTrigger, DropdownMenuContent, DropdownMenuItem, DropdownMenuGroup, DropdownMenuLabel, DropdownMenuShortcut, DropdownMenuSub, DropdownMenuSubTrigger, DropdownMenuPortal, DropdownMenuSeparator, DropdownMenuSubContent } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
-import { toast } from 'sonner';
 import { CircleUserRound } from 'lucide-react';
-import ProfileDialog from './profile-dialog';
-import SignIn from '@/components/features/sign-in/sign-in';
 import { signOut } from '@/services/authentication.service';
 import { cnvIconStrokeWidth } from '@/constants/app.constants';
+import ProfileDialog from './profile-dialog';
+import SignIn from '@/components/features/sign-in/sign-in';
 
 type PdBindings = {
     setShowSignInDialog: Dispatch<SetStateAction<boolean>>

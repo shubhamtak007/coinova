@@ -1,3 +1,8 @@
+import Image from "next/image";
+import useWatchlistDialog from "@/hooks/useWatchlistDialog";
+import WatchlistFormDialog from "./watchlist-form-dialog";
+import CoinSearchDialog from "@/components/features/coin-search/coin-search-dialog";
+import CoinDetailsDialog from "../coin-details/coin-details-dialog";
 import { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogBody, DialogContent, DialogFooter } from "@/components/ui/dialog";
 import { DialogProps } from "@/interfaces/global.interface";
 import { Button } from "@/components/ui/button";
@@ -6,12 +11,7 @@ import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Spinner } from "@/components/ui/spinner";
 import { ContextMenu, ContextMenuContent, ContextMenuGroup, ContextMenuItem, ContextMenuTrigger } from "@/components/ui/context-menu";
-import Image from "next/image";
-import useWatchlistDialog from "@/hooks/useWatchlistDialog";
-import WatchlistFormDialog from "./watchlist-form-dialog";
-import CoinSearchDialog from "@/components/features/coin-search/coin-search-dialog";
 import { WatchlistCoin } from "@/interfaces/watchlist.interface";
-import CoinDetailsDialog from "../coin-details/coin-details-dialog";
 import { FaCaretDown, FaCaretUp } from "react-icons/fa";
 import { roundOffNumber } from "@/services/utils.service";
 
