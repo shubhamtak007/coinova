@@ -6,7 +6,7 @@
 
 A simple coin app with live prices, coin insights, watchlists, and news.
 
-- Visit our app [Coinova](https://coinova-app.vercel.app).
+- Visit our app [Coinova](https://coinova.solvospace.com).
 
 ## Features
 - Market overview of major coins
