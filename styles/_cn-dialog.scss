@@ -1,6 +1,13 @@
 [data-slot="dialog-content"] {
     --dialog-body-height: 80vh;
 
+    [data-slot="dialog-header"] {
+        .sub-title {
+            font-size: 11px;
+            color: var(--dark-grey);
+        }
+    }
+
     .dialog-body {
         max-height: calc(var(--dialog-body-height) - 101px);
         padding: 12px;

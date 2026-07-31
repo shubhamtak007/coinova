@@ -38,11 +38,11 @@ export default memo(function signIn(bindings: Bindings) {
                         {['forgotPassword', 'verifyResetCode'].includes(formType) && 'Forgot your password?'}
                         {formType === 'changePassword' && 'Change your password'}
 
-                        {['forgotPassword', 'verifyResetCode'].includes(formType) && <div className="text-[11px] text-[#858585]">
+                        {['forgotPassword', 'verifyResetCode'].includes(formType) && <div className="sub-title">
                             Enter your email and we'll send you a code to reset the password
                         </div>}
 
-                        {formType === 'changePassword' && <div className="text-[11px] text-[#858585]">
+                        {formType === 'changePassword' && <div className="sub-title">
                             Welcome back! Choose a new strong password and save it to proceed
                         </div>}
 
@@ -186,7 +186,7 @@ export default memo(function signIn(bindings: Bindings) {
                                                         </div>
 
                                                         {formType === 'signIn' && <a
-                                                            className={`text-[#858585] cursor-pointer ${submittingData && 'disable-element'}`}
+                                                            className={`text-[var(--dark-grey)] cursor-pointer ${submittingData && 'disable-element'}`}
                                                             onClick={() => {
                                                                 setFormType('forgotPassword');
                                                             }}
