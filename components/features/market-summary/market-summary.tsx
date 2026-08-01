@@ -1,6 +1,6 @@
 'use client';
 
-import useMarketSummary from "@/hooks/useMarketSummary";
+import useMarketSummary from "@/hooks/use-market-summary";
 import { Skeleton } from '@/components/ui/skeleton';
 import MarketSummaryCard from "@/components/features/market-summary/market-summary-card";
 

@@ -5,7 +5,7 @@ import { Spinner } from '@/components/ui/spinner';
 import { FaReddit, FaGithub } from "react-icons/fa";
 import { ExternalLink } from 'lucide-react';
 import { formatValueIntoCommaSeparated } from '@/services/utils.service';
-import useCoinDetailsDialog from '@/hooks/useCoinDetailsDialog';
+import useCoinDetailsDialog from '@/hooks/use-coin-details-dialog';
 
 type Bindings = {
     coinId: string

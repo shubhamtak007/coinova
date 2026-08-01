@@ -6,7 +6,7 @@ import { EyeOff, Eye, Circle } from 'lucide-react';
 import { FaCheckCircle } from "react-icons/fa";
 import { Spinner } from '@/components/ui/spinner';
 import { FormType } from '@/interfaces/account-centre.interface';
-import useSignIn from '@/hooks/useSignIn';
+import useSignIn from '@/hooks/use-sign-in';
 import HCaptcha from '@hcaptcha/react-hcaptcha';
 
 type Bindings = {

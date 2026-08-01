@@ -5,9 +5,9 @@ import { AreaChart, XAxis, YAxis, Area, CartesianGrid } from 'recharts';
 import { Spinner } from '@/components/ui/spinner';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useCoinAnalysisContext } from '@/contexts/coin-analysis-context';
-import { timeFrameList, chartViewList } from '@/constants/app.constants';
-import useCoinMarketChartData from '@/hooks/useCoinMarketChartData';
-import useCoinChart from '@/hooks/useCoinChart';
+import { timeFrameList, chartViewList, cnvIconStrokeWidth } from '@/constants/app.constants';
+import useCoinMarketChartData from '@/hooks/use-coin-market-chart-data';
+import useCoinChart from '@/hooks/use-coin-chart';
 import type { CoinAnalysis } from '@/interfaces/coin-analysis.interface';
 
 type Bindings = CoinAnalysis;
@@ -118,7 +118,7 @@ function CoinPriceChart({ coinProperties }: Bindings) {
                                                 fill={priceStatus === 'up' ? 'var(--chart-2)' : 'var(--chart-1)'}
                                                 fillOpacity={0.1}
                                                 stroke={priceStatus === 'up' ? 'var(--chart-2)' : 'var(--chart-1)'}
-                                                strokeWidth={2}
+                                                strokeWidth={cnvIconStrokeWidth}
                                             />
                                         </AreaChart>
                                     </ChartContainer>

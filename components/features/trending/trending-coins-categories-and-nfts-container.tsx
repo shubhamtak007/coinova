@@ -1,7 +1,7 @@
 'use client';
 
 import { Spinner } from '@/components/ui/spinner';
-import useTrendingCoinsCategoriesAndNfts from "@/hooks/useTrendingCoinsCategoriesAndNfts";
+import useTrendingCoinsCategoriesAndNfts from "@/hooks/use-trending-coins-categories-and-nfts";
 import TrendingCoinsCategoriesAndNftsTable from "@/components/features/trending/trending-coins-categories-and-nfts-table";
 import { TrendingCoinsCategoriesAndNftsClient } from '@/interfaces/trending.interface';
 

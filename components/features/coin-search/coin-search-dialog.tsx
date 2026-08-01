@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import useCoinSearchDialog from '@/hooks/useCoinSearchDialog';
+import useCoinSearchDialog from '@/hooks/use-coin-search-dialog';
 import { coinSymbolImageSize } from '@/constants/app.constants';
 import { InputGroup, InputGroupAddon, InputGroupInput } from '@/components/ui/input-group';
 import { Dialog, DialogHeader, DialogTitle, DialogDescription, DialogBody, DialogContent, DialogFooter, DialogOverlay } from '@/components/ui/dialog';

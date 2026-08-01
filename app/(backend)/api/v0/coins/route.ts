@@ -21,11 +21,11 @@ export async function GET(request: NextRequest) {
     }
 
     try {
-        const apiResponse = await coinGeckoClient.get(coinGeckoEndpoints.coins.coinListWithMarketData, { params: queryParams });
+        const response = await coinGeckoClient.get(coinGeckoEndpoints.coins.coinListWithMarketData, { params: queryParams });
 
-        if (apiResponse.data) {
+        if (response.data) {
             return NextResponse.json({
-                data: apiResponse.data
+                data: response.data
             }, {
                 status: 200
             });

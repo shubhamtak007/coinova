@@ -1,5 +1,5 @@
 import Image from "next/image";
-import useWatchlistDialog from "@/hooks/useWatchlistDialog";
+import useWatchlistDialog from "@/hooks/use-watchlist-dialog";
 import WatchlistFormDialog from "./watchlist-form-dialog";
 import CoinSearchDialog from "@/components/features/coin-search/coin-search-dialog";
 import CoinDetailsDialog from "../coin-details/coin-details-dialog";

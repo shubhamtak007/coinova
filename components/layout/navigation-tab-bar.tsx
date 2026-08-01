@@ -1,6 +1,6 @@
 'use client';
 
-import useNavigationTabBar from '@/hooks/useNavigationTabBar';
+import useNavigationTabBar from '@/hooks/use-navigation-tab-bar';
 import NewsDialog from '@/components/features/news/news-dialog';
 import WatchlistDialog from '@/components/features/watchlist/watchlist-dialog';
 import { Fragment } from 'react';

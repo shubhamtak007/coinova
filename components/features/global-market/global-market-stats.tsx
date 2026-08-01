@@ -1,6 +1,6 @@
 'use client';
 
-import useGlobalMarketStats from '@/hooks/useGlobalMarketStats';
+import useGlobalMarketStats from '@/hooks/use-global-market-stats';
 import { formatValueInUsdCompact, roundOffNumber } from '@/services/utils.service';
 import { FaCaretUp, FaCaretDown } from "react-icons/fa";
 import { Spinner } from "@/components/ui/spinner";

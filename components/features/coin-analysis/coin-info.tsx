@@ -10,7 +10,7 @@ import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip
 import { coinKeyList } from '@/constants/app.constants';
 import type { CoinAnalysis } from '@/interfaces/coin-analysis.interface';
 import type { CoingeckoCrypto } from '@/interfaces/coin.interface';
-import useCoinInfo from '@/hooks/useCoinInfo';
+import useCoinInfo from '@/hooks/use-coin-info';
 import CoinDetailsDialog from '@/components/features/coin-details/coin-details-dialog';
 
 type Bindings = CoinAnalysis;

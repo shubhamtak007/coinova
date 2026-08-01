@@ -6,11 +6,11 @@ import { coinGeckoEndpoints } from '@/lib/endpoints';
 
 export async function GET() {
     try {
-        const apiResponse = await coinGeckoClient.get(coinGeckoEndpoints.coins.globalMarket);
+        const response = await coinGeckoClient.get(coinGeckoEndpoints.coins.globalMarket);
 
-        if (apiResponse.data && apiResponse.data.data) {
+        if (response.data && response.data.data) {
             return NextResponse.json({
-                data: createGlobalMarketStatistics(apiResponse.data.data)
+                data: createGlobalMarketStatistics(response.data.data)
             }, {
                 status: 200
             })

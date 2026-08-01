@@ -5,11 +5,11 @@ import { coinGeckoEndpoints } from '@/lib/endpoints';
 
 export async function GET() {
     try {
-        const apiResponse = await coinGeckoClient.get(coinGeckoEndpoints.coins.trending);
+        const response = await coinGeckoClient.get(coinGeckoEndpoints.coins.trending);
 
-        if (apiResponse.data) {
+        if (response.data) {
             return NextResponse.json({
-                data: apiResponse.data
+                data: response.data
             }, {
                 status: 200
             });
