@@ -11,9 +11,8 @@ A simple coin app with live prices, coin insights, watchlists, and news.
 ## Features
 - Market overview of major coins
 - Coin table displaying price, 24-hour price change, trading volume, and market capitalization
-- Real-time price updates
-- Fully responsive layout for desktop and mobile devices
-- Fast and lightweight user experience
+- Price, volume, and market cap graphs for various time periods.
+- Search coins by name or symbol.
 - Watchlist and news
 
 ## Screenshot
