@@ -24,13 +24,13 @@ export const metadata: Metadata = {
     }
 };
 
-export default async function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
+export default function RootLayout({ children, }: Readonly<{ children: React.ReactNode; }>) {
     return (
         <html lang="en">
             <body className={`${inter.className}`}>
                 <div className="body-wrapper">
-                    <UserContextProvider>
-                        <LoadingContextProvider>
+                    <LoadingContextProvider>
+                        <UserContextProvider>
                             <NavigationWrapper>
                                 <OptimisticNavigationContextProvider>
                                     <Header />
@@ -46,8 +46,8 @@ export default async function RootLayout({ children, }: Readonly<{ children: Rea
                                     <Footer />
                                 </OptimisticNavigationContextProvider>
                             </NavigationWrapper>
-                        </LoadingContextProvider>
-                    </UserContextProvider>
+                        </UserContextProvider>
+                    </LoadingContextProvider>
                 </div>
             </body>
         </html>

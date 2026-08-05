@@ -1,23 +1,11 @@
 import CoinAnalysisContainer from '@/components/features/coin-analysis/coin-analysis-container';
-import type { Metadata, ResolvingMetadata } from 'next';
 
 type Props = {
     params: Promise<{ id: string }>
-    searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+    searchParams: Promise<Record<string, string | string[]>>
 }
 
-export async function generateMetadata(
-    { params, searchParams }: Props,
-    parent: ResolvingMetadata
-): Promise<Metadata> {
-    const { id } = await params;
-
-    return {
-        title: id.charAt(0).toUpperCase() + id.slice(1)
-    }
-}
-
-async function CoinAnalysis({ params, searchParams }: Props) {
+async function CoinAnalysis({ params }: Props) {
     const { id } = await params;
 
     return (

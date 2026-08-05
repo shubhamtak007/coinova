@@ -2,47 +2,47 @@
 
 import { createContext, useContext, ReactNode, useState, SetStateAction, Dispatch, useEffect } from 'react';
 import { User } from '@/interfaces/account-centre.interface';
-import { Spinner } from '@/components/ui/spinner';
 import { retrieveProfile } from '@/services/user.service';
 import { GlobeOff } from 'lucide-react';
-import axios, { AxiosError, isAxiosError } from 'axios';
+import { isAxiosError } from 'axios';
+import { useLoading } from './loading.context';
 
 type UserContextProviderProps = {
-    children: ReactNode,
-    currentUser?: User
+    children: ReactNode
 }
-
-type Online = true | false;
 
 type UserContextType = {
     user: User | null,
     setUser: Dispatch<SetStateAction<User | null>>,
-    isOnline: Online,
-    setIsOnline: Dispatch<SetStateAction<Online>>
+    isOnline: boolean,
+    setIsOnline: Dispatch<SetStateAction<boolean>>
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
-const UserContextProvider = ({ children, currentUser }: UserContextProviderProps) => {
+const UserContextProvider = ({ children }: UserContextProviderProps) => {
     const [user, setUser] = useState<User | null>(null);
-    const [isOnline, setIsOnline] = useState<Online>(navigator.onLine);
-    const [fetchingDetails, setFetchingDetails] = useState<boolean>(true);
+    const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
+    const { setIsLoading } = useLoading();
 
     useEffect(() => {
         if (navigator.onLine === false) return;
 
         async function fetchUserDetails() {
             try {
+                setIsLoading(true);
                 const response = await retrieveProfile();
                 setUser(response.data.data);
             } catch (error: unknown) {
-                if ((isAxiosError(error) && !error.response) || (error instanceof Error && error.message === 'Network Error')) {
+                if ((isAxiosError(error) && !error.response) ||
+                    (error instanceof Error && error.message === 'Network Error')
+                ) {
                     setIsOnline(false);
                 }
 
                 console.error(error);
             } finally {
-                setFetchingDetails(false);
+                setIsLoading(false);
             }
         }
 
@@ -54,14 +54,6 @@ const UserContextProvider = ({ children, currentUser }: UserContextProviderProps
             <GlobeOff />
             <div className="text-[23px] ml-[8px]">You're offline</div>
         </div>;
-    }
-
-    if (fetchingDetails) {
-        return (
-            <div className="hz-and-vert-center">
-                <Spinner className="size-20" />
-            </div>
-        );
     }
 
     return (

@@ -30,7 +30,7 @@ export const OptimisticNavigationContextProvider = ({ children,
     const value = useMemo(() => ({
         optimisticPathname,
         navigateOptimistically,
-    }), [pathname, optimisticPathname]);
+    }), [optimisticPathname]);
 
     useEffect(() => {
         setIsLoading(false);
