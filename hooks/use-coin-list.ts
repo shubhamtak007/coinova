@@ -73,6 +73,7 @@ function useCoinList() {
 
             if (requestId !== requestIdRef.current) return;
 
+            prefetchCoinDetailsPageRoutes(coinMarketDataList);
             setCoinList(coinMarketDataList ? coinMarketDataList : []);
 
         } catch (error) {
@@ -93,6 +94,13 @@ function useCoinList() {
         }
 
         return symbols.join();
+    }
+
+    function prefetchCoinDetailsPageRoutes(coins: CoingeckoCrypto[]) {
+        for (const coin of coins) {
+            const path = getUiRoute('coinAnalysis', coin)
+            if (path) router.prefetch(path);
+        }
     }
 
     function onRowsPerPageChange(value: string) {
