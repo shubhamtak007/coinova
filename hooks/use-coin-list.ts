@@ -6,6 +6,7 @@ import { getUiRoute, getRowsPerPageDefaultValue } from '@/services/utils.service
 import { CoinListApiParams } from '@/interfaces/coin-list.interface';
 import { Row } from '@tanstack/react-table';
 import { search, retrieveCoinList } from '@/services/coin.service';
+import { useOptimisticNavigation } from '@/contexts/navigation-context';
 import type { CoingeckoCrypto } from '@/interfaces/coin.interface';
 
 function useCoinList() {
@@ -17,6 +18,7 @@ function useCoinList() {
     const [currentPageNumber, setCurrentPageNumber] = useState(1);
     const [searchValue, setSearchValue] = useState<string>('');
     const [showCoinDetailsDialog, setShowCoinDetailsDialog] = useState<boolean>(false);
+    const { navigateOptimistically } = useOptimisticNavigation();
 
     const clickedCoinRef = useRef<CoingeckoCrypto>(null);
     const rowsPerPageListRef = useRef([10, 25, 50, 100, 150, 200, 250]);
@@ -71,7 +73,6 @@ function useCoinList() {
 
             if (requestId !== requestIdRef.current) return;
 
-            // prefetchCoinDetailsPageRoutes(coinMarketDataList);
             setCoinList(coinMarketDataList ? coinMarketDataList : []);
 
         } catch (error) {
@@ -94,13 +95,6 @@ function useCoinList() {
         return symbols.join();
     }
 
-    function prefetchCoinDetailsPageRoutes(coins: CoingeckoCrypto[]) {
-        for (const coin of coins) {
-            const path = getUiRoute('coinAnalysis', coin)
-            if (path) router.prefetch(path);
-        }
-    }
-
     function onRowsPerPageChange(value: string) {
         setRowsPerPage(Number(value))
     }
@@ -118,7 +112,7 @@ function useCoinList() {
         const route = getUiRoute('coinAnalysis', row.original);
 
         if (route) {
-            // navigateOptimistically(route);
+            navigateOptimistically(route);
             router.push(route);
         }
     }

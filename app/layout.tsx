@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.scss";
 import { Inter } from "next/font/google";
 import { Analytics } from '@vercel/analytics/next';
+import { OptimisticNavigationContextProvider } from '@/contexts/navigation-context';
 import { UserContextProvider } from "@/contexts/user.context";
 import { LoadingContextProvider } from '@/contexts/loading.context';
 import { Toaster } from '@/components/ui/sonner';
@@ -28,23 +29,25 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
         <html lang="en">
             <body className={`${inter.className}`}>
                 <div className="body-wrapper">
-                    <LoadingContextProvider>
-                        <UserContextProvider>
+                    <UserContextProvider>
+                        <LoadingContextProvider>
                             <NavigationWrapper>
-                                <Header />
+                                <OptimisticNavigationContextProvider>
+                                    <Header />
 
-                                <main className="main-content">
-                                    <div className="container">
-                                        {children}
-                                        <Toaster />
-                                        <Analytics />
-                                    </div>
-                                </main>
+                                    <main className="main-content">
+                                        <div className="container">
+                                            {children}
+                                            <Toaster />
+                                            <Analytics />
+                                        </div>
+                                    </main>
 
-                                <Footer />
+                                    <Footer />
+                                </OptimisticNavigationContextProvider>
                             </NavigationWrapper>
-                        </UserContextProvider>
-                    </LoadingContextProvider>
+                        </LoadingContextProvider>
+                    </UserContextProvider>
                 </div>
             </body>
         </html>

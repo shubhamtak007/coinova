@@ -15,6 +15,7 @@ export default function useNavigationTabBar() {
     const [dialogType, setDialogType] = useState<string | null>(null);
     const [showDialog, setShowDialog] = useState<boolean>(false);
     const [tabList, setTabList] = useState<NavigationBarTab[]>([]);
+    const { navigateOptimistically } = useOptimisticNavigation();
     const { user } = useUser();
 
     useEffect(() => {
@@ -79,7 +80,7 @@ export default function useNavigationTabBar() {
         }
 
         if (route) {
-            // navigateOptimistically(route);
+            navigateOptimistically(route);
             router.push(route);
         }
     }
