@@ -5,18 +5,23 @@ import { CoinDetailsServerResponse, ClientCoinProperties } from '@/interfaces/co
 import { retrieveCoinDetailsByCoinId } from '@/services/coin.service';
 
 type Bindings = {
-    coinId: string
+    showDialog: boolean,
+    coinId?: string
 }
 
-export default function useCoinDetailsDialog({ coinId }: Bindings) {
+export default function useCoinDetailsDialog(bindings: Bindings) {
+    const { showDialog, coinId } = bindings;
     const [coinDetails, setCoinDetails] = useState<ClientCoinProperties | null>(null);
     const [fetchingCoinDetails, setFetchingCoinDetails] = useState<boolean>(false);
 
     useEffect(() => {
-        if (coinId) fetchCoinDetailsByCoinId();
-    }, [coinId]);
+        if (!showDialog) return;
 
-    async function fetchCoinDetailsByCoinId() {
+        if (coinId) fetchCoinDetailsByCoinId(coinId);
+    }, [showDialog, coinId]);
+
+    async function fetchCoinDetailsByCoinId(coinId: string) {
+        if (!coinId) return;
         setFetchingCoinDetails(true);
 
         try {

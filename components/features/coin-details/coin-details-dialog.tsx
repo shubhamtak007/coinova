@@ -1,21 +1,22 @@
 'use client';
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogBody, DialogDescription } from '@/components/ui/dialog';
-import type { CoinDetailsDialogCoin } from '@/interfaces/coin.interface';
 import React from 'react';
 import Image from 'next/image';
 import CoinDetailsBlock from '@/components/features/coin-details/coin-details-block';
+import useCoinDetailsDialog from '@/hooks/use-coin-details-dialog';
+import type { CoinDetailsDialogCoin } from '@/interfaces/coin.interface';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogBody, DialogDescription } from '@/components/ui/dialog';
 import { coinSymbolImageSize } from '@/constants/app.constants';
+import { DialogProps } from '@/interfaces/global.interface';
 
 type Bindings = {
-    showDialog: boolean,
-    setShowDialog: (value: boolean) => void,
     coin: CoinDetailsDialogCoin | null,
     dialogLevel?: number
-}
+} & DialogProps;
 
 function CoinDetailsDialog(bindings: Bindings) {
     const { showDialog, setShowDialog, coin, dialogLevel } = bindings;
+    const { fetchingCoinDetails, coinDetails } = useCoinDetailsDialog({ showDialog, coinId: coin?.id });
 
     return (
         <Dialog
@@ -53,9 +54,10 @@ function CoinDetailsDialog(bindings: Bindings) {
                 </DialogHeader>
 
                 <DialogBody>
-                    {coin && <CoinDetailsBlock
-                        coinId={coin.id}
-                    />}
+                    <CoinDetailsBlock
+                        fetchingCoinDetails={fetchingCoinDetails}
+                        coinDetails={coinDetails}
+                    />
                 </DialogBody>
             </DialogContent>
         </Dialog>

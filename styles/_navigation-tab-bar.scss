@@ -18,8 +18,9 @@
             border-radius: unset;
 
             [data-state="active"] {
-                background-color: var(--main-color-2);
+                background-color: var(--main-color);
                 color: var(--text-color);
+                box-shadow: unset;
             }
 
             [data-slot="tooltip-trigger"] {
@@ -39,7 +40,7 @@
                 color: var(--text-color);
 
                 &:hover {
-                    background-color: var(--main-color-2);
+                    background-color: var(--main-color);
                     border-radius: var(--border-radius);
                     color: var(--text-color);
                     padding: 8.5px;

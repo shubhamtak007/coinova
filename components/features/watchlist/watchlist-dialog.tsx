@@ -113,19 +113,17 @@ export default function WatchlistDialog(bindings: Bindings) {
                 />
             }
 
-            {(showCoinDetailsDialog === true && rightClickedItem) &&
-                <CoinDetailsDialog
-                    dialogLevel={2}
-                    showDialog={showCoinDetailsDialog}
-                    setShowDialog={setShowCoinDetailsDialog}
-                    coin={{
-                        id: rightClickedItem.coinId,
-                        name: rightClickedItem.name,
-                        symbol: rightClickedItem.symbol,
-                        image: rightClickedItem.imageUrl
-                    }}
-                />
-            }
+            <CoinDetailsDialog
+                dialogLevel={2}
+                showDialog={showCoinDetailsDialog}
+                setShowDialog={setShowCoinDetailsDialog}
+                coin={rightClickedItem && {
+                    id: rightClickedItem.coinId,
+                    name: rightClickedItem.name,
+                    symbol: rightClickedItem.symbol,
+                    image: rightClickedItem.imageUrl
+                }}
+            />
         </>
     )
 }

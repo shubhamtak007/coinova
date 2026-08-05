@@ -86,23 +86,22 @@
     --sidebar-border: oklch(0.923 0.003 48.717);
     --sidebar-ring: oklch(0.709 0.01 56.259);
 
-    --grey-color-1: #9c9c9c;
-    --grey-color-2: #f2f2f2;
+    --grey-color-1: #ebeef5;
+    --grey-color-2: #9c9c9c;
+    --grey-color-3: #858585;
 
+    --main-color: #05e5a9;
     --main-bg-color: #ffffff;
 
-    //elements colors
-    --main-color: #ebeef5;
-    --main-color-2: #05e5a9;
-
-    --border-color: #ebeef5;
+    --border-color: var(--grey-color-1);
     --row-hover-color: #f5f6fa;
     --loading-overlay-backdrop-bgColor: #c8d1da66;
-    --th-color: var(--grey-color-1);
-    --vrt-th-color: var(--grey-color-1);
+    --th-color: var(--grey-color-2);
+    --vrt-th-color: var(--grey-color-2);
     --overlay-color: #58667e99;
-    --text-color: #002358;
-    --text-color-2: #fafafa;
+
+    --text-color: #06192d;
+
     --box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     --top-box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.08);
     --bottom-box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
@@ -116,8 +115,6 @@
     --github-color: #1f2328;
 
     --required-color: #e7000b;
-
-    --dark-grey: #858585;
 }
 
 .dark {
@@ -165,7 +162,7 @@
 }
 
 body {
-    color: #333;
+    color: var(--text-color);
 }
 
 ::-webkit-scrollbar {
@@ -176,7 +173,7 @@ body {
 
 ::-webkit-scrollbar-thumb {
     border-radius: var(--border-radius);
-    background-color: var(--main-color);
+    background-color: var(--grey-color-1);
 }
 
 @keyframes fade-in {

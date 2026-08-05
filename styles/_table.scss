@@ -50,12 +50,11 @@
 
                 .social-container {
                     display: flex;
+                    gap: 8px;
 
                     .social-link-chip {
                         display: flex;
                         align-items: center;
-                        margin-right: 12px;
-                        background-color: var(--grey-color-2);
                         padding: 1px 4px;
                         border-radius: var(--border-radius);
 

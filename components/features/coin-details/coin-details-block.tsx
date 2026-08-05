@@ -1,22 +1,18 @@
 'use client';
 
-import { useCallback } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { FaReddit, FaGithub } from "react-icons/fa";
 import { ExternalLink } from 'lucide-react';
 import { formatValueIntoCommaSeparated } from '@/services/utils.service';
-import useCoinDetailsDialog from '@/hooks/use-coin-details-dialog';
+import { ClientCoinProperties } from '@/interfaces/coin-details.interface';
 
 type Bindings = {
-    coinId: string
+    fetchingCoinDetails: boolean,
+    coinDetails: ClientCoinProperties | null
 }
 
-export default function CoinDetailsBlock({ coinId }: Bindings) {
-    const memoizeCoinDetailsBlockHook = useCallback(() => {
-        return useCoinDetailsDialog({ coinId: coinId });
-    }, [coinId]);
-
-    const { fetchingCoinDetails, coinDetails } = memoizeCoinDetailsBlockHook();
+export default function CoinDetailsBlock(bindings: Bindings) {
+    const { fetchingCoinDetails, coinDetails } = bindings;
 
     return (
         <div className="coin-details-wrapper">
