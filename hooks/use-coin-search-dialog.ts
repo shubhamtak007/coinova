@@ -5,7 +5,6 @@ import { search } from '@/services/coin.service';
 import { getUiRoute } from '@/services/utils.service';
 import { SearchApiCoin } from '@/interfaces/coin.interface';
 import { useRouter } from 'next/navigation';
-import { useOptimisticNavigation } from '@/contexts/navigation-context';
 import { addWatchlistCoin } from '@/services/watchlist-coin.service';
 
 type Bindings = {
@@ -18,7 +17,6 @@ type Bindings = {
 export default function useCoinSearchDialog(bindings: Bindings) {
     const { showDialog, setShowDialog, contextProperties, context } = bindings;
     const router = useRouter();
-    const { navigateOptimistically } = useOptimisticNavigation();
     const [searchValue, setSearchValue] = useState<string>('');
     const [searchingCoins, setSearchingCoins] = useState<boolean>(false);
     const [coins, setCoins] = useState<SearchApiCoin[]>([]);
@@ -69,14 +67,6 @@ export default function useCoinSearchDialog(bindings: Bindings) {
     function onCoinClick(event: React.SyntheticEvent, coin: SearchApiCoin) {
         event.preventDefault();
         event.stopPropagation();
-
-        // setShowDialog(false);
-        // const route = getUiRoute('coinAnalysis', coin);
-        // if (route) {
-        //     navigateOptimistically(route);
-        //     router.push(route);
-        // }
-
 
         const route = getUiRoute('coinAnalysis', coin);
 

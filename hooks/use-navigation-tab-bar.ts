@@ -10,7 +10,6 @@ import { NavigationBarTab } from '@/interfaces/global.interface';
 export default function useNavigationTabBar() {
     const router = useRouter();
     const pathName = usePathname();
-    const { navigateOptimistically } = useOptimisticNavigation();
     const [activeTab, setActiveTab] = useState<string>('home');
     const [scrollEnded, setScrollEnded] = useState<boolean>(false);
     const [dialogType, setDialogType] = useState<string | null>(null);
@@ -80,7 +79,7 @@ export default function useNavigationTabBar() {
         }
 
         if (route) {
-            navigateOptimistically(route);
+            // navigateOptimistically(route);
             router.push(route);
         }
     }

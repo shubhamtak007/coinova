@@ -5,13 +5,11 @@ import { useRouter } from 'next/navigation';
 import { getUiRoute, getRowsPerPageDefaultValue } from '@/services/utils.service';
 import { CoinListApiParams } from '@/interfaces/coin-list.interface';
 import { Row } from '@tanstack/react-table';
-import { useOptimisticNavigation } from '@/contexts/navigation-context';
 import { search, retrieveCoinList } from '@/services/coin.service';
 import type { CoingeckoCrypto } from '@/interfaces/coin.interface';
 
 function useCoinList() {
     const router = useRouter();
-    const { navigateOptimistically } = useOptimisticNavigation();
     const [coinList, setCoinList] = useState<CoingeckoCrypto[]>([]);
     const [fetchingCoinList, setFetchingCoinList] = useState<boolean>(true);
     const [rowsPerPage, setRowsPerPage] = useState<number>(getRowsPerPageDefaultValue());
@@ -73,7 +71,7 @@ function useCoinList() {
 
             if (requestId !== requestIdRef.current) return;
 
-            prefetchCoinDetailsPageRoutes(coinMarketDataList);
+            // prefetchCoinDetailsPageRoutes(coinMarketDataList);
             setCoinList(coinMarketDataList ? coinMarketDataList : []);
 
         } catch (error) {
@@ -120,7 +118,7 @@ function useCoinList() {
         const route = getUiRoute('coinAnalysis', row.original);
 
         if (route) {
-            navigateOptimistically(route);
+            // navigateOptimistically(route);
             router.push(route);
         }
     }
