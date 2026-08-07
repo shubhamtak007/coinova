@@ -2,10 +2,10 @@
 
 import { useState, useEffect } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { useOptimisticNavigation } from '@/contexts/navigation-context';
 import { navigationBarTabList } from '@/constants/app.constants';
 import { useUser } from '@/contexts/user.context';
 import { NavigationBarTab } from '@/interfaces/global.interface';
+import { Route } from 'next';
 
 export default function useNavigationTabBar() {
     const router = useRouter();
@@ -15,7 +15,6 @@ export default function useNavigationTabBar() {
     const [dialogType, setDialogType] = useState<string | null>(null);
     const [showDialog, setShowDialog] = useState<boolean>(false);
     const [tabList, setTabList] = useState<NavigationBarTab[]>([]);
-    const { navigateOptimistically } = useOptimisticNavigation();
     const { user } = useUser();
 
     useEffect(() => {
@@ -80,8 +79,7 @@ export default function useNavigationTabBar() {
         }
 
         if (route) {
-            navigateOptimistically(route);
-            router.push(route);
+            router.push(route as Route);
         }
     }
 

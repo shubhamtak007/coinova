@@ -27,7 +27,7 @@
         max-width: 100%;
 
         .container {
-            padding: 12px;
+            padding: 12px 12px 48px 12px;
             margin: auto;
             max-width: var(--container-width);
         }
@@ -50,4 +50,14 @@
 .required {
     color: var(--required-color);
     margin-left: 2px;
+}
+
+@media (width < 820) {
+    .body-wrapper {
+        .main-content {
+            .container {
+                padding-bottom: 100px;
+            }
+        }
+    }
 }

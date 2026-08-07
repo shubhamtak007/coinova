@@ -1,11 +1,11 @@
 "use client";
 
-import { createContext, useContext, ReactNode, useState, SetStateAction, Dispatch, useEffect, Suspense } from 'react';
+import { createContext, useContext, ReactNode, useState, SetStateAction, Dispatch, useEffect } from 'react';
 import { User } from '@/interfaces/account-centre.interface';
 import { retrieveProfile } from '@/services/user.service';
 import { GlobeOff } from 'lucide-react';
 import { isAxiosError } from 'axios';
-import { Spinner } from '@/components/ui/spinner';
+import { useLoading } from './loading.context';
 
 type UserContextProviderProps = {
     children: ReactNode
@@ -15,23 +15,22 @@ type UserContextType = {
     user: User | null,
     setUser: Dispatch<SetStateAction<User | null>>,
     isOnline: boolean,
-    setIsOnline: Dispatch<SetStateAction<boolean>>,
-    fetchingDetails: boolean,
-    setFetchingDetails: Dispatch<SetStateAction<boolean>>,
+    setIsOnline: Dispatch<SetStateAction<boolean>>
 }
 
 const UserContext = createContext<UserContextType | undefined>(undefined);
 
 const UserContextProvider = ({ children }: UserContextProviderProps) => {
     const [user, setUser] = useState<User | null>(null);
-    const [fetchingDetails, setFetchingDetails] = useState<boolean>(true);
     const [isOnline, setIsOnline] = useState<boolean>(navigator.onLine);
+    const { setIsLoading } = useLoading();
 
     useEffect(() => {
         if (navigator.onLine === false) return;
 
         async function fetchUserDetails() {
             try {
+                setIsLoading(true);
                 const response = await retrieveProfile();
                 setUser(response.data.data);
             } catch (error: unknown) {
@@ -43,7 +42,7 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
 
                 console.error(error);
             } finally {
-                setFetchingDetails(false);
+                setIsLoading(false);
             }
         }
 
@@ -57,15 +56,9 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
         </div>;
     }
 
-    if (fetchingDetails) return (
-        <div className="hz-and-vert-center">
-            <Spinner className="size-20" />
-        </div>
-    );
-
     return (
         <UserContext.Provider
-            value={{ user, setUser, isOnline, setIsOnline, fetchingDetails, setFetchingDetails }}
+            value={{ user, setUser, isOnline, setIsOnline }}
         >
             {children}
         </UserContext.Provider>

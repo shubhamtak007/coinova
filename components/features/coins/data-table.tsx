@@ -1,3 +1,5 @@
+'use no memo';
+
 import { useRef } from 'react';
 import { Spinner } from '@/components/ui/spinner';
 import { useWindowVirtualizer } from '@tanstack/react-virtual';
@@ -26,9 +28,9 @@ function DataTable<TData,>(bindings: DataTableBindings<TData>) {
 
     const rowVirtualizer = useWindowVirtualizer({
         count: rows.length,
-        estimateSize: () => 60,
+        estimateSize: () => 41,
         measureElement: (el) => el.getBoundingClientRect().height,
-        overscan: 30
+        overscan: 20
     })
 
     return (

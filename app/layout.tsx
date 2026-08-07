@@ -2,13 +2,8 @@ import type { Metadata } from "next";
 import "./globals.scss";
 import { Inter } from "next/font/google";
 import { Analytics } from '@vercel/analytics/next';
-import { OptimisticNavigationContextProvider } from '@/contexts/navigation-context';
-import { UserContextProvider } from "@/contexts/user.context";
-import { LoadingContextProvider } from '@/contexts/loading.context';
 import { Toaster } from '@/components/ui/sonner';
-import NavigationWrapper from '@/components/layout/navigation-wrapper';
-import Header from "@/components/layout/header";
-import Footer from "@/components/layout/footer";
+
 
 const inter = Inter({
     weight: ['400', '500', '600', '700', '800', '900'],
@@ -28,27 +23,9 @@ export default function RootLayout({ children, }: Readonly<{ children: React.Rea
     return (
         <html lang="en">
             <body className={`${inter.className}`}>
-                <div className="body-wrapper">
-                    <UserContextProvider>
-                        <LoadingContextProvider>
-                            <NavigationWrapper>
-                                <OptimisticNavigationContextProvider>
-                                    <Header />
-
-                                    <main className="main-content">
-                                        <div className="container">
-                                            {children}
-                                            <Toaster />
-                                            <Analytics />
-                                        </div>
-                                    </main>
-
-                                    <Footer />
-                                </OptimisticNavigationContextProvider>
-                            </NavigationWrapper>
-                        </LoadingContextProvider>
-                    </UserContextProvider>
-                </div>
+                {children}
+                <Toaster />
+                <Analytics />
             </body>
         </html>
     );

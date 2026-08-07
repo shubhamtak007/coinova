@@ -3,7 +3,6 @@
 import { createContext, useContext, ReactNode, useOptimistic, useMemo, startTransition, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { useLoading } from '@/contexts/loading.context';
-import { Suspense } from 'react';
 
 type OptimisticNavigationContextType = {
     optimisticPathname: string;
@@ -40,9 +39,7 @@ export const OptimisticNavigationContextProvider = ({ children,
 
     return (
         <OptimisticNavigationContext.Provider value={value}>
-            <Suspense fallback={'Loading'}>
-                {children}
-            </Suspense>
+            {children}
         </OptimisticNavigationContext.Provider>
     );
 };

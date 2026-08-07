@@ -1,11 +1,11 @@
 'use client';
 
-import { Coins } from 'lucide-react';
 import Link from 'next/link';
 import NavigationTabBar from '@/components/layout/navigation-tab-bar';
 import useHeader from '@/hooks/use-header';
 import AccountCentre from '@/components/features/account/account-centre';
 import CoinSearchDialog from '@/components/features/coin-search/coin-search-dialog';
+import { Coins } from 'lucide-react';
 import { cnvIconStrokeWidth } from '@/constants/app.constants';
 import { Search } from 'lucide-react';
 import { FiGithub } from 'react-icons/fi';

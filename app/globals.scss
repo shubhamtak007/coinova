@@ -95,7 +95,9 @@
 
     --border-color: var(--grey-color-1);
     --row-hover-color: #f5f6fa;
-    --loading-overlay-backdrop-bgColor: #c8d1da66;
+
+    --loading-overlay-backdrop-bg-color: rgba(0, 0, 0, .1); // #c8d1da66;
+
     --th-color: var(--grey-color-2);
     --vrt-th-color: var(--grey-color-2);
     --overlay-color: #58667e99;

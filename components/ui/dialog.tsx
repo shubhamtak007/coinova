@@ -75,7 +75,7 @@ function DialogContent({
                     `data-[state=open]:animate-[var(--animate-zoom-in)]
                     data-[state=closed]:animate-[var(--animate-zoom-out)] fixed top-[50%] left-[50%]
                     z-[200] grid w-[calc(100%-2rem)] max-w-[calc(100%-2rem)] translate-x-[-50%] translate-y-[-50%]
-                    rounded-[var(--border-radius)] border shadow-lg duration-200 outline-none
+                    rounded-[var(--border-radius)] shadow-lg duration-200 outline-none
                     max-h-[var(--dialog-body-height)] bg-background
                     ${size === 'sm' && 'max-w-lg'}
                     ${size === 'md' && 'max-w-4xl'}
