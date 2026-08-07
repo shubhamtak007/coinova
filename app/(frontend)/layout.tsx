@@ -1,6 +1,6 @@
-import NavigationWrapper from '@/components/layout/navigation-wrapper';
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import NavigationWrapper from '@/components/layout/loading-bar';
 import { UserContextProvider } from "@/contexts/user.context";
 import { LoadingContextProvider } from '@/contexts/loading.context';
 
@@ -8,8 +8,8 @@ export default function Layout({ children, }: Readonly<{ children: React.ReactNo
     return (
         <div className="body-wrapper">
             <LoadingContextProvider>
-                <UserContextProvider>
-                    <NavigationWrapper>
+                <NavigationWrapper>
+                    <UserContextProvider>
                         <Header />
 
                         <main className="main-content">
@@ -19,8 +19,8 @@ export default function Layout({ children, }: Readonly<{ children: React.ReactNo
                         </main>
 
                         <Footer />
-                    </NavigationWrapper>
-                </UserContextProvider>
+                    </UserContextProvider>
+                </NavigationWrapper>
             </LoadingContextProvider>
         </div>
     );

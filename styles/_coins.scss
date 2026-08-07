@@ -130,6 +130,13 @@
     }
 }
 
+.coin-symbol-image {
+    width: auto;
+    height: auto;
+    object-fit: cover;
+    border-radius: var(--border-radius);
+}
+
 @media (max-width:640px) {
     .coins-sst-container {
         .bottom-bar {
