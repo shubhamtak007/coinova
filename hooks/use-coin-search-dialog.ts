@@ -48,19 +48,11 @@ export default function useCoinSearchDialog(bindings: Bindings) {
 
         try {
             const response = await search({ query: searchValue })
-            prefetchCoinAnalysisRoutes(response.data.coins);
             setCoins(response.data.coins);
         } catch (error) {
 
         } finally {
             setSearchingCoins(false);
-        }
-    }
-
-    function prefetchCoinAnalysisRoutes(coins: SearchApiCoin[]) {
-        for (const coin of coins) {
-            const path = getUiRoute('coinAnalysis', coin)
-            if (path) router.prefetch(path);
         }
     }
 
