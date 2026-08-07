@@ -1,4 +1,5 @@
 import CoinAnalysisContainer from '@/components/features/coin-analysis/coin-analysis-container';
+import { Suspense } from 'react';
 
 type Props = {
     params: Promise<{ id: string }>
@@ -9,9 +10,11 @@ async function CoinAnalysis({ params }: Props) {
     const { id } = await params;
 
     return (
-        <CoinAnalysisContainer
-            coinId={id}
-        />
+        <Suspense>
+            <CoinAnalysisContainer
+                coinId={id}
+            />
+        </Suspense>
     )
 }
 
