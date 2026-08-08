@@ -6,7 +6,7 @@ import useHeader from '@/hooks/use-header';
 import AccountCentre from '@/components/features/account/account-centre';
 import CoinSearchDialog from '@/components/features/coin-search/coin-search-dialog';
 import { cnvIconStrokeWidth } from '@/constants/app.constants';
-import { Search } from 'lucide-react';
+import { Search, Terminal } from 'lucide-react';
 import { FiGithub } from 'react-icons/fi';
 
 function Header() {
@@ -17,8 +17,8 @@ function Header() {
             <div className={`header-container ${scrolled ? 'with-shadow' : ''}`}>
                 <div className="navbar max-w-[calc(var(--container-width)_-_20px)] mx-auto">
                     <Link href="/" className="logo flex items-center">
-                        <div className="tracking-[1px]">
-                            secret_terminal
+                        <div className="flex items-center gap-1">
+                            secret <Terminal strokeWidth={3} />
                         </div>
                     </Link>
 
