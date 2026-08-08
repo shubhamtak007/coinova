@@ -1,10 +1,10 @@
-import { coinovaClientV2 } from "@/lib/api-client";
+import { secretTerminalClientV2 } from "@/lib/api-client";
 import { isAxiosError } from "axios";
-import { coinovaEndpoints } from "@/lib/endpoints";
+import { secretTerminalEndpoints } from "@/lib/endpoints";
 
 const retrieveLatestNews = async () => {
     try {
-        const response = await coinovaClientV2.get(coinovaEndpoints.news.latest);
+        const response = await secretTerminalClientV2.get(secretTerminalEndpoints.news.latest);
         return response;
     } catch (error) {
         if (error instanceof Error) throw new Error(error.message);

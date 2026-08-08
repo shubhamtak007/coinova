@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { setupInterceptors } from "./http-interceptor";
 
-const coinovaClientV2 = axios.create({
+const secretTerminalClientV2 = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_URL,
     withCredentials: true,
     headers: {
@@ -10,7 +10,7 @@ const coinovaClientV2 = axios.create({
     }
 })
 
-const coinovaClient = axios.create({
+const secretTerminalClient = axios.create({
     baseURL: `${globalThis.location?.origin}/api/`,
     headers: {
         'Accept': 'application/json',
@@ -45,10 +45,10 @@ const coinRankingClient = axios.create({
     }
 })
 
-const clientList = [coinovaClient, coinGeckoClient, binanceClient, coinRankingClient, coinovaClientV2];
+const clientList = [secretTerminalClient, coinGeckoClient, binanceClient, coinRankingClient, secretTerminalClientV2];
 
 for (const client of clientList) {
     setupInterceptors(client);
 }
 
-export { coinovaClient, binanceClient, coinGeckoClient, coinRankingClient, coinovaClientV2 }
+export { secretTerminalClient, binanceClient, coinGeckoClient, coinRankingClient, secretTerminalClientV2 }

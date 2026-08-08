@@ -1,9 +1,9 @@
-import { coinovaClientV2 } from '@/lib/api-client';
-import { coinovaEndpoints } from '@/lib/endpoints';
+import { secretTerminalClientV2 } from '@/lib/api-client';
+import { secretTerminalEndpoints } from '@/lib/endpoints';
 
 async function retrieveProfile() {
     try {
-        const response = await coinovaClientV2.get(coinovaEndpoints.users.me);
+        const response = await secretTerminalClientV2.get(secretTerminalEndpoints.users.me);
         return response;
     } catch (error) {
         throw error;

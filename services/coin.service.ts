@@ -1,12 +1,12 @@
 import { CryptoCurrency } from '@/interfaces/coin.interface';
 import { roundOffNumber } from '@/services/utils.service';
-import { coinovaClient, binanceClient, coinGeckoClient } from '@/lib/api-client';
+import { secretTerminalClient, binanceClient, coinGeckoClient } from '@/lib/api-client';
 import { CoinListApiParams } from '@/interfaces/coin-list.interface';
-import { coinGeckoEndpoints, binanceEndpoints, coinovaEndpoints } from '@/lib/endpoints';
+import { coinGeckoEndpoints, binanceEndpoints, secretTerminalEndpoints } from '@/lib/endpoints';
 
 async function retrieveCoinList(params: CoinListApiParams, signal?: AbortSignal) {
     try {
-        const response = await coinovaClient.get(coinovaEndpoints.coins.coinList, { params, signal });
+        const response = await secretTerminalClient.get(secretTerminalEndpoints.coins.coinList, { params, signal });
         return response.data.data;
     } catch (error) {
         throw error;
@@ -15,7 +15,7 @@ async function retrieveCoinList(params: CoinListApiParams, signal?: AbortSignal)
 
 async function retrieveTrendingCoins() {
     try {
-        const response = await coinovaClient.get(coinovaEndpoints.coins.trending);
+        const response = await secretTerminalClient.get(secretTerminalEndpoints.coins.trending);
         return response.data.data.coins;
     } catch (error) {
         throw error;
@@ -24,7 +24,7 @@ async function retrieveTrendingCoins() {
 
 async function retrieveTrendingCoinsCategoriesAndNfts() {
     try {
-        const response = await coinovaClient.get(coinovaEndpoints.coins.trending);
+        const response = await secretTerminalClient.get(secretTerminalEndpoints.coins.trending);
         return response.data.data;
     } catch (error) {
         throw error;
@@ -33,7 +33,7 @@ async function retrieveTrendingCoinsCategoriesAndNfts() {
 
 async function retrieveGlobalMarketData() {
     try {
-        const response = await coinovaClient.get(coinovaEndpoints.coins.globalMarket);
+        const response = await secretTerminalClient.get(secretTerminalEndpoints.coins.globalMarket);
         return response.data.data;
     } catch (error) {
         throw error;

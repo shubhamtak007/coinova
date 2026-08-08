@@ -1,4 +1,4 @@
-const coinovaEndpoints = {
+const secretTerminalEndpoints = {
     auth: {
         signUp: 'v0/auth/sign-up',
         signIn: 'v0/auth/sign-in',
@@ -39,4 +39,4 @@ const binanceEndpoints = {
     }
 }
 
-export { coinovaEndpoints, coinGeckoEndpoints, binanceEndpoints };
+export { secretTerminalEndpoints, coinGeckoEndpoints, binanceEndpoints };

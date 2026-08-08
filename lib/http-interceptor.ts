@@ -1,13 +1,13 @@
 import { toast } from 'sonner';
 import { AxiosInstance, InternalAxiosRequestConfig, isAxiosError } from 'axios';
-import { coinovaEndpoints } from './endpoints';
+import { secretTerminalEndpoints } from './endpoints';
 
 export const setupInterceptors = (client: AxiosInstance) => {
     client.interceptors.response.use(
         (response) => {
             if ((response.status === 200) && response.data.message &&
                 response.config.method && ['post', 'put', 'patch', 'delete'].includes(response.config.method)
-                && (response.config.url !== coinovaEndpoints.auth.refreshToken)
+                && (response.config.url !== secretTerminalEndpoints.auth.refreshToken)
             ) {
                 toast.success(`${response.data.message}`, { className: 'success-toast' });
             }
@@ -24,14 +24,11 @@ export const setupInterceptors = (client: AxiosInstance) => {
             if (error.response?.data && error.response.data.message) {
                 if (['Access token missing', 'Invalid or expired token'].includes(error.response.data.message)) {
                     originalRequest.retry = true;
-                    await client.post(coinovaEndpoints.auth.refreshToken);
+                    await client.post(secretTerminalEndpoints.auth.refreshToken);
                     return client(originalRequest);
 
-                } else if (error.config?.baseURL?.includes('coinova-backend')) {
-                    toast.error(error.response.data.message, { className: 'error-toast' });
-
                 } else {
-                    throw new Error(error.response.data.message);
+                    toast.error(error.response.data.message, { className: 'error-toast' });
                 }
             } else {
                 throw new Error(error.message);

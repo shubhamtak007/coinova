@@ -1,5 +1,5 @@
-import { coinovaClientV2 } from '@/lib/api-client';
-import { coinovaEndpoints } from '@/lib/endpoints';
+import { secretTerminalClientV2 } from '@/lib/api-client';
+import { secretTerminalEndpoints } from '@/lib/endpoints';
 
 type SignUpApiBody = {
     name: string,
@@ -9,7 +9,7 @@ type SignUpApiBody = {
 
 async function signUp(apiBody: SignUpApiBody) {
     try {
-        const response = await coinovaClientV2.post(coinovaEndpoints.auth.signUp, apiBody);
+        const response = await secretTerminalClientV2.post(secretTerminalEndpoints.auth.signUp, apiBody);
         return response;
     } catch (error) {
         throw error;
@@ -18,7 +18,7 @@ async function signUp(apiBody: SignUpApiBody) {
 
 async function signIn(apiBody: { email: string, password: string }) {
     try {
-        const response = await coinovaClientV2.post(coinovaEndpoints.auth.signIn, apiBody);
+        const response = await secretTerminalClientV2.post(secretTerminalEndpoints.auth.signIn, apiBody);
         return response;
     } catch (error) {
         throw error;
@@ -27,7 +27,7 @@ async function signIn(apiBody: { email: string, password: string }) {
 
 async function signOut() {
     try {
-        const response = await coinovaClientV2.post(coinovaEndpoints.auth.signOut);
+        const response = await secretTerminalClientV2.post(secretTerminalEndpoints.auth.signOut);
         return response;
     } catch (error) {
         throw error;
@@ -36,7 +36,7 @@ async function signOut() {
 
 async function refreshToken() {
     try {
-        const response = await coinovaClientV2.post(coinovaEndpoints.auth.refreshToken);
+        const response = await secretTerminalClientV2.post(secretTerminalEndpoints.auth.refreshToken);
         return response;
     } catch (error) {
         throw error;
@@ -45,7 +45,7 @@ async function refreshToken() {
 
 async function forgotPassword(jsonData: object) {
     try {
-        const response = await coinovaClientV2.post(coinovaEndpoints.auth.forgotPassword, jsonData);
+        const response = await secretTerminalClientV2.post(secretTerminalEndpoints.auth.forgotPassword, jsonData);
         return response;
     } catch (error) {
         throw error;
@@ -54,7 +54,7 @@ async function forgotPassword(jsonData: object) {
 
 async function verifyResetCode(jsonData: object) {
     try {
-        const response = await coinovaClientV2.post(coinovaEndpoints.auth.verifyResetCode, jsonData);
+        const response = await secretTerminalClientV2.post(secretTerminalEndpoints.auth.verifyResetCode, jsonData);
         return response;
     } catch (error) {
         throw error;
@@ -63,7 +63,7 @@ async function verifyResetCode(jsonData: object) {
 
 async function changePassword(jsonData: object) {
     try {
-        const response = await coinovaClientV2.patch(coinovaEndpoints.auth.changePassword, jsonData);
+        const response = await secretTerminalClientV2.patch(secretTerminalEndpoints.auth.changePassword, jsonData);
         return response;
     } catch (error) {
         throw error;
