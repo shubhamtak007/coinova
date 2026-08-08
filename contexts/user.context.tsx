@@ -26,7 +26,10 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
     const { setIsLoading } = useLoading();
 
     useEffect(() => {
-        if (navigator.onLine === false) return;
+        if (navigator.onLine === false) {
+            setIsLoading(false);
+            return;
+        }
 
         async function fetchUserDetails() {
             try {
