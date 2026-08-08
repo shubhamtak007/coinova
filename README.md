@@ -6,7 +6,7 @@
 
 A simple coin app with live prices, coin insights, watchlists, and news.
 
-- Visit our app [Secret Terminal](secretterminal.com).
+- Visit our app [Secret Terminal](https://www.secretterminal.com/).
 
 ## Features
 - Market overview of major coins
