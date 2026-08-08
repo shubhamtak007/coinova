@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     title: "Secret Terminal",
     description: "The new force in crypto.",
     icons: {
-        icon: '/coins.svg'
+        icon: '/terminal.svg'
     }
 };
 
