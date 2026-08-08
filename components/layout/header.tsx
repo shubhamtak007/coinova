@@ -5,7 +5,6 @@ import NavigationTabBar from '@/components/layout/navigation-tab-bar';
 import useHeader from '@/hooks/use-header';
 import AccountCentre from '@/components/features/account/account-centre';
 import CoinSearchDialog from '@/components/features/coin-search/coin-search-dialog';
-import { Coins } from 'lucide-react';
 import { cnvIconStrokeWidth } from '@/constants/app.constants';
 import { Search } from 'lucide-react';
 import { FiGithub } from 'react-icons/fi';
@@ -17,15 +16,9 @@ function Header() {
         <>
             <div className={`header-container ${scrolled ? 'with-shadow' : ''}`}>
                 <div className="navbar max-w-[calc(var(--container-width)_-_20px)] mx-auto">
-                    <Link href="/" className="logo uppercase flex items-center">
-                        <Coins
-                            strokeWidth={cnvIconStrokeWidth}
-                            size={30}
-                            className="pr-[4px]"
-                        />
-
+                    <Link href="/" className="logo flex items-center">
                         <div className="tracking-[1px]">
-                            Coinova
+                            secret_terminal
                         </div>
                     </Link>
 
@@ -46,7 +39,7 @@ function Header() {
                         <AccountCentre />
 
                         <a
-                            href="https://github.com/shubhamtak007/coinova"
+                            href="https://github.com/shubhamtak007/secret-terminal"
                             target="_blank"
                             rel="noopener noreferrer"
                             className={`max-h-[38px] max-w-[33px]`}

@@ -12,7 +12,7 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-    title: "Coinova - The new force in crypto.",
+    title: "Secret Terminal",
     description: "The new force in crypto.",
     icons: {
         icon: '/coins.svg'
