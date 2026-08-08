@@ -120,12 +120,12 @@ export default function useSignIn(bindings: Bindings) {
                 default: throw new Error('Invalid form type');
             }
 
-            if (response.status === 200) {
+            if (response.data.data.id) {
                 fetchProfile();
                 setShowDialog(false);
             }
         } catch (error: unknown) {
-
+            console.error(error);
         } finally {
             setSubmittingData(false);
         }
