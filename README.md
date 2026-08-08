@@ -1,12 +1,12 @@
 <div align="center">
-    <h1>Coinova</h1>
+    <h1>Secret Terminal</h1>
 </div>
 
 ## Getting Started
 
 A simple coin app with live prices, coin insights, watchlists, and news.
 
-- Visit our app [Coinova](https://coinova.solvospace.com).
+- Visit our app [Secret Terminal](secretterminal.com).
 
 ## Features
 - Market overview of major coins
@@ -23,7 +23,7 @@ A simple coin app with live prices, coin insights, watchlists, and news.
 - **Library:** React
 - **Language:** Javascript, TypeScript
 - **Styling:** Tailwind CSS
-- **API's:** CoinGecko, Binance, Coinova
+- **API's:** CoinGecko, Binance, Secret Terminal
 - **DB & ORM:** NeonDB, PostgreSQL, Prisma
 - **Deployment:** Vercel, Render
 
@@ -31,7 +31,7 @@ A simple coin app with live prices, coin insights, watchlists, and news.
 
 - <b>CoinGecko:</b> Used for trending and server side coin list, searching, coin details and for coin analysis.
 - <b>Binance:</b> Used for top gainers, losers and volume data.
-- <b>Coinova:</b> Used for news and watchlist.
+- <b>Secret Terminal:</b> Used for news and watchlist.
 
 ## Installation & Setup
 
@@ -45,10 +45,10 @@ To run the project locally, follow these steps:
 ### Steps
 
 # Clone the repository
-git clone https://github.com/shubhamtak007/coinova.git
+git clone https://github.com/shubhamtak007/secret-terminal.git
 
 # Navigate to the project directory
-cd coinova
+cd secret-terminal
 
 # Install dependencies
 npm install
@@ -61,4 +61,4 @@ npm run dev
 ```
 
 ## License
-Coinova is [MIT licensed](./LICENSE).
+Secret Terminal is [MIT licensed](./LICENSE).

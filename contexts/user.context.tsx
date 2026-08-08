@@ -34,12 +34,6 @@ const UserContextProvider = ({ children }: UserContextProviderProps) => {
                 const response = await retrieveProfile();
                 setUser(response.data.data);
             } catch (error: unknown) {
-                if ((isAxiosError(error) && !error.response) ||
-                    (error instanceof Error && error.message === 'Network Error')
-                ) {
-                    setIsOnline(false);
-                }
-
                 console.error(error);
             } finally {
                 setIsLoading(false);
